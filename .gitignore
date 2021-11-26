@@ -1,0 +1,15 @@
+# emacs generated files
+
+auto/
+
+# latex files
+
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+
+# compiled documents
+*.pdf
