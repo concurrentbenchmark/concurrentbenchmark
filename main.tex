@@ -1,8 +1,9 @@
 \documentclass{article}
 
 \usepackage{graphicx}
-\usepackage{cleveref}
 \usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{cleveref}
 
 % macros (move to its own file when we have a macro).
 
@@ -38,7 +39,9 @@ the field. In this call to action, we propose to extend the key
 contribution of challenges like POPLMark is to help develop the
 necessary momentum and culture to be able to formalise results to the
 concurrent calculi community by proposing a challenge the exercises
-the key aspects of reasoning about process calculi.
+the key aspects of reasoning about process calculi. We propose this
+document, and a \href{https://concurrentbenchmark.github.io/}{website}
+to enable the community to collaborate on the project.
 
 It has been a long time since the original challenge, and many changes
 have happened. Particularly, POPLMark and any challenge cannot address
@@ -56,19 +59,20 @@ process calculi such as the $\pi$-calculus and session type systems
 (and other behavioural type systems). These systems require particular
 insights to implement. So far, we have identified three key
 aspects\footnote{We want to keep the number low, but the exact nature
-  of the challenges is still open to discussion.}. First, the idea of
-scope extrusion in name passing calculi. This generalises the idea of
-binders in ways that techniques that were adequate for
-$\lambda$-calculus binders are not so convenient for name passing
-systems. Second, session types in particular, and behavioural types in
-general often depend on linearity in their type systems. The
-formalisation of linear type systems posses a challenge given that it
-is not uniformly well supported among the many proof assistants.
-Finally, processes in concurrent systems often contain infinite
-behaviour that is typically modelled with coinduction. This technique
-is used to reason about (bi)similarity between processes, the
-equivalence of their traces, or subtyping between infinite trees of
-possible behaviours. This challenge concentrates on those issues.
+  of the challenges is still open to discussion (as are most things in
+  this project).}. First, the idea of scope extrusion in name passing
+calculi. This generalises the idea of binders in ways that techniques
+that were adequate for $\lambda$-calculus binders are not so
+convenient for name passing systems. Second, session types in
+particular, and behavioural types in general often depend on linearity
+in their type systems. The formalisation of linear type systems posses
+a challenge given that it is not uniformly well supported among the
+many proof assistants. Finally, processes in concurrent systems often
+contain infinite behaviour that is typically modelled with
+coinduction. This technique is used to reason about (bi)similarity
+between processes, the equivalence of their traces, or subtyping
+between infinite trees of possible behaviours. This challenge
+concentrates on those issues.
 
 In this work we propose a challenge where each part independently
 exercises one of the three areas, however it is often the case that a
