@@ -28,42 +28,47 @@
 
 \section{Introduction}
 
-In recent years, at programming language venues there is the growing
-expectation that the theoretical results of a paper are formalised in
-a proof assistant. % rephrase
-For this purpose, and to get the community on track the
-POPLMark~\cite{Pierce:2005} challenge was proposed. Since then the
-number of formal proofs accompanying papers has grown (add some POPL
-statistics here). However, formal proofs are not equally spread in any
-field, and the key contribution of challenges like POPLMark is to help
-develop the necessary momentum and culture to be able to formalise
-results. It has been a long time since the original challenge, and
-many changes have happened. Particularly, POPLMark and any challenge
-cannot address every conceivable technique. Challenges have to be
-simple so that the techniques are not shadowed by technical details
-and also feasible to implement without heroic efforts. In that vein,
-it is apparent that new challenges are needed, work like POPLMark
+In recent years, the programming language community has embraced
+machine checked proofs for theoretical results in papers. The
+POPLMark~\cite{Pierce:2005} challenge was proposed for this purpose,
+and to get the community on track. Since then the number of formal
+proofs accompanying papers has grown\footnote{add some POPL/PLDI/etc
+  statistics here}. However, formal proofs are not equally spread in
+the field. In this call to action, we propose to extend the key
+contribution of challenges like POPLMark is to help develop the
+necessary momentum and culture to be able to formalise results to the
+concurrent calculi community by proposing a challenge the exercises
+the key aspects of reasoning about process calculi.
+
+It has been a long time since the original challenge, and many changes
+have happened. Particularly, POPLMark and any challenge cannot address
+every conceivable technique. Challenges have to be simple so that the
+techniques are not shadowed by technical details and also feasible to
+implement without heroic efforts. In that vein, it is apparent that
+new challenges are needed, work like POPLMark
 Reloaded~\cite{Pientka:2019} strives to extend the scope of the
 original challenge to proofs using logical relations. This technique
 is crucial to many current developments.
 
-In this work, we address another expansion of scope for such
-challenges, going from the $\lambda$-calculus to process calculi like
-the $\pi$-calculus and session type systems (and other behavioural
-type systems). These systems require particular insights to implement.
-We have identified three key aspects. First, the idea of scope
-extrusion in name passing calculi. This generalises the idea of
+As mentioned before, in this work we address another expansion of
+scope for such challenges, going from the $\lambda$-calculus to
+process calculi such as the $\pi$-calculus and session type systems
+(and other behavioural type systems). These systems require particular
+insights to implement. So far, we have identified three key
+aspects\footnote{We want to keep the number low, but the exact nature
+  of the challenges is still open to discussion.}. First, the idea of
+scope extrusion in name passing calculi. This generalises the idea of
 binders in ways that techniques that were adequate for
-$\lambda$-calculus binders are not so for name passing systems.
-Second, session types in particular, and behavioural types in general
-often depend on linearity in their type systems. The formalisation of
-linear type systems posses a challenge given that it is not uniformly
-well supported among the many proof assistants. Finally, processes in
-concurrent systems often contain infinite behaviour that is modelled
-with coinduction. This technique is used to reason about
-(bi)similarity between processes, the equivalence of their traces, or
-subtyping between infinite trees of possible behaviours. This
-challenge concentrates on those issues.
+$\lambda$-calculus binders are not so convenient for name passing
+systems. Second, session types in particular, and behavioural types in
+general often depend on linearity in their type systems. The
+formalisation of linear type systems posses a challenge given that it
+is not uniformly well supported among the many proof assistants.
+Finally, processes in concurrent systems often contain infinite
+behaviour that is typically modelled with coinduction. This technique
+is used to reason about (bi)similarity between processes, the
+equivalence of their traces, or subtyping between infinite trees of
+possible behaviours. This challenge concentrates on those issues.
 
 In this work we propose a challenge where each part independently
 exercises one of the three areas, however it is often the case that a
@@ -79,8 +84,8 @@ approached and formalised before. In fact, the contrary is true. All
 of these problems have been addressed in several forms. This motivates
 this challenge to enable an easier comparison between solutions (since
 they all implement the same challenge), and in a setting that is
-simple enough to not be distracting, yet complex enough that we can
-compare strengths and weaknesses of each.
+\emph{simple enough to not be distracting, yet complex enough that we can
+compare strengths and weaknesses of each}.
 
 The rest of this paper is structured in the following way:
 \cref{sec:rationale} expands on the rationale for the selected
@@ -94,9 +99,9 @@ to action to invite the submission of new solutions.
 
 This section is not (at least initially) meant to be in the final
 manuscript but it is to document some reasoning for choosing
-appropriate problems. The idea is to explore three areas, scope
+appropriate problems. The idea is to explore three areas: scope
 extrusion in name passing calculi, linearity requirements in
-behavioural types, and finally coinductive reasoning, in trace
+behavioural types, and finally coinductive reasoning in trace
 equivalence, (bi)similarity, or subtyping in the presence of
 recursion.
 
@@ -105,9 +110,13 @@ subjects that are independent of each other and that are easy to
 understand and to implement. This is important so we have more
 entries. They have to be small so it is not a lot to read, and
 independent so people may choose to implement only one of them, or
-work on them in any order.
+work on them in any order. Moreover, the specification should only
+need to be met in spirit. The idea is to provide a solution author
+with some space to show the best aspects of their solution even if
+that means adapting the problem definition while keeping the spirit of
+the challenge.
 
-Finally, it is important to mention in the rationale for problems that
+Finally, it will be important to mention in the rationale for problems that
 the key aspects are:
 \begin{itemize}
 \item Scope extrusion
@@ -119,7 +128,7 @@ But the exact presentation of the concrete problems should be somewhat
 flexible. In the sense that the use of certain techniques or tools may
 require changing the presentation of the system to fit the technique.
 These changes should be allowed, and even encouraged, but the result
-should be ``obviously'' the same system and there should be a
+should be ``morally'' the same system and there should be a
 rationale for the changes in presentation. That way we could not only
 see valid techniques but also what presentation of the rules to use
 and the rationale to chose a particular approach.
@@ -146,7 +155,7 @@ combination of everything on the reader's next research papers.
 
 \subsection{Linearity and behavioural type systems}
 
-\textbf{Problem idea}: A small session type problem.
+\textbf{Problem idea}: A small session type problem that exposes linear channels.
 
 \subsection{Coinduction and reasoning about process algebras}
 
@@ -160,6 +169,8 @@ subtyping under non terminating problems in behavioural types.
 Probably the skeleton here and more details on an appendix.
 
 \subsection{Flexibility in solving a challenge}
+
+\dots
 
 \section{Conclusion and related work} \label{sec:conclusion}
 
