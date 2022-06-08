@@ -14,7 +14,6 @@ jobs:
         run: |
           mkdir public
           cp main.pdf public/POPLMarkGoesConcurrent.pdf
-          EOL
       - name: Deploy to Github Pages
         if: success()
         uses: crazy-max/ghaction-github-pages@v3
