@@ -10,3 +10,16 @@ jobs:
         uses: dante-ev/latex-action@latest
         with:
           root_file: main.tex
+      - name: Copy resulting file
+        run: |
+          mkdir public
+          cp main.pdf public/POPLMarkGoesConcurrent.pdf
+          EOL
+      - name: Deploy to Github Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: gh-pages
+          build_dir: public
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
