@@ -1,33 +1,16 @@
-% jfpguide.tex
-% v1.0, released 19 Nov 2019
-% Copyright 2019 Cambridge University Press
-
-\documentclass{jfp}
+\documentclass{article}
 
 \usepackage{graphicx}
+\usepackage{cleveref}
+\usepackage{natbib}
 
-% macros (move to its own file).
+% macros (move to its own file when we have a macro).
 
 \begin{document}
 
-\journaltitle{JFP}
-\cpr{Cambridge University Press}
-\doival{10.1017/xxxxx}
-
-% \lefttitle{\LaTeX\ Supplement}
-\righttitle{Journal of Functional Programming}
-
-\totalpg{\pageref{lastpage01}}
-\jnlDoiYr{2018}
-
 \title{POPLMark goes Concurrent!\\Challenge problems for process calculi and behavioural types}
 
-\begin{authgrp}
-\author{Anonymous Authors (even unknown for now)}
-\affiliation{Universities\\
-  Addresses\\
-  (\email{anoymous@example.com})}
-\end{authgrp}
+\maketitle
 
 \begin{abstract}
   The publication of POPLMark spearheaded the era of publishing formal
@@ -42,8 +25,6 @@
   in behavioural type systems, and coinductive reasoning for process
   algebras.
 \end{abstract}
-
-\maketitle[F]
 
 \section{Introduction}
 
@@ -182,7 +163,7 @@ Probably the skeleton here and more details on an appendix.
 
 \section{Conclusion and related work} \label{sec:conclusion}
 
-\bibliographystyle{JFPlike}
+\bibliographystyle{plainnat}
 \bibliography{references}
 
 \label{lastpage01}
