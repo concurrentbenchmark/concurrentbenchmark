@@ -1,0 +1,62 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[utf8]{inputenc}
+\usepackage{mathpartir}
+\usepackage{bm}
+\usepackage{graphicx}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+
+\begin{document}
+
+\section{Challenge: Scope Extrusion}
+The idea of this challenge is to formalize a proof that requires scope extrusion.
+Scope extrusion is the notion that a process can send restricted names to another process, as long as the restriction can safely be ``extruded'' (i.e.\ expanded) to include the recieving process.
+This e.g.\ allows a process to set up a private connection by sending a restricted name to another process, then using this name for further communication.
+
+The setting for this challenge is an untyped \( \pi \)-calculus, the syntax and semantics of which are presented below.
+The objective of this challenge is to prove that barbed bisimulation for this calculus is an equivalence relation.
+
+\section{Challenge: Coinduction}
+The idea of this challenge is to formalize a proof that requires coinductive techniques.
+Coinduction is a proof technique for infinite structures, which arise in this context due to systems with behaviours that continue indefinitely.
+Coinduction is the dual of induction: whereas induction is useful for proving properties of least fixed points, coinduction is useful for proving properties of greatest fixed points.
+
+The setting for this challenge is an untyped calculus of communicating systems with replication of processes, the syntax and semantics of which are presented below.
+The objective of this challenge is to prove that strong barbed bisimulation for this calculus is an equivalence relation.
+
+\section{Challenge: Linearity}
+The setting for this challenge is a restricted \( \pi \)-calculus with a session type system.
+
+The objective of this challenge is to prove type preservation.
+
+\section{Bonus challenges}
+
+\subsection{Linearity and Scope Extrusion}
+The setting for this challenge is the \( \pi \)-calculus with a session type system.
+
+The objective of this challenge is to prove type preservation.
+
+\subsection{Scope Extrusion and Coinduction}
+The setting for this challenge is a simply typed \( \pi \)-calculus.
+
+The objective of this challenge is to prove bisimulation.
+
+\subsection{Coinduction and Linearity}
+The setting for this challenge is the Calculus of Communicating Systems with a session type system.
+
+The objective of this challenge is to prove type preservation.
+
+\section{Future work}
+\begin{itemize}
+\item Multiparty session types
+\item Choreography
+\item Encodings
+\item Code extraction
+\end{itemize}
+
+\end{document}
