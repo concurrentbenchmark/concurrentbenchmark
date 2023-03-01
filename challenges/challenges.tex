@@ -23,6 +23,10 @@
 \newcommand{\boundnames}[1]{\textrm{bn}(#1)}
 \newcommand{\names}[1]{\textrm{n}(#1)}
 
+\newcommand{\freevars}[1]{\textrm{fv}(#1)}
+\newcommand{\boundvars}[1]{\textrm{bv}(#1)}
+\newcommand{\vars}[1]{\textrm{vars}(#1)}
+
 \newcommand{\alphacon}[2]{#1 =_{\alpha} #2}
 \newcommand{\subst}[3]{#1\{#2/#3\}}
 
@@ -39,6 +43,13 @@
 
 \newcommand\sbullet[1][.5]{\mathbin{\hbox{\scalebox{#1}{$\bullet$}}}}
 \newcommand{\sbbisim}[2]{#1 \overset{\sbullet}{\sim} #2}
+\newcommand{\nsbbisim}[2]{#1 \not\overset{\sbullet}{\sim} #2}
+
+\newcommand{\ctxhole}{[\cdot]}
+\newcommand{\applyctx}[2]{#1[#2]}
+\newcommand{\sbcong}[2]{#1 \simeq^c #2}
+
+\newcommand{\applysubst}[2]{#2#1}
 
 \begin{document}
 
@@ -169,6 +180,144 @@ Coinduction is the dual of induction: whereas induction is useful for proving pr
 
 The setting for this challenge is an untyped calculus of communicating systems with replication of processes, the syntax and semantics of which are presented below.
 The objective of this challenge is to prove that strong barbed bisimulation for this calculus is an equivalence relation.
+
+\subsection{Syntax}
+We assume the existence of some type of \emph{base values}, values of which we will denote by \( a, b, \dots \), the existence of some type of \emph{variable names}, values of which we will denote by \( l, m, \dots \), and the existence of some type of \emph{names}, values of which we will denote by \( x, y, \dots \).
+The syntax is then:
+\begin{align*}
+  v,w :=&&& a \\
+  |&&& l \\
+  P,Q :=&&& \Pend \\
+  |&&& \Pout{x}{v}{P} \\
+  |&&& \Pin{x}{l}{P} \\
+  |&&& \Ppar{P}{Q} \\
+  |&&& \Pres{x}{P} \\
+  |&&& \Preplicate{P}
+\end{align*}
+A \emph{value} \( v, w, \dots \) is either a base value \( a \) or a variable name \( l \).
+The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
+The process \( \Pout{x}{a}{P} \) is an \emph{output}, which can send the value \( v \) via \( x \), then continue as \( P \).
+The intention is that the value \( v \) must be a base value when it is actually sent, and this will be enforced in the semantics later on.
+The process \( \Pin{x}{l}{P} \) is an \emph{input}, which can receive a base value via \( x \), then continue as \( P \) with the received value substituted for the variable name \( l \).
+The input operator thus binds the variable name \( l \) in \( P \).
+The process \( \Ppar{P}{Q} \) is the \emph{composition} of process \( P \) and process \( Q \).
+The two components can proceed independently of each other, or they can interact via shared names.
+The process \( \Pres{x}{P} \) is the \emph{restriction} of the name \( x \) to \( P \).
+Components in \( P \) can use the name \( x \) to interact with each other, but not with processes outside of the restriction.
+The restriction operator thus binds the name \( x \) in \( P \).
+Note that the scope of a restriction may not change when processes interact, since it is only possible to send and receive values, and not names.
+The process \( \Preplicate{P} \) is the \emph{replication} of the process \( P \).
+It can be thought of as the infinite composition \( \Ppar{P}{\Ppar{P}{\cdots}} \).
+Replication makes it possible to express infinite behaviours.
+
+We will use the notation \( \freenames{P} \) to denote the set of names that occur free (i.e.\ not bound by a restriction) in \( P \).
+We will use the notation \( \boundnames{P} \) to denote the set of names that occur bound (by a restriction) in \( P \).
+We will use the notation \( \freevars{P} \) to denote the set of variable names that occur free (i.e.\ not bound by an input) in \( P \).
+We will use the notation \( \boundvars{P} \) to denote the set of variable names that occur bound (by an input) in \( P \).
+We will use the notation \( \subst{P}{v}{w} \) to denote the process \( P \) with value \( v \) substituted for value \( w \).
+
+Two processes \( P \) and \( Q \) are \( \alpha \)-convertible, written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \) by a finite number of substitutions of bound variable names.
+As a convention, we will identify \( \alpha \)-convertible processes.
+
+As a convention, we assume that the bound names and bound variable names occurring in any collection of processes are chosen to be different from the free names and free variable names occurring in those processes and from the names and variable names occurring in any substitutions applied to the processes.
+This is justified because any overlapping names and variable names may be \( \alpha \)-converted such that the assumption is satisfied.
+
+\subsection{Semantics}
+The semantics of the system describe the actions that the system can perform by defining a labelled transition relation on processes.
+The transitions are labelled by \emph{actions}, the syntax of which are as follows:
+\begin{align*}
+  \alpha := &&& \Aoutf{x}{a} \\
+  |&&& \Ain{x}{a} \\
+  |&&& \Atau
+\end{align*}
+The \emph{output action} \( \Aoutf{x}{y} \) is sending the base value \( a \) via \( x \).
+The \emph{input action} \( \Ain{x}{y} \) is receiving the base value \( y \) via \( x \).
+The \emph{internal action} \( \Atau \) is performing some unobservable action, e.g.\ internal communication.
+
+We will use the notation \( \names{\alpha} \) to denote the set of names that occur in the action \( \alpha \).
+
+The transition relation is then defined by the following rules:
+\begin{mathpar}
+  \inferrule[Out]{ }{\transition{\Pout{x}{a}{P}}{\Aoutf{x}{a}}{P}}
+  \and
+  \inferrule[In]{ }{\transition{\Pin{x}{l}{P}}{\Ain{x}{a}}{\subst{P}{a}{l}}}
+  \and
+  \inferrule[Par-L]{\transition{P}{\alpha}{P'}}{\transition{\Ppar{P}{Q}}{\alpha}{\Ppar{P'}{Q}}}
+  \and
+  \inferrule[Par-R]{\transition{Q}{\alpha}{Q'}}{\transition{\Ppar{P}{Q}}{\alpha}{\Ppar{P}{Q'}}}
+  \and
+  \inferrule[Comm-L]{\transition{P}{\Aoutf{x}{a}}{P'} \\ \transition{Q}{\Ain{x}{a}}{Q'}}{\transition{\Ppar{P}{Q}}{\Atau}{\Ppar{P'}{Q'}}}
+  \and
+  \inferrule[Comm-R]{\transition{P}{\Ain{x}{a}}{P'} \\ \transition{Q}{\Aoutf{x}{a}}{Q'}}{\transition{\Ppar{P}{Q}}{\Atau}{\Ppar{P'}{Q'}}}
+  \and
+  \inferrule[Res]{\transition{P}{\alpha}{P'} \\ x \notin \names{\alpha}}{\transition{\Pres{x}{P}}{\alpha}{\Pres{x}{P'}}}
+  \and
+  \inferrule[Rep]{\transition{P}{\alpha}{P'}}{\transition{\Preplicate{P}}{\alpha}{\Ppar{P'}{\Preplicate{P}}}}
+\end{mathpar}
+Note that there is no rule for inferring transitions from \( \Pend \), and that there is no rule for inferring an action of an input or output process except those that match the input/output capability.
+Note also that due to rule \TirName{In}, the process \( \Pin{x}{l}{P} \) can receive \emph{any} base value.
+On the other hand, since the rule \TirName{Out} only applies to base values, there is no way to send a variable name.
+
+As a convention, we assume that bound names and bound variable names of any processes or actions are chosen to be different from the names and variable names that occur free in any other entities under consideration, such as processes, actions, substitutions, and sets of names or variable names.
+
+\subsection{Bisimilarity}
+Our notion of process equivalence relations builds on a notion of \emph{observables}.
+If we allow ourselves only to observe internal transitions, we will relate either too few processes (in the strong case where we relate only processes with exactly the same number of internal transitions) or every process (in the weak case where we relate processes with any amount of internal transitions).
+We must therefore allow ourselves to observe more, and here choose to define the observables of a process as the names it can use for sending and receiving.
+
+To this end, we define the \emph{observability predicate} \( \observable{P}{\mu} \) by the following rules:
+\begin{align}
+  \observable{P}{\obsin{x}}  &\quad \textrm{if \( P \) can perform an input action via \( x \).} \\
+  \observable{P}{\obsout{x}} &\quad \textrm{if \( P \) can perform an output action via \( x \).}
+\end{align}
+
+\emph{Strong barbed bisimilarity}, written \( \sbbisim{}{} \), is then the largest symmetric relation such that, whenever \( \sbbisim{P}{Q} \):
+\begin{gather}
+  \observable{P}{\mu}~\textrm{implies}~\observable{Q}{\mu} \\
+  \transition{P}{\Atau}{P'}~\textrm{implies}~\transition{Q}{\Atau}{\sbbisim{}{} P'}
+\end{gather}
+We say that a relation is a \emph{strong barbed bisimulation} if it satisfies the conditions given above, but is not necessarily the largest such relation, and that \( P \) and \( Q \) are \emph{strong barbed bisimilar} if \( \sbbisim{P}{Q} \).
+Note that, since our systems have potentially infinite behaviours, and strong barbed bisimilarity is defined as the largest relation that satisfies the conditions, bisimulation cannot be defined inductively.
+
+\begin{theorem}
+  \( \sbbisim{}{} \) is an equivalence relation, that is, the relation is reflexive, symmetric, and transitive.
+\end{theorem}
+
+Unfortunately, strong barbed bisimilarity is not a good notion of process equivalence, since it does not consider the environment of processes.
+For instance, \( \sbbisim{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pout{x}{a}{\Pend}} \) since \( \obsout{x} \) is the only observable in both processes and they cannot perform a \( \Atau \)-action, but \( \nsbbisim{\Ppar{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pin{x}{l}{\Pend}}}{\Pout{x}{a}{\Pend}} \) since the left process can perform a \( \Atau \)-action such that \( \obsout{y} \) becomes observable, whereas the right process cannot.
+
+\subsection{Contexts and congruences}
+Before we can fix the issue with strong barbed bisimilarity, we need few more definitions.
+
+A \emph{context} is obtained by taking a process and replacing a single occurrence of \( \Pend \) in it with the special \emph{hole} symbol \( \ctxhole \).
+As a convention, we do \emph{not} identify \( \alpha \)-convertible contexts.
+
+We will think of contexts as functions between processes.
+A context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
+The replacement should be literal, so names and variable names that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
+
+We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).
+
+\subsection{Strong barbed congruence}
+A congruence is exactly what we need to make strong barbed bisimilarity consider the environment (i.e.\ the context) of processes.
+
+We define \emph{strong barbed congruence}, written \( \sbcong{}{} \), by saying that two processes \( P \) and \( Q \) are \emph{strong barbed congruent}, written \( \sbcong{P}{Q} \), if \( \sbbisim{\applyctx{C}{P}}{\applyctx{C}{Q}} \) for every context \( C \).
+
+\begin{lemma}
+  \( \sbcong{}{} \) is the largest congruence included in \( \sbbisim{}{} \).
+\end{lemma}
+
+\subsection{Challenge}
+The objective of this challenge is to prove the following theorem:
+\begin{theorem}
+  \( \sbcong{P}{Q} \) if and only if for any process \( R \) and substitution \( \sigma \), \( \sbbisim{\Ppar{\applysubst{\sigma}{P}}{R}}{\Ppar{\applysubst{\sigma}{Q}}{R}} \).
+\end{theorem}
+
+\paragraph{Notes about this challenge}
+Strong barbed bisimilarity is interesting by itself for this challenge, but the proof that it is an equivalence relation does not require up-to techniques, which are wide spread and interesting.
+The definition of strong barbed congruence requires introducing contexts, but this is actually nice, since they are so prevalent in the field and we want to cover as many basics as possible.
+The theorem about the strong barbed congruence requires up-to techniques, but also seems to involve introducing a structural equivalence, which is possibly not desirable.
+On the other hand, it is a nice application of structural congruence which does not ``ruin'' the semantics.
 
 \section{Challenge: Linearity}
 The setting for this challenge is a restricted \( \pi \)-calculus with a session type system.
