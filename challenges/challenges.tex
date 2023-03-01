@@ -136,7 +136,7 @@ As a convention, we assume that bound names of any processes or actions are chos
 The convention has one exception, namely that in the transition \( \transition{P}{\Aoutb{x}{z}}{Q} \), the name \( z \) (which occurs bound in \( P \) and the action \( \Aoutb{x}{z} \)) may occur free in \( Q \).
 Without this exception it would be impossible to express scope extrusion.
 
-\subsection{Bisimulation}
+\subsection{Bisimilarity}
 Our notion of process equivalence relations builds on a notion of \emph{observables}.
 If we allow ourselves only to observe internal transitions, we will relate either too few processes (in the strong case where we relate only processes with exactly the same number of internal transitions) or every process (in the weak case where we relate processes with any amount of internal transitions).
 We must therefore allow ourselves to observe more, and here choose to define the observables of a process as the names it can use for sending and receiving.
