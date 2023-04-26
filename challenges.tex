@@ -1,4 +1,4 @@
-\section{Challenge: Scope Extrusion}
+\subsection{Challenge: Name passing and scope extrusion}
 The idea of this challenge is to formalize a proof that requires scope extrusion.
 Scope extrusion is the notion that a process can send restricted names to another process, as long as the restriction can safely be ``extruded'' (i.e.\ expanded) to include the recieving process.
 This e.g.\ allows a process to set up a private connection by sending a restricted name to another process, then using this name for further communication.
@@ -6,7 +6,7 @@ This e.g.\ allows a process to set up a private connection by sending a restrict
 The setting for this challenge is an untyped \( \pi \)-calculus, the syntax and semantics of which are presented below.
 The objective of this challenge is to prove that barbed bisimulation for this calculus is an equivalence relation.
 
-\subsection{Syntax}
+\subsubsection{Syntax}
 We assume the existence of some type of \emph{names}, values of which we will denote by \( x, y, \dots \).
 The syntax is then:
 \begin{align*}
@@ -40,7 +40,7 @@ As a convention, we will identify \( \alpha \)-convertible processes.
 As a convention, we assume that the bound names occurring in any collection of processes are chosen to be different from the free names occurring in those processes and from the names occurring in any substitutions applied to the processes.
 This is justified because any overlapping names may be \( \alpha \)-converted such that the assumption is satisfied.
 
-\subsection{Semantics}
+\subsubsection{Semantics}
 The semantics of the system describe the actions that the system can perform by defining a labelled transition relation on processes.
 The transitions are labelled by \emph{actions}, the syntax of which are as follows:
 \begin{align*}
@@ -92,7 +92,7 @@ As a convention, we assume that bound names of any processes or actions are chos
 The convention has one exception, namely that in the transition \( \transition{P}{\Aoutb{x}{z}}{Q} \), the name \( z \) (which occurs bound in \( P \) and the action \( \Aoutb{x}{z} \)) may occur free in \( Q \).
 Without this exception it would be impossible to express scope extrusion.
 
-\subsection{Bisimilarity}
+\subsubsection{Bisimilarity}
 Our notion of process equivalence relations builds on a notion of \emph{observables}.
 If we allow ourselves only to observe internal transitions, we will relate either too few processes (in the strong case where we relate only processes with exactly the same number of internal transitions) or every process (in the weak case where we relate processes with any amount of internal transitions).
 We must therefore allow ourselves to observe more, and here choose to define the observables of a process as the names it can use for sending and receiving.
@@ -112,13 +112,13 @@ Two processes \( P \) and \( Q \) are then \emph{strongly barbed bisimilar}, wri
 \end{gather}
 Note that, since our calculus does not have infinite behaviour, we do not specify that the relation is the largest of its kind, and the relation is thus not coinductively defined.
 
-\subsection{Challenge}
+\subsubsection{Challenge}
 The objective of this challenge is to prove the following theorem:
 \begin{theorem}
   \( \sbbisim{}{} \) is an equivalence relation, that is, the relation is reflexive, symmetric, and transitive.
 \end{theorem}
 
-\section{Challenge: Coinduction}
+\subsection{Challenge: Coinduction and reasoning about infinite processes}
 The idea of this challenge is to formalize a proof that requires coinductive techniques.
 Coinduction is a proof technique for infinite structures, which arise in this context due to systems with behaviours that continue indefinitely.
 Coinduction is the dual of induction: whereas induction is useful for proving properties of least fixed points, coinduction is useful for proving properties of greatest fixed points.
@@ -126,7 +126,7 @@ Coinduction is the dual of induction: whereas induction is useful for proving pr
 The setting for this challenge is an untyped calculus of communicating systems with replication of processes, the syntax and semantics of which are presented below.
 The objective of this challenge is to prove that strong barbed bisimulation for this calculus is an equivalence relation.
 
-\subsection{Syntax}
+\subsubsection{Syntax}
 We assume the existence of some type of \emph{base values}, values of which we will denote by \( a, b, \dots \), the existence of some type of \emph{variable names}, values of which we will denote by \( l, m, \dots \), and the existence of some type of \emph{names}, values of which we will denote by \( x, y, \dots \).
 The syntax is then:
 \begin{align*}
@@ -162,7 +162,7 @@ As a convention, we will identify \( \alpha \)-convertible processes.
 As a convention, we assume that the bound names and bound variable names occurring in any collection of processes are chosen to be different from the free names and free variable names occurring in those processes and from the names and variable names occurring in any substitutions applied to the processes.
 This is justified because any overlapping names and variable names may be \( \alpha \)-converted such that the assumption is satisfied.
 
-\subsection{Semantics}
+\subsubsection{Semantics}
 The semantics of the system describe the actions that the system can perform by defining a labelled transition relation on processes.
 The transitions are labelled by \emph{actions}, the syntax of which are as follows:
 \begin{align*}
@@ -200,7 +200,7 @@ On the other hand, since the rule \TirName{Out} only applies to base values, the
 
 As a convention, we assume that bound names and bound variable names of any processes or actions are chosen to be different from the names and variable names that occur free in any other entities under consideration, such as processes, actions, substitutions, and sets of names or variable names.
 
-\subsection{Bisimilarity}
+\subsubsection{Bisimilarity}
 Our notion of process equivalence relations builds on a notion of \emph{observables}.
 If we allow ourselves only to observe internal transitions, we will relate either too few processes (in the strong case where we relate only processes with exactly the same number of internal transitions) or every process (in the weak case where we relate processes with any amount of internal transitions).
 We must therefore allow ourselves to observe more, and here choose to define the observables of a process as the names it can use for sending and receiving.
@@ -226,7 +226,7 @@ Note that, since our systems have potentially infinite behaviours, and strong ba
 Unfortunately, strong barbed bisimilarity is not a good notion of process equivalence, since it does not consider the environment of processes.
 For instance, \( \sbbisim{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pout{x}{a}{\Pend}} \) since \( \obsout{x} \) is the only observable in both processes and they cannot perform a \( \Atau \)-action, but \( \nsbbisim{\Ppar{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pin{x}{l}{\Pend}}}{\Pout{x}{a}{\Pend}} \) since the left process can perform a \( \Atau \)-action such that \( \obsout{y} \) becomes observable, whereas the right process cannot.
 
-\subsection{Contexts and congruences}
+\subsubsection{Contexts and congruences}
 Before we can fix the issue with strong barbed bisimilarity, we need few more definitions.
 
 A \emph{context} is obtained by taking a process and replacing a single occurrence of \( \Pend \) in it with the special \emph{hole} symbol \( \ctxhole \).
@@ -238,7 +238,7 @@ The replacement should be literal, so names and variable names that are free in 
 
 We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).
 
-\subsection{Strong barbed congruence}
+\subsubsection{Strong barbed congruence}
 A congruence is exactly what we need to make strong barbed bisimilarity consider the environment (i.e.\ the context) of processes.
 
 We define \emph{strong barbed congruence}, written \( \sbcong{}{} \), by saying that two processes \( P \) and \( Q \) are \emph{strong barbed congruent}, written \( \sbcong{P}{Q} \), if \( \sbbisim{\applyctx{C}{P}}{\applyctx{C}{Q}} \) for every context \( C \).
@@ -247,7 +247,7 @@ We define \emph{strong barbed congruence}, written \( \sbcong{}{} \), by saying 
   \( \sbcong{}{} \) is the largest congruence included in \( \sbbisim{}{} \).
 \end{lemma}
 
-\subsection{Challenge}
+\subsubsection{Challenge}
 The objective of this challenge is to prove the following theorem:
 \begin{theorem}
   \( \sbcong{P}{Q} \) if and only if for any process \( R \) and substitution \( \sigma \), \( \sbbisim{\Ppar{\applysubst{\sigma}{P}}{R}}{\Ppar{\applysubst{\sigma}{Q}}{R}} \).
@@ -259,7 +259,7 @@ The definition of strong barbed congruence requires introducing contexts, but th
 The theorem about the strong barbed congruence requires up-to techniques, but also seems to involve introducing a structural equivalence, which is possibly not desirable.
 On the other hand, it is a nice application of structural congruence which does not ``ruin'' the semantics.
 
-\section{Challenge: Linearity}
+\subsection{Challenge: Linearity and behavioural type systems}
 The idea of this challenge is to formalize a proof that requires reasoning about linearity of channels.
 Linearity is the notion that a channel must be used exactly once in a process.
 This is necessary to prove properties about session type systems.
@@ -267,7 +267,7 @@ This is necessary to prove properties about session type systems.
 The setting for this challenge is a small calculus with a session type system, the syntax and semantics of which are presented below.
 The objective of this challenge is to prove type preservation (also known as subject reduction) for the type system, i.e.\ that well-typed processes can only transition to processes which are also well-typed in the same context.
 
-\subsection{Syntax}
+\subsubsection{Syntax}
 We assume the existence of some type of \emph{base values}, values of which we will denote by \( a, b, \dots \), the existence of some type of \emph{variable names}, values of which we will denote by \( l, m, \dots \), and the existence of some type of \emph{names}, values of which we will denote by \( x, y, \dots \).
 The syntax is then:
 \begin{align*}
@@ -305,7 +305,7 @@ As a convention, we will identify \( \alpha \)-convertible processes.
 As a convention, we assume that bound names and bound variable names of any processes are chosen to be different from the names and variable names that occur free in any other entities under consideration, such as processes, substitutions, and sets of names or variable names.
 This is justified because any overlapping names and variable names may be \( \alpha \)-converted such that the assumption is satisfied.
 
-\subsection{Semantics}
+\subsubsection{Semantics}
 We describe the actions that the system can perform using a small step operational semantics.
 To simplify the definition of the reduction relation, we will first factor out a structural congruence relation on processes, and for this we need a few definitions.
 
@@ -348,7 +348,7 @@ Note that there is no rule for inferring an action of an input or output process
 Note also that due to rule \TirName{R-Com}, the process \( \Pin{y}{l}{P} \) can receive \emph{any} base value.
 On the other hand, since the rule \TirName{R-Com} only applies to sending base values, there is no way to send a variable name or a name.
 
-\subsection{Session types}
+\subsubsection{Session types}
 Our process syntax allows us to write processes that are not well-formed in the sense that they either use the endpoints bound by a restriction to communicate in a way that does not follow the intended duality of communication, or attempt to send something which is not a base value.
 As an example, the following process attempts to send a base value on both \( x \) and \( y\), whereas the intention of binding names is that one of the names is used for sending and the other for receiving: \( \Presd{x}{y}{(\Ppar{\Pout{x}{a}{\Pend}}{\Pout{y}{a}{\Pend}})} \).
 Another example is the following process, which attempts to send a variable that is not resolved at the time of sending: \( \Presd{x}{y}{(\Ppar{\Pout{x}{l}{\Pend}}{\Pin{y}{l}{\Pend}})} \).
@@ -360,7 +360,7 @@ A process is then \emph{well-formed} if, for each of its structurally congruenct
 
 Note that well-formed processes do not necessarily reduce, since e.g.\ the process \( \Presd{x_1}{y_1}{\Presd{x_2}{y_2}{(\Ppar{\Pout{x_1}{a}{\Pin{y_2}{l}{\Pend}}}{\Pout{y}{x_2}{\Pin{y_1}{l}{\Pend}}})}} \) is well-formed, but has no reduction.
 
-\subsubsection{Syntax}
+\paragraph{Syntax}
 Our type system does not type processes directly, but instead focuses on the channels used in the process.
 The syntax of \emph{session types} \( S, T \) and \emph{type contexts} \( \Gamma \) is as follows:
 \begin{align*}
@@ -393,7 +393,7 @@ The dual of a type, \( \dual{T} \), is defined by the following equations:
 \end{mathpar}
 Note that the dual function is not total, since it is not defined for base types.
 
-\subsubsection{Splitting and updating contexts}
+\paragraph{Splitting and updating contexts}
 Our type system will maintain two invariants:
 \begin{enumerate}
 \item Endpoints are used exactly once
@@ -451,7 +451,7 @@ The typing rules for processes are as follows:
   \inferrule[T-In]{\types{\Gamma_1}{\hastype{x}{\Tin{U}}} \\ \types{\Cupdate{(\Cadd{\Gamma_2}{\hastype{l}{\Tbase}})}{\hastype{x}{U}}}{P}}{\types{\Csplit{\Gamma_1}{\Gamma_2}}{\Pin{x}{l}{P}}}
 \end{mathpar}
 
-\subsection{Challenge}
+\subsubsection{Challenge}
 
 \begin{lemma}
   If \( \types{\Gamma}{P} \) and \( \un{T} \) then \( \types{\Cadd{\Gamma}{\hastype{x}{T}}}{P} \).
