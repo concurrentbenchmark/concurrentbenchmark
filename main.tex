@@ -1,11 +1,17 @@
 \documentclass{article}
 
+\usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{natbib}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathpartir}
+\usepackage{bm}
 \usepackage{hyperref}
 \usepackage{cleveref}
 
-% macros (move to its own file when we have a macro).
+\input{macros.tex}
 
 \begin{document}
 
@@ -166,6 +172,8 @@ combination of everything on the reader's next research papers.
 \textbf{Problem idea}: Something about traces, (bi)similarity, or
 subtyping under non terminating problems in behavioural types.
 
+\input{challenges.tex}
+
 \section{The solutions}\label{sec:solutions}
 
 \subsection{A tutorial solution on paper}\label{sec:tutorial}
@@ -175,6 +183,18 @@ Probably the skeleton here and more details on an appendix.
 \subsection{Flexibility in solving a challenge}
 
 \dots
+
+\section{Future work}
+\begin{itemize}
+\item Multiparty session types
+\item Choreography
+\item Encodings
+\item Code extraction
+\item Conversation types
+\item Psi-calculus
+\item Model checking for system properties
+\item More general types than session types
+\end{itemize}
 
 \section{Conclusion and related work} \label{sec:conclusion}
 

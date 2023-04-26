@@ -11,6 +11,7 @@ auto/
 *.fls
 *.log
 *.out.ps
+*.out
 *.dvi
 
 # compiled documents

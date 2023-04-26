@@ -1,0 +1,71 @@
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+
+\newcommand{\Pend}{\bm{0}}
+\newcommand{\Ppar}[2]{#1 \mid #2}
+\newcommand{\Pres}[2]{(\bm{\nu} #1)~#2}
+\newcommand{\Pout}[3]{#1 ! #2 . #3}
+\newcommand{\Pin}[3]{#1 ? (#2) . #3}
+\newcommand{\Pchoice}[2]{#1 + #2}
+\newcommand{\Preplicate}[1]{{!}#1}
+
+\newcommand{\freenames}[1]{\textrm{fn}(#1)}
+\newcommand{\boundnames}[1]{\textrm{bn}(#1)}
+\newcommand{\names}[1]{\textrm{n}(#1)}
+
+\newcommand{\freevars}[1]{\textrm{fv}(#1)}
+\newcommand{\boundvars}[1]{\textrm{bv}(#1)}
+\newcommand{\vars}[1]{\textrm{vars}(#1)}
+
+\newcommand{\alphacon}[2]{#1 =_{\alpha} #2}
+\newcommand{\subst}[3]{#1\{#2/#3\}}
+
+\newcommand{\Aoutf}[2]{#1 ! #2}
+\newcommand{\Aoutb}[2]{#1 ! (#2)}
+\newcommand{\Ain}[2]{#1 ? #2}
+\newcommand{\Atau}{\tau}
+
+\newcommand{\transition}[3]{#1 \xrightarrow{#2} #3}
+
+\newcommand{\observable}[2]{#1\downarrow_{#2}}
+\newcommand{\obsin}[1]{#1?}
+\newcommand{\obsout}[1]{#1!}
+
+\newcommand\sbullet[1][.5]{\mathbin{\hbox{\scalebox{#1}{$\bullet$}}}}
+\newcommand{\sbbisim}[2]{#1 \overset{\sbullet}{\sim} #2}
+\newcommand{\nsbbisim}[2]{#1 \not\overset{\sbullet}{\sim} #2}
+
+\newcommand{\ctxhole}{[\cdot]}
+\newcommand{\applyctx}[2]{#1[#2]}
+\newcommand{\sbcong}[2]{#1 \simeq^c #2}
+
+\newcommand{\applysubst}[2]{#2#1}
+
+\newcommand{\Presd}[3]{(\bm{\nu} #1#2)~#3}
+\newcommand{\scong}[2]{#1 \equiv #2}
+
+\newcommand{\reduces}[2]{#1 \rightarrow #2}
+
+\newcommand{\Tend}{\mathbf{end}}
+\newcommand{\Tbase}{\mathbf{base}}
+\newcommand{\Tin}[1]{{?}.#1}
+\newcommand{\Tout}[1]{{!}.#1}
+
+\newcommand{\hastype}[2]{#1 : #2}
+
+\newcommand{\un}[1]{\mathbf{un}(#1)}
+\newcommand{\lin}[1]{\mathbf{lin}(#1)}
+
+\newcommand{\Cempty}{\varnothing}
+\newcommand{\Cadd}[2]{#1, #2}
+\newcommand{\Csplit}[2]{#1 \circ #2}
+\newcommand{\Cupdate}[2]{#1 + #2}
+
+\newcommand{\dual}[1]{\overline{#1}}
+
+\newcommand{\types}[2]{#1 \vdash #2}
+
+%% Local Variables:
+%% mode: latex
+%% TeX-master: "main"
+%% End:
