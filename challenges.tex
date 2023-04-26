@@ -1,5 +1,5 @@
 \subsection{Challenge: Name passing and scope extrusion}
-The idea of this challenge is to formalize a proof that requires scope extrusion.
+This challenge formalises a proof that requires explicit scope extrusion.
 Scope extrusion is the notion that a process can send restricted names to another process, as long as the restriction can safely be ``extruded'' (i.e.\ expanded) to include the recieving process.
 This e.g.\ allows a process to set up a private connection by sending a restricted name to another process, then using this name for further communication.
 
@@ -7,7 +7,7 @@ The setting for this challenge is an untyped \( \pi \)-calculus, the syntax and 
 The objective of this challenge is to prove that barbed bisimulation for this calculus is an equivalence relation.
 
 \subsubsection{Syntax}
-We assume the existence of some type of \emph{names}, values of which we will denote by \( x, y, \dots \).
+We assume the existence of a type of \emph{names} that can be compared for equality, values of which we will denote by \( x, y, \dots \).
 The syntax is then:
 \begin{align*}
   P,Q :=&&& \Pend \\
@@ -26,7 +26,7 @@ The two components can proceed independently of each other, or they can interact
 The process \( \Pres{x}{P} \) is the \emph{restriction} of the name \( x \) to \( P \).
 Components in \( P \) can use the name \( x \) to interact with each other, but not with processes outside of the restriction.
 The restriction operator thus binds the name \( x \) in \( P \).
-Note that the scope of a restriction may change when processes interact.
+Note that the scope of a restriction may change when processes interact. Namely, a restricted name may be sent \emph{outside} of its scope.
 The process \( \Pchoice{P}{Q} \) is a non-deterministic \emph{choice} between continuing as the process \( P \) or as the process \( Q \).
 Note that there is no recursion or replication in the syntax, and thus no infinite behaviours can be expressed.
 
@@ -42,7 +42,7 @@ This is justified because any overlapping names may be \( \alpha \)-converted su
 
 \subsubsection{Semantics}
 The semantics of the system describe the actions that the system can perform by defining a labelled transition relation on processes.
-The transitions are labelled by \emph{actions}, the syntax of which are as follows:
+The transitions are labelled by \emph{actions}, the syntax of which is as follows:
 \begin{align*}
   \alpha := &&& \Aoutf{x}{y} \\
   |&&& \Ain{x}{y} \\
@@ -119,12 +119,12 @@ The objective of this challenge is to prove the following theorem:
 \end{theorem}
 
 \subsection{Challenge: Coinduction and reasoning about infinite processes}
-The idea of this challenge is to formalize a proof that requires coinductive techniques.
+This challenge formalises a proof that requires coinductive techniques.
 Coinduction is a proof technique for infinite structures, which arise in this context due to systems with behaviours that continue indefinitely.
 Coinduction is the dual of induction: whereas induction is useful for proving properties of least fixed points, coinduction is useful for proving properties of greatest fixed points.
 
 The setting for this challenge is an untyped calculus of communicating systems with replication of processes, the syntax and semantics of which are presented below.
-The objective of this challenge is to prove that strong barbed bisimulation for this calculus is an equivalence relation.
+The objective of this challenge is to prove that strong barbed bisimulation for this calculus is an equivalence relation. Which, to reiterate, entails the use of coinduction due to the presence of infinite behaviour.
 
 \subsubsection{Syntax}
 We assume the existence of some type of \emph{base values}, values of which we will denote by \( a, b, \dots \), the existence of some type of \emph{variable names}, values of which we will denote by \( l, m, \dots \), and the existence of some type of \emph{names}, values of which we will denote by \( x, y, \dots \).
@@ -159,7 +159,7 @@ We will use the notation \( \subst{P}{v}{w} \) to denote the process \( P \) wit
 Two processes \( P \) and \( Q \) are \( \alpha \)-convertible, written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \) by a finite number of substitutions of bound variable names.
 As a convention, we will identify \( \alpha \)-convertible processes.
 
-As a convention, we assume that the bound names and bound variable names occurring in any collection of processes are chosen to be different from the free names and free variable names occurring in those processes and from the names and variable names occurring in any substitutions applied to the processes.
+Also as a convention, we assume that the bound names and bound variable names occurring in any collection of processes are chosen to be different from the free names and free variable names occurring in those processes and from the names and variable names occurring in any substitutions applied to the processes.
 This is justified because any overlapping names and variable names may be \( \alpha \)-converted such that the assumption is satisfied.
 
 \subsubsection{Semantics}
@@ -232,7 +232,7 @@ Before we can fix the issue with strong barbed bisimilarity, we need few more de
 A \emph{context} is obtained by taking a process and replacing a single occurrence of \( \Pend \) in it with the special \emph{hole} symbol \( \ctxhole \).
 As a convention, we do \emph{not} identify \( \alpha \)-convertible contexts.
 
-We will think of contexts as functions between processes.
+We can think of contexts as functions between processes.
 A context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
 The replacement should be literal, so names and variable names that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
 
@@ -260,7 +260,7 @@ The theorem about the strong barbed congruence requires up-to techniques, but al
 On the other hand, it is a nice application of structural congruence which does not ``ruin'' the semantics.
 
 \subsection{Challenge: Linearity and behavioural type systems}
-The idea of this challenge is to formalize a proof that requires reasoning about linearity of channels.
+This challenge formalises a proof that requires reasoning about linearity of channels.
 Linearity is the notion that a channel must be used exactly once in a process.
 This is necessary to prove properties about session type systems.
 
