@@ -19,15 +19,16 @@
 
 \input{../macros.tex}
 
-\title{Concurrency Benchmark Challenge (Extended Abstract)}
-\def\titlerunning{Concurrency Benchmark Challenge (Extended Abstract)}
+\title{The Concurrent Calculi Formalisation Benchmark\\{\normalsize(Extended Abstract)}}
+\def\titlerunning{The Concurrent Calculi Formalisation Benchmark (Extended Abstract)}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-  We propose a new collection of benchmark problems with a focus on the issues encountered when mechanizing concurrency theory.
-  POPLMark sparked a flurry of work to move us closer to a world in which every paper on programming languages is accompanied by machine-checked proofs, but both POPLMark and POPLMark Reloaded were explicitly limited in scope.
+  The POPLMark challenge has sparked a flurry of work to move us closer to a world in which every paper on programming languages is accompanied by machine-checked proofs.
+  However, POPLMark (and its follow-up POPLMark Reloaded) were explicitly limited in scope,
+  with benchmark problems that do not address concurrency. For this reason, we propose a new collection of benchmark problems with a focus on the issues encountered when mechanizing message-passing concurrency using process calculi.
   Our benchmark problems concern the mechanization of scope extrusion, linear handling of environments, and coinductive reasoning.
   Like previous benchmarks, our goal is to clarify, compare and advance the state of the art.
 \end{abstract}
@@ -39,7 +40,7 @@ The POPLMark Reloaded challenge~\cite{POPLMarkReloaded} aimed to identify and de
 The authors of both POPLMark and POPLMark Reloaded were careful to note that their benchmarks were only a beginning, and the previous benchmarks specifically mention reasoning about concurrency using coinduction and linear environments as points for future work.
 
 Papers in concurrency theory do often include mechanized proofs, but our experience is that choosing techniques and tools remains a challenge with few guidelines.
-We propose a new collection of benchmark problems specifically designed to tackle the issues encountered when mechanizing concurrency theory.
+We propose a new collection of benchmark problems specifically designed to tackle the issues encountered when mechanizing message-passing concurrency using process calculi.
 A goal of our collection of benchmark problems is to enable comparison between techniques and push for the development of guidelines and tutorials, and our challenge problems are a simple setting in which to demonstrate and compare techniques.
 Another goal is to strengthen the culture of mechanization by rallying the community to collaborate on exploring and developing new tools and techniques.
 
@@ -53,8 +54,8 @@ Each part of our benchmark exercises the three aspects independently to enable c
 The three aspects are of course not the only ones that may cause issues in mechanizations, but they are fundamental to the field and will thus appear in most mechanizations of concurrency theory.
 Actual mechanizations will additionally often require more than just one aspect, but we will not address the combination of techniques except as optional bonus challenges.
 
-In the remainder of this paper we will discuss the design of the challenge and briefly describe the three challenge problems.
-The full text of the challenge problems, including pen and paper solutions, is in the appendix.
+In the rest of this paper we discuss the design of the challenge and briefly describe the three challenge problems.
+The appendix contains the full text of the challenge problems and pen and paper solutions.
 
 \section{Design of the challenge}
 Our challenge problems cannot address every technique and subfield at once.
@@ -63,7 +64,7 @@ Like previous benchmark authors, we would like to stress that our challenge is n
 Most applications will however still need the basic techniques that our challenge problems exercise.
 
 We have designed our challenge problems to exercise the three aspects independently, and they can be solved individually and in any order.
-We have designed each problem to be small and easy to understand with a basic knowledge of textbook concurrency theory.
+We have designed each problem to be small and easy to understand with a basic knowledge of textbook concurrency theory and process calculi.
 Solutions to our challenge problems should be compared on three measures:
 \begin{itemize}
 \item The mechanization overhead, this being the amount of manually written infrastructure and setup needed to express the definitions in the mechanization.
@@ -76,17 +77,17 @@ Solutions to our challenges do not need to strictly follow the definitions and t
 In this section we will briefly describe our three challenge problems, referring to the appendix for the full text and pen and paper solution to each problem.
 
 In name passing systems, scope extrusion is the expansion of the scope of a name when the name is sent outside of its original scope.
-Our scope extrusion challenge is to prove that barbed bisimulation is an equivalence relation for an untyped name passing caluclus without infinite behaviour, but with non-deterministic choice.
+Our \textbf{scope extrusion challenge} (Appendix~\ref{sec:challenge:name-passing-scope-extrusion}) is to prove that barbed bisimulation is an equivalence relation for an untyped name passing caluclus without infinite behaviour, but with non-deterministic choice.
 The proof involves reasoning about names that are ``in the process'' of being scope extruded, which presents issues with some approaches to binders.
 
-Our coinduction challenge is to prove that strong barbed bisimulation is an equivalence relation for an untyped calculus of communicating systems with (infinite) replication of processes.
+Our \textbf{coinduction challenge} (Appendix~\ref{sec:challenge:coinduction}) is to prove that strong barbed bisimulation is an equivalence relation for an untyped calculus of communicating systems with (infinite) replication of processes.
 The proof involves reasoning coinductively about the infinite behaviours of the replication operator.
 
-Our linearity challenge is to prove type preservation (also known as subject reduction) for a process calculus with a session type system.
+Our \textbf{linearity challenge} (Appendix~\ref{sec:challenge:linearity-beh-types}) is to prove type preservation (also known as subject reduction) for a process calculus with a session type system.
 Session type systems require linear handling of typing contexts, and the proof involves reasoning about the linearity of context splitting operations.
 
 We invite anyone interested to send us solutions to the challenge problems and to publish experience reports detailing the advantages and disadvantages of their approaches.
-The interested reader can find more information about the current status of the challenge at
+The interested reader can find more information about the current status of the challenge at:
 \begin{center}
   \url{https://concurrentbenchmark.github.io/}
 \end{center}

@@ -1,4 +1,6 @@
 \subsection{Challenge: Name passing and scope extrusion}
+\label{sec:challenge:name-passing-scope-extrusion}
+
 This challenge formalises a proof that requires explicit scope extrusion.
 Scope extrusion is the notion that a process can send restricted names to another process, as long as the restriction can safely be ``extruded'' (i.e.\ expanded) to include the recieving process.
 This e.g.\ allows a process to set up a private connection by sending a restricted name to another process, then using this name for further communication.
@@ -119,6 +121,8 @@ The objective of this challenge is to prove the following theorem:
 \end{theorem}
 
 \subsection{Challenge: Coinduction and reasoning about infinite processes}
+\label{sec:challenge:coinduction}
+
 This challenge formalises a proof that requires coinductive techniques.
 Coinduction is a proof technique for infinite structures, which arise in this context due to systems with behaviours that continue indefinitely.
 Coinduction is the dual of induction: whereas induction is useful for proving properties of least fixed points, coinduction is useful for proving properties of greatest fixed points.
@@ -260,6 +264,8 @@ The theorem about the strong barbed congruence requires up-to techniques, but al
 On the other hand, it is a nice application of structural congruence which does not ``ruin'' the semantics.
 
 \subsection{Challenge: Linearity and behavioural type systems}
+\label{sec:challenge:linearity-beh-types}
+
 This challenge formalises a proof that requires reasoning about linearity of channels.
 Linearity is the notion that a channel must be used exactly once in a process.
 This is necessary to prove properties about session type systems.
