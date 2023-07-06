@@ -1,0 +1,54 @@
+
+
+Do people still care about scope extrusion?
+- Scope extrusion is necessary for reasoning about open systems using LTS semantics
+- Applications include monitors that observe other processes as well as composable systems
+- The challenge theorem is not by itself interesting, but the proof techniques are
+
+Is scope extrusion just a binder problem covered by POPLMark?
+- Scope extrusion is a canonical example of a binder with exotic semantics
+
+Why session types and not something else?
+- Linearity is interesting (cf. future work sections in POPLMark and POPLMark Reloaded)
+- The challenge theorem is something you would want to prove whenever you design a new type system
+
+Linearity: has context splitting already been solved?
+- Yes, but we are interested in comparing techniques and formalisms
+- We focus not just on getting to a solution, but are interested in the weaknesses and opportunities exposed by the deliberate exploration of solutions
+- The idea is to spotlight how the specific presentation and features of the proof assistant affect the difficulty
+- We are interested in developing best practices and tutorials on how to move between representations (cf. Charguéraud's locally nameless tutorial)
+- Small details can make the difference between being able to formalise something or not, and the deliberate consideration of the details is interesting
+
+Why focus on bisimulation and congruence? Is it really useful to prove that bisimulation is an equivalence relation?
+- Other potential challenge theorems we have thought of require more definitions, and we want to keep the challenges small
+- The important thing is reasoning about traces/infinite systems, not the specific theorem
+- Suggestions for more interesting theorems are very welcome!
+
+A difference from POPLMark: unrelated challenges instead of extensions
+- We have been unable to elegantly unify the languages of the problems
+- We do not want to "force" a unified base syntax at the expense of the clarity of the challenges
+- Could we split the coinduction challenge into one with non-barbed congruence (i.e. no contexts) and one with contexts?
+- Suggestions are very welcome!
+
+Are the challenges too easy, too hard or just right?
+- It is difficult to say without trying them
+- The coinduction challenge seems too easy without adding the congruence
+- Potential issue: is the coinduction "complicated" enough to require interesting proof techniques?
+- It might also be that the coinduction is already very difficult - it seems like coinduction is either easy or very hard with no in-between
+
+What should a good "challenge paper" contain?
+- There is really no consensus for evaluation or content
+- Evaluation of proof techniques is hard because we often are forced to compare apples to oranges
+- The challenge can provide an opportunity to compare techniques in a more equal setting
+- We should be careful not to just compare proof assistants (no flame wars!)
+- Comparing the same style of solution in different systems or two different solutions in the same system is interesting
+
+Is the title too broad?
+- Our challenges are intended to be "building blocks" for various applications
+- We should be wary not to alienate readers by saying that process calculi are all there is
+- We need to explain how the techniques can also be used for other topics in concurrency theory
+
+In which order should be present the challenges?
+- Maybe the first and last should be the generally appealing ones?
+- Scope extrusion is the least generally interesting topic, so maybe we shouldn't start with that
+- One may want to start with a complete handling of binding and scope extrusion (which are very delicate) before tackling other challenges
