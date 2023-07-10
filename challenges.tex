@@ -1,3 +1,233 @@
+\subsection{Challenge: Linearity and behavioural type systems}
+\label{sec:challenge:linearity-beh-types}
+
+This challenge formalises a proof that requires reasoning about linearity of channels.
+Linearity is the notion that a channel must be used exactly once in a process.
+This is necessary to prove properties about session type systems.
+
+The setting for this challenge is a small calculus with a session type system, the syntax and semantics of which are presented below.
+The objective of this challenge is to prove type preservation (also known as subject reduction) for the type system, i.e.\ that well-typed processes can only transition to processes which are also well-typed in the same context.
+
+\subsubsection{Syntax}
+We assume the existence of some type of \emph{base values}, values of which we will denote by \( a, b, \dots \), the existence of some type of \emph{variable names}, values of which we will denote by \( l, m, \dots \), and the existence of some type of \emph{names}, values of which we will denote by \( x, y, \dots \).
+The syntax is then:
+\begin{align*}
+  v,w :=&&& a \\
+  |&&& l \\
+  P,Q :=&&& \Pend \\
+  |&&& \Pout{x}{v}{P} \\
+  |&&& \Pin{x}{l}{P} \\
+  |&&& \Ppar{P}{Q} \\
+  |&&& \Presd{x}{y}{P}
+\end{align*}
+A \emph{value} \( v, w, \dots \) is either a base value \( a \) or a variable name \( l \).
+The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
+The process \( \Pout{x}{a}{P} \) is an \emph{output}, which can send the value \( v \) via \( x \), then continue as \( P \).
+The intention is that the value \( v \) must be a base value when it is actually sent, and this will be enforced in the semantics later on.
+The process \( \Pin{x}{l}{P} \) is an \emph{input}, which can receive a base value via \( x \), then continue as \( P \) with the received value substituted for the variable name \( l \).
+The input operator thus binds the variable name \( l \) in \( P \).
+The process \( \Ppar{P}{Q} \) is the \emph{composition} of process \( P \) and process \( Q \).
+The two components can proceed independently of each other, or they can interact via shared names.
+The process \( \Presd{x}{y}{P} \) is the \emph{restriction} of the channel with endpoints named \( x \) and \( y \) to \( P \).
+Components in \( P \) can use the names \( x \) and \( y \) to interact with each other (sending on \( x \) and receiving on \( y \) or vice versa), but not with processes outside of the restriction.
+The restriction operator thus binds the names \( x \) and \( y \) in \( P \).
+Note that the scope of a restriction may not change when processes interact, since it is only possible to send and receive values, and not names.
+Note that there is no recursion of replication in the syntax, and thus no infinite behaviours can be expressed.
+
+We will use the notation \( \freenames{P} \) to denote the set of names that occur free (i.e.\ not bound by a restriction) in \( P \).
+We will use the notation \( \boundnames{P} \) to denote the set of names that occur bound (by a restriction) in \( P \).
+We will use the notation \( \freevars{P} \) to denote the set of variable names that occur free (i.e.\ not bound by an input) in \( P \).
+We will use the notation \( \boundvars{P} \) to denote the set of variable names that occur bound (by an input) in \( P \).
+We will use the notation \( \subst{P}{v}{w} \) to denote the process \( P \) with value \( v \) substituted for value \( w \).
+
+Two processes \( P \) and \( Q \) are \( \alpha \)-convertible, written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \) by a finite number of substitutions of bound variable names.
+As a convention, we will identify \( \alpha \)-convertible processes.
+
+As a convention, we assume that bound names and bound variable names of any processes are chosen to be different from the names and variable names that occur free in any other entities under consideration, such as processes, substitutions, and sets of names or variable names.
+This is justified because any overlapping names and variable names may be \( \alpha \)-converted such that the assumption is satisfied.
+
+\subsubsection{Semantics}
+We describe the actions that the system can perform using a small step operational semantics.
+To simplify the definition of the reduction relation, we will first factor out a structural congruence relation on processes, and for this we need a few definitions.
+
+\subsubsection{Contexts and congruences}
+A \emph{context} is obtained by taking a process and replacing a single occurrence of \( \Pend \) in it with the special \emph{hole} symbol \( \ctxhole \).
+As a convention, we do \emph{not} identify \( \alpha \)-convertible contexts.
+
+We will think of contexts as functions between processes.
+A context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
+The replacement should be literal, so names and variable names that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
+
+We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).
+
+\emph{Structural congruence} is the smallest congruence relation that satisfies the following axioms:
+\begin{mathpar}
+  \inferrule[Sc-Par-Comm]{ }{\scong{\Ppar{P}{Q}}{\Ppar{Q}{P}}}
+  \and
+  \inferrule[Sc-Par-Assoc]{ }{\scong{\Ppar{(\Ppar{P}{Q})}{R}}{\Ppar{P}{(\Ppar{Q}{R})}}}
+  \and
+  \inferrule[Sc-Par-Inact]{ }{\scong{\Ppar{P}{\Pend}}{P}}
+  \and
+  \inferrule[Sc-Res-Par]{\{x,y\} \not\subseteq \freenames{Q}}{\scong{\Ppar{\Presd{x}{y}{P}}{Q}}{\Presd{x}{y}{(\Ppar{P}{Q})}}}
+  \and
+  \inferrule[Sc-Res-Inact]{ }{\scong{\Presd{x}{y}{\Pend}}{\Pend}}
+  \and
+  \inferrule[Sc-Res]{ }{\scong{\Presd{x_1}{y_1}{\Presd{x_2}{y_2}{P}}}{\Presd{x_2}{y_2}{\Presd{x_1}{y_1}{P}}}}
+\end{mathpar}
+
+The operational semantics is then defined as the following binary relation on processes:
+\begin{mathpar}
+  \inferrule[R-Com]{ }{\reduces{\Presd{x}{y}{(\Ppar{\Pout{x}{v}{P}}{\Ppar{\Pin{y}{l}{Q}}{R}})}}{\Presd{x}{y}{(\Ppar{P}{\Ppar{\subst{Q}{v}{l}}{R}})}}}
+  \and
+  \inferrule[R-Res]{\reduces{P}{Q}}{\reduces{\Presd{x}{y}{P}}{\Presd{x}{y}{Q}}}
+  \and
+  \inferrule[R-Par]{\reduces{P}{Q}}{\reduces{\Ppar{P}{R}}{\Ppar{Q}{R}}}
+  \and
+  \inferrule[R-Struct]{\scong{P}{P'} \\ \reduces{P'}{Q'} \\ \scong{Q}{Q'}}{\reduces{P}{Q}}
+\end{mathpar}
+Note that there is no rule for inferring an action of an input or output process except those that match the input/output capability.
+Note also that due to rule \TirName{R-Com}, the process \( \Pin{y}{l}{P} \) can receive \emph{any} base value.
+On the other hand, since the rule \TirName{R-Com} only applies to sending base values, there is no way to send a variable name or a name.
+
+\subsubsection{Session types}
+Our process syntax allows us to write processes that are not well-formed in the sense that they either use the endpoints bound by a restriction to communicate in a way that does not follow the intended duality of communication, or attempt to send something which is not a base value.
+As an example, the following process attempts to send a base value on both \( x \) and \( y\), whereas the intention of binding names is that one of the names is used for sending and the other for receiving: \( \Presd{x}{y}{(\Ppar{\Pout{x}{a}{\Pend}}{\Pout{y}{a}{\Pend}})} \).
+Another example is the following process, which attempts to send a variable that is not resolved at the time of sending: \( \Presd{x}{y}{(\Ppar{\Pout{x}{l}{\Pend}}{\Pin{y}{l}{\Pend}})} \).
+
+To alleviate this issue, we introduce a \emph{session type system}, which will detect processes that are not well-formed.
+To this end, we need to first formally define what we mean by well-formed.
+We say that a process \( P \) is \emph{prefixed at variable \( x \)} if it is of the form \( \Pout{x}{v}{P} \) or \( \Pin{x}{l}{P} \).
+A process is then \emph{well-formed} if, for each of its structurally congruenct processes of the form \( \Presd{x_1}{y_1}{\dots \Presd{x_n}{y_n}{(\Ppar{\Ppar{P}{Q}}{R})}} \), with \( n \geq 0 \), it holds that, if \( P \) is prefixed at \( x_1 \) and \( Q \) is prefixed at \( y_1 \), then \( \Ppar{P}{Q} \) is of the form \( \Ppar{\Pout{x_1}{a}{P'}}{\Pin{y_1}{l}{Q'}} \).
+
+Note that well-formed processes do not necessarily reduce, since e.g.\ the process \( \Presd{x_1}{y_1}{\Presd{x_2}{y_2}{(\Ppar{\Pout{x_1}{a}{\Pin{y_2}{l}{\Pend}}}{\Pout{y}{x_2}{\Pin{y_1}{l}{\Pend}}})}} \) is well-formed, but has no reduction.
+
+\paragraph{Syntax}
+Our type system does not type processes directly, but instead focuses on the channels used in the process.
+The syntax of \emph{session types} \( S, T \) and \emph{type contexts} \( \Gamma \) is as follows:
+\begin{align*}
+  S,T := &&& \Tend \\
+  |&&& \Tbase \\
+  |&&& \Tin{S} \\
+  |&&& \Tout{S} \\
+  \Gamma := &&& \Cempty \\
+  |&&& \Cadd{\Gamma}{\hastype{x}{S}}
+\end{align*}
+The \emph{end type}, \( \Tend \), is the type of an endpoint on which no further interaction is possible.
+The \emph{base type}, \( \Tbase \), is the type of base values.
+The \emph{input type}, \( \Tin{S} \), is the type of an endpoint which is ready to receive a value, then continue with type \( S \).
+The \emph{output type}, \( \Tout{S} \), is the type of an endpoint which is ready to send a value, then continue with type \( S \).
+
+Typing contexts gather type information about names.
+The \emph{empty type context}, \( \Cempty \), does not contain any information.
+The \emph{type context with \( x \) added}, \( \Cadd{\Gamma}{\hastype{x}{T}} \) adds the information that \( x \) has type \( T \) to the existing type context \( \Gamma \).
+All of the names added to a type context must be distinct.
+We treat type contexts as sets, not ordered lists, and the order in which information is added to a type context thus does not matter.
+
+Since we need to determine whether endpoints are used dually to determine whether processes are well-formed, we will need to formally define the dual of a type.
+The dual of a type, \( \dual{T} \), is defined by the following equations:
+\begin{mathpar}
+  \inferrule{}{\dual{\Tin{S}} = \Tout{\dual{S}}}
+  \and
+  \inferrule{}{\dual{\Tout{S}} = \Tin{\dual{S}}}
+  \and
+  \inferrule{}{\dual{\Tend} = \Tend}
+\end{mathpar}
+Note that the dual function is not total, since it is not defined for base types.
+
+\paragraph{Splitting and updating contexts}
+Our type system will maintain two invariants:
+\begin{enumerate}
+\item Endpoints are used exactly once
+\item Endpoints that are part of the same restriction have dual types
+\end{enumerate}
+The first invariant is maintained by linearly splitting type contexts when typing compositions of processes.
+The second invariant is maintained by requiring duality when typing restrictions.
+
+To keep track of linearity, we introduce two \emph{qualifiers}: \( \un{T} \) and \( \lin{T} \).
+A type is \emph{unrestricted}, \( \un{T} \), if and only if \( T = \Tbase \) or \( T = \Tend \).
+All types are \emph{linear}, \( \lin{T} \).
+The qualifiers extend to contexts in the following way: \( q(\Gamma) \) if and only if \( \hastype{x}{T} \in \Gamma \) implies \( q(T) \).
+
+The \emph{linear split} of a context, \( \Gamma = \Csplit{\Gamma_1}{\Gamma_2} \), is defined by the following rules:
+\begin{mathpar}
+  \inferrule[Split-Empty]{ }{\Cempty = \Csplit{\Cempty}{\Cempty}}
+  \and
+  \inferrule[Split-Un]{\Csplit{\Gamma_1}{\Gamma_2} = \Gamma \\ \un{T}}{\Cadd{\Gamma}{\hastype{x}{T}} = \Csplit{(\Cadd{\Gamma_1}{\hastype{x}{T}})}{(\Cadd{\Gamma_2}{\hastype{x}{T}})}}
+  \and
+  \inferrule[Split-Lin-L]{\Gamma = \Csplit{\Gamma_1}{\Gamma_2}}{\Cadd{\Gamma}{\hastype{x}{S}} = \Csplit{(\Cadd{\Gamma_1}{\hastype{x}{S}})}{\Gamma_2}}
+  \and
+  \inferrule[Split-Lin-R]{\Gamma = \Csplit{\Gamma_2}{\Gamma_2}}{\Cadd{\Gamma}{\hastype{x}{S}} = \Csplit{\Gamma_1}{(\Cadd{\Gamma_2}{\hastype{x}{S}})}}
+\end{mathpar}
+
+We will also need to update contexts with new type information in a safe way while typing input and output.
+The \emph{context update}, \( \Cupdate{\Gamma}{\hastype{x}{T}} = \Gamma' \), is defined by the following rules:
+\begin{mathpar}
+  \inferrule[Update-Name]{\hastype{x}{U} \notin \Gamma}{\Cupdate{\Gamma}{\hastype{x}{T}} = \Cadd{\Gamma}{\hastype{x}{T}}}
+  \and
+  \inferrule[Update-Un]{\un{T}}{\Cupdate{(\Cadd{\Gamma}{\hastype{x}{T}})}{\hastype{x}{T}} = (\Cadd{\Gamma}{\hastype{x}{T}})}
+\end{mathpar}
+
+\subsubsection{Typing rules}
+We have three typing judgements: one for values, one for names, and one for processes.
+The typing rules for values are as follows:
+\begin{mathpar}
+  \inferrule[T-Base]{\un{\Gamma}}{\types{\Gamma}{\hastype{a}{\Tbase}}}
+  \and
+  \inferrule[T-Var]{\un{\Gamma}}{\types{\Cadd{\Gamma}{\hastype{v}{\Tbase}}}{\hastype{v}{\Tbase}}}
+\end{mathpar}
+The only typing rule for names is:
+\begin{mathpar}
+  \inferrule[T-Name]{\un{\Gamma}}{\types{\Cadd{\Gamma}{\hastype{x}{T}}}{\hastype{x}{T}}}
+\end{mathpar}
+The typing rules for processes are as follows:
+\begin{mathpar}
+  \inferrule[T-Inact]{\un{\Gamma}}{\types{\Gamma}{\Pend}}
+  \and
+  \inferrule[T-Par]{\types{\Gamma_1}{P} \\ \types{\Gamma_2}{Q}}{\types{\Csplit{\Gamma_1}{\Gamma_2}}{\Ppar{P}{Q}}}
+  \and
+  \inferrule[T-Res]{\types{\Cadd{\Cadd{\Gamma}{\hastype{x}{T}}}{\hastype{y}{\dual{T}}}}{P}}{\types{\Gamma}{\Presd{x}{y}{P}}}
+  \and
+  \inferrule[T-Out]{\types{\Gamma_1}{\hastype{x}{\Tout{T}}} \\ \types{\Gamma_2}{\hastype{v}{\Tbase}} \\ \types{\Cupdate{\Gamma_3}{\hastype{x}{T}}}{P}}{\types{\Csplit{\Gamma_1}{\Csplit{\Gamma_2}{\Gamma_3}}}{\Pout{x}{v}{P}}}
+  \and
+  \inferrule[T-In]{\types{\Gamma_1}{\hastype{x}{\Tin{U}}} \\ \types{\Cupdate{(\Cadd{\Gamma_2}{\hastype{l}{\Tbase}})}{\hastype{x}{U}}}{P}}{\types{\Csplit{\Gamma_1}{\Gamma_2}}{\Pin{x}{l}{P}}}
+\end{mathpar}
+
+\subsubsection{Challenge}
+
+\begin{lemma}
+  If \( \types{\Gamma}{P} \) and \( \un{T} \) then \( \types{\Cadd{\Gamma}{\hastype{x}{T}}}{P} \).
+\end{lemma}
+
+\begin{lemma}
+  Assume \( \types{\Gamma}{P} \) and \( x \notin \freenames{P} \).
+  Then:
+  \begin{enumerate}
+  \item \( \hastype{x}{\Tout{T}} \notin \Gamma \).
+  \item \( \hastype{x}{\Tin{T}} \notin \Gamma \).
+  \item if \( \Gamma = \Cadd{\Gamma'}{\hastype{x}{T}} \) then \( \types{\Gamma'}{P} \).
+  \end{enumerate}
+\end{lemma}
+
+\begin{lemma}
+  If \( \types{\Gamma}{P} \) and \( \scong{P}{Q} \) then \( \types{\Gamma}{Q} \).
+\end{lemma}
+
+\begin{lemma}
+  If \( \types{\Gamma_1}{\hastype{v}{T}} \) and \( \types{\Cadd{\Gamma_2}{\hastype{x}{T}}}{P} \) and \( \Gamma = \Csplit{\Gamma_1}{\Gamma_2} \) then \( \types{\Gamma}{\subst{v}{x}{P}} \).
+\end{lemma}
+
+\begin{theorem}
+  If \( \types{\Gamma}{P} \) and \( \reduces{P}{Q} \) then \( \types{\Gamma}{Q} \).
+\end{theorem}
+
+\begin{theorem}
+  If \( \types{\Cempty}{P} \), then \( P \) is well-formed.
+\end{theorem}
+
+\begin{theorem}
+  If \( \types{\Cempty}{P} \) and \( \reduces{P}{Q} \) then \( Q \) is well-formed.
+\end{theorem}
+
 \subsection{Challenge: Name passing and scope extrusion}
 \label{sec:challenge:name-passing-scope-extrusion}
 
@@ -262,236 +492,6 @@ Strong barbed bisimilarity is interesting by itself for this challenge, but the 
 The definition of strong barbed congruence requires introducing contexts, but this is actually nice, since they are so prevalent in the field and we want to cover as many basics as possible.
 The theorem about the strong barbed congruence requires up-to techniques, but also seems to involve introducing a structural equivalence, which is possibly not desirable.
 On the other hand, it is a nice application of structural congruence which does not ``ruin'' the semantics.
-
-\subsection{Challenge: Linearity and behavioural type systems}
-\label{sec:challenge:linearity-beh-types}
-
-This challenge formalises a proof that requires reasoning about linearity of channels.
-Linearity is the notion that a channel must be used exactly once in a process.
-This is necessary to prove properties about session type systems.
-
-The setting for this challenge is a small calculus with a session type system, the syntax and semantics of which are presented below.
-The objective of this challenge is to prove type preservation (also known as subject reduction) for the type system, i.e.\ that well-typed processes can only transition to processes which are also well-typed in the same context.
-
-\subsubsection{Syntax}
-We assume the existence of some type of \emph{base values}, values of which we will denote by \( a, b, \dots \), the existence of some type of \emph{variable names}, values of which we will denote by \( l, m, \dots \), and the existence of some type of \emph{names}, values of which we will denote by \( x, y, \dots \).
-The syntax is then:
-\begin{align*}
-  v,w :=&&& a \\
-  |&&& l \\
-  P,Q :=&&& \Pend \\
-  |&&& \Pout{x}{v}{P} \\
-  |&&& \Pin{x}{l}{P} \\
-  |&&& \Ppar{P}{Q} \\
-  |&&& \Presd{x}{y}{P}
-\end{align*}
-A \emph{value} \( v, w, \dots \) is either a base value \( a \) or a variable name \( l \).
-The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
-The process \( \Pout{x}{a}{P} \) is an \emph{output}, which can send the value \( v \) via \( x \), then continue as \( P \).
-The intention is that the value \( v \) must be a base value when it is actually sent, and this will be enforced in the semantics later on.
-The process \( \Pin{x}{l}{P} \) is an \emph{input}, which can receive a base value via \( x \), then continue as \( P \) with the received value substituted for the variable name \( l \).
-The input operator thus binds the variable name \( l \) in \( P \).
-The process \( \Ppar{P}{Q} \) is the \emph{composition} of process \( P \) and process \( Q \).
-The two components can proceed independently of each other, or they can interact via shared names.
-The process \( \Presd{x}{y}{P} \) is the \emph{restriction} of the channel with endpoints named \( x \) and \( y \) to \( P \).
-Components in \( P \) can use the names \( x \) and \( y \) to interact with each other (sending on \( x \) and receiving on \( y \) or vice versa), but not with processes outside of the restriction.
-The restriction operator thus binds the names \( x \) and \( y \) in \( P \).
-Note that the scope of a restriction may not change when processes interact, since it is only possible to send and receive values, and not names.
-Note that there is no recursion of replication in the syntax, and thus no infinite behaviours can be expressed.
-
-We will use the notation \( \freenames{P} \) to denote the set of names that occur free (i.e.\ not bound by a restriction) in \( P \).
-We will use the notation \( \boundnames{P} \) to denote the set of names that occur bound (by a restriction) in \( P \).
-We will use the notation \( \freevars{P} \) to denote the set of variable names that occur free (i.e.\ not bound by an input) in \( P \).
-We will use the notation \( \boundvars{P} \) to denote the set of variable names that occur bound (by an input) in \( P \).
-We will use the notation \( \subst{P}{v}{w} \) to denote the process \( P \) with value \( v \) substituted for value \( w \).
-
-Two processes \( P \) and \( Q \) are \( \alpha \)-convertible, written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \) by a finite number of substitutions of bound variable names.
-As a convention, we will identify \( \alpha \)-convertible processes.
-
-As a convention, we assume that bound names and bound variable names of any processes are chosen to be different from the names and variable names that occur free in any other entities under consideration, such as processes, substitutions, and sets of names or variable names.
-This is justified because any overlapping names and variable names may be \( \alpha \)-converted such that the assumption is satisfied.
-
-\subsubsection{Semantics}
-We describe the actions that the system can perform using a small step operational semantics.
-To simplify the definition of the reduction relation, we will first factor out a structural congruence relation on processes, and for this we need a few definitions.
-
-\subsubsection{Contexts and congruences}
-A \emph{context} is obtained by taking a process and replacing a single occurrence of \( \Pend \) in it with the special \emph{hole} symbol \( \ctxhole \).
-As a convention, we do \emph{not} identify \( \alpha \)-convertible contexts.
-
-We will think of contexts as functions between processes.
-A context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
-The replacement should be literal, so names and variable names that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
-
-We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).
-
-\emph{Structural congruence} is the smallest congruence relation that satisfies the following axioms:
-\begin{mathpar}
-  \inferrule[Sc-Par-Comm]{ }{\scong{\Ppar{P}{Q}}{\Ppar{Q}{P}}}
-  \and
-  \inferrule[Sc-Par-Assoc]{ }{\scong{\Ppar{(\Ppar{P}{Q})}{R}}{\Ppar{P}{(\Ppar{Q}{R})}}}
-  \and
-  \inferrule[Sc-Par-Inact]{ }{\scong{\Ppar{P}{\Pend}}{P}}
-  \and
-  \inferrule[Sc-Res-Par]{\{x,y\} \not\subseteq \freenames{Q}}{\scong{\Ppar{\Presd{x}{y}{P}}{Q}}{\Presd{x}{y}{(\Ppar{P}{Q})}}}
-  \and
-  \inferrule[Sc-Res-Inact]{ }{\scong{\Presd{x}{y}{\Pend}}{\Pend}}
-  \and
-  \inferrule[Sc-Res]{ }{\scong{\Presd{x_1}{y_1}{\Presd{x_2}{y_2}{P}}}{\Presd{x_2}{y_2}{\Presd{x_1}{y_1}{P}}}}
-\end{mathpar}
-
-The operational semantics is then defined as the following binary relation on processes:
-\begin{mathpar}
-  \inferrule[R-Com]{ }{\reduces{\Presd{x}{y}{(\Ppar{\Pout{x}{v}{P}}{\Ppar{\Pin{y}{l}{Q}}{R}})}}{\Presd{x}{y}{(\Ppar{P}{\Ppar{\subst{Q}{v}{l}}{R}})}}}
-  \and
-  \inferrule[R-Res]{\reduces{P}{Q}}{\reduces{\Presd{x}{y}{P}}{\Presd{x}{y}{Q}}}
-  \and
-  \inferrule[R-Par]{\reduces{P}{Q}}{\reduces{\Ppar{P}{R}}{\Ppar{Q}{R}}}
-  \and
-  \inferrule[R-Struct]{\scong{P}{P'} \\ \reduces{P'}{Q'} \\ \scong{Q}{Q'}}{\reduces{P}{Q}}
-\end{mathpar}
-Note that there is no rule for inferring an action of an input or output process except those that match the input/output capability.
-Note also that due to rule \TirName{R-Com}, the process \( \Pin{y}{l}{P} \) can receive \emph{any} base value.
-On the other hand, since the rule \TirName{R-Com} only applies to sending base values, there is no way to send a variable name or a name.
-
-\subsubsection{Session types}
-Our process syntax allows us to write processes that are not well-formed in the sense that they either use the endpoints bound by a restriction to communicate in a way that does not follow the intended duality of communication, or attempt to send something which is not a base value.
-As an example, the following process attempts to send a base value on both \( x \) and \( y\), whereas the intention of binding names is that one of the names is used for sending and the other for receiving: \( \Presd{x}{y}{(\Ppar{\Pout{x}{a}{\Pend}}{\Pout{y}{a}{\Pend}})} \).
-Another example is the following process, which attempts to send a variable that is not resolved at the time of sending: \( \Presd{x}{y}{(\Ppar{\Pout{x}{l}{\Pend}}{\Pin{y}{l}{\Pend}})} \).
-
-To alleviate this issue, we introduce a \emph{session type system}, which will detect processes that are not well-formed.
-To this end, we need to first formally define what we mean by well-formed.
-We say that a process \( P \) is \emph{prefixed at variable \( x \)} if it is of the form \( \Pout{x}{v}{P} \) or \( \Pin{x}{l}{P} \).
-A process is then \emph{well-formed} if, for each of its structurally congruenct processes of the form \( \Presd{x_1}{y_1}{\dots \Presd{x_n}{y_n}{(\Ppar{\Ppar{P}{Q}}{R})}} \), with \( n \geq 0 \), it holds that, if \( P \) is prefixed at \( x_1 \) and \( Q \) is prefixed at \( y_1 \), then \( \Ppar{P}{Q} \) is of the form \( \Ppar{\Pout{x_1}{a}{P'}}{\Pin{y_1}{l}{Q'}} \).
-
-Note that well-formed processes do not necessarily reduce, since e.g.\ the process \( \Presd{x_1}{y_1}{\Presd{x_2}{y_2}{(\Ppar{\Pout{x_1}{a}{\Pin{y_2}{l}{\Pend}}}{\Pout{y}{x_2}{\Pin{y_1}{l}{\Pend}}})}} \) is well-formed, but has no reduction.
-
-\paragraph{Syntax}
-Our type system does not type processes directly, but instead focuses on the channels used in the process.
-The syntax of \emph{session types} \( S, T \) and \emph{type contexts} \( \Gamma \) is as follows:
-\begin{align*}
-  S,T := &&& \Tend \\
-  |&&& \Tbase \\
-  |&&& \Tin{S} \\
-  |&&& \Tout{S} \\
-  \Gamma := &&& \Cempty \\
-  |&&& \Cadd{\Gamma}{\hastype{x}{S}}
-\end{align*}
-The \emph{end type}, \( \Tend \), is the type of an endpoint on which no further interaction is possible.
-The \emph{base type}, \( \Tbase \), is the type of base values.
-The \emph{input type}, \( \Tin{S} \), is the type of an endpoint which is ready to receive a value, then continue with type \( S \).
-The \emph{output type}, \( \Tout{S} \), is the type of an endpoint which is ready to send a value, then continue with type \( S \).
-
-Typing contexts gather type information about names.
-The \emph{empty type context}, \( \Cempty \), does not contain any information.
-The \emph{type context with \( x \) added}, \( \Cadd{\Gamma}{\hastype{x}{T}} \) adds the information that \( x \) has type \( T \) to the existing type context \( \Gamma \).
-All of the names added to a type context must be distinct.
-We treat type contexts as sets, not ordered lists, and the order in which information is added to a type context thus does not matter.
-
-Since we need to determine whether endpoints are used dually to determine whether processes are well-formed, we will need to formally define the dual of a type.
-The dual of a type, \( \dual{T} \), is defined by the following equations:
-\begin{mathpar}
-  \inferrule{}{\dual{\Tin{S}} = \Tout{\dual{S}}}
-  \and
-  \inferrule{}{\dual{\Tout{S}} = \Tin{\dual{S}}}
-  \and
-  \inferrule{}{\dual{\Tend} = \Tend}
-\end{mathpar}
-Note that the dual function is not total, since it is not defined for base types.
-
-\paragraph{Splitting and updating contexts}
-Our type system will maintain two invariants:
-\begin{enumerate}
-\item Endpoints are used exactly once
-\item Endpoints that are part of the same restriction have dual types
-\end{enumerate}
-The first invariant is maintained by linearly splitting type contexts when typing compositions of processes.
-The second invariant is maintained by requiring duality when typing restrictions.
-
-To keep track of linearity, we introduce two \emph{qualifiers}: \( \un{T} \) and \( \lin{T} \).
-A type is \emph{unrestricted}, \( \un{T} \), if and only if \( T = \Tbase \) or \( T = \Tend \).
-All types are \emph{linear}, \( \lin{T} \).
-The qualifiers extend to contexts in the following way: \( q(\Gamma) \) if and only if \( \hastype{x}{T} \in \Gamma \) implies \( q(T) \).
-
-The \emph{linear split} of a context, \( \Gamma = \Csplit{\Gamma_1}{\Gamma_2} \), is defined by the following rules:
-\begin{mathpar}
-  \inferrule[Split-Empty]{ }{\Cempty = \Csplit{\Cempty}{\Cempty}}
-  \and
-  \inferrule[Split-Un]{\Csplit{\Gamma_1}{\Gamma_2} = \Gamma \\ \un{T}}{\Cadd{\Gamma}{\hastype{x}{T}} = \Csplit{(\Cadd{\Gamma_1}{\hastype{x}{T}})}{(\Cadd{\Gamma_2}{\hastype{x}{T}})}}
-  \and
-  \inferrule[Split-Lin-L]{\Gamma = \Csplit{\Gamma_1}{\Gamma_2}}{\Cadd{\Gamma}{\hastype{x}{S}} = \Csplit{(\Cadd{\Gamma_1}{\hastype{x}{S}})}{\Gamma_2}}
-  \and
-  \inferrule[Split-Lin-R]{\Gamma = \Csplit{\Gamma_2}{\Gamma_2}}{\Cadd{\Gamma}{\hastype{x}{S}} = \Csplit{\Gamma_1}{(\Cadd{\Gamma_2}{\hastype{x}{S}})}}
-\end{mathpar}
-
-We will also need to update contexts with new type information in a safe way while typing input and output.
-The \emph{context update}, \( \Cupdate{\Gamma}{\hastype{x}{T}} = \Gamma' \), is defined by the following rules:
-\begin{mathpar}
-  \inferrule[Update-Name]{\hastype{x}{U} \notin \Gamma}{\Cupdate{\Gamma}{\hastype{x}{T}} = \Cadd{\Gamma}{\hastype{x}{T}}}
-  \and
-  \inferrule[Update-Un]{\un{T}}{\Cupdate{(\Cadd{\Gamma}{\hastype{x}{T}})}{\hastype{x}{T}} = (\Cadd{\Gamma}{\hastype{x}{T}})}
-\end{mathpar}
-
-\subsubsection{Typing rules}
-We have three typing judgements: one for values, one for names, and one for processes.
-The typing rules for values are as follows:
-\begin{mathpar}
-  \inferrule[T-Base]{\un{\Gamma}}{\types{\Gamma}{\hastype{a}{\Tbase}}}
-  \and
-  \inferrule[T-Var]{\un{\Gamma}}{\types{\Cadd{\Gamma}{\hastype{v}{\Tbase}}}{\hastype{v}{\Tbase}}}
-\end{mathpar}
-The only typing rule for names is:
-\begin{mathpar}
-  \inferrule[T-Name]{\un{\Gamma}}{\types{\Cadd{\Gamma}{\hastype{x}{T}}}{\hastype{x}{T}}}
-\end{mathpar}
-The typing rules for processes are as follows:
-\begin{mathpar}
-  \inferrule[T-Inact]{\un{\Gamma}}{\types{\Gamma}{\Pend}}
-  \and
-  \inferrule[T-Par]{\types{\Gamma_1}{P} \\ \types{\Gamma_2}{Q}}{\types{\Csplit{\Gamma_1}{\Gamma_2}}{\Ppar{P}{Q}}}
-  \and
-  \inferrule[T-Res]{\types{\Cadd{\Cadd{\Gamma}{\hastype{x}{T}}}{\hastype{y}{\dual{T}}}}{P}}{\types{\Gamma}{\Presd{x}{y}{P}}}
-  \and
-  \inferrule[T-Out]{\types{\Gamma_1}{\hastype{x}{\Tout{T}}} \\ \types{\Gamma_2}{\hastype{v}{\Tbase}} \\ \types{\Cupdate{\Gamma_3}{\hastype{x}{T}}}{P}}{\types{\Csplit{\Gamma_1}{\Csplit{\Gamma_2}{\Gamma_3}}}{\Pout{x}{v}{P}}}
-  \and
-  \inferrule[T-In]{\types{\Gamma_1}{\hastype{x}{\Tin{U}}} \\ \types{\Cupdate{(\Cadd{\Gamma_2}{\hastype{l}{\Tbase}})}{\hastype{x}{U}}}{P}}{\types{\Csplit{\Gamma_1}{\Gamma_2}}{\Pin{x}{l}{P}}}
-\end{mathpar}
-
-\subsubsection{Challenge}
-
-\begin{lemma}
-  If \( \types{\Gamma}{P} \) and \( \un{T} \) then \( \types{\Cadd{\Gamma}{\hastype{x}{T}}}{P} \).
-\end{lemma}
-
-\begin{lemma}
-  Assume \( \types{\Gamma}{P} \) and \( x \notin \freenames{P} \).
-  Then:
-  \begin{enumerate}
-  \item \( \hastype{x}{\Tout{T}} \notin \Gamma \).
-  \item \( \hastype{x}{\Tin{T}} \notin \Gamma \).
-  \item if \( \Gamma = \Cadd{\Gamma'}{\hastype{x}{T}} \) then \( \types{\Gamma'}{P} \).
-  \end{enumerate}
-\end{lemma}
-
-\begin{lemma}
-  If \( \types{\Gamma}{P} \) and \( \scong{P}{Q} \) then \( \types{\Gamma}{Q} \).
-\end{lemma}
-
-\begin{lemma}
-  If \( \types{\Gamma_1}{\hastype{v}{T}} \) and \( \types{\Cadd{\Gamma_2}{\hastype{x}{T}}}{P} \) and \( \Gamma = \Csplit{\Gamma_1}{\Gamma_2} \) then \( \types{\Gamma}{\subst{v}{x}{P}} \).
-\end{lemma}
-
-\begin{theorem}
-  If \( \types{\Gamma}{P} \) and \( \reduces{P}{Q} \) then \( \types{\Gamma}{Q} \).
-\end{theorem}
-
-\begin{theorem}
-  If \( \types{\Cempty}{P} \), then \( P \) is well-formed.
-\end{theorem}
-
-\begin{theorem}
-  If \( \types{\Cempty}{P} \) and \( \reduces{P}{Q} \) then \( Q \) is well-formed.
-\end{theorem}
 
 
 %% Local Variables:
