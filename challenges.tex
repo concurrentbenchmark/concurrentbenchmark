@@ -193,7 +193,20 @@ The typing rules for processes are as follows:
 \end{mathpar}
 
 \subsubsection{Challenge}
+The objective of this challenge is to prove the following theorems:
+\begin{theorem}
+  If \( \types{\Gamma}{P} \) and \( \reduces{P}{Q} \) then \( \types{\Gamma}{Q} \).
+\end{theorem}
 
+\begin{theorem}
+  If \( \types{\Cempty}{P} \), then \( P \) is well-formed.
+\end{theorem}
+
+\begin{corollary}
+  If \( \types{\Cempty}{P} \) and \( \reduces{P}{Q} \) then \( Q \) is well-formed.
+\end{corollary}
+
+The following lemmas may be of use:
 \begin{lemma}
   If \( \types{\Gamma}{P} \) and \( \un{T} \) then \( \types{\Cadd{\Gamma}{\hastype{x}{T}}}{P} \).
 \end{lemma}
@@ -215,18 +228,6 @@ The typing rules for processes are as follows:
 \begin{lemma}
   If \( \types{\Gamma_1}{\hastype{v}{T}} \) and \( \types{\Cadd{\Gamma_2}{\hastype{x}{T}}}{P} \) and \( \Gamma = \Csplit{\Gamma_1}{\Gamma_2} \) then \( \types{\Gamma}{\subst{v}{x}{P}} \).
 \end{lemma}
-
-\begin{theorem}
-  If \( \types{\Gamma}{P} \) and \( \reduces{P}{Q} \) then \( \types{\Gamma}{Q} \).
-\end{theorem}
-
-\begin{theorem}
-  If \( \types{\Cempty}{P} \), then \( P \) is well-formed.
-\end{theorem}
-
-\begin{theorem}
-  If \( \types{\Cempty}{P} \) and \( \reduces{P}{Q} \) then \( Q \) is well-formed.
-\end{theorem}
 
 \subsection{Challenge: Name passing and scope extrusion}
 \label{sec:challenge:name-passing-scope-extrusion}
