@@ -76,29 +76,29 @@ The appendix contains the full text of the current draft of the challenge proble
 
 \section{Design of the challenge}
 Our challenge problems cannot address every technique and subfield at once.
-We have identified three key aspects fundamental to concurrency theory mechanisations and designed our challenge problems to exercise these.
+We have identified three key aspects fundamental to mechanisations of concurrent calculi and designed our challenge problems to exercise these.
 Like previous benchmark authors, we would like to stress that our challenge is not meant to be comprehensive: applications such as multiparty session types, choreographies, conversation types and psi-calculi are not directly covered by our challenge problems.
 Most applications will however still need the basic techniques that our challenge problems exercise.
 
 We have designed our challenge problems to exercise the three aspects independently, and they can be solved individually and in any order.
-We have designed each problem to be small and easy to understand with a basic knowledge of textbook concurrency theory and process calculi.
+We have designed each problem to be small and easy to understand with basic knowledge of textbook concurrency theory and process calculi.
 Solutions to our challenge problems should be compared on three measures:
 \begin{itemize}
 \item The mechanisation overhead, this being the amount of manually written infrastructure and setup needed to express the definitions in the mechanisation.
 \item The adequacy of the formal statements in the mechanisation, i.e.\ whether the proven theorems are easily recognisable as the theorems from the challenge.
 \item The cost of entry for the tools and techniques employed, i.e.\ the difficulty of learning to use the techniques.
 \end{itemize}
-Solutions to our challenges do not need to strictly follow the definitions and techniques set out in the problem text, but solutions which deviate from the original challenges will need to present more elaborate argumentation for their adequacy.
+Solutions to our challenges do not need to strictly follow the definitions and lemmas set out in the problem text, but solutions which deviate from the original challenges will need to present more elaborate argumentation for their adequacy.
 
 \section{The challenge problems}
-In this section we will briefly describe our three challenge problems, referring to the appendix for the full text and pen and paper solution to each problem.
+In this section we will briefly describe our three challenge problems, referring to the appendix for the full text of each challenge.
 
 Our \textbf{linearity challenge} (Appendix~\ref{sec:challenge:linearity-beh-types}) is to prove type preservation (also known as subject reduction) for a process calculus with a session type system.
 Session type systems require linear handling of typing contexts, and the proof involves reasoning about the linearity of context splitting operations.
 
 In name passing systems, scope extrusion is the expansion of the scope of a name when the name is sent outside of its original scope.
 Our \textbf{scope extrusion challenge} (Appendix~\ref{sec:challenge:name-passing-scope-extrusion}) is to prove that barbed bisimulation is an equivalence relation for an untyped name passing caluclus without infinite behaviour, but with non-deterministic choice.
-The proof involves reasoning about names that are ``in the process'' of being scope extruded, which presents issues with some approaches to binders.
+The proof involves reasoning about names that are ``in the process'' of being scope extruded, which presents issues for some approaches to mechanising binders.
 
 Our \textbf{coinduction challenge} (Appendix~\ref{sec:challenge:coinduction}) is to prove that strong barbed bisimulation is an equivalence relation for an untyped calculus of communicating systems with (infinite) replication of processes.
 The proof involves reasoning coinductively about the infinite behaviours of the replication operator.
