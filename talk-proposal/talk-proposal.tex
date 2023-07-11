@@ -1,4 +1,5 @@
-\documentclass[adraft,copyright,creativecommons]{eptcs}
+\documentclass[submission,copyright,creativecommons]{eptcs}
+\providecommand{\event}{ST30}
 
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
@@ -9,13 +10,8 @@
 \usepackage{bm}
 \usepackage{hyperref}
 \usepackage{cleveref}
-% \usepackage{draftwatermark}
 \usepackage{underscore}
 \usepackage[T1]{fontenc}
-
-% \SetWatermarkText{Draft}
-% \SetWatermarkScale{2}
-% \SetWatermarkColor[gray]{0.90}
 
 \input{../macros.tex}
 
@@ -34,6 +30,14 @@
 \and Nobuko Yoshida \institute{University of Oxford} \email{nobuko.yoshida@cs.ox.ac.uk}
 }
 \def\authorrunning{Carbone, Castro-Perez, Ferreira, Gheri, Jacobsen, Momigliano, Padovani, Scalas, Vassor \& Yoshida}
+
+\hypersetup{
+  bookmarksnumbered,
+  pdftitle    = {\titlerunning},
+  pdfauthor   = {\authorrunning},
+  pdfsubject  = {ST30},
+  pdfkeywords = {mechanisation, process calculi, coinduction, scope extrusion, linearity}
+}
 
 \begin{document}
 \maketitle
@@ -106,7 +110,6 @@ The interested reader can find more information about the current status of the 
 \end{center}
 
 \bibliographystyle{eptcs}
-% \bibliography{bibliography}
 \bibliography{../references}
 
 \appendix
