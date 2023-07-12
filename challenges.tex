@@ -336,14 +336,16 @@ To this end, we define the \emph{observability predicate} \( \observable{P}{\mu}
   \observable{P}{\obsout{x}} &\quad \textrm{if \( P \) can perform an output action via \( x \).}
 \end{align}
 
-Two processes \( P \) and \( Q \) are then \emph{strongly barbed bisimilar}, written \( \sbbisim{P}{Q} \), if:
+Two processes \( P \) and \( Q \) are then \emph{strong barbed bisimilar}, written \( \sbbisim{P}{Q} \), if:
 \begin{gather}
   \observable{P}{\mu}~\textrm{implies}~\observable{Q}{\mu} \\
   \transition{P}{\Atau}{P'}~\textrm{implies}~\transition{Q}{\Atau}{Q'}~\textrm{for some \( Q' \) with}~\sbbisim{P'}{Q'} \\
   \observable{Q}{\mu}~\textrm{implies}~\observable{P}{\mu} \\
   \transition{Q}{\Atau}{Q'}~\textrm{implies}~\transition{P}{\Atau}{P'}~\textrm{for some \( P' \) with}~\sbbisim{P'}{Q'}
 \end{gather}
-Note that, since our calculus does not have infinite behaviour, we do not specify that the relation is the largest of its kind, and the relation is thus not coinductively defined.
+Note that, since our calculus does not have infinite behaviour, there is only one relation which satisfies these criteria.
+Thus we do not specify that the relation is the largest of its kind, and the relation does not need to be coinductively defined.
+To actually prove properties about the relation, however, we will still need either an inductive (or a coinductive) proof principle for the relation.
 
 \subsubsection{Challenge}
 The objective of this challenge is to prove the following theorem:
