@@ -240,6 +240,9 @@ This challenge formalises a proof that requires explicit scope extrusion.
 Scope extrusion is the notion that a process can send restricted names to another process, as long as the restriction can safely be ``extruded'' (i.e.\ expanded) to include the recieving process.
 This e.g.\ allows a process to set up a private connection by sending a restricted name to another process, then using this name for further communication.
 
+Reasoning about scope extrusion explicitly can sometimes be avoided by introducing a structural congruence rule into the semantics, but doing this means we lose information about the scope when reasoning about the semantics.
+Explicitly reasoning about scope extrusion is necessary to describe e.g.\ monitors and compositions.
+
 The setting for this challenge is an untyped \( \pi \)-calculus, the syntax and semantics of which are presented below.
 The objective of this challenge is to prove that barbed bisimulation for this calculus is an equivalence relation.
 
