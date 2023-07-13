@@ -99,8 +99,11 @@ To this end, we need to first formally define what we mean by well-formed.
 We say that a process \( P \) is \emph{prefixed at variable \( x \)} if it is of the form \( \Pout{x}{v}{P} \) or \( \Pin{x}{l}{P} \).
 A process is then \emph{well-formed} if, for each of its structurally congruenct processes of the form \( \Presd{x_1}{y_1}{\dots \Presd{x_n}{y_n}{(\Ppar{\Ppar{P}{Q}}{R})}} \), with \( n \geq 0 \), it holds that, if \( P \) is prefixed at \( x_1 \) and \( Q \) is prefixed at \( y_1 \), then \( \Ppar{P}{Q} \) is of the form \( \Ppar{\Pout{x_1}{a}{P'}}{\Pin{y_1}{l}{Q'}} \).
 
-Note that well-formed processes do not necessarily reduce, since e.g.\ the process \( \Presd{x_1}{y_1}{\Presd{x_2}{y_2}{(\Ppar{\Pout{x_1}{a}{\Pin{y_2}{l}{\Pend}}}{\Pout{y}{x_2}{\Pin{y_1}{l}{\Pend}}})}} \) is well-formed, but has no reduction.
-
+Note that well-formed processes do not necessarily reduce, since e.g.\ the process
+\begin{equation*}
+\Presd{x_1}{y_1}{\Presd{x_2}{y_2}{(\Ppar{\Pout{x_1}{a}{\Pin{y_2}{l}{\Pend}}}{\Pout{y}{x_2}{\Pin{y_1}{l}{\Pend}}})}}
+\end{equation*}
+is well-formed, but has no reduction.
 \paragraph{Syntax}
 Our type system does not type processes directly, but instead focuses on the channels used in the process.
 The syntax of \emph{session types} \( S, T \) and \emph{type contexts} \( \Gamma \) is as follows:
