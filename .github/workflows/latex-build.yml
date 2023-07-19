@@ -10,10 +10,11 @@ jobs:
         uses: dante-ev/latex-action@latest
         with:
           root_file: main.tex
+	  working_directory: technical-report
       - name: Copy resulting file
         run: |
           mkdir public
-          cp main.pdf public/POPLMarkGoesConcurrent.pdf
+          cp technical-report/main.pdf public/POPLMarkGoesConcurrent.pdf
       - name: Deploy to Github Pages
         if: success()
         uses: crazy-max/ghaction-github-pages@v3
