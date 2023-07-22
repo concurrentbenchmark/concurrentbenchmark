@@ -1,11 +1,45 @@
+Typos
+
+The process \( \Pout{x}{a}{P} \) is an \emph{output}, which can send the value \( v \) via \( x \), then continue as \( P \).
+
+should it be  \( \Pout{x}{v}{P} \)
+
+\Presd{x_1}{y_1}{\Presd{x_2}{y_2}{(\Ppar{\Pout{x_1}{a}{\Pin{y_2}{l}{\Pend}}}{\Pout{y}{x_2}{\Pin{y_1}{l}{\Pend}}})}}
+
+y shoud be y_2
+
+A14
+
+- where do we use the judgment lin(T)? Do we mean "all **other* types are linear?
+
+- def of Gamma: we should allow variable names there
+G := ...
+| G, l: T,
+
+see rule T-var
+
+T-RES: should we use +? namely G+ x: T+ x: dual T. However, if channels are linear, then comma is fine. However, then it is inconsistent with T-OUT (+ x: T) and similarly T-IN
+
+"our type system will mantain 2 invariants": more then 2, also that values are base
+
+------------
 Notes to abstract:
 
-A.1.3 in finite case, sb-bisim still needs to be defined so as to have
-some (co)inductive principle to use in the proof. Just make clear that
-it is not simply a fixed point (case analysis)
+A.1.3 in finite case, barbed-bisim still needs to be defined so as to have
+some (co)inductive principle to use in the proof. Perhaps make clear that
+it is not simply a fixed point requiring only case analysis.
 
-Thm 1. Would it make any difference (i.e. more interesting) to prove conguence here?
+Thm 1. Would it make any difference (i.e. more interesting) to prove conguence, rather than equivalence here?
 
 A.2.1 there is a lot of repetitions here wrt A.1.1 and A.3.1
 explaining the notation for processes, convention for names etc. If
 this is intentional, I find it a bit distracting.
+
+A.3.1 Note to myself: "binary" restriction: do we need n-any binary or nu x. nu y. etc will do
+
+A.3.2: the sentence "all types are linear" is strange. The qualifier
+lin(T) is never used in the rules.  Would a dual presentation (with
+intutionistic and linear context separeted) be cleaner? Give a
+reference form where this calculus come from. Is the update operation partial? Seems undefined on base/end.
+
+Insisting that context are sets and detailing what a split is: sounds like a nod towards the implementation. Not that I have a better  suggestion.
