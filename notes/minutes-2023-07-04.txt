@@ -1,4 +1,18 @@
+# Meeting July 4th, 2023
 
+Participants:
+- Luca Padovani
+- Frederik Krogsdal Jacobsen
+- Francisco Ferreira
+- Marco Carbone
+- David Castro-Perez
+- Alberto Momigliano
+- Lorenzo Gheri
+- Alceste Scalas
+- Martin Vassor
+- Nobuko Yoshida
+
+## Discussion points
 
 Do people still care about scope extrusion?
 - Scope extrusion is necessary for reasoning about open systems using LTS semantics
