@@ -1,0 +1,105 @@
+\documentclass[runningheads]{llncs}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{mathpartir}
+\usepackage{cite}
+\usepackage{bm}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{hyperref}
+\usepackage{color}
+\renewcommand\UrlFont{\color{blue}\rmfamily}
+
+\input{../macros.tex}
+
+\begin{document}
+
+\title{The Concurrent Calculi Formalisation Benchmark}
+
+\author{
+     Marco Carbone \inst{1}\orcidID{0000-0001-9479-2632}
+\and David Castro-Perez \inst{2}\orcidID{0000-0002-6939-4189}
+\and Francisco Ferreira \inst{3}\orcidID{0000-0001-8494-7696}
+\and Lorenzo Gheri \inst{4}\orcidID{0000-0002-3191-7722}
+\and Frederik Krogsdal Jacobsen \inst{5}\orcidID{0000-0003-3651-8314}
+\and Alberto Momigliano \inst{6}\orcidID{0000-0003-0942-4777}
+\and Luca Padovani \inst{7}\orcidID{0000-0001-9097-1297}
+\and Alceste Scalas \inst{5}\orcidID{0000-0002-1153-6164}
+\and Martin Vassor \inst{4}\orcidID{0000-0002-2057-0495}
+\and Nobuko Yoshida \inst{4}\orcidID{0000-0002-3925-8557}
+}
+
+\institute{
+     IT University of Copenhagen \email{maca@itu.dk}
+\and University of Kent \email{D.Castro-Perez@kent.ac.uk}
+\and Royal Holloway, University of London \email{Francisco.FerreiraRuiz@rhul.ac.uk}
+\and University of Oxford \email{lorenzo.gheri@cs.ox.ac.uk}, \email{martin.vassor@cs.ox.ac.uk}, \email{nobuko.yoshida@cs.ox.ac.uk}
+\and Technical University of Denmark \email{fkjac@dtu.dk}, \email{alcsc@dtu.dk}
+\and Università degli Studi di Milano \email{momigliano@di.unimi.it}
+\and Università di Camerino \email{luca.padovani@unicam.it}
+}
+
+\authorrunning{M. Carbone et al.}
+
+\maketitle
+
+\begin{abstract}
+  The POPLMark challenge sparked a flurry of work on machine-checked proofs.
+  However, POPLMark (and its follow-up POPLMark Reloaded) were explicitly limited in scope,
+  with benchmark problems that do not address concurrency. For this reason, we propose a new collection of benchmark problems with a focus on the issues encountered when mechanising message-passing concurrency using process calculi.
+  Our benchmark problems concern linear handling of environments, scope extrusion, and coinductive reasoning.
+  Our goal is to clarify, compare and advance the state of the art.
+
+\keywords{Mechanisation \and Process calculi \and Benchmark \and Coinduction \and Scope extrusion \and Linearity}
+\end{abstract}
+
+\section{Introduction}
+The programming language community has increasingly embraced mechanisations since the influential POPLMark challenge~\cite{POPLMark}, but we are still far from the vision of a mechanised proof accompanying every paper in the field.
+Since POPLMark, the number of papers with accompanying mechanised proofs has grown steadily, but many mechanisations still rely on ad hoc techniques.
+POPLMark Reloaded~\cite{POPLMarkReloaded} aimed to identify and develop best practices and tool support for proofs using logical relations.
+The authors of both POPLMark and POPLMark Reloaded were careful to note that their benchmarks were only a beginning, and they specifically mention reasoning about concurrency using coinduction and linear environments as points for future work.
+Papers in concurrency theory do often include mechanised proofs (e.g.~\cite{DBLP:conf/pldi/Castro-Perez0GY21,DBLP:conf/tacas/CastroFY20,lmcs:9985, DBLP:journals/jar/CruzFilipeMP23, Tirore:2023}), and others also directly discuss formalisation techniques (e.g.~\cite{DBLP:journals/jar/BengtsonPW16, DBLP:conf/tphol/Gay01, DBLP:conf/ppdp/Thiemann19, DBLP:conf/forte/ZalakainD21}). However, our experience is that choosing techniques and tools remains a challenge with few guidelines.
+We propose a new collection of benchmark problems specifically designed to tackle the issues encountered when mechanising message-passing concurrency using process calculi.
+A goal of our collection of benchmark problems is to push for the development of guidelines and tutorials, and our challenge problems are a simple setting in which to demonstrate and compare techniques.
+Another goal is to strengthen the culture of mechanisation by rallying the community to collaborate on exploring and developing new tools and techniques.
+We have identified three key aspects which cause issues when mechanising concurrency theory: linearity, scope extrusion in name passing systems and infinite behaviour modelled coinductively.
+Each part of our benchmark exercises the three aspects independently to enable comparison and to keep the challenge problems small.
+The three aspects are of course not the only ones that may cause issues in mechanisations, but they are fundamental to the field and will thus appear in most mechanisations of concurrency theory.
+Actual mechanisations will additionally often require more than just one aspect, but we do not address the combination of techniques.
+In the rest of this paper we discuss the design of the challenge and briefly describe the three challenge problems.
+
+\section{Design of the challenge}
+We have identified three key aspects fundamental to mechanisations of concurrent calculi and designed our challenge problems to exercise these.
+Like previous benchmark authors, we would like to stress that our challenge is not meant to be comprehensive: applications such as multiparty session types, choreographies, conversation types and psi-calculi are not directly covered by our challenge problems.
+Most applications will however still need the basic techniques that our challenge problems exercise.
+We have designed our challenge problems to exercise the three aspects independently, and they can be solved individually and in any order.
+We have designed each problem to be small and easy to understand with basic knowledge of textbook concurrency theory, process calculi and type theory.
+Solutions to our challenge problems should be compared on three measures: the mechanisation overhead, this being the amount of manually written infrastructure and setup needed to express the definitions in the mechanisation; the adequacy of the formal statements in the mechanisation, i.e.\ whether the proven theorems are easily recognisable as the theorems from the challenge; and the cost of entry for the tools and techniques employed, i.e.\ the difficulty of learning to use the techniques.
+Solutions to our challenges do not need to strictly follow the definitions and lemmas set out in the problem text, but solutions which deviate from the original challenges will need to present more elaborate argumentation for their adequacy.
+
+\section{The challenge problems}
+In this section we will briefly describe our three challenge problems, referring to the appendix for the full text of each challenge.
+Our \textbf{linearity challenge} (Appendix~\ref{sec:challenge:linearity-beh-types}) is to prove type preservation (also known as subject reduction) for a process calculus with a session type system.
+Session type systems require linear handling of typing contexts, and the proof involves reasoning about the linearity of context splitting operations.
+In name passing systems, scope extrusion is the expansion of the scope of a name when the name is sent outside of its original scope.
+Our \textbf{scope extrusion challenge} (Appendix~\ref{sec:challenge:name-passing-scope-extrusion}) is to prove that barbed bisimulation is an equivalence relation for an untyped name passing calculus without infinite behaviour, but with non-deterministic choice.
+The proof involves reasoning about names that are ``in the process'' of being scope extruded, which presents issues for some approaches to mechanising binders.
+Our \textbf{coinduction challenge} (Appendix~\ref{sec:challenge:coinduction}) is to prove that strong barbed bisimulation is an equivalence relation for an untyped calculus of communicating systems with (infinite) replication of processes.
+The proof involves reasoning coinductively about the infinite behaviours of the replication operator.
+We invite anyone interested to send us solutions to the challenge problems and to publish experience reports detailing the advantages and disadvantages of their approaches.
+The interested reader can find more information about the current status of the challenge at:
+\begin{center}
+  \url{https://concurrentbenchmark.github.io/}
+\end{center}
+
+\bibliographystyle{splncs04}
+\bibliography{../references}
+
+\appendix
+\section{Challenges}
+\input{../challenges.tex}
+
+\end{document}
