@@ -10,8 +10,14 @@ The setting for this challenge is a small calculus with a session type system, t
 The objective of this challenge is to prove type preservation (also known as subject reduction) for the type system, i.e.\ that well-typed processes can only transition to processes which are also well-typed in the same context.
 
 \subsubsection{Syntax}
-We assume the existence of some type of \emph{base values}, values of which we will denote by \( a, b, \dots \), the existence of some type of \emph{variable names}, values of which we will denote by \( l, m, \dots \), and the existence of some type of \emph{names}, values of which we will denote by \( x, y, \dots \).
-The syntax is then:
+
+% We assume the existence of some type of \emph{base values}, values of which we will denote by \( a, b, \dots \), the existence of some type of \emph{variable names}, values of which we will denote by \( l, m, \dots \), and the existence of some type of \emph{names}, values of which we will denote by \( x, y, \dots \).
+We assume the existence of some type of \emph{base values}, represented by the symbols
+ \( a, b, \dots \), the existence of some type
+of \emph{variable names}, represented by the symbols
+\( l, m, \dots \), and the existence of some type of \emph{names},
+represented by the symbols\( x, y, \dots \).  The syntax is
+then:
 \begin{align*}
   v,w :=&&& a \\
   |&&& l \\
@@ -23,7 +29,7 @@ The syntax is then:
 \end{align*}
 A \emph{value} \( v, w, \dots \) is either a base value \( a \) or a variable name \( l \).
 The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
-The process \( \Pout{x}{a}{P} \) is an \emph{output}, which can send the value \( v \) via \( x \), then continue as \( P \).
+The process \( \Pout{x}{v}{P} \) is an \emph{output}, which can send the value \( v \) via \( x \), then continue as \( P \).
 The intention is that the value \( v \) must be a base value when it is actually sent, and this will be enforced in the semantics later on.
 The process \( \Pin{x}{l}{P} \) is an \emph{input}, which can receive a base value via \( x \), then continue as \( P \) with the received value substituted for the variable name \( l \).
 The input operator thus binds the variable name \( l \) in \( P \).
@@ -39,7 +45,7 @@ We will use the notation \( \freenames{P} \) to denote the set of names that occ
 We will use the notation \( \boundnames{P} \) to denote the set of names that occur bound (by a restriction) in \( P \).
 We will use the notation \( \freevars{P} \) to denote the set of variable names that occur free (i.e.\ not bound by an input) in \( P \).
 We will use the notation \( \boundvars{P} \) to denote the set of variable names that occur bound (by an input) in \( P \).
-We will use the notation \( \subst{P}{v}{w} \) to denote the process \( P \) with value \( v \) substituted for value \( w \).
+We will use the notation \( \subst{P}{v}{l} \) to denote the process \( P \) with value \( v \) substituted for variable name \( l \).
 
 Two processes \( P \) and \( Q \) are \( \alpha \)-convertible, written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \) by a finite number of substitutions of bound variable names.
 As a convention, we will identify \( \alpha \)-convertible processes.
@@ -92,7 +98,7 @@ On the other hand, since the rule \TirName{R-Com} only applies to sending base v
 
 \subsubsection{Session types}
 Our process syntax allows us to write processes that are not well-formed in the sense that they either use the endpoints bound by a restriction to communicate in a way that does not follow the intended duality of communication, or attempt to send something which is not a base value.
-As an example, the following process attempts to send a base value on both \( x \) and \( y\), whereas the intention of binding names is that one of the names is used for sending and the other for receiving: \( \Presd{x}{y}{(\Ppar{\Pout{x}{a}{\Pend}}{\Pout{y}{a}{\Pend}})} \).
+As an example, the following process attempts to send a base value on both \( x \) and \( y\), whereas the intention of restricting names is that one of the names is used for sending and the other for receiving: \( \Presd{x}{y}{(\Ppar{\Pout{x}{a}{\Pend}}{\Pout{y}{a}{\Pend}})} \).
 Another example is the following process, which attempts to send a variable that is not resolved at the time of sending: \( \Presd{x}{y}{(\Ppar{\Pout{x}{l}{\Pend}}{\Pin{y}{l}{\Pend}})} \).
 
 To alleviate this issue, we introduce a \emph{session type system}, which will detect processes that are not well-formed.
@@ -102,7 +108,7 @@ A process is then \emph{well-formed} if, for each of its structurally congruenct
 
 Note that well-formed processes do not necessarily reduce, since e.g.\ the process
 \begin{equation*}
-\Presd{x_1}{y_1}{\Presd{x_2}{y_2}{(\Ppar{\Pout{x_1}{a}{\Pin{y_2}{l}{\Pend}}}{\Pout{y}{x_2}{\Pin{y_1}{l}{\Pend}}})}}
+  \Presd{x_1}{y_1}{\Presd{x_2}{y_2}{(\Ppar{\Pout{x_1}{a}{\Pin{y_2}{l}{\Pend}}}{\Pout{y_2}{x_2}{\Pin{y_1}{l}{\Pend}}})}}
 \end{equation*}
 is well-formed, but has no reduction.
 \paragraph{Syntax}
@@ -115,6 +121,9 @@ The syntax of \emph{session types} \( S, T \) and \emph{type contexts} \( \Gamma
   |&&& \Tout{S} \\
   \Gamma := &&& \Cempty \\
   |&&& \Cadd{\Gamma}{\hastype{x}{S}}
+       %% AM: added
+        \\
+  |&&& \Cadd{\Gamma}{\hastype{l}{S}}
 \end{align*}
 The \emph{end type}, \( \Tend \), is the type of an endpoint on which no further interaction is possible.
 The \emph{base type}, \( \Tbase \), is the type of base values.
@@ -149,7 +158,7 @@ The second invariant is maintained by requiring duality when typing restrictions
 
 To keep track of linearity, we introduce two \emph{qualifiers}: \( \un{T} \) and \( \lin{T} \).
 A type is \emph{unrestricted}, \( \un{T} \), if and only if \( T = \Tbase \) or \( T = \Tend \).
-All types are \emph{linear}, \( \lin{T} \).
+All other types are \emph{linear}, \( \lin{T} \).
 The qualifiers extend to contexts in the following way: \( q(\Gamma) \) if and only if \( \hastype{x}{T} \in \Gamma \) implies \( q(T) \).
 
 The \emph{linear split} of a context, \( \Gamma = \Csplit{\Gamma_1}{\Gamma_2} \), is defined by the following rules:
@@ -177,7 +186,7 @@ The typing rules for values are as follows:
 \begin{mathpar}
   \inferrule[T-Base]{\un{\Gamma}}{\types{\Gamma}{\hastype{a}{\Tbase}}}
   \and
-  \inferrule[T-Var]{\un{\Gamma}}{\types{\Cadd{\Gamma}{\hastype{v}{\Tbase}}}{\hastype{v}{\Tbase}}}
+  \inferrule[T-Var]{\un{\Gamma}}{\types{\Cadd{\Gamma}{\hastype{l}{\Tbase}}}{\hastype{l}{\Tbase}}}
 \end{mathpar}
 The only typing rule for names is:
 \begin{mathpar}
