@@ -1,3 +1,20 @@
+A1
+
+make connection with Vasconcelos IC paper. Explain and motivate
+differences: abstract base types, more importantly channels are *not*
+values, to isolate scope extrusion to C2 -- however, we do have it
+here in the def of congruence
+"Note that the scope of a restriction may not change
+when processes interact, since it is only possible to send and receive values, and
+not names."
+
+Question: do we need Sc-Res-Par?
+
+If we endorse the Barendregt convention, then as in Vasco we do not need proviso in Sc-Res-Par, since no xy can occur free in Q since are bound in P. This also explain why we do not need a similar proviso in the T-Res rule, since x and y are fresh by convention.
+
+-  "all types are linear" and lin(Ga) still weird to me
+
+------
 Typos
 
 A.1.1
@@ -26,7 +43,7 @@ see rule T-var (should be l, rather than v?)
 
 - where do we use the judgment lin(T)?
 
-- Do we mean "all **other* types are linear?
+
 
 - Would a dual presentation (with
 intutionistic and linear context separeted) be cleaner? I'm working on that, in the sense that I have one but I have to concince myself it's equivalent.
@@ -38,8 +55,7 @@ partial? Seems undefined on base/end.
 
 - Since there are three typing judgments, perhaps we should not call them all as T-*
 
-- T-RES: should we use +? namely G+ x: T+ x: dual T.  Unless we mean
-  that in RES x and y are fresh (hence comma is fine), However, then
+-  However, then
   it is inconsistent with T-OUT (+ x: T) and similarly T-IN. If x
   occurs lineary in the context of the conclusion it has to go to
   Gamma_1, hence it cannot occur in Gamma_3, so why the update.
@@ -60,7 +76,7 @@ it is not simply a fixed point requiring only case analysis.
 Thm 1. Would it make any difference (i.e. more interesting) to prove conguence, rather than equivalence here?
  
 
-A.3.2: the sentence "all types are linear" is strange. The qualifier
+A.3.2: The qualifier
 lin(T) is never used in the rules.
 
 Insisting that context are sets and detailing what a split is: sounds
@@ -70,7 +86,10 @@ suggestion.
 % OBSOLETE
 
 A.3.1 Note to myself: "binary" restriction: do we need n-any binary or nu x. nu y. etc will do
-
+[no we do not]
 A.2.1 there is a lot of repetitions here wrt A.1.1 and A.3.1
 explaining the notation for processes, convention for names etc. If
 this is intentional, I find it a bit distracting.
+
+T-RES: should we use +? namely G+ x: T+ x: dual T.  Unless we mean
+  that in RES x and y are fresh (hence comma is fine),

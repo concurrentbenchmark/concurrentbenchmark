@@ -16,8 +16,8 @@ We assume the existence of some type of \emph{base values}, represented by the s
  \( a, b, \dots \), the existence of some type
 of \emph{variable names}, represented by the symbols
 \( l, m, \dots \), and the existence of some type of \emph{names},
-represented by the symbols\( x, y, \dots \).  The syntax is
-then:
+represented by the symbols \( x, y, \dots \).  The syntax is
+given by the grammar:
 \begin{align*}
   v,w :=&&& a \\
   |&&& l \\
@@ -158,7 +158,7 @@ The second invariant is maintained by requiring duality when typing restrictions
 
 To keep track of linearity, we introduce two \emph{qualifiers}: \( \un{T} \) and \( \lin{T} \).
 A type is \emph{unrestricted}, \( \un{T} \), if and only if \( T = \Tbase \) or \( T = \Tend \).
-All other types are \emph{linear}, \( \lin{T} \).
+All types are \emph{linear}, \( \lin{T} \).
 The qualifiers extend to contexts in the following way: \( q(\Gamma) \) if and only if \( \hastype{x}{T} \in \Gamma \) implies \( q(T) \).
 
 The \emph{linear split} of a context, \( \Gamma = \Csplit{\Gamma_1}{\Gamma_2} \), is defined by the following rules:
@@ -511,6 +511,8 @@ The objective of this challenge is to prove the following theorem:
 %The definition of strong barbed congruence requires introducing contexts, but this is actually nice, since they are so prevalent in the field and we want to cover as many basics as possible.
 %The theorem about the strong barbed congruence requires up-to techniques, but also seems to involve introducing a structural equivalence, which is possibly not desirable.
 %On the other hand, it is a nice application of structural congruence which does not ``ruin'' the semantics.
+
+
 
 %% Local Variables:
 %% mode: latex

@@ -62,6 +62,16 @@
 
 \newcommand{\types}[2]{#1 \vdash #2}
 
+\newif\ifreadfile
+\newcommand{\myfile}[1]{%
+  \ifreadfile
+    \input{#1}
+  \else
+    % do nothing
+  \fi
+}
+
+
 %% Local Variables:
 %% mode: latex
 %% TeX-master: "main"
