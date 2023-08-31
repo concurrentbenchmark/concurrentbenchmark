@@ -22,12 +22,15 @@ The typing rules for processes are as follows:
   \and
   \inferrule[T-Res]{\types{\Gamma; \Cadd{\Cadd{\Delta}{\hastype{x}{T}}}{\hastype{y}{\dual{T}}}}{P}}{\types{\Gamma}{\Presd{x}{y}{P}}}
   \and
-  \inferrule[T-Out]{\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
-    \types{\Gamma;\cdot}{\hastype{v}{\Tbase}} \\ \types{\Gamma; \Cupdate{\Delta_2}{\hastype{x}{T}}}{P}}{\types{\Gamma; \Csplit{\Delta_1}{{\Delta_2}}}{\Pout{x}{v}{P}}}
+  \inferrule[T-Out]{%\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
+    \types{\Gamma;\cdot}{\hastype{v}{\Tbase}} \\ \types{\Gamma; \Cupdate{\Delta}{\hastype{x}{T}}}{P}}{\types{\Gamma; \Csplit{\hastype{x}{\Tout{T}}}{{\Delta}}}{\Pout{x}{v}{P}}}
   \and
-  \inferrule[T-In]{\types{\Gamma;\Delta_1}{\hastype{x}{\Tin{U}}}
-    \\ \types{\Gamma,\hastype{l}{\Tbase}; \Delta_2,\hastype{x}{U}}{P}}
-      {\types{\Gamma; \Csplit{\Delta_1}{\Delta_2}}{\Pin{x}{l}{P}}}
+    \inferrule[T-IN]{%\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
+    \types{\Gamma;\cdot}{\hastype{v}{\Tbase}} \\ \types{\Gamma; \Cupdate{\Delta}{\hastype{x}{T}}}{P}}{\types{\Gamma; \Csplit{\hastype{x}{\Tin{T}}}{{\Delta}}}{\Pin{x}{v}{P}}}
+
+%   \inferrule[T-In]{}%\types{\Gamma;\Delta_1}{\hastype{x}{\Tin{U}}}
+% %    \\ \types{\Gamma;\cdot}\hastype{l}{\Tbase} \qquad \Delta,\hastype{x}{U}}{P}}
+%       {\types{\Gamma; \Csplit{\hastype{x}{\Tin{U}}}{\Delta}}{\Pin{x}{l}{P}}}
 \end{mathpar}
 
 %%% Local Variables:
