@@ -1,3 +1,15 @@
+Sept 23
+
+A1 simplifies Vasco's restricting to value passing. It sorts of trivializes the qualifiers (we do not allow un(!T.U))
+
+system: Vasco -> Walker -> Linear LF
+
+	3 ops on ctx: split, update, join --> overkill
+
+-- Why not use Vasco as challenge? Can we also use it for scope extrusion?
+
+
+---------------
 A1
 
 make connection with Vasconcelos IC paper. Explain and motivate

@@ -26,7 +26,7 @@ The typing rules for processes are as follows:
     \types{\Gamma;\cdot}{\hastype{v}{\Tbase}} \\ \types{\Gamma; \Cupdate{\Delta}{\hastype{x}{T}}}{P}}{\types{\Gamma; \Csplit{\hastype{x}{\Tout{T}}}{{\Delta}}}{\Pout{x}{v}{P}}}
   \and
     \inferrule[T-IN]{%\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
-    \types{\Gamma;\cdot}{\hastype{v}{\Tbase}} \\ \types{\Gamma; \Cupdate{\Delta}{\hastype{x}{T}}}{P}}{\types{\Gamma; \Csplit{\hastype{x}{\Tin{T}}}{{\Delta}}}{\Pin{x}{v}{P}}}
+    \types{\Gamma;\cdot}{\hastype{v}{\Tbase}} \\ \types{\Gamma, \hastype l \Tbase; \Cupdate{\Delta}{\hastype{x}{T}}}{P}}{\types{\Gamma; \Csplit{\hastype{x}{\Tin{T}}}{{\Delta}}}{\Pin{x}{l}{P}}}
 
 %   \inferrule[T-In]{}%\types{\Gamma;\Delta_1}{\hastype{x}{\Tin{U}}}
 % %    \\ \types{\Gamma;\cdot}\hastype{l}{\Tbase} \qquad \Delta,\hastype{x}{U}}{P}}
