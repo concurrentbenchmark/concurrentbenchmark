@@ -1,0 +1,41 @@
+#+title: Minutes: Meeting about Formalization Efforts
+#+date: 2023-09-05
+
+* Participants
+- Frederik Krogsdal Jacobsen, DTU, Every challenge in Isabelle using locally nameless and sets
+- Alberto Momigliano and Andrea Tirelli, Milano, Linearity in Abella and in Twelf
+- Daniel Zackon, McGill, Linearity in Beluga using explicit context manipulation
+- Dawit Tirore, ITU, Linearity in Coq using pure de Bruijn indices and list positions
+- Kaustuv Chaudhuri, INRIA, Working on Abella
+- Lorenzo Gheri, Oxford, working in Coq or Isabelle/Nominal
+- Francisco Ferreira, Royal Holloway, maybe working in Agda
+
+** Cancellations
+- Marco Carbone, ITU
+- Dale Miller, INRIA
+
+** Coinduction
+- Frederik has formalized half of it
+- Main issue: does the challenge actually need "interesting" coinductive techniques?
+  - In particular, is the behaviour too simple to actually need coinduction?
+    - Probably not: it seems like (simple) up-to techniques are needed for this kind of problem
+- Operational semantics in the coinduction challenge
+  - Inductive semantics + congruence
+  - We have again a context, and we could also present it without one
+  - We could instead use a compatibility relation
+  - Conclusion: Alberto will try to write a presentation using a compatibility layer and we can compare
+
+** Linearity
+- Alberto has pushed a number of improvements
+- Alberto has some ideas for simplifying the challenge
+- We don't need qualifiers in our simple case
+- We might not need context splits in the paper case
+- We should change to Alberto's presentation, which is simpler and probably more correct
+
+** Scope Extrusion
+- Unclear whether there are any issues with this except for certain proof assistants in the LF tradition (by design)
+- It has already been done in Abella, so it should be possible in Beluga
+
+** Can we have a general base language?
+- Can we have sums in the coinduction challenge?
+  - Yes, but they don't "do" anything
