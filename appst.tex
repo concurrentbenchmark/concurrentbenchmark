@@ -3,7 +3,7 @@
 \renewcommand{\Csplit}[2]{#1,  #2}
 \renewcommand{\Cupdate}[2]{#1, #2}
 
-We (AM) reformulate the rules using a dual presentation, which does without the qualifiers. Hopefully, they should be equivalent. Here $\Gamma$ is unrestricted and $\Delta$ is linear. They can be seen as multisets, where comma is split/union, overloaded to singletons and $\cdot$ is the empty multiset. In rule UN-L, $\un T$ is just notation for $T$ being either $\Tbase$ or $\Pend$.
+We (AM) reformulate the rules using a dual presentation, which does without the qualifiers. Hopefully, they should be equivalent. Here $\Gamma$ is unrestricted and $\Delta$ is linear. They can be seen as multisets, where comma is split/union, overloaded to singletons and $\cdot$ is the empty multiset. In rule UN-L, $\un T$ is just notation for $T$ being either $\Tbase$ or \textbf{end}.
 \begin{mathpar}
   \inferrule[T-Base]{ }{\types{\Gamma;\cdot}{\hastype{a}{\Tbase}}} \and
   \inferrule[T-Var]{ }{\types{\Cadd{\Gamma}{\hastype{l}{\Tbase}};\cdot}{\hastype{l}{\Tbase}}}
@@ -26,11 +26,11 @@ The typing rules for processes are as follows:
     \types{\Gamma;\cdot}{\hastype{v}{\Tbase}} \\ \types{\Gamma; \Cupdate{\Delta}{\hastype{x}{T}}}{P}}{\types{\Gamma; \Csplit{\hastype{x}{\Tout{T}}}{{\Delta}}}{\Pout{x}{v}{P}}}
   \and
     \inferrule[T-IN]{%\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
-      \types{\Gamma;\cdot}{\hastype{v}{\Tbase}} \\ \types{\Gamma, \hastype l \Tbase; \Cupdate{\Delta}{\hastype{x}{T}}}{P}}{\types{\Gamma; \Csplit{\hastype{x}{\Tin{T}}}{{\Delta}}}{\Pin{x}{l}{P}}}
+      \types{\Gamma;\cdot}{\hastype{v}{\Tbase}} \\ \types{(\Gamma, \hastype l \Tbase); (\Cupdate{\Delta}{\hastype{x}{T}})}{P}}{\types{\Gamma; (\Csplit {\Delta}{\hastype{x}{\Tin{T}}})}{\Pin{x}{l}{P}}}
 \and
 \inferrule[UN-L]
-{\types{\Gamma,T; \Delta}{P}}
-{\types{\Gamma; \Delta,\un{T}}{P}}
+{\types{(\Gamma,T); \Delta}{P}}
+{\types{\Gamma; (\Delta,\un{T})}{P}}
 %   \inferrule[T-In]{}%\types{\Gamma;\Delta_1}{\hastype{x}{\Tin{U}}}
 % %    \\ \types{\Gamma;\cdot}\hastype{l}{\Tbase} \qquad \Delta,\hastype{x}{U}}{P}}
 %       {\types{\Gamma; \Csplit{\hastype{x}{\Tin{U}}}{\Delta}}{\Pin{x}{l}{P}}}

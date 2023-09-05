@@ -8,6 +8,7 @@ system: Vasco -> Walker -> Linear LF
 
 -- Why not use Vasco as challenge? Can we also use it for scope extrusion?
 
+A2 has sums but not !, A3 has ! but not sums. Why not have sums in A3?
 
 ---------------
 A1
