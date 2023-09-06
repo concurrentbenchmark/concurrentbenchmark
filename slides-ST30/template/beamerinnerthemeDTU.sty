@@ -1,0 +1,51 @@
+\mode<presentation>
+\setbeamertemplate{title page}{
+    {
+        \usebeamerfont{title}
+        \usebeamercolor[fg]{title}
+
+        % title
+        \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=south west,
+              text width = \paperwidth,
+              xshift=0mm,
+              yshift=20mm]
+             at (current page.south west)
+             {\textbf{\inserttitle}};
+        \end{tikzpicture}
+
+
+        % event
+        \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=south west,
+              text width = \paperwidth,
+              xshift=5mm,
+              yshift=2mm,
+              text justified]
+             at (current page.south west)
+             {{\usebeamerfont{subtitle}%
+                \usebeamercolor[fg]{subtitle}%
+                @ \event}};
+        \end{tikzpicture}
+
+        % author
+        \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=south west,
+             text width = 0.71\paperwidth,
+             font=\fontsize{12}{17}\selectfont,
+              xshift=0mm,
+              yshift=-25mm,
+              text justified,
+              align=left
+              ]
+             at (current page.north west)
+             {{\usebeamerfont{subtitle}%
+                 \usebeamercolor[fg]{subtitle}%
+                \insertauthor}};
+        \end{tikzpicture}
+    }
+}
+
+\setbeamertemplate{frametitle}{}
+\mode
+<all>

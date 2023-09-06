@@ -1,0 +1,66 @@
+\mode<presentation>
+
+\setbeamertemplate{navigation symbols}{}
+
+
+\setbeamertemplate{headline}{
+    % top bar
+    \begin{beamercolorbox}[wd=\paperwidth, ht=2pt, dp=1pt]{fl}
+    \end{beamercolorbox}
+
+    % section and frame title
+    \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=north west,
+         text width = \textwidth,
+         xshift=11mm,
+         yshift=-5mm]
+         at (current page.north west)
+         {{\usebeamerfont{section}%
+           \usebeamercolor[fg]{section}%
+           \insertsection\vspace{2mm}}\\
+           {\usebeamerfont{frametitle}%
+            \insertframetitle}};
+    \end{tikzpicture}
+    \vspace{10mm}
+}
+
+
+\setbeamertemplate{footline}{
+    % bottom bar
+    \begin{beamercolorbox}[wd=\paperwidth, ht=10pt, dp=1pt]{fl}
+    \usebeamerfont{footline}
+
+    \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=south west,
+          xshift=10mm,
+          yshift=.9mm]
+         at (current page.south west)
+         {\insertdate};
+    \end{tikzpicture}
+
+    \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=south west,
+          xshift=25mm,
+          yshift=.9mm]
+          at (current page.south west)
+         {\event};
+    \end{tikzpicture}
+
+    \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=south east,
+          xshift=-10mm,
+          yshift=1.2mm]
+         at (current page.south east)
+         {\insertpagenumber};
+    \end{tikzpicture}
+
+    \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=south east,
+          xshift=-15mm,
+          yshift=1mm]
+          at (current page.south east)
+         {\insertshorttitle};
+    \end{tikzpicture}
+
+    \end{beamercolorbox}
+}
