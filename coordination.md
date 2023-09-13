@@ -8,6 +8,10 @@ you need to coordinate with that person.
 # Table of tasks
 
 
-| Name      | Task (Challenge)          | Proof Assistant  | Technique                               |
-|-----------|---------------------------|------------------|-----------------------------------------|
-| Francisco | Scope Extrusion Challenge | Agda             | Well Scoped (untyped) de Bruijn indices |
+| Name          | Task (Challenge)          | Proof Assistant | Technique                               |
+|---------------|---------------------------|-----------------|-----------------------------------------|
+| Francisco     | Scope Extrusion Challenge | Agda            | Well Scoped (untyped) de Bruijn indices |
+|---------------|---------------------------|-----------------|-----------------------------------------|
+| Alberto       | ST                        | Abella          | HOAS                                    |
+| with students | Scope Extrusion           | Abella          | HOAS                                    |
+|---------------|---------------------------|-----------------|-----------------------------------------|
