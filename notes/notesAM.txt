@@ -1,5 +1,15 @@
 Sept 23
 
+paper: a lot of repetitions in preliminary notions. I get the
+challenges are independent, but this is boring and takes space
+
+       - Have a generic preliminary section about syntax, contexts C[P] and conventions
+
+       - Have one about different style of reductions
+
+       - One about bisim: note that A2 and A3 bisim is defined differently (A3 by symmetrization)
+
+------------------
 A1 simplifies Vasco's restricting to value passing. It sorts of trivializes the qualifiers (we do not allow un(!T.U))
 
 system: Vasco -> Walker -> Linear LF

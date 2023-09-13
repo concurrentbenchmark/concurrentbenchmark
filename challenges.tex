@@ -253,7 +253,7 @@ Reasoning about scope extrusion explicitly can sometimes be avoided by introduci
 Explicitly reasoning about scope extrusion is necessary to describe e.g.\ monitors and compositions.
 
 The setting for this challenge is an untyped \( \pi \)-calculus, the syntax and semantics of which are presented below.
-The objective of this challenge is to prove that barbed bisimulation for this calculus is an equivalence relation.
+The objective of this challenge is to prove that strong barbed bisimulation for this calculus is an equivalence relation.
 
 \subsubsection{Syntax}
 We assume the existence of a type of \emph{names} that can be compared for equality, values of which we will denote by \( x, y, \dots \).
@@ -408,7 +408,9 @@ The process \( \Preplicate{P} \) is the \emph{replication} of the process \( P \
 It can be thought of as the infinite composition \( \Ppar{P}{\Ppar{P}{\cdots}} \).
 Replication makes it possible to express infinite behaviours.
 
-We will use the notation \( \subst{P}{v}{w} \) to denote the process \( P \) with value \( v \) substituted for value \( w \).
+We will use the notation \( \subst{P}{v}{l} \) to denote the process \( P \) with value \( v \) substituted for variable name \( l \).
+
+% We will use the notation \( \subst{P}{v}{w} \) to denote the process \( P \) with value \( v \) substituted for value \( w \).
 Two processes \( P \) and \( Q \) are \( \alpha \)-convertible, written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \) by a finite number of substitutions of bound variable names.
 As a convention, we will identify \( \alpha \)-convertible processes.
 

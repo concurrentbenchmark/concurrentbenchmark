@@ -87,7 +87,7 @@ Session type systems require linear handling of typing contexts, and the proof i
 In name passing systems, scope extrusion is the expansion of the scope of a name when the name is sent outside of its original scope.
 Our \textbf{scope extrusion challenge} (Appendix~\ref{sec:challenge:name-passing-scope-extrusion}) is to prove that barbed bisimulation is an equivalence relation for an untyped name passing calculus without infinite behaviour, but with non-deterministic choice.
 The proof involves reasoning about names that are ``in the process'' of being scope extruded, which presents issues for some approaches to mechanising binders.
-Our \textbf{coinduction challenge} (Appendix~\ref{sec:challenge:coinduction}) is to prove that strong barbed bisimulation is an equivalence relation for an untyped calculus of communicating systems with (infinite) replication of processes.
+Our \textbf{coinduction challenge} (Appendix~\ref{sec:challenge:coinduction}) is to prove that strong barbed bisimulation is an equivalence relation \footnote{AM: this seems wrong, see:  \( \sbcong{P}{Q} \) if and only if for any process \( R \) and substitution \( \sigma \), \( \sbbisim{\Ppar{\applysubst{\sigma}{P}}{R}}{\Ppar{\applysubst{\sigma}{Q}}{R}} \).}for an untyped calculus of communicating systems with (infinite) replication of processes.
 The proof involves reasoning coinductively about the infinite behaviours of the replication operator.
 We invite anyone interested to send us solutions to the challenge problems and to publish experience reports detailing the advantages and disadvantages of their approaches.
 The interested reader can find more information about the current status of the challenge at:
