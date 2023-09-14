@@ -15,3 +15,5 @@ you need to coordinate with that person.
 | Alberto       | ST                        | Abella          | HOAS                                    |
 | with students | Scope Extrusion           | Abella          | HOAS                                    |
 |---------------|---------------------------|-----------------|-----------------------------------------|
+| David         | Coinduction Challenge     | Coq             | Parameterised Coinduction (PaCo library)|
+|---------------|---------------------------|-----------------|-----------------------------------------|
