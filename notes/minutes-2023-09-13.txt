@@ -1,0 +1,52 @@
+# Meeting about writing the paper, September 13, 2023
+- Attendees:
+  - Frederik Krogsdal Jacobsen
+  - Luca Padovani
+  - Lorenzo Gheri
+  - Alceste Scalas
+  - Francisco Ferreira
+  - Daniel Zackon
+  - Alberto Momigliano
+  - Marco Carbone
+  - David Castro-Perez
+- Alberto has some aesthetic comments:
+  - There is too much repetition which is redundant and boring
+  - Move it into a preliminary section with conventions etc.
+  - We could also move the description of the syntactic elements there
+  - The definitions of similarity is different in the challenges
+    - This is by design for now
+- Making sure that the challenges make sense
+  - Most people are working on linearity
+  - Francisco is working on scope extrusion
+  - Alberto has a student working on the second challenge
+  - Frederik is working on coinduction
+- Can we make it for ESOP and what do we need?
+  - Minimum:
+    - One formalization for each challenge
+    - A reasonable paper proof for each challenge
+    - Precise descriptions of each challenge in a technical report
+  - We don't want to have to change things after publication
+  - Should we try a collective effort for formalizing?
+    - HOAS people are working semi-collectively
+  - Write the chair of ESOP and ask if fresh perspectives are published
+- Unifying syntax?
+  - Unguarded choice is dangerous with coinduction
+    - Choosing parallel compositions introduce trouble in the proofs
+  - It might be interesting to talk about different notions of bisimulation wrt. the coinduction challenge
+    - It might be easier to formulate one notion in different proof assistants
+    - Maybe it is better to just mention this in a discussion/extension section so people can think about if they want to
+- Extensions
+  - Keep an eye open for potential things that could be interesting to also investigate while formalising
+  - Two categories: other topics and small technical differences
+- Should we do the paper proof after formalizations or in parallel?
+  - It would be great if someone could try to write down paper proofs
+  - Marco will take a look
+  - Luca will take a look
+- How do we prevent redundant work?
+  - Francisco will start a file in the repo
+  - Commit to that file when you start working on something
+- Next meeting
+  - Francisco will send out a call for a meeting in approx. 2 weeks
+- Who manages the overall paper file?
+  - Frederik can do it
+  - Frederik can remove redundancies from the challenges
