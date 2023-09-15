@@ -5,9 +5,11 @@ module finite-pic.
 % A specification of the late transition system for the pi calculus.
 
 % bound input
+%:in:
 oneb (in X M) (dn X) M.
 
 % free output
+%:out:
 one (out X Y P) (up X Y) P.
 
 % tau
@@ -29,13 +31,17 @@ oneb (par P Q) A (x\par P (N x)) :- oneb Q A N.
 one  (nu x\P x) A (nu x\Q x)      :- pi x\ one  (P x) A (Q x).
 oneb (nu x\P x) A (y\ nu x\Q x y) :- pi x\ oneb (P x) A (y\ Q x y).
 
-% open
+%:open:
 oneb (nu x\M x) (up X) N :- pi y\ one (M y) (up X y) (N y).
 
 % close
+%:closeR:
 one (par P Q) tau (nu y\ par (M y) (N y)) :- oneb P (dn X) M , oneb Q (up X) N.
+%:closeL
 one (par P Q) tau (nu y\ par (M y) (N y)) :- oneb P (up X) M , oneb Q (dn X) N.
 
 % comm
+%:comR:
 one (par P Q) tau (par (M Y) T) :-  oneb P (dn X) M, one Q (up X Y) T.
+%:comL:
 one (par P Q) tau (par R (M Y)) :-  oneb Q (dn X) M, one P (up X Y) R.
