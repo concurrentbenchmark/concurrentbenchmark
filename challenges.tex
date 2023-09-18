@@ -1,4 +1,84 @@
-\subsection{Challenge: Linearity and behavioural type systems}
+\long\def\ednote#1{\footnote{[{\it #1\/}]}\message{ednote!}}
+%\long\def\ednote#1{\begin{quote}[{\it #1\/}]\end{quote}\message{note!}}
+\newenvironment{metanote}{\begin{quote}\message{note!}[\begingroup\it}%
+                         {\endgroup]\end{quote}}
+\long\def\ignore#1{}
+
+\subsection{Preliminaries}
+\label{sec:prelim}
+
+We list here some common notions that we will use in the following. Since the calculi under study are somewhat different, we will note in each section which will apply.
+
+We assume the existence of some type of \emph{base values}, represented by the symbols
+\( a, b, \dots \), the existence of some type
+of \emph{variable names}, represented by the symbols
+\( l, m, \dots \), and the existence of some type of \emph{names},
+represented by the symbols \( x, y, \dots \). \ednote{AM: are we assuming that names can be compared for equality everywhere or only in C2?} % 
+
+The syntax of processes will include:
+the process \( \Pend \) or \emph{inaction}, a process which can do nothing. The process \( \Ppar{P}{Q} \) is the \emph{composition} of process \( P \) and process \( Q \).
+The two components can proceed independently of each other, or they can interact via shared names. The process \( \Pchoice{P}{Q} \) is a non-deterministic \emph{choice} between continuing as the process \( P \) or as the process \( Q \).
+
+Processes will of course include \emph{input} and \emph{output}, whose
+signature will depend on the calculus being value or name-passing. We
+use here the metavariable $c,k$ to abstract over this choice.  The
+process \( \Pout{x}{c}{P} \) is an \emph{output}, which can send
+\( c \) via \( x \), then continue as \( P \).  % The intention is that
+% the value \( v \) must be a base value when it is actually sent, and
+% this will be enforced in the semantics later on
+  The process
+\( \Pin{x}{k}{P} \) is an \emph{input}, which can receive a $c$
+via \( x \), then continue as \( P \) with the received element
+substituted \( k \).  The input operator thus
+binds \( k \) in \( P \).
+
+The process \( \Pres{x}{P} \) is the \emph{restriction} of the name
+\( x \) to \( P \), binding \( x \) in \( P \).
+
+
+The process \( \Preplicate{P} \) is the \emph{replication} of the process \( P \).
+It can be thought of as the infinite composition \( \Ppar{P}{\Ppar{P}{\cdots}} \).
+Replication makes it possible to express infinite behaviors.
+
+We will use the notation \( \freenames{P} \) to denote the set of
+names that occur free,
+% (i.e.\ not bound by a restriction) in \( P \),
+\( \boundnames{P} \) to denote the set of names that occur bound
+% (by a restriction)
+in \( P \) and  \( \freevars{P} \)
+to denote the set of variable names that occur free
+% (i.e.\ not bound by an input)
+in \( P \).  We will use the notation \( \boundvars{P} \)
+for the set of variable names that occur bound
+% (by an input)
+in \( P \).  We will use the notation \( \subst{P}{v}{l} \) to denote
+the process \( P \) with value \( v \) substituted for variable name
+\( l \). Similarly, \( \subst{P}{x}{y} \) to denote the process
+\( P \) with name \( x \) substituted for name \( y \).
+
+
+Two processes \( P \) and \( Q \) are \( \alpha \)-convertible,
+written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \)
+by a finite number of substitutions of bound variable names.  As a
+convention, we will identify \( \alpha \)-convertible processes and we
+assume that bound names and bound variable names of any processes are
+chosen to be different from the names and variable names that occur
+free in any other entities under consideration, such as processes,
+substitutions, and sets of names or variable names.  This is justified
+because any overlapping names and variable names may be
+\( \alpha \)-converted such that the assumption is satisfied.
+
+
+A \emph{context} is obtained by taking a process and replacing a single occurrence of \( \Pend \) in it with the special \emph{hole} symbol \( \ctxhole \).
+As a convention, we do \emph{not} identify \( \alpha \)-convertible contexts.
+
+We will think of contexts as functions between processes.
+A context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
+The replacement should be literal, so names and variable names that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
+
+We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).
+
+\subsection{Challenge: Linearity and behavioral type systems}
 \label{sec:challenge:linearity-beh-types}
 
 This challenge formalises a proof that requires reasoning about linearity of channels.
@@ -12,60 +92,71 @@ The objective of this challenge is to prove type preservation (also known as sub
 \subsubsection{Syntax}
 
 % We assume the existence of some type of \emph{base values}, values of which we will denote by \( a, b, \dots \), the existence of some type of \emph{variable names}, values of which we will denote by \( l, m, \dots \), and the existence of some type of \emph{names}, values of which we will denote by \( x, y, \dots \).
-We assume the existence of some type of \emph{base values}, represented by the symbols
- \( a, b, \dots \), the existence of some type
-of \emph{variable names}, represented by the symbols
-\( l, m, \dots \), and the existence of some type of \emph{names},
-represented by the symbols \( x, y, \dots \).  The syntax is
+% We assume the existence of some type of \emph{base values}, represented by the symbols
+%  \( a, b, \dots \), the existence of some type
+% of \emph{variable names}, represented by the symbols
+% \( l, m, \dots \), and the existence of some type of \emph{names},
+% represented by the symbols \( x, y, \dots \).
+
+The syntax is
 given by the grammar:
-\begin{align*}
-  v,w :=&&& a \\
-  |&&& l \\
-  P,Q :=&&& \Pend \\
-  |&&& \Pout{x}{v}{P} \\
-  |&&& \Pin{x}{l}{P} \\
-  |&&& \Ppar{P}{Q} \\
-  |&&& \Presd{x}{y}{P}
-\end{align*}
+\begin{metanote}
+AM:  Should we save some space like this?
+\end{metanote}
+% \begin{align*}
+%   v,w :=&&& a \\
+%   |&&& l \\
+%   P,Q :=&&& \Pend \\
+%   |&&& \Pout{x}{v}{P} \\
+%   |&&& \Pin{x}{l}{P} \\
+%   |&&& \Ppar{P}{Q} \\
+%   |&&& \Presd{x}{y}{P}
+% \end{align*}
+\[
+\begin{array}{rcl}
+  v,w & ::= & a \mid l \\
+   P,Q & ::=& \Pend \mid \Pout{x}{v}{P} \mid \Pin{x}{l}{P} \mid \Ppar{P}{Q} \mid  \Presd{x}{y}{P}
+\end{array}
+\]
 A \emph{value} \( v, w, \dots \) is either a base value \( a \) or a variable name \( l \).
-The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
-The process \( \Pout{x}{v}{P} \) is an \emph{output}, which can send the value \( v \) via \( x \), then continue as \( P \).
+% The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
+The output process \( \Pout{x}{v}{P} \) sends the value \( v \) via \( x \), then continue as \( P \).
 The intention is that the value \( v \) must be a base value when it is actually sent, and this will be enforced in the semantics later on.
-The process \( \Pin{x}{l}{P} \) is an \emph{input}, which can receive a base value via \( x \), then continue as \( P \) with the received value substituted for the variable name \( l \).
-The input operator thus binds the variable name \( l \) in \( P \).
-The process \( \Ppar{P}{Q} \) is the \emph{composition} of process \( P \) and process \( Q \).
-The two components can proceed independently of each other, or they can interact via shared names.
+The input process \( \Pin{x}{l}{P} \) is an \emph{input}, which can receive a base value via \( x \), then continue as \( P \) with the received value substituted for the variable name \( l \).
+% The input operator thus binds the variable name \( l \) in \( P \).
+% The process \( \Ppar{P}{Q} \) is the \emph{composition} of process \( P \) and process \( Q \).
+% The two components can proceed independently of each other, or they can interact via shared names.
 The process \( \Presd{x}{y}{P} \) is the \emph{restriction} of the channel with endpoints named \( x \) and \( y \) to \( P \).
 Components in \( P \) can use the names \( x \) and \( y \) to interact with each other (sending on \( x \) and receiving on \( y \) or vice versa), but not with processes outside of the restriction.
 The restriction operator thus binds the names \( x \) and \( y \) in \( P \).
 Note that the scope of a restriction may not change when processes interact, since it is only possible to send and receive values, and not names.
-Note that there is no recursion of replication in the syntax, and thus no infinite behaviours can be expressed.
+Note that there is no recursion of replication in the syntax, and thus no infinite behaviors can be expressed.
 
-We will use the notation \( \freenames{P} \) to denote the set of names that occur free (i.e.\ not bound by a restriction) in \( P \).
-We will use the notation \( \boundnames{P} \) to denote the set of names that occur bound (by a restriction) in \( P \).
-We will use the notation \( \freevars{P} \) to denote the set of variable names that occur free (i.e.\ not bound by an input) in \( P \).
-We will use the notation \( \boundvars{P} \) to denote the set of variable names that occur bound (by an input) in \( P \).
-We will use the notation \( \subst{P}{v}{l} \) to denote the process \( P \) with value \( v \) substituted for variable name \( l \).
+% We will use the notation \( \freenames{P} \) to denote the set of names that occur free (i.e.\ not bound by a restriction) in \( P \).
+% We will use the notation \( \boundnames{P} \) to denote the set of names that occur bound (by a restriction) in \( P \).
+% We will use the notation \( \freevars{P} \) to denote the set of variable names that occur free (i.e.\ not bound by an input) in \( P \).
+% We will use the notation \( \boundvars{P} \) to denote the set of variable names that occur bound (by an input) in \( P \).
+% We will use the notation \( \subst{P}{v}{l} \) to denote the process \( P \) with value \( v \) substituted for variable name \( l \).
 
-Two processes \( P \) and \( Q \) are \( \alpha \)-convertible, written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \) by a finite number of substitutions of bound variable names.
-As a convention, we will identify \( \alpha \)-convertible processes.
+% Two processes \( P \) and \( Q \) are \( \alpha \)-convertible, written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \) by a finite number of substitutions of bound variable names.
+% As a convention, we will identify \( \alpha \)-convertible processes.
 
-As a convention, we assume that bound names and bound variable names of any processes are chosen to be different from the names and variable names that occur free in any other entities under consideration, such as processes, substitutions, and sets of names or variable names.
-This is justified because any overlapping names and variable names may be \( \alpha \)-converted such that the assumption is satisfied.
+% As a convention, we assume that bound names and bound variable names of any processes are chosen to be different from the names and variable names that occur free in any other entities under consideration, such as processes, substitutions, and sets of names or variable names.
+% This is justified because any overlapping names and variable names may be \( \alpha \)-converted such that the assumption is satisfied.
 
 \subsubsection{Semantics}
 We describe the actions that the system can perform using a small step operational semantics.
 To simplify the definition of the reduction relation, we will first factor out a structural congruence relation on processes, and for this we need a few definitions.
 
 \subsubsection{Contexts and congruences}
-A \emph{context} is obtained by taking a process and replacing a single occurrence of \( \Pend \) in it with the special \emph{hole} symbol \( \ctxhole \).
-As a convention, we do \emph{not} identify \( \alpha \)-convertible contexts.
+% A \emph{context} is obtained by taking a process and replacing a single occurrence of \( \Pend \) in it with the special \emph{hole} symbol \( \ctxhole \).
+% As a convention, we do \emph{not} identify \( \alpha \)-convertible contexts.
 
-We will think of contexts as functions between processes.
-A context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
-The replacement should be literal, so names and variable names that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
+% We will think of contexts as functions between processes.
+% A context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
+% The replacement should be literal, so names and variable names that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
 
-We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).
+% We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).
 
 \emph{Structural congruence} is the smallest congruence relation that satisfies the following axioms:
 \begin{mathpar}
@@ -104,7 +195,7 @@ Another example is the following process, which attempts to send a variable that
 To alleviate this issue, we introduce a \emph{session type system}, which will detect processes that are not well-formed.
 To this end, we need to first formally define what we mean by well-formed.
 We say that a process \( P \) is \emph{prefixed at variable \( x \)} if it is of the form \( \Pout{x}{v}{P} \) or \( \Pin{x}{l}{P} \).
-A process is then \emph{well-formed} if, for each of its structurally congruenct processes of the form \( \Presd{x_1}{y_1}{\dots \Presd{x_n}{y_n}{(\Ppar{\Ppar{P}{Q}}{R})}} \), with \( n \geq 0 \), it holds that, if \( P \) is prefixed at \( x_1 \) and \( Q \) is prefixed at \( y_1 \), then \( \Ppar{P}{Q} \) is of the form \( \Ppar{\Pout{x_1}{a}{P'}}{\Pin{y_1}{l}{Q'}} \).
+A process is then \emph{well-formed} if, for each of its structurally congruent processes of the form \( \Presd{x_1}{y_1}{\dots \Presd{x_n}{y_n}{(\Ppar{\Ppar{P}{Q}}{R})}} \), with \( n \geq 0 \), it holds that, if \( P \) is prefixed at \( x_1 \) and \( Q \) is prefixed at \( y_1 \), then \( \Ppar{P}{Q} \) is of the form \( \Ppar{\Pout{x_1}{a}{P'}}{\Pin{y_1}{l}{Q'}} \).
 
 Note that well-formed processes do not necessarily reduce, since e.g.\ the process
 \begin{equation*}
@@ -181,7 +272,7 @@ The \emph{context update}, \( \Cupdate{\Gamma}{\hastype{x}{T}} = \Gamma' \), is 
 \end{mathpar}
 
 \subsubsection{Typing rules}
-We have three typing judgements: one for values, one for names, and one for processes.
+We have three typing judgments: one for values, one for names, and one for processes.
 The typing rules for values are as follows:
 \begin{mathpar}
   \inferrule[T-Base]{\un{\Gamma}}{\types{\Gamma}{\hastype{a}{\Tbase}}}
@@ -246,7 +337,7 @@ The following lemmas may be of use:
 \label{sec:challenge:name-passing-scope-extrusion}
 
 This challenge formalises a proof that requires explicit scope extrusion.
-Scope extrusion is the notion that a process can send restricted names to another process, as long as the restriction can safely be ``extruded'' (i.e.\ expanded) to include the recieving process.
+Scope extrusion is the notion that a process can send restricted names to another process, as long as the restriction can safely be ``extruded'' (i.e.\ expanded) to include the receiving process.
 This e.g.\ allows a process to set up a private connection by sending a restricted name to another process, then using this name for further communication.
 
 Reasoning about scope extrusion explicitly can sometimes be avoided by introducing a structural congruence rule into the semantics, but doing this means we lose information about the scope when reasoning about the semantics.
@@ -256,8 +347,9 @@ The setting for this challenge is an untyped \( \pi \)-calculus, the syntax and 
 The objective of this challenge is to prove that strong barbed bisimulation for this calculus is an equivalence relation.
 
 \subsubsection{Syntax}
-We assume the existence of a type of \emph{names} that can be compared for equality, values of which we will denote by \( x, y, \dots \).
-The syntax is then:
+In this section 
+ we assume that \emph{names}  can be compared for equality. 
+The syntax is:
 \begin{align*}
   P,Q :=&&& \Pend \\
   |&&& \Pout{x}{y}{P} \\
@@ -266,28 +358,28 @@ The syntax is then:
   |&&& \Pres{x}{P} \\
   |&&& \Pchoice{P}{Q}
 \end{align*}
-The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
+%The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
 The process \( \Pout{x}{y}{P} \) is an \emph{output}, which can send the name \( y \) via \( x \), then continue as \( P \).
 The process \( \Pin{x}{y}{P} \) is an \emph{input}, which can receive a name via \( x \), then continue as \( P \) with the received name substituted for \( y \).
-The input operator thus binds the name \( y \) in \( P \).
-The process \( \Ppar{P}{Q} \) is the \emph{composition} of process \( P \) and process \( Q \).
-The two components can proceed independently of each other, or they can interact via shared names.
-The process \( \Pres{x}{P} \) is the \emph{restriction} of the name \( x \) to \( P \).
-Components in \( P \) can use the name \( x \) to interact with each other, but not with processes outside of the restriction.
-The restriction operator thus binds the name \( x \) in \( P \).
+%The input operator thus binds the name \( y \) in \( P \).
+% The process \( \Ppar{P}{Q} \) is the \emph{composition} of process \( P \) and process \( Q \).
+% The two components can proceed independently of each other, or they can interact via shared names.
+% The process \( \Pres{x}{P} \) is the \emph{restriction} of the name \( x \) to \( P \).
+% Components in \( P \) can use the name \( x \) to interact with each other, but not with processes outside of the restriction.
+% The restriction operator thus binds the name \( x \) in \( P \).
 Note that the scope of a restriction may change when processes interact. Namely, a restricted name may be sent \emph{outside} of its scope.
-The process \( \Pchoice{P}{Q} \) is a non-deterministic \emph{choice} between continuing as the process \( P \) or as the process \( Q \).
-Note that there is no recursion or replication in the syntax, and thus no infinite behaviours can be expressed.
+% The process \( \Pchoice{P}{Q} \) is a non-deterministic \emph{choice} between continuing as the process \( P \) or as the process \( Q \).
+Note that there is no recursion or replication in the syntax, and thus no infinite behaviors can be expressed.
 
-We will use the notation \( \freenames{P} \) to denote the set of names that occur free (i.e.\ not bound by a restriction or an input) in \( P \).
-We will use the notation \( \boundnames{P} \) to denote the set of names that occur bound (by a restriction or an input) in \( P \).
-We will use the notation \( \subst{P}{x}{y} \) to denote the process \( P \) with \( x \) substituted for \( y \).
+% We will use the notation \( \freenames{P} \) to denote the set of names that occur free (i.e.\ not bound by a restriction or an input) in \( P \).
+% We will use the notation \( \boundnames{P} \) to denote the set of names that occur bound (by a restriction or an input) in \( P \).
+% We will use the notation \( \subst{P}{x}{y} \) to denote the process \( P \) with \( x \) substituted for \( y \).
 
-Two processes \( P \) and \( Q \) are \( \alpha \)-convertible, written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \) by a finite number of substitutions of bound names.
-As a convention, we will identify \( \alpha \)-convertible processes.
+% Two processes \( P \) and \( Q \) are \( \alpha \)-convertible, written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \) by a finite number of substitutions of bound names.
+% As a convention, we will identify \( \alpha \)-convertible processes.
 
-As a convention, we assume that the bound names occurring in any collection of processes are chosen to be different from the free names occurring in those processes and from the names occurring in any substitutions applied to the processes.
-This is justified because any overlapping names may be \( \alpha \)-converted such that the assumption is satisfied.
+% As a convention, we assume that the bound names occurring in any collection of processes are chosen to be different from the free names occurring in those processes and from the names occurring in any substitutions applied to the processes.
+% This is justified because any overlapping names may be \( \alpha \)-converted such that the assumption is satisfied.
 
 \subsubsection{Semantics}
 The semantics of the system describe the actions that the system can perform by defining a labelled transition relation on processes.
@@ -303,10 +395,17 @@ The \emph{input action} \( \Ain{x}{y} \) is receiving the name \( y \) via \( x 
 The \emph{bound output action} \( \Aoutb{x}{y} \) is sending a fresh name \( y \) via \( x \).
 The \emph{internal action} \( \Atau \) is performing some unobservable action, e.g.\ internal communication.
 
-We will again use the notation \( \freenames{\alpha} \) to denote the set of names that occur free in the action \( \alpha \) and the notation \( \boundnames{\alpha} \) to denote the set of names that occur bound in the action \( \alpha \).
-In the free output action \( \Aoutf{x}{y} \) and the input action \( \Ain{x}{y} \), both \( x \) and \( y \) are free names.
-In the bound output action \( \Aoutb{x}{y} \), \( x \) is a free name, while \( y \) is a bound name.
-We will further use the notation \( \names{\alpha} \) to denote the union of \( \freenames{\alpha} \) and \( \boundnames{\alpha} \), i.e.\ the set of all names that occur in the action \( \alpha \).
+We will extend the notion of free and bound occurrences with 
+\( \freenames{\alpha} \) to denote the set of names that occur free in
+the action \( \alpha \) and  \( \boundnames{\alpha} \) to
+denote the set of names that occur bound in the action \( \alpha \).
+In the free output action \( \Aoutf{x}{y} \) and the input action
+\( \Ain{x}{y} \), both \( x \) and \( y \) are free names.  In the
+bound output action \( \Aoutb{x}{y} \), \( x \) is a free name, while
+\( y \) is a bound name.  We will further use the notation
+\( \names{\alpha} \) to denote the union of \( \freenames{\alpha} \)
+and \( \boundnames{\alpha} \), i.e.\ the set of all names that occur
+in the action \( \alpha \).
 
 The transition relation is then defined by the following rules:
 \begin{mathpar}
@@ -337,9 +436,14 @@ The transition relation is then defined by the following rules:
 Note that there is no rule for inferring transitions from \( \Pend \), and that there is no rule for inferring an action of an input or output process except those that match the input/output capability.
 Note also that due to rule \TirName{In}, the process \( \Pin{x}{z}{P} \) can receive \emph{any} name.
 
-As a convention, we assume that bound names of any processes or actions are chosen to be different from the names that occur free in any other entities under consideration, such as processes, actions, substitutions, and sets of names.
-The convention has one exception, namely that in the transition \( \transition{P}{\Aoutb{x}{z}}{Q} \), the name \( z \) (which occurs bound in \( P \) and the action \( \Aoutb{x}{z} \)) may occur free in \( Q \).
-Without this exception it would be impossible to express scope extrusion.
+We keep the convention that bound names of any processes or actions
+are chosen to be different from the names that occur free in any other
+entities under consideration, such as processes, actions,
+substitutions, and sets of names.  The convention has one exception,
+namely that in the transition \( \transition{P}{\Aoutb{x}{z}}{Q} \),
+the name \( z \) (which occurs bound in \( P \) and the action
+\( \Aoutb{x}{z} \)) may occur free in \( Q \).  Without this exception
+it would be impossible to express scope extrusion.
 
 \subsubsection{Bisimilarity}
 Our notion of process equivalence relations builds on a notion of \emph{observables}.
@@ -359,7 +463,7 @@ Two processes \( P \) and \( Q \) are then \emph{strong barbed bisimilar}, writt
   \observable{Q}{\mu}~\textrm{implies}~\observable{P}{\mu} \\
   \transition{Q}{\Atau}{Q'}~\textrm{implies}~\transition{P}{\Atau}{P'}~\textrm{for some \( P' \) with}~\sbbisim{P'}{Q'}
 \end{gather}
-Note that, since our calculus does not have infinite behaviour, there is only one relation which satisfies these criteria.
+Note that, since our calculus does not have infinite behavior, there is only one relation which satisfies these criteria.
 Thus we do not specify that the relation is the largest of its kind, and the relation does not need to be coinductively defined.
 To actually prove properties about the relation, however, we will still need either an inductive (or a coinductive) proof principle for the relation.
 
@@ -373,15 +477,15 @@ The objective of this challenge is to prove the following theorem:
 \label{sec:challenge:coinduction}
 
 This challenge formalises a proof that requires coinductive techniques.
-Coinduction is a proof technique for infinite structures, which arise in this context due to systems with behaviours that continue indefinitely.
+Coinduction is a proof technique for infinite structures, which arise in this context due to systems with behaviors that continue indefinitely.
 Coinduction is the dual of induction: whereas induction is useful for proving properties of least fixed points, coinduction is useful for proving properties of greatest fixed points.
 
 The setting for this challenge is an untyped calculus of communicating systems with replication of processes, the syntax and semantics of which are presented below.
-The objective of this challenge is to prove that strong barbed bisimulation for this calculus is an equivalence relation. Which, to reiterate, entails the use of coinduction due to the presence of infinite behaviour.
+The objective of this challenge is to prove that strong barbed bisimulation for this calculus is an equivalence relation. Which, to reiterate, entails the use of coinduction due to the presence of infinite behavior.
 
 \subsubsection{Syntax}
-We assume the existence of some type of \emph{base values}, values of which we will denote by \( a, b, \dots \), the existence of some type of \emph{variable names}, values of which we will denote by \( l, m, \dots \), and the existence of some type of \emph{names}, values of which we will denote by \( x, y, \dots \).
-The syntax is then:
+% We assume the existence of some type of \emph{base values}, values of which we will denote by \( a, b, \dots \), the existence of some type of \emph{variable names}, values of which we will denote by \( l, m, \dots \), and the existence of some type of \emph{names}, values of which we will denote by \( x, y, \dots \).
+The syntax differs from \ref{sec:challenge:linearity-beh-types} for including replication and having unary restriction:
 \begin{align*}
   v,w :=&&& a \\
   |&&& l \\
@@ -392,30 +496,30 @@ The syntax is then:
   |&&& \Pres{x}{P} \\
   |&&& \Preplicate{P}
 \end{align*}
-A \emph{value} \( v, w, \dots \) is either a base value \( a \) or a variable name \( l \).
-The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
-The process \( \Pout{x}{a}{P} \) is an \emph{output}, which can send the value \( v \) via \( x \), then continue as \( P \).
-The intention is that the value \( v \) must be a base value when it is actually sent, and this will be enforced in the semantics later on.
-The process \( \Pin{x}{l}{P} \) is an \emph{input}, which can receive a base value via \( x \), then continue as \( P \) with the received value substituted for the variable name \( l \).
-The input operator thus binds the variable name \( l \) in \( P \).
-The process \( \Ppar{P}{Q} \) is the \emph{composition} of process \( P \) and process \( Q \).
-The two components can proceed independently of each other, or they can interact via shared names.
-The process \( \Pres{x}{P} \) is the \emph{restriction} of the name \( x \) to \( P \).
-Components in \( P \) can use the name \( x \) to interact with each other, but not with processes outside of the restriction.
-The restriction operator thus binds the name \( x \) in \( P \).
-Note that the scope of a restriction may not change when processes interact, since it is only possible to send and receive values, and not names.
-The process \( \Preplicate{P} \) is the \emph{replication} of the process \( P \).
-It can be thought of as the infinite composition \( \Ppar{P}{\Ppar{P}{\cdots}} \).
-Replication makes it possible to express infinite behaviours.
+% A \emph{value} \( v, w, \dots \) is either a base value \( a \) or a variable name \( l \).
+% The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
+% The process \( \Pout{x}{a}{P} \) is an \emph{output}, which can send the value \( v \) via \( x \), then continue as \( P \).
+% The intention is that the value \( v \) must be a base value when it is actually sent, and this will be enforced in the semantics later on.
+% The process \( \Pin{x}{l}{P} \) is an \emph{input}, which can receive a base value via \( x \), then continue as \( P \) with the received value substituted for the variable name \( l \).
+% The input operator thus binds the variable name \( l \) in \( P \).
+% The process \( \Ppar{P}{Q} \) is the \emph{composition} of process \( P \) and process \( Q \).
+% The two components can proceed independently of each other, or they can interact via shared names.
+% The process \( \Pres{x}{P} \) is the \emph{restriction} of the name \( x \) to \( P \).
+% Components in \( P \) can use the name \( x \) to interact with each other, but not with processes outside of the restriction.
+% The restriction operator thus binds the name \( x \) in \( P \).
+% Note that the scope of a restriction may not change when processes interact, since it is only possible to send and receive values, and not names.
+% The process \( \Preplicate{P} \) is the \emph{replication} of the process \( P \).
+% It can be thought of as the infinite composition \( \Ppar{P}{\Ppar{P}{\cdots}} \).
+% Replication makes it possible to express infinite behaviours.
 
-We will use the notation \( \subst{P}{v}{l} \) to denote the process \( P \) with value \( v \) substituted for variable name \( l \).
+% We will use the notation \( \subst{P}{v}{l} \) to denote the process \( P \) with value \( v \) substituted for variable name \( l \).
 
-% We will use the notation \( \subst{P}{v}{w} \) to denote the process \( P \) with value \( v \) substituted for value \( w \).
-Two processes \( P \) and \( Q \) are \( \alpha \)-convertible, written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \) by a finite number of substitutions of bound variable names.
-As a convention, we will identify \( \alpha \)-convertible processes.
+% % We will use the notation \( \subst{P}{v}{w} \) to denote the process \( P \) with value \( v \) substituted for value \( w \).
+% Two processes \( P \) and \( Q \) are \( \alpha \)-convertible, written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \) by a finite number of substitutions of bound variable names.
+% As a convention, we will identify \( \alpha \)-convertible processes.
 
-Also as a convention, we assume that the bound names and bound variable names occurring in any collection of processes are chosen to be different from the free names and free variable names occurring in those processes and from the names and variable names occurring in any substitutions applied to the processes.
-This is justified because any overlapping names and variable names may be \( \alpha \)-converted such that the assumption is satisfied.
+% Also as a convention, we assume that the bound names and bound variable names occurring in any collection of processes are chosen to be different from the free names and free variable names occurring in those processes and from the names and variable names occurring in any substitutions applied to the processes.
+% This is justified because any overlapping names and variable names may be \( \alpha \)-converted such that the assumption is satisfied.
 
 \subsubsection{Semantics}
 The semantics of the system describe the actions that the system can perform by defining a labelled transition relation on processes.
@@ -453,7 +557,7 @@ Note that there is no rule for inferring transitions from \( \Pend \), and that 
 Note also that due to rule \TirName{In}, the process \( \Pin{x}{l}{P} \) can receive \emph{any} base value.
 On the other hand, since the rule \TirName{Out} only applies to base values, there is no way to send a variable name.
 
-As a convention, we assume that bound names and bound variable names of any processes or actions are chosen to be different from the names and variable names that occur free in any other entities under consideration, such as processes, actions, substitutions, and sets of names or variable names.
+% As a convention, we assume that bound names and bound variable names of any processes or actions are chosen to be different from the names and variable names that occur free in any other entities under consideration, such as processes, actions, substitutions, and sets of names or variable names.
 
 \subsubsection{Bisimilarity}
 Our notion of process equivalence relations builds on a notion of \emph{observables}.
@@ -472,7 +576,7 @@ To this end, we define the \emph{observability predicate} \( \observable{P}{\mu}
   \transition{P}{\Atau}{P'}~\textrm{implies}~\transition{Q}{\Atau}{\sbbisim{}{} P'}
 \end{gather}
 We say that a relation is a \emph{strong barbed bisimulation} if it satisfies the conditions given above, but is not necessarily the largest such relation, and that \( P \) and \( Q \) are \emph{strong barbed bisimilar} if \( \sbbisim{P}{Q} \).
-Note that, since our systems have potentially infinite behaviours, and strong barbed bisimilarity is defined as the largest relation that satisfies the conditions, bisimulation cannot be defined inductively.
+Note that, since our systems have potentially infinite behaviors, and strong barbed bisimilarity is defined as the largest relation that satisfies the conditions, bisimulation cannot be defined inductively.
 
 \begin{theorem}
   \( \sbbisim{}{} \) is an equivalence relation, that is, the relation is reflexive, symmetric, and transitive.
@@ -481,17 +585,17 @@ Note that, since our systems have potentially infinite behaviours, and strong ba
 Unfortunately, strong barbed bisimilarity is not a good notion of process equivalence, since it does not consider the environment of processes.
 For instance, \( \sbbisim{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pout{x}{a}{\Pend}} \) since \( \obsout{x} \) is the only observable in both processes and they cannot perform a \( \Atau \)-action, but \( \nsbbisim{\Ppar{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pin{x}{l}{\Pend}}}{\Pout{x}{a}{\Pend}} \) since the left process can perform a \( \Atau \)-action such that \( \obsout{y} \) becomes observable, whereas the right process cannot.
 
-\subsubsection{Contexts and congruences}
-Before we can fix the issue with strong barbed bisimilarity, we need few more definitions.
+% \subsubsection{Contexts and congruences}
+% Before we can fix the issue with strong barbed bisimilarity, we need few more definitions.
 
-A \emph{context} is obtained by taking a process and replacing a single occurrence of \( \Pend \) in it with the special \emph{hole} symbol \( \ctxhole \).
-As a convention, we do \emph{not} identify \( \alpha \)-convertible contexts.
+% A \emph{context} is obtained by taking a process and replacing a single occurrence of \( \Pend \) in it with the special \emph{hole} symbol \( \ctxhole \).
+% As a convention, we do \emph{not} identify \( \alpha \)-convertible contexts.
 
-We can think of contexts as functions between processes.
-A context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
-The replacement should be literal, so names and variable names that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
+% We can think of contexts as functions between processes.
+% A context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
+% The replacement should be literal, so names and variable names that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
 
-We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).
+% We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).
 
 \subsubsection{Strong barbed congruence}
 A congruence is exactly what we need to make strong barbed bisimilarity consider the environment (i.e.\ the context) of processes.
