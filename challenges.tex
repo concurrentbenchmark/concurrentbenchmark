@@ -110,11 +110,12 @@ AM:  Should we save some space like this?
 %   |&&& \Pin{x}{l}{P} \\
 %   |&&& \Ppar{P}{Q} \\
 %   |&&& \Presd{x}{y}{P}
-% \end{align*}
+         %   \end{align*}
+% \newcommand{\bmid}{\mathbf{\Vert}}
 \[
 \begin{array}{rcl}
   v,w & ::= & a \mid l \\
-   P,Q & ::=& \Pend \mid \Pout{x}{v}{P} \mid \Pin{x}{l}{P} \mid \Ppar{P}{Q} \mid  \Presd{x}{y}{P}
+   P,Q & ::=& \Pend \mid \Pout{x}{v}{P} \mid \Pin{x}{l}{P} \mid \PBpar{P}{Q} \mid  \Presd{x}{y}{P}
 \end{array}
 \]
 A \emph{value} \( v, w, \dots \) is either a base value \( a \) or a variable name \( l \).
