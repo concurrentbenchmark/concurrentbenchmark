@@ -522,12 +522,25 @@ The last rule is an application of \TirName{R-Struct}.
   Follows immediately from lemma \autoref{se-lemma-normalized-derivation} and the shape of a normalized derivation.
 \end{proof}
 
-The objective of this challenge is to prove the following theorem:
-\begin{theorem}
-  \( \reduces{P}{Q} \) if and only if \( \transition{P}{\Atau}{\scong{}{Q}} \).
+The objective of this challenge is to prove the following theorems, which together show the equivalence between the reduction semantics and the transition system semantics up to structural congruence.
+The first of the theorems involves reasoning about scope extrusion more directly than the other, and if time does not permit proving both of the theorems, \autoref{thm:se-trans-implies-red} should be proven first.
+\begin{theorem}\label{thm:se-trans-implies-red}
+  \( \transition{P}{\Atau}{Q} \) implies \( \reduces{P}{Q} \).
 \end{theorem}
 \begin{proof}
-  We prove the two parts of the theorem separately. First, if \( \reduces{P}{Q} \), then by lemma \autoref{se-lemma-normalized-reduction}, \( \scong{P}{P'} \) with
+  The proof is by induction on the inference of \( \transition{P}{\Atau}{Q} \) using the following:
+  \begin{enumerate}
+  \item if \( \transition{Q}{\Aoutf{x}{y}}{Q'} \) then \( \scong{Q}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{(\Pchoice{\Pout{x}{y}{R}}{M})}{S})}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x,y \notin \{ w_1, \dots, w_n \} \).
+  \item if \( \transition{Q}{\Aoutb{x}{z}}{Q'} \) then \( \scong{Q}{\Pres{z}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{(\Pchoice{\Pout{x}{z}{R}}{M})}{S})}}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x \notin \{ z, w_1, \dots, w_n \} \).
+  \item if \( \transition{Q}{\Ain{x}{y}}{Q'} \) then \( \scong{Q}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{(\Pchoice{\Pin{x}{z}{R}}{M})}{S})}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\subst{R}{y}{z}}{S})}}} \) where \( x \notin \{ w_1, \dots, w_n \} \).
+  \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+  \( \reduces{P}{Q} \) implies the existence of a \( Q' \) such that \( \transition{P}{\Atau}{Q'} \) and \( \scong{Q}{Q'} \).
+\end{theorem}
+\begin{proof}
+  If \( \reduces{P}{Q} \), then by lemma \autoref{se-lemma-normalized-reduction}, \( \scong{P}{P'} \) with
   \begin{equation*}
     P' = \Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{(\Pchoice{\Pout{x}{y}{R_1}}{N_1})}{(\Pchoice{\Pin{x}{z}{R_2}}{N_2})})}{S})}}
   \end{equation*}
@@ -535,15 +548,7 @@ The objective of this challenge is to prove the following theorem:
   \begin{equation*}
     Q' = \Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{R_1}{\subst{R_2}{y}{z}})}{S})}} \ .
   \end{equation*}
-  We can easily check that \( \transition{P'}{\tau}{Q'} \) and so by lemma \autoref{se-lemma-harmony-fact}, \( \transition{P}{\tau}{\scong{}{\scong{Q'}{Q}}} \).
-
-  For the other direction, we first show that \( \transition{P}{\Atau}{Q} \) implies \( \reduces{P}{Q} \) from which the result follows.
-  The proof is by induction on the inference of \( \transition{P}{\Atau}{Q} \) using the following:
-  \begin{enumerate}
-  \item if \( \transition{Q}{\Aoutf{x}{y}}{Q'} \) then \( \scong{Q}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{(\Pchoice{\Pout{x}{y}{R}}{M})}{S})}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x,y \notin \{ w_1, \dots, w_n \} \).
-  \item if \( \transition{Q}{\Aoutb{x}{z}}{Q'} \) then \( \scong{Q}{\Pres{z}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{(\Pchoice{\Pout{x}{z}{R}}{M})}{S})}}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x \notin \{ z, w_1, \dots, w_n \} \).
-  \item if \( \transition{Q}{\Ain{x}{y}}{Q'} \) then \( \scong{Q}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{(\Pchoice{\Pin{x}{z}{R}}{M})}{S})}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\subst{R}{y}{z}}{S})}}} \) where \( x \notin \{ w_1, \dots, w_n \} \).
-  \end{enumerate}
+  We can easily check that \( \transition{P'}{\tau}{Q'} \) and so by lemma \autoref{se-lemma-harmony-fact}, \( \transition{P}{\tau}{Q'} \).
 \end{proof}
 
 \subsection{Challenge: Coinduction and reasoning about infinite processes}
