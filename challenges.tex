@@ -166,7 +166,7 @@ To simplify the definition of the reduction relation, we will first factor out a
   \and
   \inferrule[Sc-Par-Inact]{ }{\scong{\Ppar{P}{\Pend}}{P}}
   \and
-  \inferrule[Sc-Res-Par]{\{x,y\} \not\subseteq \freenames{Q}}{\scong{\Ppar{\Presd{x}{y}{P}}{Q}}{\Presd{x}{y}{(\Ppar{P}{Q})}}}
+  \inferrule[Sc-Res-Par]{\{x,y\} \cap \freenames{Q} = \emptyset}{\scong{\Ppar{\Presd{x}{y}{P}}{Q}}{\Presd{x}{y}{(\Ppar{P}{Q})}}}
   \and
   \inferrule[Sc-Res-Inact]{ }{\scong{\Presd{x}{y}{\Pend}}{\Pend}}
   \and
