@@ -362,8 +362,8 @@ The syntax of summations is given by:
   |&&& \Pin{x}{y}{P} \\
   |&&& \Pchoice{M}{N}
 \end{align*}
-Splitting the syntax into these two layers has the effect of forcing choices to be guarded by an input or an output, which simplifies the theory.
-Allowing choices between arbitrary processes is rarely useful.
+Splitting the syntax into these two layers has the effect of disallowing choices directly between parallel processes.
+Allowing choices between arbitrary processes complicates the theory and is rarely useful.
 
 %The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
 The process \( \Pout{x}{y}{P} \) is an \emph{output}, which can send the name \( y \) via \( x \), then continue as \( P \).
