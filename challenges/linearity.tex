@@ -146,7 +146,9 @@ Typing contexts gather type information about names.
 The \emph{empty type context}, \( \Cempty \), does not contain any information.
 The \emph{type context with \( x \) added}, \( \Cadd{\Gamma}{\hastype{x}{T}} \) adds the information that \( x \) has type \( T \) to the existing type context \( \Gamma \).
 All of the names added to a type context must be distinct.
-We treat type contexts as sets, not ordered lists, and the order in which information is added to a type context thus does not matter.
+Note that
+the order in which information is added to a type context thus does not matter.
+% We treat type contexts as sets, not ordered lists, and the order in which information is added to a type context thus does not matter.
 
 Since we need to determine whether endpoints are used dually to determine whether processes are well-formed, we will need to formally define the dual of a type.
 The dual of a type, \( \dual{T} \), is defined by the following equations:
@@ -184,13 +186,13 @@ The \emph{linear split} of a context, \( \Gamma = \Csplit{\Gamma_1}{\Gamma_2} \)
   \inferrule[Split-Lin-R]{\Gamma = \Csplit{\Gamma_2}{\Gamma_2}}{\Cadd{\Gamma}{\hastype{x}{S}} = \Csplit{\Gamma_1}{(\Cadd{\Gamma_2}{\hastype{x}{S}})}}
 \end{mathpar}
 
-We will also need to update contexts with new type information in a safe way while typing input and output.
-The \emph{context update}, \( \Cupdate{\Gamma}{\hastype{x}{T}} = \Gamma' \), is defined by the following rules:
-\begin{mathpar}
-  \inferrule[Update-Name]{\hastype{x}{U} \notin \Gamma}{\Cupdate{\Gamma}{\hastype{x}{T}} = \Cadd{\Gamma}{\hastype{x}{T}}}
-  \and
-  \inferrule[Update-Un]{\un{T}}{\Cupdate{(\Cadd{\Gamma}{\hastype{x}{T}})}{\hastype{x}{T}} = (\Cadd{\Gamma}{\hastype{x}{T}})}
-\end{mathpar}
+% We will also need to update contexts with new type information in a safe way while typing input and output.
+% The \emph{context update}, \( \Cupdate{\Gamma}{\hastype{x}{T}} = \Gamma' \), is defined by the following rules:
+% \begin{mathpar}
+%   \inferrule[Update-Name]{\hastype{x}{U} \notin \Gamma}{\Cupdate{\Gamma}{\hastype{x}{T}} = \Cadd{\Gamma}{\hastype{x}{T}}}
+%   \and
+%   \inferrule[Update-Un]{\un{T}}{\Cupdate{(\Cadd{\Gamma}{\hastype{x}{T}})}{\hastype{x}{T}} = (\Cadd{\Gamma}{\hastype{x}{T}})}
+% \end{mathpar}
 
 \subsubsection{Typing rules}
 We have three typing judgments: one for values, one for names, and one for processes.
@@ -214,7 +216,7 @@ The typing rules for processes are as follows:
   \and
   \inferrule[T-Out]{\types{\Gamma_1}{\hastype{x}{\Tout{T}}} \\ \types{\Gamma_2}{\hastype{v}{\Tbase}} \\ \types{\Cupdate{\Gamma_3}{\hastype{x}{T}}}{P}}{\types{\Csplit{\Gamma_1}{\Csplit{\Gamma_2}{\Gamma_3}}}{\Pout{x}{v}{P}}}
   \and
-  \inferrule[T-In]{\types{\Gamma_1}{\hastype{x}{\Tin{U}}} \\ \types{\Cupdate{(\Cadd{\Gamma_2}{\hastype{l}{\Tbase}})}{\hastype{x}{U}}}{P}}{\types{\Csplit{\Gamma_1}{\Gamma_2}}{\Pin{x}{l}{P}}}
+  \inferrule[T-In]{\types{\Gamma_1}{\hastype{x}{\Tin{U}}} \\ \types{\Cupdate{\Cadd{\Gamma_2}{\hastype{l}{\Tbase}}}{\hastype{x}{U}}}{P}}{\types{\Csplit{\Gamma_1}{\Gamma_2}}{\Pin{x}{l}{P}}}
 \end{mathpar}
 
 \subsubsection{Challenge}
