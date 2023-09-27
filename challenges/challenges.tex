@@ -1,0 +1,10 @@
+\long\def\ednote#1{\footnote{[{\it #1\/}]}\message{ednote!}}
+%\long\def\ednote#1{\begin{quote}[{\it #1\/}]\end{quote}\message{note!}}
+\newenvironment{metanote}{\begin{quote}\message{note!}[\begingroup\it}%
+                         {\endgroup]\end{quote}}
+\long\def\ignore#1{}
+
+\input{../challenges/preliminaries.tex}
+\input{../challenges/linearity.tex}
+\input{../challenges/scope-extrusion.tex}
+\input{../challenges/coinduction.tex}

@@ -1,0 +1,218 @@
+\subsection{Challenge: Name passing and scope extrusion}
+\label{sec:challenge:name-passing-scope-extrusion}
+
+This challenge formalises a proof that requires explicit scope extrusion.
+Scope extrusion is the notion that a process can send restricted names to another process, as long as the restriction can safely be ``extruded'' (i.e.\ expanded) to include the receiving process.
+This e.g.\ allows a process to set up a private connection by sending a restricted name to another process, then using this name for further communication.
+
+Reasoning about scope extrusion explicitly can sometimes be avoided by introducing a structural congruence rule into the semantics, but doing this means we lose information about the scope when reasoning about the semantics.
+Explicitly reasoning about scope extrusion is necessary to describe e.g.\ monitors and compositions.
+
+The setting for this challenge is an untyped \( \pi \)-calculus, the syntax and semantics of which are presented below.
+We will define two different semantics for our system: one that avoids explicit reasoning about scope extrusion, and one that does not.
+The objective of this challenge is to prove that the two semantics are equivalent up to structural congruence.
+
+\subsubsection{Syntax}
+In this section we assume that \emph{names}  can be compared for equality.
+The syntax in this challenge will be split into two levels: processes and summations.
+The syntax of processes is given by:
+\begin{align*}
+  P,Q :=&&& \Ppar{P}{Q} \\
+  |&&& \Pres{x}{P} \\
+  |&&& M
+\end{align*}
+The syntax of summations is given by:
+\begin{align*}
+  M,N :=&&& \Pend \\
+  |&&& \Pout{x}{y}{P} \\
+  |&&& \Pin{x}{y}{P} \\
+  |&&& \Pchoice{M}{N}
+\end{align*}
+Splitting the syntax into these two layers has the effect of disallowing choices directly between parallel processes.
+Allowing choices between arbitrary processes complicates the theory and is rarely useful.
+
+%The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
+The process \( \Pout{x}{y}{P} \) is an \emph{output}, which can send the name \( y \) via \( x \), then continue as \( P \).
+The process \( \Pin{x}{y}{P} \) is an \emph{input}, which can receive a name via \( x \), then continue as \( P \) with the received name substituted for \( y \).
+%The input operator thus binds the name \( y \) in \( P \).
+% The process \( \Ppar{P}{Q} \) is the \emph{composition} of process \( P \) and process \( Q \).
+% The two components can proceed independently of each other, or they can interact via shared names.
+% The process \( \Pres{x}{P} \) is the \emph{restriction} of the name \( x \) to \( P \).
+% Components in \( P \) can use the name \( x \) to interact with each other, but not with processes outside of the restriction.
+% The restriction operator thus binds the name \( x \) in \( P \).
+Note that the scope of a restriction may change when processes interact. Namely, a restricted name may be sent \emph{outside} of its scope.
+% The process \( \Pchoice{P}{Q} \) is a non-deterministic \emph{choice} between continuing as the process \( P \) or as the process \( Q \).
+Note that there is no recursion or replication in the syntax, and thus no infinite behaviors can be expressed.
+
+% We will use the notation \( \freenames{P} \) to denote the set of names that occur free (i.e.\ not bound by a restriction or an input) in \( P \).
+% We will use the notation \( \boundnames{P} \) to denote the set of names that occur bound (by a restriction or an input) in \( P \).
+% We will use the notation \( \subst{P}{x}{y} \) to denote the process \( P \) with \( x \) substituted for \( y \).
+
+% Two processes \( P \) and \( Q \) are \( \alpha \)-convertible, written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \) by a finite number of substitutions of bound names.
+% As a convention, we will identify \( \alpha \)-convertible processes.
+
+% As a convention, we assume that the bound names occurring in any collection of processes are chosen to be different from the free names occurring in those processes and from the names occurring in any substitutions applied to the processes.
+% This is justified because any overlapping names may be \( \alpha \)-converted such that the assumption is satisfied.
+
+Due to the syntactic levels, we will need to modify the definition of a context slightly by requiring that the \emph{hole} symbol \( \ctxhole \) does not appear directly as the left or right term in a choice.
+For instance, we disallow the context \( \Pchoice{\ctxhole}{\Pin{x}{y}{\Pend}} \), but allow the context \( \Pchoice{\Pout{x}{z}{\ctxhole}}{\Pin{x}{y}{\Pend}} \).
+
+\subsubsection{Reduction semantics}
+The first semantics is an operational reduction semantics, which avoids reasoning explicitly about scope extrusion by way of a structural congruence rule.
+\emph{Structural congruence} is the smallest congruence relation that satisfies the following axioms:
+\begin{mathpar}
+  \inferrule[Sc-Sum-Assoc]{ }{\scong{\Pchoice{M}{(\Pchoice{N}{L})}}{\Pchoice{(\Pchoice{M}{N})}{L}}}
+  \and
+  \inferrule[Sc-Sum-Comm]{ }{\scong{\Pchoice{M}{N}}{\Pchoice{N}{M}}}
+  \and
+  \inferrule[Sc-Sum-Inact]{ }{\scong{\Pchoice{M}{\Pend}}{M}}
+  \and
+  \inferrule[Sc-Par-Assoc]{ }{\scong{\Ppar{P}{(\Ppar{Q}{R})}}{\Ppar{(\Ppar{P}{Q})}{R}}}
+  \and
+  \inferrule[Sc-Par-Comm]{ }{\scong{\Ppar{P}{Q}}{\Ppar{Q}{P}}}
+  \and
+  \inferrule[Sc-Par-Inact]{ }{\scong{\Ppar{P}{\Pend}}{P}}
+  \and
+  \inferrule[Sc-Res-Par]{x \notin \freenames{Q}}{\scong{\Ppar{\Pres{x}{P}}{Q}}{\Pres{x}{(\Ppar{P}{Q})}}}
+  \and
+  \inferrule[Sc-Res-Inact]{ }{\scong{\Pres{x}{\Pend}}{\Pend}}
+  \and
+  \inferrule[Sc-Res]{ }{\scong{\Pres{x}{\Pres{y}{P}}}{\Pres{y}{\Pres{x}{P}}}}
+\end{mathpar}
+
+The operational semantics is then defined as the following binary relation on processes:
+\begin{mathpar}
+  \inferrule[R-Com]{ }{\reduces{\Ppar{(\Pchoice{\Pout{x}{y}{P}}{M})}{(\Pchoice{\Pin{x}{z}{Q}}{N})}}{\Ppar{P}{\subst{Q}{y}{z}}}}
+  \and
+  \inferrule[R-Res]{\reduces{P}{Q}}{\reduces{\Pres{x}{P}}{\Pres{x}{Q}}}
+  \and
+  \inferrule[R-Par]{\reduces{P}{Q}}{\reduces{\Ppar{P}{R}}{\Ppar{Q}{R}}}
+  \and
+  \inferrule[R-Struct]{\scong{P}{P'} \\ \reduces{P'}{Q'} \\ \scong{Q}{Q'}}{\reduces{P}{Q}}
+\end{mathpar}
+Note that there is no rule for inferring an action of an input or output process except those that match the input/output capability.
+Note also that due to rule \TirName{R-Com}, the process \( \Pin{x}{z}{P} \) can receive \emph{any} name.
+Finally, note that rule \TirName{R-Struct} allows for applying the structural congruence both before and after the reduction.
+This ensures that the reduction relation is closed under structural congruence.
+
+\subsubsection{Transition system semantics}
+The second semantics of the system describe the actions that the system can perform by defining a labelled transition relation on processes.
+The transitions are labelled by \emph{actions}, the syntax of which is as follows:
+\begin{align*}
+  \alpha := &&& \Aoutf{x}{y} \\
+  |&&& \Ain{x}{y} \\
+  |&&& \Aoutb{x}{y} \\
+  |&&& \Atau
+\end{align*}
+The \emph{free output action} \( \Aoutf{x}{y} \) is sending the name \( y \) via \( x \).
+The \emph{input action} \( \Ain{x}{y} \) is receiving the name \( y \) via \( x \).
+The \emph{bound output action} \( \Aoutb{x}{y} \) is sending a fresh name \( y \) via \( x \).
+The \emph{internal action} \( \Atau \) is performing some unobservable action, e.g.\ internal communication.
+
+We will extend the notion of free and bound occurrences with 
+\( \freenames{\alpha} \) to denote the set of names that occur free in
+the action \( \alpha \) and  \( \boundnames{\alpha} \) to
+denote the set of names that occur bound in the action \( \alpha \).
+In the free output action \( \Aoutf{x}{y} \) and the input action
+\( \Ain{x}{y} \), both \( x \) and \( y \) are free names.  In the
+bound output action \( \Aoutb{x}{y} \), \( x \) is a free name, while
+\( y \) is a bound name.  We will further use the notation
+\( \names{\alpha} \) to denote the union of \( \freenames{\alpha} \)
+and \( \boundnames{\alpha} \), i.e.\ the set of all names that occur
+in the action \( \alpha \).
+
+The transition relation is then defined by the following rules:
+\begin{mathpar}
+  \inferrule[Out]{ }{\transition{\Pout{x}{y}{P}}{\Aoutf{x}{y}}{P}}
+  \and
+  \inferrule[In]{ }{\transition{\Pin{x}{z}{P}}{\Ain{x}{y}}{\subst{P}{y}{z}}}
+  \and
+  \inferrule[Sum-L]{\transition{P}{\alpha}{P'}}{\transition{\Pchoice{P}{Q}}{\alpha}{P'}}
+  \and
+  \inferrule[Sum-R]{\transition{P}{\alpha}{P'}}{\transition{\Pchoice{Q}{P}}{\alpha}{P'}}
+  \and
+  \inferrule[Par-L]{\transition{P}{\alpha}{P'} \\ \boundnames{\alpha} \cap \freenames{Q} = \emptyset}{\transition{\Ppar{P}{Q}}{\alpha}{\Ppar{P'}{Q}}}
+  \and
+  \inferrule[Par-R]{\transition{Q}{\alpha}{Q'} \\ \boundnames{\alpha} \cap \freenames{P} = \emptyset}{\transition{\Ppar{P}{Q}}{\alpha}{\Ppar{P}{Q'}}}
+  \and
+  \inferrule[Comm-L]{\transition{P}{\Aoutf{x}{y}}{P'} \\ \transition{Q}{\Ain{x}{y}}{Q'}}{\transition{\Ppar{P}{Q}}{\Atau}{\Ppar{P'}{Q'}}}
+  \and
+  \inferrule[Comm-R]{\transition{P}{\Ain{x}{y}}{P'} \\ \transition{Q}{\Aoutf{x}{y}}{Q'}}{\transition{\Ppar{P}{Q}}{\Atau}{\Ppar{P'}{Q'}}}
+  \and
+  \inferrule[Close-L]{\transition{P}{\Aoutb{x}{z}}{P'} \\ \transition{Q}{\Ain{x}{z}}{Q'} \\ z \notin \freenames{Q}}{\transition{\Ppar{P}{Q}}{\tau}{\Pres{z}{\Ppar{P'}{Q'}}}}
+  \and
+  \inferrule[Open]{\transition{P}{\Aoutf{x}{z}}{P'} \\ z \neq x}{\transition{\Pres{z}{P}}{\Aoutb{x}{z}}{P'}}
+  \and
+  \inferrule[Close-R]{\transition{P}{\Ain{x}{z}}{P'} \\ \transition{Q}{\Aoutb{x}{z}}{Q'} \\ z \notin \freenames{P}}{\transition{\Ppar{P}{Q}}{\tau}{\Pres{z}{\Ppar{P'}{Q'}}}}
+  \and
+  \inferrule[Res]{\transition{P}{\alpha}{P'} \\ z \notin \names{\alpha}}{\transition{\Pres{z}{P}}{\alpha}{\Pres{z}{P'}}}
+\end{mathpar}
+Note that there is no rule for inferring transitions from \( \Pend \), and that there is no rule for inferring an action of an input or output process except those that match the input/output capability.
+Note also that due to rule \TirName{In}, the process \( \Pin{x}{z}{P} \) can receive \emph{any} name.
+
+We keep the convention that bound names of any processes or actions
+are chosen to be different from the names that occur free in any other
+entities under consideration, such as processes, actions,
+substitutions, and sets of names.  The convention has one exception,
+namely that in the transition \( \transition{P}{\Aoutb{x}{z}}{Q} \),
+the name \( z \) (which occurs bound in \( P \) and the action
+\( \Aoutb{x}{z} \)) may occur free in \( Q \).  Without this exception
+it would be impossible to express scope extrusion.
+
+\subsubsection{Challenge}
+\begin{lemma}\label{se-lemma-harmony-fact}
+  If \( \scong{P}{Q} \) and \( \transition{P}{\alpha}{P'} \), then for some \( Q' \) we have \( \transition{Q}{\alpha}{Q'} \) and \( \scong{P'}{Q'} \).
+\end{lemma}
+\begin{proof}
+  Sketch. First, show the special case when \( P \) can be rewritten to \( Q \) with a single application of an axiom of the structural congruence to some subterm of P.
+  The proof is then by induction on the number of such steps.
+\end{proof}
+
+\begin{lemma}\label{se-lemma-normalized-reduction}
+  If \( \reduces{P}{Q} \) then there are \( x, y, z, z_1, \dots, z_n, R_1, N_1, R_2, N_2, \) and \( S\) such that
+  \begin{align*}
+    &\scong{P}{\Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{(\Pchoice{\Pout{x}{y}{R_1}}{N_1})}{(\Pchoice{\Pin{x}{z}{R_2}}{N_2})})}{S})}}} \\
+    &\scong{Q}{\Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{R_1}{\subst{R_2}{y}{z}})}{S})}}}
+  \end{align*}
+\end{lemma}
+To prove this lemma, we introduce the notion of a \emph{normalized derivation} of a reduction \( \reduces{P}{Q} \), which is of the following form.
+The first rule applied is \TirName{R-Com}. The derivation continues with an application of \TirName{R-Par}, followed by zero or more applications of \TirName{R-Res}.
+The last rule is an application of \TirName{R-Struct}.
+\begin{lemma}\label{se-lemma-normalized-derivation}
+  Every reduction has a normalized derivation.
+\end{lemma}
+\begin{proof}
+  Sketch. To obtain a normalized derivation from an arbitrary derivation we will need to check that rules \TirName{R-Com}, \TirName{R-Par} and \TirName{R-Res} commute with \TirName{R-Struct}, and that two applications of \TirName{R-Struct} can be combined into one.
+\end{proof}
+\begin{proof}{Of lemma \autoref{se-lemma-normalized-reduction}.}
+  Follows immediately from lemma \autoref{se-lemma-normalized-derivation} and the shape of a normalized derivation.
+\end{proof}
+
+The objective of this challenge is to prove the following theorems, which together show the equivalence between the reduction semantics and the transition system semantics up to structural congruence.
+The first of the theorems involves reasoning about scope extrusion more directly than the other, and if time does not permit proving both of the theorems, \autoref{thm:se-trans-implies-red} should be proven first.
+\begin{theorem}\label{thm:se-trans-implies-red}
+  \( \transition{P}{\Atau}{Q} \) implies \( \reduces{P}{Q} \).
+\end{theorem}
+\begin{proof}
+  The proof is by induction on the inference of \( \transition{P}{\Atau}{Q} \) using the following:
+  \begin{enumerate}
+  \item if \( \transition{Q}{\Aoutf{x}{y}}{Q'} \) then \( \scong{Q}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{(\Pchoice{\Pout{x}{y}{R}}{M})}{S})}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x,y \notin \{ w_1, \dots, w_n \} \).
+  \item if \( \transition{Q}{\Aoutb{x}{z}}{Q'} \) then \( \scong{Q}{\Pres{z}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{(\Pchoice{\Pout{x}{z}{R}}{M})}{S})}}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x \notin \{ z, w_1, \dots, w_n \} \).
+  \item if \( \transition{Q}{\Ain{x}{y}}{Q'} \) then \( \scong{Q}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{(\Pchoice{\Pin{x}{z}{R}}{M})}{S})}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\subst{R}{y}{z}}{S})}}} \) where \( x \notin \{ w_1, \dots, w_n \} \).
+  \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+  \( \reduces{P}{Q} \) implies the existence of a \( Q' \) such that \( \transition{P}{\Atau}{Q'} \) and \( \scong{Q}{Q'} \).
+\end{theorem}
+\begin{proof}
+  If \( \reduces{P}{Q} \), then by lemma \autoref{se-lemma-normalized-reduction}, \( \scong{P}{P'} \) with
+  \begin{equation*}
+    P' = \Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{(\Pchoice{\Pout{x}{y}{R_1}}{N_1})}{(\Pchoice{\Pin{x}{z}{R_2}}{N_2})})}{S})}}
+  \end{equation*}
+  and \( \scong{Q}{Q'} \) with
+  \begin{equation*}
+    Q' = \Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{R_1}{\subst{R_2}{y}{z}})}{S})}} \ .
+  \end{equation*}
+  We can easily check that \( \transition{P'}{\tau}{Q'} \) and so by lemma \autoref{se-lemma-harmony-fact}, \( \transition{P}{\tau}{Q'} \).
+\end{proof}
