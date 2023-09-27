@@ -344,20 +344,28 @@ Reasoning about scope extrusion explicitly can sometimes be avoided by introduci
 Explicitly reasoning about scope extrusion is necessary to describe e.g.\ monitors and compositions.
 
 The setting for this challenge is an untyped \( \pi \)-calculus, the syntax and semantics of which are presented below.
-The objective of this challenge is to prove that strong barbed bisimulation for this calculus is an equivalence relation.
+We will define two different semantics for our system: one that avoids explicit reasoning about scope extrusion, and one that does not.
+The objective of this challenge is to prove that the two semantics are equivalent up to structural congruence.
 
 \subsubsection{Syntax}
-In this section 
- we assume that \emph{names}  can be compared for equality. 
-The syntax is:
+In this section we assume that \emph{names}  can be compared for equality.
+The syntax in this challenge will be split into two levels: processes and summations.
+The syntax of processes is given by:
 \begin{align*}
-  P,Q :=&&& \Pend \\
+  P,Q :=&&& \Ppar{P}{Q} \\
+  |&&& \Pres{x}{P} \\
+  |&&& M
+\end{align*}
+The syntax of summations is given by:
+\begin{align*}
+  M,N :=&&& \Pend \\
   |&&& \Pout{x}{y}{P} \\
   |&&& \Pin{x}{y}{P} \\
-  |&&& \Ppar{P}{Q} \\
-  |&&& \Pres{x}{P} \\
-  |&&& \Pchoice{P}{Q}
+  |&&& \Pchoice{M}{N}
 \end{align*}
+Splitting the syntax into these two layers has the effect of disallowing choices directly between parallel processes.
+Allowing choices between arbitrary processes complicates the theory and is rarely useful.
+
 %The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
 The process \( \Pout{x}{y}{P} \) is an \emph{output}, which can send the name \( y \) via \( x \), then continue as \( P \).
 The process \( \Pin{x}{y}{P} \) is an \emph{input}, which can receive a name via \( x \), then continue as \( P \) with the received name substituted for \( y \).
@@ -381,8 +389,49 @@ Note that there is no recursion or replication in the syntax, and thus no infini
 % As a convention, we assume that the bound names occurring in any collection of processes are chosen to be different from the free names occurring in those processes and from the names occurring in any substitutions applied to the processes.
 % This is justified because any overlapping names may be \( \alpha \)-converted such that the assumption is satisfied.
 
-\subsubsection{Semantics}
-The semantics of the system describe the actions that the system can perform by defining a labelled transition relation on processes.
+Due to the syntactic levels, we will need to modify the definition of a context slightly by requiring that the \emph{hole} symbol \( \ctxhole \) does not appear directly as the left or right term in a choice.
+For instance, we disallow the context \( \Pchoice{\ctxhole}{\Pin{x}{y}{\Pend}} \), but allow the context \( \Pchoice{\Pout{x}{z}{\ctxhole}}{\Pin{x}{y}{\Pend}} \).
+
+\subsubsection{Reduction semantics}
+The first semantics is an operational reduction semantics, which avoids reasoning explicitly about scope extrusion by way of a structural congruence rule.
+\emph{Structural congruence} is the smallest congruence relation that satisfies the following axioms:
+\begin{mathpar}
+  \inferrule[Sc-Sum-Assoc]{ }{\scong{\Pchoice{M}{(\Pchoice{N}{L})}}{\Pchoice{(\Pchoice{M}{N})}{L}}}
+  \and
+  \inferrule[Sc-Sum-Comm]{ }{\scong{\Pchoice{M}{N}}{\Pchoice{N}{M}}}
+  \and
+  \inferrule[Sc-Sum-Inact]{ }{\scong{\Pchoice{M}{\Pend}}{M}}
+  \and
+  \inferrule[Sc-Par-Assoc]{ }{\scong{\Ppar{P}{(\Ppar{Q}{R})}}{\Ppar{(\Ppar{P}{Q})}{R}}}
+  \and
+  \inferrule[Sc-Par-Comm]{ }{\scong{\Ppar{P}{Q}}{\Ppar{Q}{P}}}
+  \and
+  \inferrule[Sc-Par-Inact]{ }{\scong{\Ppar{P}{\Pend}}{P}}
+  \and
+  \inferrule[Sc-Res-Par]{x \notin \freenames{Q}}{\scong{\Ppar{\Pres{x}{P}}{Q}}{\Pres{x}{(\Ppar{P}{Q})}}}
+  \and
+  \inferrule[Sc-Res-Inact]{ }{\scong{\Pres{x}{\Pend}}{\Pend}}
+  \and
+  \inferrule[Sc-Res]{ }{\scong{\Pres{x}{\Pres{y}{P}}}{\Pres{y}{\Pres{x}{P}}}}
+\end{mathpar}
+
+The operational semantics is then defined as the following binary relation on processes:
+\begin{mathpar}
+  \inferrule[R-Com]{ }{\reduces{\Ppar{(\Pchoice{\Pout{x}{y}{P}}{M})}{(\Pchoice{\Pin{x}{z}{Q}}{N})}}{\Ppar{P}{\subst{Q}{y}{z}}}}
+  \and
+  \inferrule[R-Res]{\reduces{P}{Q}}{\reduces{\Pres{x}{P}}{\Pres{x}{Q}}}
+  \and
+  \inferrule[R-Par]{\reduces{P}{Q}}{\reduces{\Ppar{P}{R}}{\Ppar{Q}{R}}}
+  \and
+  \inferrule[R-Struct]{\scong{P}{P'} \\ \reduces{P'}{Q'} \\ \scong{Q}{Q'}}{\reduces{P}{Q}}
+\end{mathpar}
+Note that there is no rule for inferring an action of an input or output process except those that match the input/output capability.
+Note also that due to rule \TirName{R-Com}, the process \( \Pin{x}{z}{P} \) can receive \emph{any} name.
+Finally, note that rule \TirName{R-Struct} allows for applying the structural congruence both before and after the reduction.
+This ensures that the reduction relation is closed under structural congruence.
+
+\subsubsection{Transition system semantics}
+The second semantics of the system describe the actions that the system can perform by defining a labelled transition relation on processes.
 The transitions are labelled by \emph{actions}, the syntax of which is as follows:
 \begin{align*}
   \alpha := &&& \Aoutf{x}{y} \\
@@ -445,33 +494,63 @@ the name \( z \) (which occurs bound in \( P \) and the action
 \( \Aoutb{x}{z} \)) may occur free in \( Q \).  Without this exception
 it would be impossible to express scope extrusion.
 
-\subsubsection{Bisimilarity}
-Our notion of process equivalence relations builds on a notion of \emph{observables}.
-If we allow ourselves only to observe internal transitions, we will relate either too few processes (in the strong case where we relate only processes with exactly the same number of internal transitions) or every process (in the weak case where we relate processes with any amount of internal transitions).
-We must therefore allow ourselves to observe more, and here choose to define the observables of a process as the names it can use for sending and receiving.
-
-To this end, we define the \emph{observability predicate} \( \observable{P}{\mu} \) by the following rules:
-\begin{align}
-  \observable{P}{\obsin{x}}  &\quad \textrm{if \( P \) can perform an input action via \( x \).} \\
-  \observable{P}{\obsout{x}} &\quad \textrm{if \( P \) can perform an output action via \( x \).}
-\end{align}
-
-Two processes \( P \) and \( Q \) are then \emph{strong barbed bisimilar}, written \( \sbbisim{P}{Q} \), if:
-\begin{gather}
-  \observable{P}{\mu}~\textrm{implies}~\observable{Q}{\mu} \\
-  \transition{P}{\Atau}{P'}~\textrm{implies}~\transition{Q}{\Atau}{Q'}~\textrm{for some \( Q' \) with}~\sbbisim{P'}{Q'} \\
-  \observable{Q}{\mu}~\textrm{implies}~\observable{P}{\mu} \\
-  \transition{Q}{\Atau}{Q'}~\textrm{implies}~\transition{P}{\Atau}{P'}~\textrm{for some \( P' \) with}~\sbbisim{P'}{Q'}
-\end{gather}
-Note that, since our calculus does not have infinite behavior, there is only one relation which satisfies these criteria.
-Thus we do not specify that the relation is the largest of its kind, and the relation does not need to be coinductively defined.
-To actually prove properties about the relation, however, we will still need either an inductive (or a coinductive) proof principle for the relation.
-
 \subsubsection{Challenge}
-The objective of this challenge is to prove the following theorem:
-\begin{theorem}
-  \( \sbbisim{}{} \) is an equivalence relation, that is, the relation is reflexive, symmetric, and transitive.
+\begin{lemma}\label{se-lemma-harmony-fact}
+  If \( \scong{P}{Q} \) and \( \transition{P}{\alpha}{P'} \), then for some \( Q' \) we have \( \transition{Q}{\alpha}{Q'} \) and \( \scong{P'}{Q'} \).
+\end{lemma}
+\begin{proof}
+  Sketch. First, show the special case when \( P \) can be rewritten to \( Q \) with a single application of an axiom of the structural congruence to some subterm of P.
+  The proof is then by induction on the number of such steps.
+\end{proof}
+
+\begin{lemma}\label{se-lemma-normalized-reduction}
+  If \( \reduces{P}{Q} \) then there are \( x, y, z, z_1, \dots, z_n, R_1, N_1, R_2, N_2, \) and \( S\) such that
+  \begin{align*}
+    &\scong{P}{\Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{(\Pchoice{\Pout{x}{y}{R_1}}{N_1})}{(\Pchoice{\Pin{x}{z}{R_2}}{N_2})})}{S})}}} \\
+    &\scong{Q}{\Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{R_1}{\subst{R_2}{y}{z}})}{S})}}}
+  \end{align*}
+\end{lemma}
+To prove this lemma, we introduce the notion of a \emph{normalized derivation} of a reduction \( \reduces{P}{Q} \), which is of the following form.
+The first rule applied is \TirName{R-Com}. The derivation continues with an application of \TirName{R-Par}, followed by zero or more applications of \TirName{R-Res}.
+The last rule is an application of \TirName{R-Struct}.
+\begin{lemma}\label{se-lemma-normalized-derivation}
+  Every reduction has a normalized derivation.
+\end{lemma}
+\begin{proof}
+  Sketch. To obtain a normalized derivation from an arbitrary derivation we will need to check that rules \TirName{R-Com}, \TirName{R-Par} and \TirName{R-Res} commute with \TirName{R-Struct}, and that two applications of \TirName{R-Struct} can be combined into one.
+\end{proof}
+\begin{proof}{Of lemma \autoref{se-lemma-normalized-reduction}.}
+  Follows immediately from lemma \autoref{se-lemma-normalized-derivation} and the shape of a normalized derivation.
+\end{proof}
+
+The objective of this challenge is to prove the following theorems, which together show the equivalence between the reduction semantics and the transition system semantics up to structural congruence.
+The first of the theorems involves reasoning about scope extrusion more directly than the other, and if time does not permit proving both of the theorems, \autoref{thm:se-trans-implies-red} should be proven first.
+\begin{theorem}\label{thm:se-trans-implies-red}
+  \( \transition{P}{\Atau}{Q} \) implies \( \reduces{P}{Q} \).
 \end{theorem}
+\begin{proof}
+  The proof is by induction on the inference of \( \transition{P}{\Atau}{Q} \) using the following:
+  \begin{enumerate}
+  \item if \( \transition{Q}{\Aoutf{x}{y}}{Q'} \) then \( \scong{Q}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{(\Pchoice{\Pout{x}{y}{R}}{M})}{S})}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x,y \notin \{ w_1, \dots, w_n \} \).
+  \item if \( \transition{Q}{\Aoutb{x}{z}}{Q'} \) then \( \scong{Q}{\Pres{z}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{(\Pchoice{\Pout{x}{z}{R}}{M})}{S})}}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x \notin \{ z, w_1, \dots, w_n \} \).
+  \item if \( \transition{Q}{\Ain{x}{y}}{Q'} \) then \( \scong{Q}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{(\Pchoice{\Pin{x}{z}{R}}{M})}{S})}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\subst{R}{y}{z}}{S})}}} \) where \( x \notin \{ w_1, \dots, w_n \} \).
+  \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+  \( \reduces{P}{Q} \) implies the existence of a \( Q' \) such that \( \transition{P}{\Atau}{Q'} \) and \( \scong{Q}{Q'} \).
+\end{theorem}
+\begin{proof}
+  If \( \reduces{P}{Q} \), then by lemma \autoref{se-lemma-normalized-reduction}, \( \scong{P}{P'} \) with
+  \begin{equation*}
+    P' = \Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{(\Pchoice{\Pout{x}{y}{R_1}}{N_1})}{(\Pchoice{\Pin{x}{z}{R_2}}{N_2})})}{S})}}
+  \end{equation*}
+  and \( \scong{Q}{Q'} \) with
+  \begin{equation*}
+    Q' = \Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{R_1}{\subst{R_2}{y}{z}})}{S})}} \ .
+  \end{equation*}
+  We can easily check that \( \transition{P'}{\tau}{Q'} \) and so by lemma \autoref{se-lemma-harmony-fact}, \( \transition{P}{\tau}{Q'} \).
+\end{proof}
 
 \subsection{Challenge: Coinduction and reasoning about infinite processes}
 \label{sec:challenge:coinduction}
