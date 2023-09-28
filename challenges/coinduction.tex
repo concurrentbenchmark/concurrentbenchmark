@@ -1,62 +1,133 @@
 \subsection{Challenge: Coinduction and reasoning about infinite processes}
 \label{sec:challenge:coinduction}
 
-This challenge formalises a proof that requires coinductive techniques.
-Coinduction is a proof technique for infinite structures, which arise in this context due to systems with behaviors that continue indefinitely.
-Coinduction is the dual of induction: whereas induction is useful for proving properties of least fixed points, coinduction is useful for proving properties of greatest fixed points.
+\marco{Why reasoning is only about infinite processes? Would it be
+  unreasonable to shorten the title to {\em Coinduction and infinite
+    processes}?}
 
-The setting for this challenge is an untyped calculus of communicating systems with replication of processes, the syntax and semantics of which are presented below.
-The objective of this challenge is to prove that strong barbed bisimulation for this calculus is an equivalence relation. Which, to reiterate, entails the use of coinduction due to the presence of infinite behavior.
+This challenge is a about the mechanisation of proofs
+% formalises a proof
+that require coinduction.
+% coinductive techniques.
+%
+% Coinduction is a proof technique for infinite structures,
+Coinduction is a technique for defining and proving properties of
+infinite structures,
+%
+which, in the context of the concurrent benchmark, arise
+% in this context
+due to systems with behaviors that continue indefinitely.
+%
+Coinduction is the dual of induction: whereas induction is useful for
+proving properties of least fixed points, coinduction is useful for
+proving properties of greatest fixed points.
+%
+\marco{Should we be more specific here and give a deeper explanation
+  of what coinduction is? If not, then why do we even say that it's
+  the dual of induction?}
+%
 
-\subsubsection{Syntax}
-% We assume the existence of some type of \emph{base values}, values of which we will denote by \( a, b, \dots \), the existence of some type of \emph{variable names}, values of which we will denote by \( l, m, \dots \), and the existence of some type of \emph{names}, values of which we will denote by \( x, y, \dots \).
-The syntax differs from \ref{sec:challenge:linearity-beh-types} for including replication and having unary restriction:
-\begin{align*}
-  v,w :=&&& a \\
-  |&&& l \\
-  P,Q :=&&& \Pend \\
-  |&&& \Pout{x}{v}{P} \\
-  |&&& \Pin{x}{l}{P} \\
-  |&&& \Ppar{P}{Q} \\
-  |&&& \Pres{x}{P} \\
-  |&&& \Preplicate{P}
-\end{align*}
-% A \emph{value} \( v, w, \dots \) is either a base value \( a \) or a variable name \( l \).
-% The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
-% The process \( \Pout{x}{a}{P} \) is an \emph{output}, which can send the value \( v \) via \( x \), then continue as \( P \).
-% The intention is that the value \( v \) must be a base value when it is actually sent, and this will be enforced in the semantics later on.
-% The process \( \Pin{x}{l}{P} \) is an \emph{input}, which can receive a base value via \( x \), then continue as \( P \) with the received value substituted for the variable name \( l \).
-% The input operator thus binds the variable name \( l \) in \( P \).
-% The process \( \Ppar{P}{Q} \) is the \emph{composition} of process \( P \) and process \( Q \).
-% The two components can proceed independently of each other, or they can interact via shared names.
-% The process \( \Pres{x}{P} \) is the \emph{restriction} of the name \( x \) to \( P \).
-% Components in \( P \) can use the name \( x \) to interact with each other, but not with processes outside of the restriction.
-% The restriction operator thus binds the name \( x \) in \( P \).
-% Note that the scope of a restriction may not change when processes interact, since it is only possible to send and receive values, and not names.
-% The process \( \Preplicate{P} \) is the \emph{replication} of the process \( P \).
-% It can be thought of as the infinite composition \( \Ppar{P}{\Ppar{P}{\cdots}} \).
-% Replication makes it possible to express infinite behaviours.
+For this challenge, we adopt a fragment of the untyped $\pi$-calculus
+that includes process replication.
+% The setting for this challenge is an untyped calculus of
+% communicating systems with replication of processes, the syntax and
+% semantics of which are presented below.
+The objective of this challenge is to prove that strong barbed
+bisimilarity
+% for this calculus
+is an equivalence relation. Which, to reiterate, entails the use of
+coinduction due to the presence of infinite behaviour.
 
-% We will use the notation \( \subst{P}{v}{l} \) to denote the process \( P \) with value \( v \) substituted for variable name \( l \).
+\paragraph{Syntax.}
+% We assume the existence of some type of \emph{base values}, values
+% of which we will denote by \( a, b, \dots \), the existence of some
+% type of \emph{variable names}, values of which we will denote by
+% \( l, m, \dots \), and the existence of some type of \emph{names},
+% values of which we will denote by \( x, y, \dots \).
+The syntax of the calculus is identical to that of
+Section~\ref{sec:challenge:linearity-beh-types} (challenge on
+linearity), except from restriction, now unary, and the addition of
+replication:
+% for including replication and having unary restriction:
+\begin{displaymath}
+  \begin{array}{rcl}
+    v,w & ::= & a \quad\mid\quad l \\
+    P,Q & ::=& \Pend
+               \quad \mid\quad \Pout{x}{v}{P}
+               \quad \mid\quad \Pin{x}{l}{P}
+               \quad \mid\quad \Ppar{P}{Q}
+               \quad \mid\quad \Pres{x}{}{P}
+               \quad \mid\quad !P
+  \end{array}
+\end{displaymath}
+% \begin{align*}
+%   v,w :=&&& a \\
+%   |&&& l \\
+%   P,Q :=&&& \Pend \\
+%   |&&& \Pout{x}{v}{P} \\
+%   |&&& \Pin{x}{l}{P} \\
+%   |&&& \Ppar{P}{Q} \\
+%   |&&& \Pres{x}{P} \\
+%   |&&& \Preplicate{P}
+% \end{align*}
+% A \emph{value} \( v, w, \dots \) is either a base value \( a \) or a
+% variable name \( l \).  The process \( \Pend \) is \emph{inaction}:
+% a process which can do nothing.  The process \( \Pout{x}{a}{P} \) is
+% an \emph{output}, which can send the value \( v \) via \( x \), then
+% continue as \( P \).  The intention is that the value \( v \) must
+% be a base value when it is actually sent, and this will be enforced
+% in the semantics later on.  The process \( \Pin{x}{l}{P} \) is an
+% \emph{input}, which can receive a base value via \( x \), then
+% continue as \( P \) with the received value substituted for the
+% variable name \( l \).  The input operator thus binds the variable
+% name \( l \) in \( P \).  The process \( \Ppar{P}{Q} \) is the
+% \emph{composition} of process \( P \) and process \( Q \).  The two
+% components can proceed independently of each other, or they can
+% interact via shared names.  The process \( \Pres{x}{P} \) is the
+% \emph{restriction} of the name \( x \) to \( P \).  Components in
+% \( P \) can use the name \( x \) to interact with each other, but
+% not with processes outside of the restriction.  The restriction
+% operator thus binds the name \( x \) in \( P \).  Note that the
+% scope of a restriction may not change when processes interact, since
+% it is only possible to send and receive values, and not names.  The
+% process \( \Preplicate{P} \) is the \emph{replication} of the
+% process \( P \).  It can be thought of as the infinite composition
+% \( \Ppar{P}{\Ppar{P}{\cdots}} \).  Replication makes it possible to
+% express infinite behaviours.
+
+% We will use the notation \( \subst{P}{v}{l} \) to denote the process
+% \( P \) with value \( v \) substituted for variable name \( l \).
 
 % % We will use the notation \( \subst{P}{v}{w} \) to denote the process \( P \) with value \( v \) substituted for value \( w \).
-% Two processes \( P \) and \( Q \) are \( \alpha \)-convertible, written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \) by a finite number of substitutions of bound variable names.
-% As a convention, we will identify \( \alpha \)-convertible processes.
+% Two processes \( P \) and \( Q \) are \( \alpha \)-convertible,
+% written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from
+% \( P \) by a finite number of substitutions of bound variable names.
+% As a convention, we will identify \( \alpha \)-convertible
+% processes.
 
-% Also as a convention, we assume that the bound names and bound variable names occurring in any collection of processes are chosen to be different from the free names and free variable names occurring in those processes and from the names and variable names occurring in any substitutions applied to the processes.
-% This is justified because any overlapping names and variable names may be \( \alpha \)-converted such that the assumption is satisfied.
+% Also as a convention, we assume that the bound names and bound
+% variable names occurring in any collection of processes are chosen
+% to be different from the free names and free variable names
+% occurring in those processes and from the names and variable names
+% occurring in any substitutions applied to the processes.  This is
+% justified because any overlapping names and variable names may be
+% \( \alpha \)-converted such that the assumption is satisfied.
 
-\subsubsection{Semantics}
-The semantics of the system describe the actions that the system can perform by defining a labelled transition relation on processes.
-The transitions are labelled by \emph{actions}, the syntax of which are as follows:
+\paragraph{Semantics.} For this challenge, we give an LTS semantics.
+The semantics of the system describe the actions that the system can
+perform by defining a labelled transition relation on processes.  The
+transitions are labelled by \emph{actions}, the syntax of which are as
+follows:
 \begin{align*}
   \alpha := &&& \Aoutf{x}{a} \\
   |&&& \Ain{x}{a} \\
   |&&& \Atau
 \end{align*}
-The \emph{output action} \( \Aoutf{x}{y} \) is sending the base value \( a \) via \( x \).
-The \emph{input action} \( \Ain{x}{y} \) is receiving the base value \( y \) via \( x \).
-The \emph{internal action} \( \Atau \) is performing some unobservable action, e.g.\ internal communication.
+The \emph{output action} \( \Aoutf{x}{y} \) is sending the base value
+\( a \) via \( x \).  The \emph{input action} \( \Ain{x}{y} \) is
+receiving the base value \( y \) via \( x \).  The \emph{internal
+  action} \( \Atau \) is performing some unobservable action, e.g.\
+internal communication.
 
 We will use the notation \( \names{\alpha} \) to denote the set of names that occur in the action \( \alpha \).
 
@@ -106,9 +177,30 @@ Note that, since our systems have potentially infinite behaviors, and strong bar
 \begin{theorem}
   \( \sbbisim{}{} \) is an equivalence relation, that is, the relation is reflexive, symmetric, and transitive.
 \end{theorem}
+\begin{proof}
+  We need to prove that $\sbbisim{}{}$ is reflexive, symmetric, and
+  commutative.
+  \begin{itemize}
+  \item Reflexivity is straightforward. For any $P$, we need to show
+    that $P\sbbisim{}{} P$. Condition from equation~\ref{} follows
+    trivially ($P$ has the same barbs as itself). Similarly, the
+    second condition in equation~\ref{} follows trivially.
+  \item
+  \item
+  \end{itemize}
+  
+\end{proof}
 
-Unfortunately, strong barbed bisimilarity is not a good notion of process equivalence, since it does not consider the environment of processes.
-For instance, \( \sbbisim{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pout{x}{a}{\Pend}} \) since \( \obsout{x} \) is the only observable in both processes and they cannot perform a \( \Atau \)-action, but \( \nsbbisim{\Ppar{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pin{x}{l}{\Pend}}}{\Pout{x}{a}{\Pend}} \) since the left process can perform a \( \Atau \)-action such that \( \obsout{y} \) becomes observable, whereas the right process cannot.
+Unfortunately, strong barbed bisimilarity is not a good notion of
+process equivalence, since it does not consider the environment of
+processes.  For instance,
+\( \sbbisim{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pout{x}{a}{\Pend}} \)
+since \( \obsout{x} \) is the only observable in both processes and
+they cannot perform a \( \Atau \)-action, but
+\(
+\nsbbisim{\Ppar{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pin{x}{l}{\Pend}}}{\Pout{x}{a}{\Pend}}
+\) since the left process can perform a \( \Atau \)-action such that
+\( \obsout{y} \) becomes observable, whereas the right process cannot.
 
 % \subsubsection{Contexts and congruences}
 % Before we can fix the issue with strong barbed bisimilarity, we need few more definitions.
