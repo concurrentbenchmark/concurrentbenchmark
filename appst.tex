@@ -42,6 +42,12 @@ Note that the input and output rules rules can be simplified by unfolding the va
   \inferrule[T-Out*]{%\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
     \typev{\Gamma}{\hastype{v}{\Tbase}} \\ \types{\Gamma; \Cupdate{\Delta}{\hastype{x}{T}}}{P}}{\types{\Gamma; \Csplit{\hastype{x}{\Tout{T}}}{{\Delta}}}{\Pout{x}{v}{P}}}
 \end{mathpar}
+\begin{metanote}
+  AM: not sure about \textbf{un}
+\end{metanote}
+\begin{lemma}
+  If \( \types{\Gamma; \Delta}{P} \) and \( \un{T} \) then \( \types{\Cadd{\Gamma}{\hastype{l}{T}};\Delta}{P} \).
+\end{lemma}
 % keep: AM (Vasco's)
 % \newpage
 % \begin{mathpar}

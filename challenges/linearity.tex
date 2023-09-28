@@ -251,7 +251,12 @@ The following lemmas may be of use:
 \begin{lemma}
   If \( \types{\Gamma}{P} \) and \( \scong{P}{Q} \) then \( \types{\Gamma}{Q} \).
 \end{lemma}
-
+\begin{metanote}
+  AM: the statement of substitution was wrong: now it is consistent with the op sem, but I need to check the (I assume now simpler) proof. Note that $T$ must be \textbf{base} and \( \un{\Gamma_i} \) must also hold.
+\end{metanote}
 \begin{lemma}
-  If \( \types{\Gamma_1}{\hastype{v}{T}} \) and \( \types{\Cadd{\Gamma_2}{\hastype{x}{T}}}{P} \) and \( \Gamma = \Csplit{\Gamma_1}{\Gamma_2} \) then \( \types{\Gamma}{\subst{v}{x}{P}} \).
+  If \( \types{\Gamma_1}{\hastype{v}{T}} \) and
+  \( \types{\Cadd{\Gamma_2}{\hastype{l}{T}}}{P} \) and
+  \( \Gamma = \Csplit{\Gamma_1}{\Gamma_2} \) then
+  \( \types{\Gamma}{\subst{P}{l}{v}} \).
 \end{lemma}
