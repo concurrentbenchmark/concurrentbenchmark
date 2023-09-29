@@ -14,22 +14,14 @@ The objective of this challenge is to prove that the two semantics are equivalen
 
 \subsubsection{Syntax}
 In this section we assume that \emph{names}  can be compared for equality.
-The syntax in this challenge will be split into two levels: processes and summations.
 The syntax of processes is given by:
 \begin{align*}
-  P,Q :=&&& \Ppar{P}{Q} \\
-  |&&& \Pres{x}{P} \\
-  |&&& M
-\end{align*}
-The syntax of summations is given by:
-\begin{align*}
-  M,N :=&&& \Pend \\
+  P,Q := &&& \Pend \\
+  |&&& \Ppar{P}{Q} \\
   |&&& \Pout{x}{y}{P} \\
   |&&& \Pin{x}{y}{P} \\
-  |&&& \Pchoice{M}{N}
+  |&&& \Pres{x}{P} \\
 \end{align*}
-Splitting the syntax into these two layers has the effect of disallowing choices directly between parallel processes.
-Allowing choices between arbitrary processes complicates the theory and is rarely useful.
 
 %The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
 The process \( \Pout{x}{y}{P} \) is an \emph{output}, which can send the name \( y \) via \( x \), then continue as \( P \).
@@ -54,19 +46,10 @@ Note that there is no recursion or replication in the syntax, and thus no infini
 % As a convention, we assume that the bound names occurring in any collection of processes are chosen to be different from the free names occurring in those processes and from the names occurring in any substitutions applied to the processes.
 % This is justified because any overlapping names may be \( \alpha \)-converted such that the assumption is satisfied.
 
-Due to the syntactic levels, we will need to modify the definition of a context slightly by requiring that the \emph{hole} symbol \( \ctxhole \) does not appear directly as the left or right term in a choice.
-For instance, we disallow the context \( \Pchoice{\ctxhole}{\Pin{x}{y}{\Pend}} \), but allow the context \( \Pchoice{\Pout{x}{z}{\ctxhole}}{\Pin{x}{y}{\Pend}} \).
-
 \subsubsection{Reduction semantics}
 The first semantics is an operational reduction semantics, which avoids reasoning explicitly about scope extrusion by way of a structural congruence rule.
 \emph{Structural congruence} is the smallest congruence relation that satisfies the following axioms:
 \begin{mathpar}
-  \inferrule[Sc-Sum-Assoc]{ }{\scong{\Pchoice{M}{(\Pchoice{N}{L})}}{\Pchoice{(\Pchoice{M}{N})}{L}}}
-  \and
-  \inferrule[Sc-Sum-Comm]{ }{\scong{\Pchoice{M}{N}}{\Pchoice{N}{M}}}
-  \and
-  \inferrule[Sc-Sum-Inact]{ }{\scong{\Pchoice{M}{\Pend}}{M}}
-  \and
   \inferrule[Sc-Par-Assoc]{ }{\scong{\Ppar{P}{(\Ppar{Q}{R})}}{\Ppar{(\Ppar{P}{Q})}{R}}}
   \and
   \inferrule[Sc-Par-Comm]{ }{\scong{\Ppar{P}{Q}}{\Ppar{Q}{P}}}
@@ -82,7 +65,7 @@ The first semantics is an operational reduction semantics, which avoids reasonin
 
 The operational semantics is then defined as the following binary relation on processes:
 \begin{mathpar}
-  \inferrule[R-Com]{ }{\reduces{\Ppar{(\Pchoice{\Pout{x}{y}{P}}{M})}{(\Pchoice{\Pin{x}{z}{Q}}{N})}}{\Ppar{P}{\subst{Q}{y}{z}}}}
+  \inferrule[R-Com]{ }{\reduces{\Ppar{\Pout{x}{y}{P}}{\Pin{x}{z}{Q}}}{\Ppar{P}{\subst{Q}{y}{z}}}}
   \and
   \inferrule[R-Res]{\reduces{P}{Q}}{\reduces{\Pres{x}{P}}{\Pres{x}{Q}}}
   \and
@@ -127,10 +110,6 @@ The transition relation is then defined by the following rules:
   \and
   \inferrule[In]{ }{\transition{\Pin{x}{z}{P}}{\Ain{x}{y}}{\subst{P}{y}{z}}}
   \and
-  \inferrule[Sum-L]{\transition{P}{\alpha}{P'}}{\transition{\Pchoice{P}{Q}}{\alpha}{P'}}
-  \and
-  \inferrule[Sum-R]{\transition{P}{\alpha}{P'}}{\transition{\Pchoice{Q}{P}}{\alpha}{P'}}
-  \and
   \inferrule[Par-L]{\transition{P}{\alpha}{P'} \\ \boundnames{\alpha} \cap \freenames{Q} = \emptyset}{\transition{\Ppar{P}{Q}}{\alpha}{\Ppar{P'}{Q}}}
   \and
   \inferrule[Par-R]{\transition{Q}{\alpha}{Q'} \\ \boundnames{\alpha} \cap \freenames{P} = \emptyset}{\transition{\Ppar{P}{Q}}{\alpha}{\Ppar{P}{Q'}}}
@@ -169,9 +148,9 @@ it would be impossible to express scope extrusion.
 \end{proof}
 
 \begin{lemma}\label{se-lemma-normalized-reduction}
-  If \( \reduces{P}{Q} \) then there are \( x, y, z, z_1, \dots, z_n, R_1, N_1, R_2, N_2, \) and \( S\) such that
+  If \( \reduces{P}{Q} \) then there are \( x, y, z, z_1, \dots, z_n, R_1, R_2, \) and \( S\) such that
   \begin{align*}
-    &\scong{P}{\Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{(\Pchoice{\Pout{x}{y}{R_1}}{N_1})}{(\Pchoice{\Pin{x}{z}{R_2}}{N_2})})}{S})}}} \\
+    &\scong{P}{\Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{\Pout{x}{y}{R_1}}{\Pin{x}{z}{R_2}})}{S})}}} \\
     &\scong{Q}{\Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{R_1}{\subst{R_2}{y}{z}})}{S})}}}
   \end{align*}
 \end{lemma}
@@ -196,9 +175,9 @@ The first of the theorems involves reasoning about scope extrusion more directly
 \begin{proof}
   The proof is by induction on the inference of \( \transition{P}{\Atau}{Q} \) using the following:
   \begin{enumerate}
-  \item if \( \transition{Q}{\Aoutf{x}{y}}{Q'} \) then \( \scong{Q}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{(\Pchoice{\Pout{x}{y}{R}}{M})}{S})}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x,y \notin \{ w_1, \dots, w_n \} \).
-  \item if \( \transition{Q}{\Aoutb{x}{z}}{Q'} \) then \( \scong{Q}{\Pres{z}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{(\Pchoice{\Pout{x}{z}{R}}{M})}{S})}}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x \notin \{ z, w_1, \dots, w_n \} \).
-  \item if \( \transition{Q}{\Ain{x}{y}}{Q'} \) then \( \scong{Q}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{(\Pchoice{\Pin{x}{z}{R}}{M})}{S})}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\subst{R}{y}{z}}{S})}}} \) where \( x \notin \{ w_1, \dots, w_n \} \).
+  \item if \( \transition{Q}{\Aoutf{x}{y}}{Q'} \) then \( \scong{Q}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\Pout{x}{y}{R}}{S})}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x,y \notin \{ w_1, \dots, w_n \} \).
+  \item if \( \transition{Q}{\Aoutb{x}{z}}{Q'} \) then \( \scong{Q}{\Pres{z}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\Pout{x}{z}{R}}{S})}}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x \notin \{ z, w_1, \dots, w_n \} \).
+  \item if \( \transition{Q}{\Ain{x}{y}}{Q'} \) then \( \scong{Q}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\Pin{x}{z}{R}}{S})}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\subst{R}{y}{z}}{S})}}} \) where \( x \notin \{ w_1, \dots, w_n \} \).
   \end{enumerate}
 \end{proof}
 
@@ -208,7 +187,7 @@ The first of the theorems involves reasoning about scope extrusion more directly
 \begin{proof}
   If \( \reduces{P}{Q} \), then by lemma \autoref{se-lemma-normalized-reduction}, \( \scong{P}{P'} \) with
   \begin{equation*}
-    P' = \Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{(\Pchoice{\Pout{x}{y}{R_1}}{N_1})}{(\Pchoice{\Pin{x}{z}{R_2}}{N_2})})}{S})}}
+    P' = \Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{\Pout{x}{y}{R_1}}{\Pin{x}{z}{R_2}})}{S})}}
   \end{equation*}
   and \( \scong{Q}{Q'} \) with
   \begin{equation*}
