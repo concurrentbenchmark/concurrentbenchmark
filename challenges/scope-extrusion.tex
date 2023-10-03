@@ -142,8 +142,8 @@ it would be impossible to express scope extrusion.
 \begin{lemma}\label{se-lemma-harmony-fact}
   If \( \scong{P}{Q} \) and \( \transition{P}{\alpha}{P'} \), then for some \( Q' \) we have \( \transition{Q}{\alpha}{Q'} \) and \( \scong{P'}{Q'} \).
 \end{lemma}
-\begin{proof}
-  Sketch. First, show the special case when \( P \) can be rewritten to \( Q \) with a single application of an axiom of the structural congruence to some subterm of P.
+\begin{proof}[Sketch]
+  First, show the special case when \( P \) can be rewritten to \( Q \) with a single application of an axiom of the structural congruence to some subterm of P.
   The proof is then by induction on the number of such steps.
 \end{proof}
 
@@ -160,10 +160,10 @@ The last rule is an application of \TirName{R-Struct}.
 \begin{lemma}\label{se-lemma-normalized-derivation}
   Every reduction has a normalized derivation.
 \end{lemma}
-\begin{proof}
-  Sketch. To obtain a normalized derivation from an arbitrary derivation we will need to check that rules \TirName{R-Com}, \TirName{R-Par} and \TirName{R-Res} commute with \TirName{R-Struct}, and that two applications of \TirName{R-Struct} can be combined into one.
+\begin{proof}[Sketch]
+  To obtain a normalized derivation from an arbitrary derivation we will need to check that rules \TirName{R-Com}, \TirName{R-Par} and \TirName{R-Res} commute with \TirName{R-Struct}, and that two applications of \TirName{R-Struct} can be combined into one.
 \end{proof}
-\begin{proof}{Of \cref{se-lemma-normalized-reduction}.}
+\begin{proof}[Of \cref{se-lemma-normalized-reduction}]
   Follows immediately from \cref{se-lemma-normalized-derivation} and the shape of a normalized derivation.
 \end{proof}
 
@@ -172,7 +172,7 @@ The first of the theorems involves reasoning about scope extrusion more directly
 \begin{theorem}\label{thm:se-trans-implies-red}
   \( \transition{P}{\Atau}{Q} \) implies \( \reduces{P}{Q} \).
 \end{theorem}
-\begin{proof}
+\begin{proof}[Sketch]
   The proof is by induction on the inference of \( \transition{P}{\Atau}{Q} \) using the following:
   \begin{enumerate}
   \item if \( \transition{Q}{\Aoutf{x}{y}}{Q'} \) then \( \scong{Q}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\Pout{x}{y}{R}}{S})}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x,y \notin \{ w_1, \dots, w_n \} \).
