@@ -35,6 +35,7 @@ The process \( \Pin{x}{y}{P} \) is an \emph{input}, which can receive a name via
 Note that the scope of a restriction may change when processes interact. Namely, a restricted name may be sent \emph{outside} of its scope.
 % The process \( \Pchoice{P}{Q} \) is a non-deterministic \emph{choice} between continuing as the process \( P \) or as the process \( Q \).
 Note that there is no recursion or replication in the syntax, and thus no infinite behaviors can be expressed.
+This simplifies the theory and is orthogonal to the concept of scope extrusion.
 
 % We will use the notation \( \freenames{P} \) to denote the set of names that occur free (i.e.\ not bound by a restriction or an input) in \( P \).
 % We will use the notation \( \boundnames{P} \) to denote the set of names that occur bound (by a restriction or an input) in \( P \).
@@ -173,7 +174,7 @@ The first of the theorems involves reasoning about scope extrusion more directly
   \( \transition{P}{\Atau}{Q} \) implies \( \reduces{P}{Q} \).
 \end{theorem}
 \begin{proof}[Sketch]
-  The proof is by induction on the inference of \( \transition{P}{\Atau}{Q} \) using the following:
+  The proof is by induction on the inference of \( \transition{P}{\Atau}{Q} \) using the following lemmas:
   \begin{enumerate}
   \item if \( \transition{Q}{\Aoutf{x}{y}}{Q'} \) then \( \scong{Q}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\Pout{x}{y}{R}}{S})}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x,y \notin \{ w_1, \dots, w_n \} \).
   \item if \( \transition{Q}{\Aoutb{x}{z}}{Q'} \) then \( \scong{Q}{\Pres{z}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\Pout{x}{z}{R}}{S})}}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x \notin \{ z, w_1, \dots, w_n \} \).
