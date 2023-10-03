@@ -147,15 +147,7 @@ it would be impossible to express scope extrusion.
   First, show the special case when \( P \) can be rewritten to \( Q \) with a single application of an axiom of the structural congruence to some subterm of P.
   The proof is then by induction on the number of such steps.
 \end{proof}
-
-\begin{lemma}\label{se-lemma-normalized-reduction}
-  If \( \reduces{P}{Q} \) then there are \( x, y, z, z_1, \dots, z_n, R_1, R_2, \) and \( S\) such that
-  \begin{align*}
-    &\scong{P}{\Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{\Pout{x}{y}{R_1}}{\Pin{x}{z}{R_2}})}{S})}}} \\
-    &\scong{Q}{\Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{R_1}{\subst{R_2}{y}{z}})}{S})}}}
-  \end{align*}
-\end{lemma}
-To prove this lemma, we introduce the notion of a \emph{normalized derivation} of a reduction \( \reduces{P}{Q} \), which is of the following form.
+For the proof of the challenge theorem, we will introduce the notion of a \emph{normalized derivation} of a reduction \( \reduces{P}{Q} \), which is of the following form.
 The first rule applied is \TirName{R-Com}. The derivation continues with an application of \TirName{R-Par}, followed by zero or more applications of \TirName{R-Res}.
 The last rule is an application of \TirName{R-Struct}.
 \begin{lemma}\label{se-lemma-normalized-derivation}
@@ -164,7 +156,15 @@ The last rule is an application of \TirName{R-Struct}.
 \begin{proof}[Sketch]
   To obtain a normalized derivation from an arbitrary derivation we will need to check that rules \TirName{R-Com}, \TirName{R-Par} and \TirName{R-Res} commute with \TirName{R-Struct}, and that two applications of \TirName{R-Struct} can be combined into one.
 \end{proof}
-\begin{proof}[Of \cref{se-lemma-normalized-reduction}]
+
+\begin{lemma}\label{se-lemma-normalized-reduction}
+  If \( \reduces{P}{Q} \) then there are \( x, y, z, z_1, \dots, z_n, R_1, R_2, \) and \( S\) such that
+  \begin{align*}
+    &\scong{P}{\Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{\Pout{x}{y}{R_1}}{\Pin{x}{z}{R_2}})}{S})}}} \\
+    &\scong{Q}{\Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{R_1}{\subst{R_2}{y}{z}})}{S})}}}
+  \end{align*}
+\end{lemma}
+\begin{proof}
   Follows immediately from \cref{se-lemma-normalized-derivation} and the shape of a normalized derivation.
 \end{proof}
 
