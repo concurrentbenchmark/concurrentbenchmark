@@ -1,6 +1,10 @@
 open import Data.Nat
 open import Data.Fin hiding (_+_ ; _-_)
 
+
+_∘_ : ∀ {A B C : Set} → (B → C) → (A → B) → (A → C)
+(g ∘ f) x  = g (f x)
+
 top : {N : ℕ} -> Fin (suc N)
 top {zero} = zero
 top {suc N} = suc top
