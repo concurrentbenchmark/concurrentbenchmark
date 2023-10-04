@@ -50,16 +50,21 @@
 \maketitle
 
 \begin{abstract}
-  The POPLMark challenge sparked a flurry of work on machine-checked proofs.
-  However, POPLMark (and its follow-up POPLMark Reloaded) were explicitly limited in scope,
-  with benchmark problems that do not address concurrency. For this reason, we propose a new collection of benchmark problems with a focus on the issues encountered when mechanising message-passing concurrency using process calculi.
-  Our benchmark problems concern linear handling of environments, scope extrusion, and coinductive reasoning.
-  Our goal is to clarify, compare and advance the state of the art.
+  The POPLMark challenge sparked a flurry of work on machine-checked
+  proofs. However, POPLMark (and its follow-up POPLMark Reloaded) were
+  purposedly limited in scope, with benchmark problems that do not
+  address concurrency. For this reason, we propose a new collection of
+  benchmark problems with a focus on the issues encountered when
+  mechanising message-passing concurrency using process calculi. Our
+  benchmark problems concern linear handling of environments, scope
+  extrusion, and coinductive reasoning. Our goal is to clarify,
+  compare and advance the state of the art.
 
 \keywords{Mechanisation \and Process calculi \and Benchmark \and Coinduction \and Scope extrusion \and Linearity}
 \end{abstract}
 
 \section{Introduction}
+
 The programming language community has increasingly embraced mechanisations since the influential POPLMark challenge~\cite{POPLMark}, but we are still far from the vision of a mechanised proof accompanying every paper in the field.
 Since POPLMark, the number of papers with accompanying mechanised proofs has grown steadily, but many mechanisations still rely on ad hoc techniques.
 POPLMark Reloaded~\cite{POPLMarkReloaded} aimed to identify and develop best practices and tool support for proofs using logical relations.
