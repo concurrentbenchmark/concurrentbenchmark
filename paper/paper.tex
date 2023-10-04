@@ -65,19 +65,48 @@
 
 \section{Introduction}
 
-The programming language community has increasingly embraced mechanisations since the influential POPLMark challenge~\cite{POPLMark}, but we are still far from the vision of a mechanised proof accompanying every paper in the field.
-Since POPLMark, the number of papers with accompanying mechanised proofs has grown steadily, but many mechanisations still rely on ad hoc techniques.
-POPLMark Reloaded~\cite{POPLMarkReloaded} aimed to identify and develop best practices and tool support for proofs using logical relations.
-The authors of both POPLMark and POPLMark Reloaded were careful to note that their benchmarks were only a beginning, and they specifically mention reasoning about concurrency using coinduction and linear environments as points for future work.
-Papers in concurrency theory do often include mechanised proofs (e.g.~\cite{DBLP:conf/pldi/Castro-Perez0GY21,DBLP:conf/tacas/CastroFY20,lmcs:9985, DBLP:journals/jar/CruzFilipeMP23, Tirore:2023}), and others also directly discuss formalisation techniques (e.g.~\cite{DBLP:journals/jar/BengtsonPW16, DBLP:conf/tphol/Gay01, DBLP:conf/ppdp/Thiemann19, DBLP:conf/forte/ZalakainD21}). However, our experience is that choosing techniques and tools remains a challenge with few guidelines.
-We propose a new collection of benchmark problems specifically designed to tackle the issues encountered when mechanising message-passing concurrency using process calculi.
-A goal of our collection of benchmark problems is to push for the development of guidelines and tutorials, and our challenge problems are a simple setting in which to demonstrate and compare techniques.
-Another goal is to strengthen the culture of mechanisation by rallying the community to collaborate on exploring and developing new tools and techniques.
-We have identified three key aspects which cause issues when mechanising concurrency theory: linearity, scope extrusion in name passing systems and infinite behaviour modelled coinductively.
-Each part of our benchmark exercises the three aspects independently to enable comparison and to keep the challenge problems small.
-The three aspects are of course not the only ones that may cause issues in mechanisations, but they are fundamental to the field and will thus appear in most mechanisations of concurrency theory.
-Actual mechanisations will additionally often require more than just one aspect, but we do not address the combination of techniques.
-In the rest of this paper we discuss the design of the challenge and briefly describe the three challenge problems.
+
+The introduction of the influential POPLMark challenge~\cite{POPLMark}
+spearheaded a shift to including mechanised proofs accompanying
+published papers. POPLMark's abstract starts with an important
+question ``How close are we to a world where every paper on program-
+ming languages is accompanied by an electronic appendix with machine-
+checked proofs?''. Much progress has been done in that respect,
+notably the POPLMark reloaded~\cite{POPLMarkReloaded} challenge aims
+to identify and develop best practices and tool support for proofs
+using logical relations.
+
+The authors of both POPLMark and POPLMark Reloaded
+were careful to note that their benchmarks were only a beginning, and
+they specifically mention reasoning about concurrency using
+coinduction and linear environments as points for future work. Papers
+in concurrency theory do often include mechanised proofs
+(e.g.~\cite{DBLP:conf/pldi/Castro-Perez0GY21,DBLP:conf/tacas/CastroFY20,lmcs:9985,
+  DBLP:journals/jar/CruzFilipeMP23, Tirore:2023}), and others also
+directly discuss formalisation techniques
+(e.g.~\cite{DBLP:journals/jar/BengtsonPW16, DBLP:conf/tphol/Gay01,
+  DBLP:conf/ppdp/Thiemann19, DBLP:conf/forte/ZalakainD21}). However,
+our experience is that choosing techniques and tools remains a
+challenge with few guidelines. We propose a new collection of
+benchmark problems specifically designed to tackle the issues
+encountered when mechanising message-passing concurrency using process
+calculi. A goal of our collection of benchmark problems is to push for
+the development of guidelines and tutorials, and our challenge
+problems are a simple setting in which to demonstrate and compare
+techniques. Another goal is to strengthen the culture of mechanisation
+by rallying the community to collaborate on exploring and developing
+new tools and techniques. We have identified three key aspects which
+cause issues when mechanising concurrency theory: linearity, scope
+extrusion in name passing systems and infinite behaviour modelled
+coinductively. Each part of our benchmark exercises the three aspects
+independently to enable comparison and to keep the challenge problems
+small. The three aspects are of course not the only ones that may
+cause issues in mechanisations, but they are fundamental to the field
+and will thus appear in most mechanisations of concurrency theory.
+Actual mechanisations will additionally often require more than just
+one aspect, but we do not address the combination of techniques. In
+the rest of this paper we discuss the design of the challenge and
+briefly describe the three challenge problems.
 
 \section{Design of the challenge}
 We have identified three key aspects fundamental to mechanisations of concurrent calculi and designed our challenge problems to exercise these.
