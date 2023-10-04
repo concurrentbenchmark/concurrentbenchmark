@@ -4,8 +4,12 @@
 \renewcommand{\Cupdate}[2]{#1, #2}
 \newcommand{\TinV}[2]{{?#1}.#2}
 \newcommand{\ToutV}[2]{{!#1}.#2}
+\newcommand{\tend}[1]{\mathbf{end}(#1)}
 
-We (AM) reformulate the rules using a dual presentation, which does without the qualifiers. Hopefully, they should be equivalent. Here $\Gamma$ is unrestricted and $\Delta$ is linear. They can be seen as multisets, where comma is split/union, overloaded to singletons and $\cdot$ is the empty multiset. In rule UN-L, $\un T$ is just notation for $T$ being either $\Tbase$ or \textbf{end}.
+
+% We (AM) reformulate the rules using a dual presentation, which does without the qualifiers. Hopefully, they should be equivalent.
+
+Here $\Gamma$ is unrestricted and $\Delta$ is linear. The former is a set, the latter a multiset, where comma is split/union, overloaded to singletons and $\cdot$ is the empty multiset.  $\tend \Phi$ denotes that all types in the range of $\Phi$ are $\Tend$.
 \begin{mathpar}
   \inferrule[T-Base]{ }{\typev{\Gamma}{\hastype{a}{\Tbase}}} \and
   \inferrule[T-Var]{ }{\typev{\Cadd{\Gamma}{\hastype{l}{\Tbase}}}{\hastype{l}{\Tbase}}}
@@ -17,36 +21,52 @@ The only typing rule for names is:
 The typing rules for processes are as follows:
 \begin{mathpar}
 
-  \inferrule[T-Inact]{ }{\types{\Gamma;\cdot}{\Pend}}
+  \inferrule[T-Inact]{\tend\Delta }{\types{\Gamma;\Delta}{\Pend}}
   \and
   \inferrule[T-Par]{\types{\Gamma;\Delta_1}{P} \\ \types{\Gamma;\Delta_2}{Q}}
   {\types{\Gamma; \Csplit{\Delta_1}{\Delta_2}}{\Ppar{P}{Q}}}
   \and
   \inferrule[T-Res]{\types{\Gamma; (\Cadd{\Cadd{\Delta}{\hastype{x}{T}}}{\hastype{y}{\dual{T}}}}{P})}{\types{\Gamma}{\Presd{x}{y}{P}}}
   \and
-  \inferrule[T-Out]{\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
-    \typev{\Gamma}{\hastype{v}{\Tbase}} \\ \types{\Gamma; (\Cupdate{\Delta}{\hastype{x}{T}})}{P}}{\types{\Gamma; \Csplit{\Delta_1}{\Delta_2}}{\Pout{x}{v}{P}}}
-  \and
-    \inferrule[T-IN]{\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
-      \typev{\Gamma}{\hastype{v}{\Tbase}} \\ \types{(\Gamma, \hastype l \Tbase); (\Cupdate{\Delta_2}{\hastype{x}{T}})}{P}}{\types{\Gamma; \Csplit {\Delta_1}{\Delta_2}}{\Pin{x}{l}{P}}}
-\and
-\inferrule[UN-L]
-{\types{(\Gamma,l : T); \Delta}{P\{x/ l\}}}
-{\types{\Gamma; (\Delta, x: \un{T})}{P}}
-%   \inferrule[T-In]{}%\types{\Gamma;\Delta_1}{\hastype{x}{\Tin{U}}}
-% %    \\ \types{\Gamma;\cdot}\hastype{l}{\Tbase} \qquad \Delta,\hastype{x}{U}}{P}}
-%       {\types{\Gamma; \Csplit{\hastype{x}{\Tin{U}}}{\Delta}}{\Pin{x}{l}{P}}}
+    \inferrule[T-Out]{%\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
+      \typev{\Gamma}{\hastype{v}{\Tbase}} \\ \types{\Gamma; \Cupdate{\Delta}{\hastype{x}{T}}}{P}}{\types{\Gamma; \Csplit{\hastype{x}{\Tout{T}}}{{\Delta}}}{\Pout{x}{v}{P}}}
+   %  \and
+   % \inferrule[T-Out]{\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
+   %   \typev{\Gamma}{\hastype{v}{\Tbase}} \\ \types{\Gamma; (\Cupdate{\Delta}{\hastype{x}{T}})}{P}}{\types{\Gamma; \Csplit{\Delta_1}{\Delta_2}}{\Pout{x}{v}{P}}}
+    \and
+    \inferrule[T-IN]{%\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
+      %\typev{\Gamma}{\hastype{v}{\Tbase}} \\
+      \types{(\Gamma, \hastype l \Tbase); (\Cupdate{\Delta}{\hastype{x}{T}})}{P}}{\types{\Gamma; \Csplit{\hastype{x}{\Tin{T}}}{{\Delta}}}{\Pin{x}{l}{P}}}
+  % \inferrule[T-IN]{\typev{\Gamma}{\hastype{v}{\Tbase}} \\
+  %   \types{(\Gamma, \hastype l \Tbase); \Delta}{\types{\Gamma; \Csplit {\hastype{x}{\Tout{T}}}{\Delta}}
+  %     {\Pin{x}{l}{P}}}}
+% \and
+% \inferrule[UN-L]
+% {\types{(\Gamma,l : T); \Delta}{P\{x/ l\}}}
+% {\types{\Gamma; (\Delta, x: \un{T})}{P}}
 \end{mathpar}
-Note that the input and output rules rules can be simplified by unfolding the variable sub-derivation, e.g.:
-\begin{mathpar}
-  \inferrule[T-Out*]{%\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
-    \typev{\Gamma}{\hastype{v}{\Tbase}} \\ \types{\Gamma; \Cupdate{\Delta}{\hastype{x}{T}}}{P}}{\types{\Gamma; \Csplit{\hastype{x}{\Tout{T}}}{{\Delta}}}{\Pout{x}{v}{P}}}
-\end{mathpar}
-\begin{metanote}
-  AM: not sure about \textbf{un}
-\end{metanote}
-\begin{lemma}
-  If \( \types{\Gamma; \Delta}{P} \) and \( \un{T} \) then \( \types{\Cadd{\Gamma}{\hastype{l}{T}};\Delta}{P} \).
+% Note that the input and output rules rules can be simplified by unfolding the variable sub-derivation, e.g.:
+% \begin{mathpar}
+%   \inferrule[T-Out*]{%\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
+%     \typev{\Gamma}{\hastype{v}{\Tbase}} \\ \types{\Gamma; \Cupdate{\Delta}{\hastype{x}{T}}}{P}}{\types{\Gamma; \Csplit{\hastype{x}{\Tout{T}}}{{\Delta}}}{\Pout{x}{v}{P}}}
+% \end{mathpar}
+
+\begin{lemma}[Weakening]\mbox{}
+  \begin{enumerate}
+  \item If \( \types{\Gamma; \Delta}{P} \) then
+    \( \types{\Cadd{\Gamma}{\hastype{l}{T}};\Delta}{P} \).
+      \item If \( \types{\Gamma; \Delta}{P} \) and \( \tend{\Delta} \) then
+    \( \types{\Gamma;\Cadd{\Delta}{\hastype{x}{\Tend}}}{P} \).
+\end{enumerate}
+\end{lemma}
+
+\begin{lemma}[Strengthening]\mbox{}
+  TBD
+\end{lemma}
+
+\begin{lemma}[Substitution]\mbox{}
+  If $\types{(\Gamma, l : \Tbase);\Delta}{P}$ and ${\typev{\Gamma}{\hastype{v}{\Tbase}}}$ then
+  \( \types{\Gamma;\Delta}{\subst{P}{l}{v}} \).
 \end{lemma}
 % keep: AM (Vasco's)
 % \newpage
