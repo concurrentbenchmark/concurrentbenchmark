@@ -104,9 +104,34 @@ small. The three aspects are of course not the only ones that may
 cause issues in mechanisations, but they are fundamental to the field
 and will thus appear in most mechanisations of concurrency theory.
 Mechanisations of actual research will additionally often require more than just
-one aspect, but we do not address the combination of techniques. In
-the rest of this paper we discuss the design of the challenge and
-briefly describe the three challenge problems.
+one aspect, but we do not address the combination of techniques.
+
+Large scale formalisation of concurrency theory is already possible.
+(Paragraphs about related work in this vein)
+
+However, it is our experience that tools and techniques are chosen in a very ad hoc fashion.
+Like previous benchmark authors, we thus seek to answer a number of questions:
+\begin{enumerate}
+\item What is the current state of the art in mechanising process calculi?
+\item What techniques and best practices can be recommended when starting formalisation projects within concurrency theory?
+\item What improvements are needed to make mechanisation tools more user-friendly with regards to the issues faced when mechanising process calculi?
+\end{enumerate}
+
+Our challenge problems are designed to stimulate progress on answering these questions by providing simple environments in which to demonstrate and evaluate the many tools and techniques available.
+Our problems are drawn from the basic metatheory of process calculi and include as little syntax and as few definitions as possible to obtain an environment in which to express theorems that require interesting proof techniques.
+The theorems themselves are all well-known results, which suits our aim of exploring mechanisation techniques instead of new theory.
+The small scale of the challenge problems also means that they are also accessible to mechanisation experts who may not be familiar with concurrency theory.
+While the challenge problems themselves are thus not of scientific interest, we expect that the best practices and mechanisations developed by solving the challenge problems will also be useful for future research.
+
+We have begun collecting solutions to our challenge problems on our website.
+In the long term, we expect to use the website for promoting best practices, tutorials and guidelines derived from solutions to our challenge problems.
+The interested reader can find more information about the current status at:
+\begin{center}
+  \url{https://concurrentbenchmark.github.io/}
+\end{center}
+We encourage anyone interested to try the challenge problems using their favorite tools and techniques, and to send us their solutions.
+
+In the rest of this paper we discuss the overall design of the benchmark, describe our three challenge problems, and discuss possible extensions and further work.
 
 \section{Design of the challenge}
 We have identified three key aspects fundamental to mechanisations of concurrent calculi and designed our challenge problems to exercise these.
@@ -127,10 +152,6 @@ The proof involves reasoning about names that are ``in the process'' of being sc
 Our \textbf{coinduction challenge} (Appendix~\ref{sec:challenge:coinduction}) is to prove that strong barbed bisimulation is an equivalence relation \footnote{AM: this seems wrong, see:  \( \sbcong{P}{Q} \) if and only if for any process \( R \) and substitution \( \sigma \), \( \sbbisim{\Ppar{\applysubst{\sigma}{P}}{R}}{\Ppar{\applysubst{\sigma}{Q}}{R}} \).}for an untyped calculus of communicating systems with (infinite) replication of processes.
 The proof involves reasoning coinductively about the infinite behaviours of the replication operator.
 We invite anyone interested to send us solutions to the challenge problems and to publish experience reports detailing the advantages and disadvantages of their approaches.
-The interested reader can find more information about the current status of the challenge at:
-\begin{center}
-  \url{https://concurrentbenchmark.github.io/}
-\end{center}
 
 
 \appendix
