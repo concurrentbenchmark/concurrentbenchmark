@@ -134,6 +134,31 @@ We encourage anyone interested to try the challenge problems using their favorit
 In the rest of this paper we discuss the overall design of the benchmark, describe our three challenge problems, and discuss possible extensions and further work.
 
 \section{Design of the benchmark}
+\subsection{Topics we discussed during the meetings}
+- Linearity type system dual vs. Vasco's?
+- Only linear channels or also unrestricted channels?
+- Pi-calculus or CCS for linearity?
+- Choice in general
+  - Choice can be encoded, so is not necessary
+  - Complicates the theory
+  - Add as ``future work''
+- Choice in scope extrusion
+- Extension categories: other topics and small technical differences
+- Why not unified syntax?
+  - Choice and coinduction does not mix
+- Different notions of bisimulation in the coinduction challenge
+- Linearity: the context is polymorphic
+- Coinduction: why is congruence interesting?
+- Why are the challenges not covered by POPLMark/POPLMark Reloaded?
+- Scope extrusion does not behave as ``normal'' a binder wrt. semantics, so the usual techniques may not work
+- A goal is to build a culture of formalising things in the community
+- Linearity is generally interesting
+- Encoding techniques are not different from any other field, so there's nothing ``special'' about the formalisations here
+- We don't care about the content of messages in coinduction, only synchronization
+- Why explicitly bind two endpoints in linearity? To make the duality/polarity connection obvious
+- Linearity: Do we care about avoiding deadlocks? No, this is stronger than safety as in well-formedness
+- Asynchrony? Not necessary, this is a it more advanced
+- ``Proper'' barbs with a structural congruence in coinduction instead of LTS semantics
 
 \subsection{Evaluation criteria}
 
