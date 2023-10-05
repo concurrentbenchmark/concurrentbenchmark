@@ -69,8 +69,7 @@
 The introduction of the influential POPLMark challenge~\cite{POPLMark}
 spearheaded a shift to including mechanised proofs accompanying
 published papers. POPLMark's abstract starts with an important
-question: ``How close are we to a world where every paper on program-
-ming languages is accompanied by an electronic appendix with machine-
+question: ``How close are we to a world where every paper on programming languages is accompanied by an electronic appendix with machine-
 checked proofs?''. Much progress has been done in that respect,
 notably the POPLMark Reloaded~\cite{POPLMarkReloaded} challenge aims
 to identify and develop best practices and tool support for proofs
@@ -158,6 +157,7 @@ In the rest of this paper we discuss the overall design of the benchmark, descri
 - Why explicitly bind two endpoints in linearity? To make the duality/polarity connection obvious
 - Linearity: Do we care about avoiding deadlocks? No, this is stronger than safety as in well-formedness
 - Asynchrony? Not necessary, this is a it more advanced
+- Why do we keep the restrictions around in the LTS semantics in scope extrusion?
 - ``Proper'' barbs with a structural congruence in coinduction instead of LTS semantics
 
 \subsection{Evaluation criteria}
