@@ -133,7 +133,10 @@ We encourage anyone interested to try the challenge problems using their favorit
 
 In the rest of this paper we discuss the overall design of the benchmark, describe our three challenge problems, and discuss possible extensions and further work.
 
-\section{Design of the challenge}
+\section{Design of the benchmark}
+
+\subsection{Evaluation criteria}
+
 We have identified three key aspects fundamental to mechanisations of concurrent calculi and designed our challenge problems to exercise these.
 Like previous benchmark authors, we would like to stress that our challenge is not meant to be comprehensive: applications such as multiparty session types, choreographies, conversation types and psi-calculi are not directly covered by our challenge problems.
 Most applications will however still need the basic techniques that our challenge problems exercise.
@@ -144,15 +147,26 @@ Solutions to our challenges do not need to strictly follow the definitions and l
 
 \section{The challenge problems}
 In this section we will briefly describe our three challenge problems, referring to the appendix for the full text of each challenge.
+
+\subsection{Linearity}
 Our \textbf{linearity challenge} (Appendix~\ref{sec:challenge:linearity-beh-types}) is to prove type preservation (also known as subject reduction) for a process calculus with a session type system.
 Session type systems require linear handling of typing contexts, and the proof involves reasoning about the linearity of context splitting operations.
 In name passing systems, scope extrusion is the expansion of the scope of a name when the name is sent outside of its original scope.
+
+\subsection{Scope extrusion}
 Our \textbf{scope extrusion challenge} (Appendix~\ref{sec:challenge:name-passing-scope-extrusion}) is to prove that barbed bisimulation is an equivalence relation for an untyped name passing calculus without infinite behaviour, but with non-deterministic choice.
 The proof involves reasoning about names that are ``in the process'' of being scope extruded, which presents issues for some approaches to mechanising binders.
+
+\subsection{Coinduction}
 Our \textbf{coinduction challenge} (Appendix~\ref{sec:challenge:coinduction}) is to prove that strong barbed bisimulation is an equivalence relation \footnote{AM: this seems wrong, see:  \( \sbcong{P}{Q} \) if and only if for any process \( R \) and substitution \( \sigma \), \( \sbbisim{\Ppar{\applysubst{\sigma}{P}}{R}}{\Ppar{\applysubst{\sigma}{Q}}{R}} \).}for an untyped calculus of communicating systems with (infinite) replication of processes.
 The proof involves reasoning coinductively about the infinite behaviours of the replication operator.
 We invite anyone interested to send us solutions to the challenge problems and to publish experience reports detailing the advantages and disadvantages of their approaches.
 
+\section{Going beyond the challenge problems}
+
+\section{Conclusion}
+
+\subsubsection*{Acknowledgements}
 
 \appendix
 \section{Challenges}
