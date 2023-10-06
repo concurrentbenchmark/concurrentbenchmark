@@ -126,6 +126,7 @@ is well-formed, but has no reduction.
 \paragraph{Syntax}
 Our type system does not type processes directly, but instead focuses on the channels used in the process.
 The syntax of \emph{session types} \( S, T \) and \emph{type contexts} \( \Gamma \) is as follows:
+
 \begin{align*}
   S,T := &&& \Tend \\
   |&&& \Tbase \\
@@ -135,7 +136,7 @@ The syntax of \emph{session types} \( S, T \) and \emph{type contexts} \( \Gamma
   |&&& \Cadd{\Gamma}{\hastype{x}{S}}
        %% AM: added
         \\
-  |&&& \Cadd{\Gamma}{\hastype{l}{S}}
+  |&&& \Cadd{\Gamma}{\hastype{l}{\TBase}} %% changed, AM
 \end{align*}
 The \emph{end type}, \( \Tend \), is the type of an endpoint on which no further interaction is possible.
 The \emph{base type}, \( \Tbase \), is the type of base values.
@@ -161,7 +162,7 @@ The dual of a type, \( \dual{T} \), is defined by the following equations:
 \end{mathpar}
 Note that the dual function is not total, since it is not defined for base types.
 
-\paragraph{Splitting and updating contexts}
+\paragraph{Splitting contexts}
 Our type system will maintain two invariants:
 \begin{enumerate}
 \item Endpoints are used exactly once
