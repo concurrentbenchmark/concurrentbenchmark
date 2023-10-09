@@ -1,5 +1,6 @@
 % \appendix
 \subsection{Dual typing rules}
+\renewcommand{\Cempty}{\cdot}
 \renewcommand{\Csplit}[2]{#1,  #2}
 \renewcommand{\Cupdate}[2]{#1, #2}
 \newcommand{\TinV}[2]{{?#1}.#2}
@@ -7,9 +8,16 @@
 \newcommand{\tend}[1]{\mathbf{end}(#1)}
 
 \begin{metanote}
-  AM: by the typing rules, all types in $\Gamma$ are \textbf{base}, so we could just collect the variables, w/o the types. Similarly we just need to check that $v$ is well-formed. In fact, we may not need $\Gamma$ at all.
+  AM: by the typing rules, all types in $\Gamma$ are \textbf{base}, so we  just collect the variables, w/o the types. Similarly we just need to check that $v$ is well-formed w/o tracking \textbf{base}. We do not do that here now. % In fact, we may not need $\Gamma$ at all.
 \end{metanote}
-% We (AM) reformulate the rules using a dual presentation, which does without the qualifiers. Hopefully, they should be equivalent.
+
+\[
+  \begin{array}{rcl}
+  S,T & ::= & \Tend \mid \Tbase \mid \Tin{S} \mid \Tout{S} \\
+    \Gamma &::= & \Cempty \mid \Gamma, l \\
+                    \Delta &::= & \Cempty \mid \Cadd{\Delta}{\hastype{x}{S}}
+     \end{array}
+\]
 
 Here $\Gamma$ is unrestricted and $\Delta$ is linear. The former is a set, the latter a multiset, where comma is split/union, overloaded to singletons and $\cdot$ is the empty multiset.  $\tend \Phi$ denotes that all types in the range of $\Phi$ are $\Tend$.
 \begin{mathpar}
@@ -18,7 +26,7 @@ Here $\Gamma$ is unrestricted and $\Delta$ is linear. The former is a set, the l
 \end{mathpar}
 The only typing rule for names is:
 \begin{mathpar}
-  \inferrule[T-Name]{ }{\types{{\Gamma; \hastype{x}{T}}}{\hastype{x}{T}}}
+  \inferrule[T-Name]{ {\tend\Delta }}{\types{{\Gamma; \Delta,\hastype{x}{T}}}{\hastype{x}{T}}}
 \end{mathpar}
 The typing rules for processes are as follows:
 \begin{mathpar}
@@ -54,22 +62,43 @@ The typing rules for processes are as follows:
 % \end{mathpar}
 
 \begin{lemma}[Weakening]\mbox{}
+  \label{lemma:weak}
   \begin{enumerate}
   \item If \( \types{\Gamma; \Delta}{P} \) then
     \( \types{\Cadd{\Gamma}{\hastype{l}{T}};\Delta}{P} \).
       \item If \( \types{\Gamma; \Delta}{P} \) and \( \tend{\Delta} \) then
-    \( \types{\Gamma;\Cadd{\Delta}{\hastype{x}{\Tend}}}{P} \).
+    \( \types{\Gamma;\Cadd{\Delta}{\hastype{x}{T}}}{P} \).
 \end{enumerate}
 \end{lemma}
+\begin{metanote}
+  Linear weakening holds only if we allow $\tend\Delta$ in T-NAME. 
+\end{metanote}
 
 \begin{lemma}[Strengthening]\mbox{}
-  TBD
+  \label{lemma:strenD}
+  If \( \types{\Gamma; \Delta, z : T}{P} \) and $z\not\in fv(P)$, then \( \types{\Gamma; \Delta}{P} \).
 \end{lemma}
 
 \begin{lemma}[Substitution]\mbox{}
-  If $\types{(\Gamma, l : \Tbase);\Delta}{P}$ and ${\typev{\Gamma}{\hastype{v}{\Tbase}}}$ then
-  \( \types{\Gamma;\Delta}{\subst{P}{l}{v}} \).
+  If $\types{(\Gamma, l);\Delta}{P}$ and ${\typev{\Gamma}{\hastype{a}{\Tbase}}}$ then
+  \( \types{\Gamma;\Delta}{\subst{P}{l}{a}} \).
 \end{lemma}
+
+\begin{lemma}[Preservation for $\equiv$]
+  If \( \types{\Gamma;\Delta}{P} \) and \( \scong{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
+\end{lemma}
+\begin{proof}
+  By induction on the structure of a process context. In the base case, proceed by case analysis on the \textsl{Sc} rule applied:
+  \begin{description}
+  \item[Res:] use weakening \ref{lemma:weak} part 2
+  \item[Comm/Assoc:] by rearranging subderivations noting that  order does not matter for linear context
+  \item[Inact] Left-to-right by strengthening~\ref{lemma:strenD}. Viceversa (if we follow Vasco's proof structure), by weakening \ref{lemma:weak} part 2.
+  \item[Res-Par] Follows Vasco's proof by case analysis on $x : T$ being linear and applying weak and stren accordingly.
+  \item[Res] order does not matter
+  \end{description}
+  
+\end{proof}
+
 % keep: AM (Vasco's)
 % \newpage
 % \begin{mathpar}

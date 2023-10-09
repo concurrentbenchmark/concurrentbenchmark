@@ -1,3 +1,8 @@
+Stren: if 0 rule has no end DD, not provable: need DD not to be empty
+
+GG; end DD, x : end |- P and x noi in fv P,them GG; end DD |- P
+
+---------------------
 Sept 23
 
 paper: a lot of repetitions in preliminary notions. I get the
