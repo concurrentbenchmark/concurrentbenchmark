@@ -198,6 +198,61 @@ Solutions to our challenges do not need to strictly follow the definitions and l
 
 \section{Going beyond the challenge problems}\label{sec:going-beyond}
 
+As with the challenges that came before, this challenge is intended to
+have useful solutions, but not to cover every problem that may be
+faced when mechanised systems based on message passing calculi. Going
+beyond the current challenges could be in one of two dimensions: the
+first dimension about making harder challenges starting from the
+current ones, and a second one about devising challenges not covered
+by the current benchmarks.
+
+The proposed challenges are orthogonal, however, in general systems
+will combine some or all aspects of the challenges. An interesting
+second round of formalisations could entail combining the features of
+the challenges. In the following table we consider the following three
+additions: First the addition of choice to the type level and the
+process level. Second, the addition of recursion (and recursion types
+for typed systems). And finally, the addition of channel delegation
+for those calculi that do not already support it.
+
+The following table shows which extension should be suitable (denoted
+by a $+$) for each challenge:
+
+\vspace{.5em}
+
+\begin{tabular}{|r|c|c|c|}
+  \hline
+  & Linearity & \shortstack{Scope \\ extrusion} & Coinduction \\
+  \hline
+  Choice & $+$ & $+$  & $+$ \\
+  \hline
+  \shortstack{Recursive \\ types} & $+$  & $+$ & \\
+  \hline
+  Delegation & $+$ & & $+$ \\
+  \hline
+\end{tabular}
+
+\vspace{.5em}
+
+Note that these additions, make the challenges less orthogonal by
+combining some of their features. This is to be expected, in the sense
+that the proposed challenges should form the building blocks of more
+complex systems.
+
+The other dimension to extend these calculi corresponds to systems
+that are not covered by our challenges\dots
+% Multiparty session types, and choreographies.
+
+% different notions of bisimilarity (barbed, or weak, etc.), trace equivalence.
+
+% Exercising different features of proof assistants like: code
+% extraction and/or code automation.
+
+% Interaction between formalised proofs and model checkers.
+
+% And any other
+
+
 \section{Conclusion}\label{sec:conclusion}
 
 \subsubsection*{Acknowledgements}
