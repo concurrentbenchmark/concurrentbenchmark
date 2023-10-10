@@ -1,5 +1,15 @@
 \documentclass[aspectratio=169,hyperref={pdfpagelabels=false}]{beamer}
 \input{preamble.tex}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathpartir}
+\usepackage{bm}
+\usepackage{hyperref}
+\usepackage{cleveref}
 
 \title[Concurrent Calculi Formalisation Benchmark]{\texorpdfstring{Concurrent Calculi\\Formalisation Benchmark}{Concurrent Calculi Formalisation Benchmark}}
 \author{Marco Carbone
@@ -20,6 +30,8 @@
 \makeatletter
 \def\beamer@andtitle{\unskip, }
 \makeatother
+
+\input{../macros.tex}
 
 \begin{document}
 \inserttitlepage
@@ -44,8 +56,56 @@
 \end{frame}
 
 \begin{frame}{Name passing and scope extrusion}
-  Handling opening and closing of restrictions + small example
+  %Handling opening and closing of restrictions + small example
+
+  \[P,Q := \Pend\quad|\quad \Ppar{P}{Q}\quad|\quad\Pout{x}{y}{P}\quad|\quad\Pin{x}{y}{P}\quad|\quad \Pres{x}{P}\]
+
+  \ \\
+
+  \visible<2->{
+    One relevant example:
+    \[\Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})}\]
+  }
+  
+      
 \end{frame}
+
+\begin{frame}{Name passing and scope extrusion 1: structural congruence}
+  %Handling opening and closing of restrictions + small example
+
+  First approach:\ \\
+
+  \[
+  \begin{array}{ll}
+    \Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})} & \visible<2->{\equiv}\\
+    \visible<2->{\Pres{y}{ (\Ppar{\Pout{x}{y}{P}}{\Pin{x}{z}{Q}})}} & \visible<3->{\rightarrow}\\
+    \visible<3->{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}} & \visible<4->{\dots}
+  \end{array}
+  \]
+  \ \\ \ \\
+
+  \visible<2->{
+    \alt<3->
+        {
+          \visible<3>{
+            \[
+            \begin{array}{lll}
+              \inferrule[R-Com]{ }{\reduces{\Ppar{\Pout{x}{y}{P}}{\Pin{x}{z}{Q}}}{\Ppar{P}{\subst{Q}{y}{z}}}}
+              & \text{ and } &
+              \inferrule[R-Res]{\reduces{P}{Q}}{\reduces{\Pres{x}{P}}{\Pres{x}{Q}}}
+            \end{array}
+            \]
+          }
+        }
+        {
+          \[
+          \inferrule[Sc-Res-Par]{x \notin \freenames{Q}}{\scong{\Ppar{\Pres{x}{P}}{Q}}{\Pres{x}{(\Ppar{P}{Q})}}}
+          \]
+        }
+  }  
+      
+\end{frame}
+
 
 \begin{frame}{Coinduction and infinite processes}
   Up-to techniques + small example
