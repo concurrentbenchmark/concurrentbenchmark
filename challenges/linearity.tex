@@ -63,7 +63,7 @@ Note that there is no recursion of replication in the syntax, and thus no infini
 
 \subsubsection{Semantics}
 We describe the actions that the system can perform using a small step operational semantics.
-To simplify the definition of the reduction relation, we will  factor out a \emph{structural congruence} relation on processes, namely  ithe smallest congruence relation that satisfies the following axioms:
+To simplify the definition of the reduction relation, we will  factor out a \emph{structural congruence} relation on processes, namely  the smallest congruence relation that satisfies the following axioms:
 \begin{mathpar}
   \inferrule[Sc-Par-Comm]{ }{\scong{\Ppar{P}{Q}}{\Ppar{Q}{P}}}
   \and
@@ -105,12 +105,14 @@ To alleviate this issue, we introduce a \emph{session type system}, which will d
 \begin{metanote}
   AM: I've moved the discussion of well-formedness must go after the
   type system, since we want to separate the preservation vs
-  safety challemges
+  safety challenges
 \end{metanote}
 \paragraph{Syntax}
 Our type system does not type processes directly, but instead focuses on the channels used in the process.
 The syntax of \emph{session types} \( S, T \) and \emph{type contexts} \( \Gamma \) is as follows:
-
+\begin{metanote}
+  AM: take the syntax from dual file appst.tex and adapt
+\end{metanote}
 \begin{align*}
   S,T := &&& \Tend \\
   |&&& \Tbase \\
@@ -157,7 +159,7 @@ The first invariant is maintained by linearly splitting type contexts when typin
 The second invariant is maintained by requiring duality when typing restrictions.
 
 \begin{metanote}
-  AM: put here the dual rules
+  AM: put here the dual rules, remove splitting
 \end{metanote}
 
 To keep track of linearity, we introduce two \emph{qualifiers}: \( \un{T} \) and \( \lin{T} \).
