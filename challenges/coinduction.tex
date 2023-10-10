@@ -113,15 +113,20 @@ replication:
 % justified because any overlapping names and variable names may be
 % \( \alpha \)-converted such that the assumption is satisfied.
 
-\paragraph{Semantics.} For this challenge, we give an LTS semantics.
-The semantics of the system describe the actions that the system can
+\paragraph{Semantics.} We give an LTS semantics for this challenge. As
+an alternative, it is also possible to adopt a reduction semantics
+which features less rules but needs a structural congruence. The
+semantics of the system describes the actions that the system can
 perform by defining a labelled transition relation on processes.  The
 transitions are labelled by \emph{actions}, the syntax of which are as
 follows:
+% \begin{align*}
+%   \alpha := &&& \Aoutf{x}{a} \\
+%   |&&& \Ain{x}{a} \\
+%   |&&& \Atau
+% \end{align*}
 \begin{align*}
-  \alpha := &&& \Aoutf{x}{a} \\
-  |&&& \Ain{x}{a} \\
-  |&&& \Atau
+  \alpha\ :=\  \Aoutf{x}{a} \ \mid\ \Ain{x}{a} \ \mid\ \Atau
 \end{align*}
 The \emph{output action} \( \Aoutf{x}{y} \) is sending the base value
 \( a \) via \( x \).  The \emph{input action} \( \Ain{x}{y} \) is
@@ -168,8 +173,8 @@ To this end, we define the \emph{observability predicate} \( \observable{P}{\mu}
 
 \emph{Strong barbed bisimilarity}, written \( \sbbisim{}{} \), is then the largest symmetric relation such that, whenever \( \sbbisim{P}{Q} \):
 \begin{gather}
-  \observable{P}{\mu}~\textrm{implies}~\observable{Q}{\mu} \\
-  \transition{P}{\Atau}{P'}~\textrm{implies}~\transition{Q}{\Atau}{\sbbisim{}{} P'}
+  \observable{P}{\mu}~\textrm{implies}~\observable{Q}{\mu}\label{eq:bisim1} \\
+  \transition{P}{\Atau}{P'}~\textrm{implies}~\transition{Q}{\Atau}{\sbbisim{}{} P'}\label{eq:bisim2}
 \end{gather}
 We say that a relation is a \emph{strong barbed bisimulation} if it satisfies the conditions given above, but is not necessarily the largest such relation, and that \( P \) and \( Q \) are \emph{strong barbed bisimilar} if \( \sbbisim{P}{Q} \).
 Note that, since our systems have potentially infinite behaviors, and strong barbed bisimilarity is defined as the largest relation that satisfies the conditions, bisimulation cannot be defined inductively.
@@ -178,15 +183,24 @@ Note that, since our systems have potentially infinite behaviors, and strong bar
   \( \sbbisim{}{} \) is an equivalence relation, that is, the relation is reflexive, symmetric, and transitive.
 \end{theorem}
 \begin{proof}
-  We need to prove that $\sbbisim{}{}$ is reflexive, symmetric, and
-  commutative.
+  % We need to prove that $\sbbisim{}{}$ is reflexive, symmetric, and
+  % commutative.
+  We prove the three properties separately: 
   \begin{itemize}
-  \item Reflexivity is straightforward. For any $P$, we need to show
-    that $P\sbbisim{}{} P$. Condition from equation~\ref{} follows
-    trivially ($P$ has the same barbs as itself). Similarly, the
-    second condition in equation~\ref{} follows trivially.
-  \item
-  \item
+  \item Reflexivity is straightforward: for any $P$, we need to show
+    that $P\sbbisim{}{} P$. Both conditions in
+    equations~\ref{eq:bisim1} and \ref{eq:bisim2} follow trivially.
+  \item Symmetry is similar to the previous case: for both
+    $P\sbbisim{}{} Q$ and $Q\sbbisim{}{} P$ the same conditions apply.
+  \item For transitivity, we need to prove that if $P\sbbisim{}{} Q$
+    and $Q\sbbisim{}{} R$ then $P\sbbisim{}{} R$. If
+    $\observable{P}{\mu}$ then, by $P\sbbisim{}{} Q$,
+    $\observable{Q}{\mu}$. Hence, by $Q\sbbisim{}{} R$,
+    $\observable{R}{\mu}$. Moreover, if $\transition{P}{\Atau}{P'}$
+    there exists $Q'$ such that $\transition{Q}{\Atau}{Q'}$ and
+    $P'\sbbisim{}{}Q'$. Also, $\transition{R}{\Atau}{R'}$ with
+    $Q'\sbbisim{}{}R'$. Coinductively, $P'\sbbisim{}{}R'$, hence
+    $P\sbbisim{}{}R$.
   \end{itemize}
   
 \end{proof}
