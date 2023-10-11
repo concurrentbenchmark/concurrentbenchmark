@@ -197,38 +197,50 @@ The proof involves reasoning coinductively about the infinite behaviours of the 
 We invite anyone interested to send us solutions to the challenge problems and to publish experience reports detailing the advantages and disadvantages of their approaches.
 
 \section{Design of the benchmark}\label{sec:design-discussion}
-\subsection{General}
-- Why are the challenges not covered by POPLMark/POPLMark Reloaded?
-- Choice in general
-  - Choice can be encoded, so is not necessary
-  - Complicates the theory
-  - Add as ``future work''
-- Extension categories: other topics and small technical differences
-- Why not unified syntax?
-  - Choice and coinduction does not mix
-- A goal is to build a culture of formalising things in the community
-- Encoding techniques are not different from any other field, so there's nothing ``special'' about the formalisations here
+In this section, we will describe the considerations we considered during the design of the benchmark challenges.
+We will start with some general remarks, then describe the individual design considerations for each challenge problem.
+
+While our challenges require reasoning about binders, which was the main topic of the original POPLMark, they also require other techniques.
+Our challenges also require reasoning about logical relations which goes above the reasoning involved in POPLMark Reloaded.
+
+We have decided not to include the choice construct in our challenge problems.
+Choice constructs complicate the theory, and our aim is to keep the challenges focused.
+For the same reason, each challenge problem only includes the fragment necessary to express the theorems we are interested in with regards to the challenge.
+We leave extensions of the syntax for a future benchmark challenge.
+
+Our challenge problems do not include reasoning about encodings, since we do not believe that encodings require any different reasoning techniques in a concurrency setting than in any other setting.
 
 \subsection{Linearity}
 - Linearity type system dual vs. Vasco's?
-- Only linear channels or also unrestricted channels?
-- Pi-calculus or CCS for linearity?
 - Linearity: the context is polymorphic
-- Linearity is generally interesting
-- Why explicitly bind two endpoints in linearity? To make the duality/polarity connection obvious
-- Linearity: Do we care about avoiding deadlocks? No, this is stronger than safety as in well-formedness
-- Asynchrony? Not necessary, this is a it more advanced
+- Asynchrony? Not necessary, that is a bit more advanced
+
+For our challenge on linear reasoning we have chosen a safety theorem for a session type system since this allows us to involve linear reasoning without many definitions.
+For the same reason we have chosen not to include delegation of channels in the syntax and to use a reduction semantics instead of a transition system semantics.
+
+Linearity is of course interesting in many other subfields of programming languages, and we have thus chosen to base our challenge on a  session type system primarily due to the common use of session types in concurrency theory.
+
+Inspired by Vasconcelos~\cite{Vasconcelos2012}, we use a syntax where restriction binds two variables.
+We have chosen this presentation to make the duality of names obvious in the type system.
+
+The notion of well-formedness we have chosen for our challenge problem is quite basic, and does not for instance consider deadlocked processes.
+While more sophisticated notions of well-formedness are also interesting, the proofs of these properties are more complicated and would thus make the challenge problem more difficult and less focused on the linear aspects of the system.
 
 \subsection{Scope extrusion}
-- Choice in scope extrusion
-- Scope extrusion does not behave as ``normal'' a binder wrt. semantics, so the usual techniques may not work
 - Why do we keep the restrictions around in the LTS semantics in scope extrusion?
 
+Our scope extrusion challenge is the challenge most closely related to the original POPLMark challenge since it concerns the properties of restrictions.
+It is not clear that the techniques used to solve the POPLMark challenges about binders can be easily extended to reasoning about scope extrusion.
+Notably, some techniques\footnote{which?} solve the POPLMark challenge by forbidding free variables, which means that the encoding of the semantics that cover scope extrusion are not obvious.
+
 \subsection{Coinduction}
-- Different notions of bisimulation in the coinduction challenge
 - Coinduction: why is congruence interesting?
-- We don't care about the content of messages in coinduction, only synchronization
 - ``Proper'' barbs with a structural congruence in coinduction instead of LTS semantics
+
+Our coinduction challenge concerns strong barbed bisimulation and congruence.
+Though weak barbed congruence is a more common behavioural equivalence for \(\pi\)-terms, we avoid having to abstract over the number of internal transitions when considering the strong notions of equivalence, thus simplifying the theory.
+
+We have chosen not to include delegation in the coinduction challenge since it is orthogonal to our primary aim of exploring coinductive proof techniques.
 
 \subsection{Evaluation criteria}
 We have identified three key aspects fundamental to mechanisations of concurrent calculi and designed our challenge problems to exercise these.
