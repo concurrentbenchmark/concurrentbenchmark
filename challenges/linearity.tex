@@ -240,7 +240,7 @@ The typing rules for processes are as follows:
     \and
     \inferrule[T-IN]{%\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
       %\typev{\Gamma}{\hastype{v}{\Tbase}} \\
-      \types{(\Gamma, \hastype l \Tbase); (\Cupdate{\Delta}{\hastype{x}{T}})}{P}}{\types{\Gamma; (\Csplit{\Delta}{\hastype{x}{\Tin{T}}})}{\Pin{x}{l}{P}}}
+      \types{(\Gamma,  l ); (\Cupdate{\Delta}{\hastype{x}{T}})}{P}}{\types{\Gamma; (\Csplit{\Delta}{\hastype{x}{\Tin{T}}})}{\Pin{x}{l}{P}}}
   % \inferrule[T-IN]{\typev{\Gamma}{\hastype{v}{\Tbase}} \\
   %   \types{(\Gamma, \hastype l \Tbase); \Delta}{\types{\Gamma; \Csplit {\hastype{x}{\Tout{T}}}{\Delta}}
   %     {\Pin{x}{l}{P}}}}
