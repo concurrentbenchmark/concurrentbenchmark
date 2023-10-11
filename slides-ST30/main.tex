@@ -87,15 +87,13 @@
   \visible<2->{
     \alt<3->
         {
-          \visible<3>{
-            \[
-            \begin{array}{lll}
-              \inferrule[R-Com]{ }{\reduces{\Ppar{\Pout{x}{y}{P}}{\Pin{x}{z}{Q}}}{\Ppar{P}{\subst{Q}{y}{z}}}}
-              & \text{ and } &
-              \inferrule[R-Res]{\reduces{P}{Q}}{\reduces{\Pres{x}{P}}{\Pres{x}{Q}}}
-            \end{array}
-            \]
-          }
+          \[
+          \begin{array}{lll}
+            \inferrule[R-Com]{ }{\reduces{\Ppar{\Pout{x}{y}{P}}{\Pin{x}{z}{Q}}}{\Ppar{P}{\subst{Q}{y}{z}}}}
+            & \text{ and } &
+            \inferrule[R-Res]{\reduces{P}{Q}}{\reduces{\Pres{x}{P}}{\Pres{x}{Q}}}
+          \end{array}
+          \]
         }
         {
           \[
@@ -104,6 +102,63 @@
         }
   }  
       
+\end{frame}
+
+\definecolor{myred}{RGB}{255,160,160}
+\definecolor{mygreen}{RGB}{156,255,186}
+\newcommand{\hg}[1]{\colorbox{mygreen}{$\displaystyle #1$}}
+\newcommand{\hr}[1]{\colorbox{myred}{$\displaystyle #1$}}
+
+\begin{frame}{Name passing and scope extrusion 2: labelled transition system}
+  %Handling opening and closing of restrictions + small example
+
+  Second approach:\ \\
+
+  \[
+  \begin{array}{llll}
+    \Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})} & \visible<2->{\xrightarrow{\tau}} &
+    \visible<2->{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}} & \visible<6->{\dots}
+  \end{array}
+  \]
+  \ \\ \ \\
+\begin{footnotesize}
+  \visible<2->{
+    \[
+    \begin{array}{l}
+      \inferrule{
+        \inferrule{\transition{\Pout{x}{y}{P}}{\Aoutf{x}{y}}{P}\\x\neq y}{\transition{\Pres{y}{\Pout{x}{y}{P}}}{\Aoutb{x}{y}}{P}} \\
+        \transition{\Pin{x}{z}{Q}}{\Ain{x}{y}}{\subst{Q}{y}{z}} \\
+        z \notin \freenames{Q}
+  }{
+        \alt<3->
+            {\transition{\Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})}}{\tau}{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}}}
+            {\hr{\transition{\Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})}}{\tau}{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}}}}
+  }
+        
+      \\ \ \\
+      \visible<3->{
+      \alt<4->
+          {
+            \alt<5->
+                {
+                  \begin{array}{lll}
+                    \inferrule[Out]{ }{\transition{\Pout{x}{y}{P}}{\Aoutf{x}{y}}{P}}
+                    & \text{ and } &
+                    \inferrule[In]{ }{\transition{\Pin{x}{z}{P}}{\Ain{x}{y}}{\subst{P}{y}{z}}}
+                  \end{array}
+                }
+                {
+                  \inferrule[Open]{\transition{P}{\Aoutf{x}{z}}{P'} \\ z \neq x}{\transition{\Pres{z}{P}}{\Aoutb{x}{z}}{P'}}
+                } 
+          }
+          {
+          \inferrule[Close-L]{\transition{P}{\Aoutb{x}{z}}{P'} \\ \transition{Q}{\Ain{x}{z}}{Q'} \\ z \notin \freenames{Q}}{\transition{\Ppar{P}{Q}}{\tau}{\Pres{z}{\Ppar{P'}{Q'}}}}
+          }
+          }
+    \end{array}
+    \]
+  }  
+\end{footnotesize}      
 \end{frame}
 
 
