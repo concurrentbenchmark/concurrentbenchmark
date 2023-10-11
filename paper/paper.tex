@@ -229,16 +229,24 @@ other setting.
 - Linearity: the context is polymorphic
 - Asynchrony? Not necessary, that is a bit more advanced
 
-For our challenge on linear reasoning we have chosen a safety theorem for a session type system since this allows us to involve linear reasoning without many definitions.
-For the same reason we have chosen not to include delegation of channels in the syntax and to use a reduction semantics instead of a transition system semantics.
+For our challenge on linear reasoning we have chosen a safety theorem
+for a session type system since this allows us to involve linear
+reasoning without many definitions. Accordingly, we have chosen not to
+include channel delegation and to use a reduction instead of a
+transition system semantics.
 
 Linearity is of course interesting in many other subfields of programming languages, and we have thus chosen to base our challenge on a  session type system primarily due to the common use of session types in concurrency theory.
 
-Inspired by Vasconcelos~\cite{Vasconcelos2012}, we use a syntax where restriction binds two variables.
-We have chosen this presentation to make the duality of names obvious in the type system.
+Inspired by Vasconcelos~\cite{Vasconcelos2012}, we use a syntax where
+restriction binds two variables. This presentation makes the duality
+of the two names obvious in the type system.
 
-The notion of well-formedness we have chosen for our challenge problem is quite basic, and does not for instance consider deadlocked processes.
-While more sophisticated notions of well-formedness are also interesting, the proofs of these properties are more complicated and would thus make the challenge problem more difficult and less focused on the linear aspects of the system.
+We have simple notion of well-formedness for our challenge problem,
+and does not for instance consider deadlocked processes. While more
+sophisticated notions of well-formedness are also interesting, the
+proofs of these properties are more complicated and would thus make
+the challenge problem more difficult and less focused on the linear
+aspects of the system.
 
 \subsection{Scope extrusion}
 - Why do we keep the restrictions around in the LTS semantics in scope extrusion?
