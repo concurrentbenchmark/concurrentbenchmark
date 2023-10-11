@@ -251,9 +251,13 @@ aspects of the system.
 \subsection{Scope extrusion}
 - Why do we keep the restrictions around in the LTS semantics in scope extrusion?
 
-Our scope extrusion challenge is the challenge most closely related to the original POPLMark challenge since it concerns the properties of restrictions.
+This is the challenge most closely related to the original POPLMark
+challenge since it concerns the properties of binders in restrictions.
 It is not clear that the techniques used to solve the POPLMark challenges about binders can be easily extended to reasoning about scope extrusion.
-Notably, some techniques\footnote{which?} solve the POPLMark challenge by forbidding free variables, which means that the encoding of the semantics that cover scope extrusion are not obvious.
+Notably, techniques like Higher Order Abstract Syntax, or well-scoped
+De\ Bruijn indices do not have the concept of free variables. For this
+kind of system the means to encode the operational semantics are not
+obvious.
 
 \subsection{Coinduction}
 - Coinduction: why is congruence interesting?
