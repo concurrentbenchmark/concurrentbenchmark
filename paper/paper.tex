@@ -185,20 +185,25 @@ In this section we will briefly describe our three challenge problems, referring
 \subsection{Linearity}
 Our \textbf{linearity challenge} (Appendix~\ref{sec:challenge:linearity-beh-types}) is to prove type preservation (also known as subject reduction) for a process calculus with a session type system.
 Session type systems require linear handling of typing contexts, and the proof involves reasoning about the linearity of context splitting operations.
-In name passing systems, scope extrusion is the expansion of the scope of a name when the name is sent outside of its original scope.
 
 \subsection{Scope extrusion}
-Our \textbf{scope extrusion challenge} (Appendix~\ref{sec:challenge:name-passing-scope-extrusion}) is to prove that barbed bisimulation is an equivalence relation for an untyped name passing calculus without infinite behaviour, but with non-deterministic choice.
+In name passing systems, scope extrusion is the expansion of the scope of a name when the name is sent outside of its original scope.
+Our \textbf{scope extrusion challenge} (Appendix~\ref{sec:challenge:name-passing-scope-extrusion}) is to prove the equivalence between reduction semantics and labelled transition system semantics up to structural congruence.
 The proof involves reasoning about names that are ``in the process'' of being scope extruded, which presents issues for some approaches to mechanising binders.
 
 \subsection{Coinduction}
 Our \textbf{coinduction challenge} (Appendix~\ref{sec:challenge:coinduction}) is to prove that strong barbed congruence acts like a congruence for an untyped calculus of communicating systems with (infinite) replication of processes.
 The proof involves reasoning coinductively about the infinite behaviours of the replication operator.
-We invite anyone interested to send us solutions to the challenge problems and to publish experience reports detailing the advantages and disadvantages of their approaches.
 
 \section{Design of the benchmark}\label{sec:design-discussion}
 In this section, we will describe the considerations we considered during the design of the benchmark challenges.
 We will start with some general remarks, then describe the individual design considerations for each challenge problem.
+
+We have identified three key aspects fundamental to mechanisations of concurrent calculi and designed our challenge problems to exercise these.
+Like previous benchmark authors, we would like to stress that our challenge is not meant to be comprehensive: applications such as multiparty session types, choreographies, conversation types and psi-calculi are not directly covered by our challenge problems.
+Most applications will however still need the basic techniques that our challenge problems exercise.
+We have designed our challenge problems to exercise the three aspects independently, and they can be solved individually and in any order.
+We have designed each problem to be small and easy to understand with basic knowledge of textbook concurrency theory, process calculi and type theory.
 
 While our challenges require reasoning about binders, which was the main topic of the original POPLMark, they also require other techniques.
 Our challenges also require reasoning about logical relations which goes above the reasoning involved in POPLMark Reloaded.
@@ -243,11 +248,6 @@ Though weak barbed congruence is a more common behavioural equivalence for \(\pi
 We have chosen not to include delegation in the coinduction challenge since it is orthogonal to our primary aim of exploring coinductive proof techniques.
 
 \subsection{Evaluation criteria}
-We have identified three key aspects fundamental to mechanisations of concurrent calculi and designed our challenge problems to exercise these.
-Like previous benchmark authors, we would like to stress that our challenge is not meant to be comprehensive: applications such as multiparty session types, choreographies, conversation types and psi-calculi are not directly covered by our challenge problems.
-Most applications will however still need the basic techniques that our challenge problems exercise.
-We have designed our challenge problems to exercise the three aspects independently, and they can be solved individually and in any order.
-We have designed each problem to be small and easy to understand with basic knowledge of textbook concurrency theory, process calculi and type theory.
 Solutions to our challenge problems should be compared on three measures: the mechanisation overhead, this being the amount of manually written infrastructure and setup needed to express the definitions in the mechanisation; the adequacy of the formal statements in the mechanisation, i.e.\ whether the proven theorems are easily recognisable as the theorems from the challenge; and the cost of entry for the tools and techniques employed, i.e.\ the difficulty of learning to use the techniques.
 Solutions to our challenges do not need to strictly follow the definitions and lemmas set out in the problem text, but solutions which deviate from the original challenges will need to present more elaborate argumentation for their adequacy.
 
@@ -321,7 +321,7 @@ field. However, combining automated proofs with proof assistants
 offers the potential to ease the path for attempting larger proofs
 with less effort.
 
-Ultimately, the current challenge can be extended in several
+Ultimately, the current challenges can be extended in several
 worthwhile directions, and we look forward to a future when they
 indeed are extended. Moreover, we see the current challenge as setting
 the foundation for those future extensions. It is our expectation that
