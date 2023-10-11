@@ -1,11 +1,5 @@
 \subsection{Challenge: Linearity and behavioral type systems}
 \label{sec:challenge:linearity-beh-types}
-\renewcommand{\Cempty}{\cdot}
-\renewcommand{\Csplit}[2]{#1,  #2}
-\renewcommand{\Cupdate}[2]{#1, #2}
-\newcommand{\TinV}[2]{{?#1}.#2}
-\newcommand{\ToutV}[2]{{!#1}.#2}
-\newcommand{\tend}[1]{\mathbf{end}(#1)}
 This challenge formalises a proof that requires reasoning about linearity of channels.
 Linearity is the notion that a channel must be used exactly once in a process.
 This is necessary to prove properties about session type systems.
@@ -22,25 +16,7 @@ processes can only transition to processes which are also well-typed
 in the same context.
 
 \subsubsection{Syntax}
-
-% We assume the existence of some type of \emph{base values}, values of which we will denote by \( a, b, \dots \), the existence of some type of \emph{variable names}, values of which we will denote by \( l, m, \dots \), and the existence of some type of \emph{names}, values of which we will denote by \( x, y, \dots \).
-% We assume the existence of some type of \emph{base values}, represented by the symbols
-%  \( a, b, \dots \), the existence of some type
-% of \emph{variable names}, represented by the symbols
-% \( l, m, \dots \), and the existence of some type of \emph{names},
-% represented by the symbols \( x, y, \dots \).
-
 The syntax is given by the grammar:
-% \begin{align*}
-%   v,w :=&&& a \\
-%   |&&& l \\
-%   P,Q :=&&& \Pend \\
-%   |&&& \Pout{x}{v}{P} \\
-%   |&&& \Pin{x}{l}{P} \\
-%   |&&& \Ppar{P}{Q} \\
-%   |&&& \Presd{x}{y}{P}
-         %   \end{align*}
-% \newcommand{\bmid}{\mathbf{\Vert}}
 \[
 \begin{array}{rcl}
   v,w & ::= & a \mid l \\
@@ -48,30 +24,16 @@ The syntax is given by the grammar:
 \end{array}
 \]
 A \emph{value} \( v, w, \dots \) is either a base value \( a \) or a variable name \( l \).
-% The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
-The output process \( \Pout{x}{v}{P} \) sends the value \( v \) via \( x \), then continue as \( P \).
+
+The output process \( \Pout{x}{v}{P} \) can send the value \( v \) via \( x \), then continue as \( P \).
 The intention is that the value \( v \) must be a base value when it is actually sent, and this will be enforced in the semantics later on.
 The input process \( \Pin{x}{l}{P} \) is an \emph{input}, which can receive a base value via \( x \), then continue as \( P \) with the received value substituted for the variable name \( l \).
-% The input operator thus binds the variable name \( l \) in \( P \).
-% The process \( \Ppar{P}{Q} \) is the \emph{composition} of process \( P \) and process \( Q \).
-% The two components can proceed independently of each other, or they can interact via shared names.
+
 The process \( \Presd{x}{y}{P} \) is the \emph{restriction} of the channel with endpoints named \( x \) and \( y \) to \( P \).
 Components in \( P \) can use the names \( x \) and \( y \) to interact with each other (sending on \( x \) and receiving on \( y \) or vice versa), but not with processes outside of the restriction.
 The restriction operator thus binds the names \( x \) and \( y \) in \( P \).
 Note that the scope of a restriction may not change when processes interact, since it is only possible to send and receive values, and not names.
 Note that there is no recursion of replication in the syntax, and thus no infinite behaviors can be expressed.
-
-% We will use the notation \( \freenames{P} \) to denote the set of names that occur free (i.e.\ not bound by a restriction) in \( P \).
-% We will use the notation \( \boundnames{P} \) to denote the set of names that occur bound (by a restriction) in \( P \).
-% We will use the notation \( \freevars{P} \) to denote the set of variable names that occur free (i.e.\ not bound by an input) in \( P \).
-% We will use the notation \( \boundvars{P} \) to denote the set of variable names that occur bound (by an input) in \( P \).
-% We will use the notation \( \subst{P}{v}{l} \) to denote the process \( P \) with value \( v \) substituted for variable name \( l \).
-
-% Two processes \( P \) and \( Q \) are \( \alpha \)-convertible, written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \) by a finite number of substitutions of bound variable names.
-% As a convention, we will identify \( \alpha \)-convertible processes.
-
-% As a convention, we assume that bound names and bound variable names of any processes are chosen to be different from the names and variable names that occur free in any other entities under consideration, such as processes, substitutions, and sets of names or variable names.
-% This is justified because any overlapping names and variable names may be \( \alpha \)-converted such that the assumption is satisfied.
 
 \subsubsection{Semantics}
 We describe the actions that the system can perform using a small step operational semantics.
@@ -104,63 +66,36 @@ Note that there is no rule for inferring an action of an input or output process
 Note also that due to rule \TirName{R-Com}, the process \( \Pin{y}{l}{P} \) can receive \emph{any} base value.
 On the other hand, since the rule \TirName{R-Com} only applies to sending base values, there is no way to send a variable name or a name.
 
-\begin{metanote}
-  AM: the above paragraph is repeated in the coinduction challenge and should be removed there
-\end{metanote}
 \subsubsection{Session types}
 Our process syntax allows us to write processes that are not well-formed in the sense that they either use the endpoints bound by a restriction to communicate in a way that does not follow the intended duality of communication, or attempt to send something which is not a base value.
 As an example, the following process attempts to send a base value on both \( x \) and \( y\), whereas the intention of restricting names is that one of the names is used for sending and the other for receiving: \( \Presd{x}{y}{(\Ppar{\Pout{x}{a}{\Pend}}{\Pout{y}{a}{\Pend}})} \).
-Another example is the following process, which attempts to send a variable that is not resolved at the time of sending: \( \Presd{x}{y}{(\Ppar{\Pout{x}{l}{\Pend}}{\Pin{y}{l}{\Pend}})} \).
+Another example is the following process, which attempts to send a variable that is not instantiated at the time of sending: \( \Presd{x}{y}{(\Ppar{\Pout{x}{l}{\Pend}}{\Pin{y}{l}{\Pend}})} \).
 
 To alleviate this issue, we introduce a \emph{session type system}, which will detect processes that are not well-formed.
 
-\begin{metanote}
-  AM: I've moved the discussion of well-formedness must go after the
-  type system, since we want to separate the preservation vs
-  safety challenges
-\end{metanote}
 \paragraph{Syntax}
 Our type system does not type processes directly, but instead focuses on the channels used in the process.
-The syntax of \emph{session types} \( S, T \) and \emph{type contexts} \( \Gamma \) is as follows:
-
+The syntax of \emph{session types} \( S, T \), unrestricted type contexts \( \Gamma \) and linear type contexts \( \Delta \) is as follows:
 \[
   \begin{array}{rcl}
   S,T & ::= & \Tend \mid \Tbase \mid \Tin{S} \mid \Tout{S} \\
     \Gamma &::= & \Cempty \mid \Gamma, l \\
                     \Delta &::= & \Cempty \mid \Cadd{\Delta}{\hastype{x}{S}}
-     \end{array}
+  \end{array}
 \]
-
-% \begin{metanote}
-%   AM: take the syntax from dual file appst.tex and adapt
-% \end{metanote}
-% \begin{align*}
-%   S,T := &&& \Tend \\
-%   |&&& \Tbase \\
-%   |&&& \Tin{S} \\
-%   |&&& \Tout{S} \\
-%   \Gamma := &&& \Cempty \\
-%   |&&& \Cadd{\Gamma}{\hastype{x}{S}}
-%        %% AM: added
-%         \\
-%   |&&& \Cadd{\Gamma}{\hastype{l}{\Tbase}} %% changed, AM
-% \end{align*}
 The \emph{end type}, \( \Tend \), is the type of an endpoint on which no further interaction is possible.
 The \emph{base type}, \( \Tbase \), is the type of base values.
 The \emph{input type}, \( \Tin{S} \), is the type of an endpoint which is ready to receive a value, then continue with type \( S \).
 The \emph{output type}, \( \Tout{S} \), is the type of an endpoint which is ready to send a value, then continue with type \( S \).
 
-Typing contexts gather type information about names and variables. We distinguish between an unrestricted context $\Gamma$ seen as a set: in our special case where we have only one base type, we only record which variable have been used.
-%
-Type information for channel names is captured in the \emph{linear}
-context $\Delta$. We use the comma as split/union, overloaded to
-singletons and $\cdot$ is the empty multiset.
-% The \emph{empty type context}, \( \Cempty \), does not contain any information.
-         %          The \emph{type context with \( x \) added}, \( \Cadd{\Gamma}{\hastype{x}{T}} \) adds the information that \( x \) has type \( T \) to the existing type context \( \Gamma \).
+Typing contexts gather type information about names and variables.
+We distinguish between an unrestricted context $\Gamma$ seen as a set: since  we have only one base type, we only record which variable names have been used.
+Type information for endpoints is captured in the \emph{linear}
+context \( \Delta \). We use the comma as split/union, overloaded to
+singletons, and \( \Cempty \) is the empty multiset.
 We extend the Barendregt convention to contexts, so that all entries
 are distinct.  Note that the order in which information is added to a
 type context thus does not matter.
-% We treat type contexts as sets, not ordered lists, and the order in which information is added to a type context thus does not matter.
 
 Since we need to determine whether endpoints are used dually to determine whether processes are well-formed, we will need to formally define the dual of a type.
 The dual of a type, \( \dual{T} \), is defined by the following equations:
@@ -171,10 +106,9 @@ The dual of a type, \( \dual{T} \), is defined by the following equations:
   \and
   \inferrule{}{\dual{\Tend} = \Tend}
 \end{mathpar}
-Note that the dual function is not total, since it is not defined for base types.
+Note that the dual function is not total, since it is not defined for the base type.
 
 \subsubsection{Typing rules}
-% \paragraph{Splitting contexts}
 Our type system will maintain two invariants:
 \begin{enumerate}
 \item Endpoints are used exactly once
@@ -183,42 +117,13 @@ Our type system will maintain two invariants:
 The first invariant is maintained by linearly splitting type contexts when typing compositions of processes.
 The second invariant is maintained by requiring duality when typing restrictions.
 
-% \begin{metanote}
-%   AM: put here the dual rules, remove splitting
-% \end{metanote}
-
-% To keep track of linearity, we introduce two \emph{qualifiers}: \( \un{T} \) and \( \lin{T} \).
-% A type is \emph{unrestricted}, \( \un{T} \), if and only if \( T = \Tbase \) or \( T = \Tend \).
-% All types are \emph{linear}, \( \lin{T} \).
-% The qualifiers extend to contexts in the following way: \( q(\Gamma) \) if and only if \( \hastype{x}{T} \in \Gamma \) implies \( q(T) \).
-
-% The \emph{linear split} of a context, \( \Gamma = \Csplit{\Gamma_1}{\Gamma_2} \), is defined by the following rules:
-% \begin{mathpar}
-%   \inferrule[Split-Empty]{ }{\Cempty = \Csplit{\Cempty}{\Cempty}}
-%   \and
-%   \inferrule[Split-Un]{\Csplit{\Gamma_1}{\Gamma_2} = \Gamma \\ \un{T}}{\Cadd{\Gamma}{\hastype{x}{T}} = \Csplit{(\Cadd{\Gamma_1}{\hastype{x}{T}})}{(\Cadd{\Gamma_2}{\hastype{x}{T}})}}
-%   \and
-%   \inferrule[Split-Lin-L]{\Gamma = \Csplit{\Gamma_1}{\Gamma_2}}{\Cadd{\Gamma}{\hastype{x}{S}} = \Csplit{(\Cadd{\Gamma_1}{\hastype{x}{S}})}{\Gamma_2}}
-%   \and
-%   \inferrule[Split-Lin-R]{\Gamma = \Csplit{\Gamma_2}{\Gamma_2}}{\Cadd{\Gamma}{\hastype{x}{S}} = \Csplit{\Gamma_1}{(\Cadd{\Gamma_2}{\hastype{x}{S}})}}
-% \end{mathpar}
-
-% We will also need to update contexts with new type information in a safe way while typing input and output.
-% The \emph{context update}, \( \Cupdate{\Gamma}{\hastype{x}{T}} = \Gamma' \), is defined by the following rules:
-% \begin{mathpar}
-%   \inferrule[Update-Name]{\hastype{x}{U} \notin \Gamma}{\Cupdate{\Gamma}{\hastype{x}{T}} = \Cadd{\Gamma}{\hastype{x}{T}}}
-%   \and
-%   \inferrule[Update-Un]{\un{T}}{\Cupdate{(\Cadd{\Gamma}{\hastype{x}{T}})}{\hastype{x}{T}} = (\Cadd{\Gamma}{\hastype{x}{T}})}
-% \end{mathpar}
-
-
 We have three typing judgments: one for values, one for names, and one for processes.
 The typing rules for values are as follows:
 \begin{mathpar}
   \inferrule[T-Base]{ }{\typev{\Gamma}{\hastype{a}{\Tbase}}} \and
   \inferrule[T-Var]{ }{\typev{\Cadd{\Gamma}l }{\hastype{l}{\Tbase}}}
 \end{mathpar}
-The typing rule for names is, where $\tend \Phi$ denotes that all types in the range of $\Phi$ are $\Tend$:
+The typing rule for names is as follows, where $\tend \Phi$ denotes that all types in the range of $\Phi$ are $\Tend$:
 \begin{mathpar}
   \inferrule[T-Name]{{\tend\Delta }}{\types{{\Gamma; (\Delta,\hastype{x}{T})}}{\hastype{x}{T}}}
 \end{mathpar}
@@ -232,58 +137,21 @@ The typing rules for processes are as follows:
   \and
   \inferrule[T-Res]{\types{\Gamma; (\Cadd{\Cadd{\Delta}{\hastype{x}{T}}}{\hastype{y}{\dual{T}}}}{P})}{\types{\Gamma}{\Presd{x}{y}{P}}}
   \and
-    \inferrule[T-Out]{%\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
+    \inferrule[T-Out]{
       \typev{\Gamma}{\hastype{v}{\Tbase}} \\ \types{\Gamma; \Cupdate{\Delta}{\hastype{x}{T}}}{P}}{\types{\Gamma; (\Csplit{\Delta}{\hastype{x}{\Tout{T}}})}{\Pout{x}{v}{P}}}
-   %  \and
-   % \inferrule[T-Out]{\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
-   %   \typev{\Gamma}{\hastype{v}{\Tbase}} \\ \types{\Gamma; (\Cupdate{\Delta}{\hastype{x}{T}})}{P}}{\types{\Gamma; \Csplit{\Delta_1}{\Delta_2}}{\Pout{x}{v}{P}}}
     \and
-    \inferrule[T-IN]{%\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
-      %\typev{\Gamma}{\hastype{v}{\Tbase}} \\
+    \inferrule[T-IN]{
       \types{(\Gamma,  l ); (\Cupdate{\Delta}{\hastype{x}{T}})}{P}}{\types{\Gamma; (\Csplit{\Delta}{\hastype{x}{\Tin{T}}})}{\Pin{x}{l}{P}}}
-  % \inferrule[T-IN]{\typev{\Gamma}{\hastype{v}{\Tbase}} \\
-  %   \types{(\Gamma, \hastype l \Tbase); \Delta}{\types{\Gamma; \Csplit {\hastype{x}{\Tout{T}}}{\Delta}}
-  %     {\Pin{x}{l}{P}}}}
-% \and
-% \inferrule[UN-L]
-% {\types{(\Gamma,l : T); \Delta}{P\{x/ l\}}}
-% {\types{\Gamma; (\Delta, x: \un{T})}{P}}
 \end{mathpar}
 
-% \begin{mathpar}
-%   \inferrule[T-Base]{\un{\Gamma}}{\types{\Gamma}{\hastype{a}{\Tbase}}}
-%   \and
-%   \inferrule[T-Var]{\un{\Gamma}}{\types{\Cadd{\Gamma}{\hastype{l}{\Tbase}}}{\hastype{l}{\Tbase}}}
-% \end{mathpar}
-% The only typing rule for names is:
-% \begin{mathpar}
-%   \inferrule[T-Name]{\un{\Gamma}}{\types{\Cadd{\Gamma}{\hastype{x}{T}}}{\hastype{x}{T}}}
-% \end{mathpar}
-% The typing rules for processes are as follows:
-% \begin{mathpar}
-%   \inferrule[T-Inact]{\un{\Gamma}}{\types{\Gamma}{\Pend}}
-%   \and
-%   \inferrule[T-Par]{\types{\Gamma_1}{P} \\ \types{\Gamma_2}{Q}}{\types{\Csplit{\Gamma_1}{\Gamma_2}}{\Ppar{P}{Q}}}
-%   \and
-%   \inferrule[T-Res]{\types{\Cadd{\Cadd{\Gamma}{\hastype{x}{T}}}{\hastype{y}{\dual{T}}}}{P}}{\types{\Gamma}{\Presd{x}{y}{P}}}
-%   \and
-%   \inferrule[T-Out]{\types{\Gamma_1}{\hastype{x}{\Tout{T}}} \\ \types{\Gamma_2}{\hastype{v}{\Tbase}} \\ \types{\Cupdate{\Gamma_3}{\hastype{x}{T}}}{P}}{\types{\Csplit{\Gamma_1}{\Csplit{\Gamma_2}{\Gamma_3}}}{\Pout{x}{v}{P}}}
-%   \and
-%   \inferrule[T-In]{\types{\Gamma_1}{\hastype{x}{\Tin{U}}} \\ \types{\Cupdate{\Cadd{\Gamma_2}{\hastype{l}{\Tbase}}}{\hastype{x}{U}}}{P}}{\types{\Csplit{\Gamma_1}{\Gamma_2}}{\Pin{x}{l}{P}}}
-% \end{mathpar}
-
 \subsubsection{Challenge}
-\begin{metanote}
-AM:  I'm separating sr from safety, or whatever we call the latter
-\end{metanote}
-The objective of this challenge is to prove type preservation for our calculus with session types. We start with:
+The objective of this challenge is to prove subject reduction and type safety for our calculus with session types. We start with:
 \begin{theorem}[Subject reduction]
   If \( \types{\Gamma;\Delta}{P} \) and \( \reduces{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
 \end{theorem}
 \begin{proof}
   Induction on the reduction relation, TBD.
 \end{proof}
-
 
 The following lemmas may be of use:
 \begin{lemma}[Weakening]\mbox{}
@@ -295,15 +163,12 @@ The following lemmas may be of use:
     \( \types{\Gamma;\Cadd{\Delta}{\hastype{x}{T}}}{P} \).
 \end{enumerate}
 \end{lemma}
-\begin{metanote}
-  Linear weakening holds only if we put $\tend\Delta$ in T-NAME.
-\end{metanote}
 \begin{proof}
   By induction on the given derivations.
 \end{proof}
 \begin{lemma}[Strengthening]\mbox{}
   \label{lemma:strenD}
-  If \( \types{\Gamma; \Delta, z : T}{P} \) and $z\not\in fv(P)$, then \( \types{\Gamma; \Delta}{P} \).
+  If \( \types{\Gamma; \Delta, z : T}{P} \) and $z\not\in \freenames{P}$, then \( \types{\Gamma; \Delta}{P} \).
 \end{lemma}
 \begin{proof}
   By induction on the given derivation.
@@ -319,9 +184,6 @@ The following lemmas may be of use:
 \begin{lemma}[Preservation for $\equiv$]
   If \( \types{\Gamma;\Delta}{P} \) and \( \scong{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
 \end{lemma}
-\begin{metanote}
-  AM: I'm still confused about this proof, in particular Vasco's approach to consider the axioms as symmetrization of rewrite rules
-\end{metanote}.
 \begin{proof}
   By induction on the structure of a process context. In the base case, proceed by case analysis on the \textsl{Sc} rule applied:
   \begin{description}
@@ -335,34 +197,6 @@ The following lemmas may be of use:
   For the step case, TBD
 \end{proof}
 
-% \begin{lemma}
-%   If \( \types{\Gamma}{P} \) and \( \un{T} \) then \( \types{\Cadd{\Gamma}{\hastype{x}{T}}}{P} \).
-% \end{lemma}
-
-% \begin{lemma}
-%   Assume \( \types{\Gamma}{P} \) and \( x \notin \freenames{P} \).
-%   Then:
-%   \begin{enumerate}
-%   \item \( \hastype{x}{\Tout{T}} \notin \Gamma \).
-%   \item \( \hastype{x}{\Tin{T}} \notin \Gamma \).
-%   \item if \( \Gamma = \Cadd{\Gamma'}{\hastype{x}{T}} \) then \( \types{\Gamma'}{P} \).
-%   \end{enumerate}
-% \end{lemma}
-
-% \begin{lemma}
-%   If \( \types{\Gamma}{P} \) and \( \scong{P}{Q} \) then \( \types{\Gamma}{Q} \).
-% \end{lemma}
-% % \begin{metanote}
-% %   AM: the statement of substitution was wrong: now it is consistent with the op sem, but I need to check the (I assume now simpler) proof. Note that $T$ must be \textbf{base} and \( \un{\Gamma_i} \) must also hold.
-% % \end{metanote}
-% \begin{lemma}
-%   If \( \types{\Gamma_1}{\hastype{v}{T}} \) and
-%   \( \types{\Cadd{\Gamma_2}{\hastype{l}{T}}}{P} \) and
-%   \( \Gamma = \Csplit{\Gamma_1}{\Gamma_2} \) then
-%   \( \types{\Gamma}{\subst{P}{l}{v}} \).
-% \end{lemma}
-
-
 To formulate safety, we need to formally define what we mean by well-formed.
 We say that a process \( P \) is \emph{prefixed at variable \( x \)} if it is of the form \( \Pout{x}{v}{P} \) or \( \Pin{x}{l}{P} \).
 A process is then \emph{well-formed} if, for each of its structurally congruent processes of the form \( \Presd{x_1}{y_1}{\dots \Presd{x_n}{y_n}{(\Ppar{\Ppar{P}{Q}}{R})}} \), with \( n \geq 0 \), it holds that, if \( P \) is prefixed at \( x_1 \) and \( Q \) is prefixed at \( y_1 \), then \( \Ppar{P}{Q} \) is of the form \( \Ppar{\Pout{x_1}{a}{P'}}{\Pin{y_1}{l}{Q'}} \).
@@ -374,10 +208,10 @@ Note that well-formed processes do not necessarily reduce, since e.g.\ the proce
 is well-formed, but has no reduction.
 
 
-\begin{theorem}[Safety]
+\begin{theorem}[Type safety]
   If \( \types{\Cempty}{P} \), then \( P \) is well-formed.
 \end{theorem}
 
-\begin{corollary}[Type preservation]
+\begin{corollary}
   If \( \types{\Cempty}{P} \) and \( \reduces{P}{Q} \) then \( Q \) is well-formed.
 \end{corollary}
