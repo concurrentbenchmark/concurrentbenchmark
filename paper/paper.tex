@@ -196,8 +196,10 @@ Our \textbf{coinduction challenge} (Appendix~\ref{sec:challenge:coinduction}) is
 The proof involves reasoning coinductively about the infinite behaviours of the replication operator.
 
 \section{Design of the benchmark}\label{sec:design-discussion}
-In this section, we will describe the considerations we considered during the design of the benchmark challenges.
-We will start with some general remarks, then describe the individual design considerations for each challenge problem.
+In this section, we outline the factors considered in designing the
+benchmark challenges. We start with some general remarks, then
+describe the individual design considerations for each challenge
+problem.
 
 We have identified three key aspects fundamental to mechanisations of concurrent calculi and designed our challenge problems to exercise these.
 Like previous benchmark authors, we would like to stress that our challenge is not meant to be comprehensive: applications such as multiparty session types, choreographies, conversation types and psi-calculi are not directly covered by our challenge problems.
@@ -206,14 +208,21 @@ We have designed our challenge problems to exercise the three aspects independen
 We have designed each problem to be small and easy to understand with basic knowledge of textbook concurrency theory, process calculi and type theory.
 
 While our challenges require reasoning about binders, which was the main topic of the original POPLMark, they also require other techniques.
-Our challenges also require reasoning about logical relations which goes above the reasoning involved in POPLMark Reloaded.
+Our challenges also require reasoning about logical relations which goes above the reasoning involved in POPLMark Reloaded.\fxwarning{does it? as in do we define a type indexed
+  relation and then use that to prove things?}
 
-We have decided not to include the choice construct in our challenge problems.
-Choice constructs complicate the theory, and our aim is to keep the challenges focused.
-For the same reason, each challenge problem only includes the fragment necessary to express the theorems we are interested in with regards to the challenge.
-We leave extensions of the syntax for a future benchmark challenge.
+The aim of this challenge is to keep the problems focused on the
+features we want to exercise. For that reason, we have decided not to
+include the choice construct in our challenge problems. Choice
+constructs complicate the theory. For the same reason, each challenge
+problem only includes the fragment necessary to express the theorems
+we are interested in. We leave extensions of the syntax for a future
+benchmark challenge.
 
-Our challenge problems do not include reasoning about encodings, since we do not believe that encodings require any different reasoning techniques in a concurrency setting than in any other setting.
+Our challenge problems do not include reasoning about encodings. While
+this kind of reasoning is common in the field, it does not require any
+different reasoning techniques in a concurrency setting than in any
+other setting.
 
 \subsection{Linearity}
 - Linearity type system dual vs. Vasco's?
