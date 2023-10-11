@@ -16,6 +16,7 @@ auto/
 *.pag
 *.nav
 *.toc
+*.synctex.gz
 
 # compiled documents
 *.pdf
