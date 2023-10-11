@@ -1,6 +1,6 @@
 Stren: if 0 rule has no end DD, not provable: need DD not to be empty
 
-GG; end DD, x : end |- P and x noi in fv P,them GG; end DD |- P
+GG; end DD, z : end |- P and z noi in fv P,them GG; end DD |- P
 
 ---------------------
 Sept 23

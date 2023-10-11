@@ -1,13 +1,25 @@
 \subsection{Challenge: Linearity and behavioral type systems}
 \label{sec:challenge:linearity-beh-types}
-
+\renewcommand{\Cempty}{\cdot}
+\renewcommand{\Csplit}[2]{#1,  #2}
+\renewcommand{\Cupdate}[2]{#1, #2}
+\newcommand{\TinV}[2]{{?#1}.#2}
+\newcommand{\ToutV}[2]{{!#1}.#2}
+\newcommand{\tend}[1]{\mathbf{end}(#1)}
 This challenge formalises a proof that requires reasoning about linearity of channels.
 Linearity is the notion that a channel must be used exactly once in a process.
 This is necessary to prove properties about session type systems.
 Linear reasoning is also necessary to formalise e.g.\ linear and affine types for the pi-calculus and cut elimination in linear logics.
 
-The setting for this challenge is a small calculus with a session type system, the syntax and semantics of which are presented below.
-The objective of this challenge is to prove type preservation (also known as subject reduction) for the type system, i.e.\ that well-typed processes can only transition to processes which are also well-typed in the same context.
+The setting for this challenge is a small calculus with a session type
+system, the syntax and semantics of which are given below. The
+calculus is a fragment of the one presented in~\cite{Vasconcelos2012},
+formulated in the dual style of~\cite{barber96tr}.
+
+The objective of this challenge is to prove type preservation (also
+known as subject reduction) for the type system, i.e.\ that well-typed
+processes can only transition to processes which are also well-typed
+in the same context.
 
 \subsubsection{Syntax}
 
@@ -110,31 +122,44 @@ To alleviate this issue, we introduce a \emph{session type system}, which will d
 \paragraph{Syntax}
 Our type system does not type processes directly, but instead focuses on the channels used in the process.
 The syntax of \emph{session types} \( S, T \) and \emph{type contexts} \( \Gamma \) is as follows:
-\begin{metanote}
-  AM: take the syntax from dual file appst.tex and adapt
-\end{metanote}
-\begin{align*}
-  S,T := &&& \Tend \\
-  |&&& \Tbase \\
-  |&&& \Tin{S} \\
-  |&&& \Tout{S} \\
-  \Gamma := &&& \Cempty \\
-  |&&& \Cadd{\Gamma}{\hastype{x}{S}}
-       %% AM: added
-        \\
-  |&&& \Cadd{\Gamma}{\hastype{l}{\Tbase}} %% changed, AM
-\end{align*}
+
+\[
+  \begin{array}{rcl}
+  S,T & ::= & \Tend \mid \Tbase \mid \Tin{S} \mid \Tout{S} \\
+    \Gamma &::= & \Cempty \mid \Gamma, l \\
+                    \Delta &::= & \Cempty \mid \Cadd{\Delta}{\hastype{x}{S}}
+     \end{array}
+\]
+
+% \begin{metanote}
+%   AM: take the syntax from dual file appst.tex and adapt
+% \end{metanote}
+% \begin{align*}
+%   S,T := &&& \Tend \\
+%   |&&& \Tbase \\
+%   |&&& \Tin{S} \\
+%   |&&& \Tout{S} \\
+%   \Gamma := &&& \Cempty \\
+%   |&&& \Cadd{\Gamma}{\hastype{x}{S}}
+%        %% AM: added
+%         \\
+%   |&&& \Cadd{\Gamma}{\hastype{l}{\Tbase}} %% changed, AM
+% \end{align*}
 The \emph{end type}, \( \Tend \), is the type of an endpoint on which no further interaction is possible.
 The \emph{base type}, \( \Tbase \), is the type of base values.
 The \emph{input type}, \( \Tin{S} \), is the type of an endpoint which is ready to receive a value, then continue with type \( S \).
 The \emph{output type}, \( \Tout{S} \), is the type of an endpoint which is ready to send a value, then continue with type \( S \).
 
-Typing contexts gather type information about names.
-The \emph{empty type context}, \( \Cempty \), does not contain any information.
-The \emph{type context with \( x \) added}, \( \Cadd{\Gamma}{\hastype{x}{T}} \) adds the information that \( x \) has type \( T \) to the existing type context \( \Gamma \).
-All of the names added to a type context must be distinct.
-Note that
-the order in which information is added to a type context thus does not matter.
+Typing contexts gather type information about names and variables. We distinguish between an unrestricted context $\Gamma$ seen as a set: in our special case where we have only one base type, we only record which variable have been used.
+%
+Type information for channel names is captured in the \emph{linear}
+context $\Delta$. We use the comma as split/union, overloaded to
+singletons and $\cdot$ is the empty multiset.
+% The \emph{empty type context}, \( \Cempty \), does not contain any information.
+         %          The \emph{type context with \( x \) added}, \( \Cadd{\Gamma}{\hastype{x}{T}} \) adds the information that \( x \) has type \( T \) to the existing type context \( \Gamma \).
+We extend the Barendregt convention to contexts, so that all entries
+are distinct.  Note that the order in which information is added to a
+type context thus does not matter.
 % We treat type contexts as sets, not ordered lists, and the order in which information is added to a type context thus does not matter.
 
 Since we need to determine whether endpoints are used dually to determine whether processes are well-formed, we will need to formally define the dual of a type.
@@ -158,25 +183,25 @@ Our type system will maintain two invariants:
 The first invariant is maintained by linearly splitting type contexts when typing compositions of processes.
 The second invariant is maintained by requiring duality when typing restrictions.
 
-\begin{metanote}
-  AM: put here the dual rules, remove splitting
-\end{metanote}
+% \begin{metanote}
+%   AM: put here the dual rules, remove splitting
+% \end{metanote}
 
-To keep track of linearity, we introduce two \emph{qualifiers}: \( \un{T} \) and \( \lin{T} \).
-A type is \emph{unrestricted}, \( \un{T} \), if and only if \( T = \Tbase \) or \( T = \Tend \).
-All types are \emph{linear}, \( \lin{T} \).
-The qualifiers extend to contexts in the following way: \( q(\Gamma) \) if and only if \( \hastype{x}{T} \in \Gamma \) implies \( q(T) \).
+% To keep track of linearity, we introduce two \emph{qualifiers}: \( \un{T} \) and \( \lin{T} \).
+% A type is \emph{unrestricted}, \( \un{T} \), if and only if \( T = \Tbase \) or \( T = \Tend \).
+% All types are \emph{linear}, \( \lin{T} \).
+% The qualifiers extend to contexts in the following way: \( q(\Gamma) \) if and only if \( \hastype{x}{T} \in \Gamma \) implies \( q(T) \).
 
-The \emph{linear split} of a context, \( \Gamma = \Csplit{\Gamma_1}{\Gamma_2} \), is defined by the following rules:
-\begin{mathpar}
-  \inferrule[Split-Empty]{ }{\Cempty = \Csplit{\Cempty}{\Cempty}}
-  \and
-  \inferrule[Split-Un]{\Csplit{\Gamma_1}{\Gamma_2} = \Gamma \\ \un{T}}{\Cadd{\Gamma}{\hastype{x}{T}} = \Csplit{(\Cadd{\Gamma_1}{\hastype{x}{T}})}{(\Cadd{\Gamma_2}{\hastype{x}{T}})}}
-  \and
-  \inferrule[Split-Lin-L]{\Gamma = \Csplit{\Gamma_1}{\Gamma_2}}{\Cadd{\Gamma}{\hastype{x}{S}} = \Csplit{(\Cadd{\Gamma_1}{\hastype{x}{S}})}{\Gamma_2}}
-  \and
-  \inferrule[Split-Lin-R]{\Gamma = \Csplit{\Gamma_2}{\Gamma_2}}{\Cadd{\Gamma}{\hastype{x}{S}} = \Csplit{\Gamma_1}{(\Cadd{\Gamma_2}{\hastype{x}{S}})}}
-\end{mathpar}
+% The \emph{linear split} of a context, \( \Gamma = \Csplit{\Gamma_1}{\Gamma_2} \), is defined by the following rules:
+% \begin{mathpar}
+%   \inferrule[Split-Empty]{ }{\Cempty = \Csplit{\Cempty}{\Cempty}}
+%   \and
+%   \inferrule[Split-Un]{\Csplit{\Gamma_1}{\Gamma_2} = \Gamma \\ \un{T}}{\Cadd{\Gamma}{\hastype{x}{T}} = \Csplit{(\Cadd{\Gamma_1}{\hastype{x}{T}})}{(\Cadd{\Gamma_2}{\hastype{x}{T}})}}
+%   \and
+%   \inferrule[Split-Lin-L]{\Gamma = \Csplit{\Gamma_1}{\Gamma_2}}{\Cadd{\Gamma}{\hastype{x}{S}} = \Csplit{(\Cadd{\Gamma_1}{\hastype{x}{S}})}{\Gamma_2}}
+%   \and
+%   \inferrule[Split-Lin-R]{\Gamma = \Csplit{\Gamma_2}{\Gamma_2}}{\Cadd{\Gamma}{\hastype{x}{S}} = \Csplit{\Gamma_1}{(\Cadd{\Gamma_2}{\hastype{x}{S}})}}
+% \end{mathpar}
 
 % We will also need to update contexts with new type information in a safe way while typing input and output.
 % The \emph{context update}, \( \Cupdate{\Gamma}{\hastype{x}{T}} = \Gamma' \), is defined by the following rules:
@@ -190,26 +215,62 @@ The \emph{linear split} of a context, \( \Gamma = \Csplit{\Gamma_1}{\Gamma_2} \)
 We have three typing judgments: one for values, one for names, and one for processes.
 The typing rules for values are as follows:
 \begin{mathpar}
-  \inferrule[T-Base]{\un{\Gamma}}{\types{\Gamma}{\hastype{a}{\Tbase}}}
-  \and
-  \inferrule[T-Var]{\un{\Gamma}}{\types{\Cadd{\Gamma}{\hastype{l}{\Tbase}}}{\hastype{l}{\Tbase}}}
+  \inferrule[T-Base]{ }{\typev{\Gamma}{\hastype{a}{\Tbase}}} \and
+  \inferrule[T-Var]{ }{\typev{\Cadd{\Gamma}l }{\hastype{l}{\Tbase}}}
 \end{mathpar}
-The only typing rule for names is:
+The typing rule for names is, where $\tend \Phi$ denotes that all types in the range of $\Phi$ are $\Tend$:
 \begin{mathpar}
-  \inferrule[T-Name]{\un{\Gamma}}{\types{\Cadd{\Gamma}{\hastype{x}{T}}}{\hastype{x}{T}}}
+  \inferrule[T-Name]{{\tend\Delta }}{\types{{\Gamma; (\Delta,\hastype{x}{T})}}{\hastype{x}{T}}}
 \end{mathpar}
 The typing rules for processes are as follows:
 \begin{mathpar}
-  \inferrule[T-Inact]{\un{\Gamma}}{\types{\Gamma}{\Pend}}
+
+  \inferrule[T-Inact]{\tend\Delta }{\types{\Gamma;\Delta}{\Pend}}
   \and
-  \inferrule[T-Par]{\types{\Gamma_1}{P} \\ \types{\Gamma_2}{Q}}{\types{\Csplit{\Gamma_1}{\Gamma_2}}{\Ppar{P}{Q}}}
+  \inferrule[T-Par]{\types{\Gamma;\Delta_1}{P} \\ \types{\Gamma;\Delta_2}{Q}}
+  {\types{\Gamma; \Csplit{\Delta_1}{\Delta_2}}{\Ppar{P}{Q}}}
   \and
-  \inferrule[T-Res]{\types{\Cadd{\Cadd{\Gamma}{\hastype{x}{T}}}{\hastype{y}{\dual{T}}}}{P}}{\types{\Gamma}{\Presd{x}{y}{P}}}
+  \inferrule[T-Res]{\types{\Gamma; (\Cadd{\Cadd{\Delta}{\hastype{x}{T}}}{\hastype{y}{\dual{T}}}}{P})}{\types{\Gamma}{\Presd{x}{y}{P}}}
   \and
-  \inferrule[T-Out]{\types{\Gamma_1}{\hastype{x}{\Tout{T}}} \\ \types{\Gamma_2}{\hastype{v}{\Tbase}} \\ \types{\Cupdate{\Gamma_3}{\hastype{x}{T}}}{P}}{\types{\Csplit{\Gamma_1}{\Csplit{\Gamma_2}{\Gamma_3}}}{\Pout{x}{v}{P}}}
-  \and
-  \inferrule[T-In]{\types{\Gamma_1}{\hastype{x}{\Tin{U}}} \\ \types{\Cupdate{\Cadd{\Gamma_2}{\hastype{l}{\Tbase}}}{\hastype{x}{U}}}{P}}{\types{\Csplit{\Gamma_1}{\Gamma_2}}{\Pin{x}{l}{P}}}
+    \inferrule[T-Out]{%\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
+      \typev{\Gamma}{\hastype{v}{\Tbase}} \\ \types{\Gamma; \Cupdate{\Delta}{\hastype{x}{T}}}{P}}{\types{\Gamma; (\Csplit{\Delta}{\hastype{x}{\Tout{T}}})}{\Pout{x}{v}{P}}}
+   %  \and
+   % \inferrule[T-Out]{\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
+   %   \typev{\Gamma}{\hastype{v}{\Tbase}} \\ \types{\Gamma; (\Cupdate{\Delta}{\hastype{x}{T}})}{P}}{\types{\Gamma; \Csplit{\Delta_1}{\Delta_2}}{\Pout{x}{v}{P}}}
+    \and
+    \inferrule[T-IN]{%\types{\Gamma;\Delta_1}{\hastype{x}{\Tout{T}}} \\
+      %\typev{\Gamma}{\hastype{v}{\Tbase}} \\
+      \types{(\Gamma, \hastype l \Tbase); (\Cupdate{\Delta}{\hastype{x}{T}})}{P}}{\types{\Gamma; (\Csplit{\Delta}{\hastype{x}{\Tin{T}}})}{\Pin{x}{l}{P}}}
+  % \inferrule[T-IN]{\typev{\Gamma}{\hastype{v}{\Tbase}} \\
+  %   \types{(\Gamma, \hastype l \Tbase); \Delta}{\types{\Gamma; \Csplit {\hastype{x}{\Tout{T}}}{\Delta}}
+  %     {\Pin{x}{l}{P}}}}
+% \and
+% \inferrule[UN-L]
+% {\types{(\Gamma,l : T); \Delta}{P\{x/ l\}}}
+% {\types{\Gamma; (\Delta, x: \un{T})}{P}}
 \end{mathpar}
+
+% \begin{mathpar}
+%   \inferrule[T-Base]{\un{\Gamma}}{\types{\Gamma}{\hastype{a}{\Tbase}}}
+%   \and
+%   \inferrule[T-Var]{\un{\Gamma}}{\types{\Cadd{\Gamma}{\hastype{l}{\Tbase}}}{\hastype{l}{\Tbase}}}
+% \end{mathpar}
+% The only typing rule for names is:
+% \begin{mathpar}
+%   \inferrule[T-Name]{\un{\Gamma}}{\types{\Cadd{\Gamma}{\hastype{x}{T}}}{\hastype{x}{T}}}
+% \end{mathpar}
+% The typing rules for processes are as follows:
+% \begin{mathpar}
+%   \inferrule[T-Inact]{\un{\Gamma}}{\types{\Gamma}{\Pend}}
+%   \and
+%   \inferrule[T-Par]{\types{\Gamma_1}{P} \\ \types{\Gamma_2}{Q}}{\types{\Csplit{\Gamma_1}{\Gamma_2}}{\Ppar{P}{Q}}}
+%   \and
+%   \inferrule[T-Res]{\types{\Cadd{\Cadd{\Gamma}{\hastype{x}{T}}}{\hastype{y}{\dual{T}}}}{P}}{\types{\Gamma}{\Presd{x}{y}{P}}}
+%   \and
+%   \inferrule[T-Out]{\types{\Gamma_1}{\hastype{x}{\Tout{T}}} \\ \types{\Gamma_2}{\hastype{v}{\Tbase}} \\ \types{\Cupdate{\Gamma_3}{\hastype{x}{T}}}{P}}{\types{\Csplit{\Gamma_1}{\Csplit{\Gamma_2}{\Gamma_3}}}{\Pout{x}{v}{P}}}
+%   \and
+%   \inferrule[T-In]{\types{\Gamma_1}{\hastype{x}{\Tin{U}}} \\ \types{\Cupdate{\Cadd{\Gamma_2}{\hastype{l}{\Tbase}}}{\hastype{x}{U}}}{P}}{\types{\Csplit{\Gamma_1}{\Gamma_2}}{\Pin{x}{l}{P}}}
+% \end{mathpar}
 
 \subsubsection{Challenge}
 \begin{metanote}
@@ -217,37 +278,89 @@ AM:  I'm separating sr from safety, or whatever we call the latter
 \end{metanote}
 The objective of this challenge is to prove type preservation for our calculus with session types. We start with:
 \begin{theorem}[Subject reduction]
-  If \( \types{\Gamma}{P} \) and \( \reduces{P}{Q} \) then \( \types{\Gamma}{Q} \).
+  If \( \types{\Gamma;\Delta}{P} \) and \( \reduces{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
 \end{theorem}
+\begin{proof}
+  Induction on the reduction relation, TBD.
+\end{proof}
 
 
 The following lemmas may be of use:
-\begin{lemma}
-  If \( \types{\Gamma}{P} \) and \( \un{T} \) then \( \types{\Cadd{\Gamma}{\hastype{x}{T}}}{P} \).
-\end{lemma}
-
-\begin{lemma}
-  Assume \( \types{\Gamma}{P} \) and \( x \notin \freenames{P} \).
-  Then:
+\begin{lemma}[Weakening]\mbox{}
+  \label{lemma:weak}
   \begin{enumerate}
-  \item \( \hastype{x}{\Tout{T}} \notin \Gamma \).
-  \item \( \hastype{x}{\Tin{T}} \notin \Gamma \).
-  \item if \( \Gamma = \Cadd{\Gamma'}{\hastype{x}{T}} \) then \( \types{\Gamma'}{P} \).
-  \end{enumerate}
+  \item If \( \types{\Gamma; \Delta}{P} \) then
+    \( \types{\Cadd{\Gamma}{l};\Delta}{P} \).
+      \item If \( \types{\Gamma; \Delta}{P} \) and \( \tend{\Delta} \) then
+    \( \types{\Gamma;\Cadd{\Delta}{\hastype{x}{T}}}{P} \).
+\end{enumerate}
 \end{lemma}
+\begin{metanote}
+  Linear weakening holds only if we put $\tend\Delta$ in T-NAME.
+\end{metanote}
+\begin{proof}
+  By induction on the given derivations.
+\end{proof}
+\begin{lemma}[Strengthening]\mbox{}
+  \label{lemma:strenD}
+  If \( \types{\Gamma; \Delta, z : T}{P} \) and $z\not\in fv(P)$, then \( \types{\Gamma; \Delta}{P} \).
+\end{lemma}
+\begin{proof}
+  By induction on the given derivation.
+\end{proof}
 
-\begin{lemma}
-  If \( \types{\Gamma}{P} \) and \( \scong{P}{Q} \) then \( \types{\Gamma}{Q} \).
+\begin{lemma}[Substitution]\mbox{}
+  If $\types{(\Gamma, l);\Delta}{P}$ and ${\typev{\Gamma}{\hastype{a}{\Tbase}}}$ then
+  \( \types{\Gamma;\Delta}{\subst{P}{l}{a}} \).
 \end{lemma}
-% \begin{metanote}
-%   AM: the statement of substitution was wrong: now it is consistent with the op sem, but I need to check the (I assume now simpler) proof. Note that $T$ must be \textbf{base} and \( \un{\Gamma_i} \) must also hold.
-% \end{metanote}
-\begin{lemma}
-  If \( \types{\Gamma_1}{\hastype{v}{T}} \) and
-  \( \types{\Cadd{\Gamma_2}{\hastype{l}{T}}}{P} \) and
-  \( \Gamma = \Csplit{\Gamma_1}{\Gamma_2} \) then
-  \( \types{\Gamma}{\subst{P}{l}{v}} \).
+\begin{proof}
+  By induction on the first derivation.
+\end{proof}
+\begin{lemma}[Preservation for $\equiv$]
+  If \( \types{\Gamma;\Delta}{P} \) and \( \scong{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
 \end{lemma}
+\begin{metanote}
+  AM: I'm still confused about this proof, in particular Vasco's approach to consider the axioms as symmetrization of rewrite rules
+\end{metanote}.
+\begin{proof}
+  By induction on the structure of a process context. In the base case, proceed by case analysis on the \textsl{Sc} rule applied:
+  \begin{description}
+  \item[Res:] use weakening~\ref{lemma:weak} part 2
+  \item[Comm/Assoc:] by rearranging sub-derivations noting that  order does not matter for linear context
+  \item[Inact] Left-to-right by
+    strengthening~\ref{lemma:strenD}. Vice-versa, by weakening~\ref{lemma:weak} part 2.
+  \item[Res-Par] Follows Vasco's proof by case analysis on $x : T$ being linear and applying weak and stren accordingly.
+  \item[Res] order does not matter
+  \end{description}
+  For the step case, TBD
+\end{proof}
+
+% \begin{lemma}
+%   If \( \types{\Gamma}{P} \) and \( \un{T} \) then \( \types{\Cadd{\Gamma}{\hastype{x}{T}}}{P} \).
+% \end{lemma}
+
+% \begin{lemma}
+%   Assume \( \types{\Gamma}{P} \) and \( x \notin \freenames{P} \).
+%   Then:
+%   \begin{enumerate}
+%   \item \( \hastype{x}{\Tout{T}} \notin \Gamma \).
+%   \item \( \hastype{x}{\Tin{T}} \notin \Gamma \).
+%   \item if \( \Gamma = \Cadd{\Gamma'}{\hastype{x}{T}} \) then \( \types{\Gamma'}{P} \).
+%   \end{enumerate}
+% \end{lemma}
+
+% \begin{lemma}
+%   If \( \types{\Gamma}{P} \) and \( \scong{P}{Q} \) then \( \types{\Gamma}{Q} \).
+% \end{lemma}
+% % \begin{metanote}
+% %   AM: the statement of substitution was wrong: now it is consistent with the op sem, but I need to check the (I assume now simpler) proof. Note that $T$ must be \textbf{base} and \( \un{\Gamma_i} \) must also hold.
+% % \end{metanote}
+% \begin{lemma}
+%   If \( \types{\Gamma_1}{\hastype{v}{T}} \) and
+%   \( \types{\Cadd{\Gamma_2}{\hastype{l}{T}}}{P} \) and
+%   \( \Gamma = \Csplit{\Gamma_1}{\Gamma_2} \) then
+%   \( \types{\Gamma}{\subst{P}{l}{v}} \).
+% \end{lemma}
 
 
 To formulate safety, we need to formally define what we mean by well-formed.
