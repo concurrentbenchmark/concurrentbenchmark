@@ -15,13 +15,12 @@ The objective of this challenge is to prove that the two semantics are equivalen
 \subsubsection{Syntax}
 In this section we assume that \emph{names}  can be compared for equality.
 The syntax of processes is given by:
-\begin{align*}
-  P,Q := &&& \Pend \\
-  |&&& \Ppar{P}{Q} \\
-  |&&& \Pout{x}{y}{P} \\
-  |&&& \Pin{x}{y}{P} \\
-  |&&& \Pres{x}{P} \\
-\end{align*}
+\[
+\begin{array}{rcl}
+  P,Q & :=& \Pend \quad\mid\quad \PBpar{P}{Q} \quad\mid\quad \Pout{x}{y}{P} \quad\mid\quad \Pin{x}{y}{P} \quad\mid\quad \Pres{x}{P}
+\end{array}
+\]
+
 
 %The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
 The process \( \Pout{x}{y}{P} \) is an \emph{output}, which can send the name \( y \) via \( x \), then continue as \( P \).
@@ -82,12 +81,12 @@ This ensures that the reduction relation is closed under structural congruence.
 \subsubsection{Transition system semantics}
 The second semantics of the system describe the actions that the system can perform by defining a labelled transition relation on processes.
 The transitions are labelled by \emph{actions}, the syntax of which is as follows:
-\begin{align*}
-  \alpha := &&& \Aoutf{x}{y} \\
-  |&&& \Ain{x}{y} \\
-  |&&& \Aoutb{x}{y} \\
-  |&&& \Atau
-\end{align*}
+\[
+\begin{array}{rcl}
+  \alpha & :=& \Aoutf{x}{y} \quad\mid\quad \Ain{x}{y} \quad\mid\quad \Aoutb{x}{y} \quad\mid\quad \Atau
+\end{array}
+\]
+
 The \emph{free output action} \( \Aoutf{x}{y} \) is sending the name \( y \) via \( x \).
 The \emph{input action} \( \Ain{x}{y} \) is receiving the name \( y \) via \( x \).
 The \emph{bound output action} \( \Aoutb{x}{y} \) is sending a fresh name \( y \) via \( x \).
