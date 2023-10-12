@@ -198,23 +198,24 @@ benchmark challenges. We start with some general remarks, then
 describe the individual design considerations for each challenge problem.
 
 % We have identified three key aspects fundamental to mechanisations of concurrent calculi and designed our challenge problems to exercise these.
-Like the previous POPLMark and POPLMark Reloaded challenges, our challenge is not meant to be comprehensive: applications such as multiparty session types, choreographies, conversation types, psi-calculi, or encodings between different calculi are not directly covered.  Still, these (and other) proof mechanisation applications will need the basic techniques that our challenges exercise:
+Like the previous POPLMark and POPLMark Reloaded challenges, our challenge is not meant to be comprehensive:
+applications such as multiparty session types~\cite{10.1145/2827695,10.1145/3290343}, choreographies~\cite{DBLP:journals/jar/CruzFilipeMP23}, conversation types~\cite{DBLP:journals/tcs/CairesV10}, psi-calculi~\cite{lmcs:696}, or encodings between different calculi~\cite{DBLP:journals/iandc/Gorla10,DBLP:journals/iandc/DardhaGS17,DBLP:conf/ecoop/ScalasDHY17} are not directly covered.  Still, these (and other) proof mechanisation applications will need the basic techniques that our challenge problems exercise:
 as per our design goal \ref{item:goal-reusability},
 our problems are drawn from the basic metatheory of process calculi (instead
 of requiring the development of new theory), and focus on well-known theorems
 and results that involve interesting proof techniques that may be reused in further work.
 
 To achieve our design goal \ref{item:goal-comperison-accessibility},
-we have designed our challenges to exercise the three aspects (linearity, scope extrusion, coinduction) independently, and they can be solved individually and in any order.
-We have designed each problem to be small and easy to understand with basic knowledge of textbook concurrency theory, process calculi and type theory.  The process calculus used in each challenge
-focuses on the features we want to exercise, and we have omitted all constructs
+we have designed our challenge problems to exercise the three aspects (linearity, scope extrusion, coinduction) independently, and they can be solved individually and in any order.
+We have designed each problem to be small and easy to understand with basic knowledge of textbook concurrency theory, process calculi, and type theory.  The process calculus used in each challenge
+focuses on the features we want to exercise, and omits all constructs
 (such as choices) that would complicate the mechanisation without bringing tangible
-benefits and insights.  (Adding the omitted constructs is of course possible, but we leave
-such extensions as a possibility for a future benchmark challenge.)
+benefits and insights.  (It is of course possible to reintroduce the omitted
+constructs, but we leave this as a possibility for a future benchmark challenge.)
 
-The minimality and uniformity of the calculi also allows us to target our
-design goal \ref{item:goal-tutorials}, i.e.~encouraging the development of
-concurrency theory proof mechanisation guidelines and tutorials.
+The minimality and uniformity of the calculi also allows us to target our design
+goal \ref{item:goal-tutorials}, i.e.~encouraging the development guidelines and
+tutorials for the mechanisation of concurrency theory.
 
 % While our challenges require reasoning about binders, which was the main topic of the original POPLMark, they also require other techniques.
 % Our challenges also require reasoning about logical relations which goes above the reasoning involved in POPLMark Reloaded.
@@ -225,9 +226,11 @@ concurrency theory proof mechanisation guidelines and tutorials.
 % other setting.
 
 \subsection{Linearity}
+\fxerror{%
 - Linearity type system dual vs. Vasco's?
 - Linearity: the context is polymorphic
 - Asynchrony? Not necessary, that is a bit more advanced
+}%
 
 For our challenge on linear reasoning we have chosen a safety theorem
 for a session type system since this allows us to involve linear
@@ -249,7 +252,9 @@ the challenge more difficult and less focused on the linear
 aspects of the system.
 
 \subsection{Scope extrusion}
+\fxerror{%
 - Why do we keep the restrictions around in the LTS semantics in scope extrusion?
+}
 
 This is the challenge most closely related to the original POPLMark
 challenge since it concerns the properties of binders in restrictions.
@@ -261,8 +266,10 @@ this kind of system.
 
 
 \subsection{Coinduction}
+\fxerror{
 - Coinduction: why is congruence interesting?
 - ``Proper'' barbs with a structural congruence in coinduction instead of LTS semantics
+}
 
 Our coinduction challenge concerns strong barbed bisimulation and congruence.
 Though weak barbed congruence is a more common behavioural equivalence for \(\pi\)-terms, we avoid having to abstract over the number of internal transitions when considering the strong notions of equivalence, thus simplifying the theory.
@@ -276,25 +283,24 @@ Solutions to our challenges do not need to strictly follow the definitions and l
 
 \section{Going beyond the challenge problems}\label{sec:going-beyond}
 
-As with the challenges that came before, this one is intended to be
-useful on its own, but not to exhaustively cover every possible
-problem in the area. The current challenge can be extended in two
-dimensions: the first is taking the existing challenges further.
-And the second is devising new challenges not covered by the current
-benchmarks.
+As with the POPLMark and POPLMark Reloaded challegnes, this challenge is
+intended to be useful, but it does not aim at covering every possible
+problem in the area. Our benchmark can be extended in two
+dimensions: further expanding and combining the current challenges,
+and addressing calculi and features not covered by the current challenges.
+We discuss these dimensions in the rest if this section.
 
+\paragraph{Extending and combining the current challenges.}
 The proposed challenges try to minimise the overlap of the techniques
-they exercise, however, most systems will combine some or all aspects
-of the challenges. An interesting second round of formalisations could
-entail combining the features of the challenges. In the following
-table we consider the following three additions: First the addition of
-choice to the type level and the process level. Second, the addition
+and aspects they exercise (linearity, scope extrusion, coinduction) --- but most
+research on concurrency theory combines some or all such aspects. An interesting second round of formalisations could
+entail combining the features of the challenges.
+
+In the following table we consider the following three extensions: first, the
+addition of choice to the type level and the process level. Second, the addition
 of recursion (and recursion types for typed systems). And finally, the
 addition of channel delegation to those calculi that do not already
-support it.
-
-The following table shows which extension should be suitable (that we
-mark with $+$) for each challenge:
+support it.  We mark each suitable extension with ``$+$'':
 
 \vspace{.5em}
 
@@ -314,24 +320,22 @@ mark with $+$) for each challenge:
 
 \vspace{.5em}
 
-The other dimension to extend these calculi corresponds to systems
-that are not covered by our challenges. Extending in this dimension
+\paragraph{Addressing new calculi and new features.}
+Extending in this dimension
 means proposing new challenges to cover for different features of
-message passing calculi, or to cover different features of mechanised
-proof.
+message passing calculi, or to cover different proof mechanisation features.
 
-Some interesting aspects of message passing calculi to explore in
-further challenges could be: Multiparty session types, and
-choreographies because their definitions and meta-theory have elements
-that we do not cover here, however the elements that we do cover will
-appear in these problems. Also, while we explore a form of barbed
-bisimilarity one could easily design a challenge exploring different
-notions of bisimilarity (barbed, or weak, etc.), and trace
-equivalence.
+Some interesting aspects of message passing calculi to explore in further
+challenges could be multiparty session types, and choreographies because their
+definitions and meta-theory have aspects that we do not cover here\fxerror{Such
+as?} (although the aspects that we cover here do appear in these problems).
+Also, one could easily design a challenge that goes beyond our coinduction
+challenge, by exploring different notions of bisimilarity (barbed, or weak,
+etc.), and trace equivalence.
 
 On the side of proof assistants, the current challenge proposes
 mechanising the proofs of theorems. An interesting venue to explore
-would be to take advantage of other aspects of proof assistants. For
+would be to take advantage of other proof assistant features. For
 example, proof assistants are often able to produce certified code (by
 using code extraction, or compiling and running their definitions).
 Additionally, while having effective automation in our current
@@ -339,20 +343,24 @@ challenge is possible, a challenge could be designed with the explicit
 objective of automating aspects of the proofs. And finally, a
 challenge could propose the integration with other formal reasoning
 tools, namely model checkers. These tools are in common use in the
-field. However, combining automated proofs with proof assistants
+field --- and combining automated proofs with proof assistants
 offers the potential to ease the path for attempting larger proofs
 with less effort.
 
 Ultimately, the current challenges can be extended in several
 worthwhile directions, and we look forward to a future when they
-indeed are extended. Moreover, we see the current challenge as setting
+indeed are extended. We see the current challenge as setting
 the foundation for those future extensions. It is our expectation that
 the solutions of those hypothetical challenges will build on solutions
 to this challenge.
 
 \section{Conclusion}\label{sec:conclusion}
 
+\fxerror{TODO? Remove?}
+
 \subsubsection*{Acknowledgements}
+
+\fxerror{TODO? Remove?}
 
 \appendix
 \section{Challenges}\label{app:challenges}
