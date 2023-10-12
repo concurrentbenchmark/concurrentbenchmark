@@ -176,6 +176,10 @@ The following lemmas are needed:
   \end{enumerate}
   \begin{metanote}
     Note from Dawit: Does \( \Delta \) really have to be only ends to be weakened? I had expected that if \( P \) is typed by \( \Delta \) and \( \Delta' \) is only ends, then \( P \) is typed by \( \Cadd{\Delta}{\Delta'} \).
+    
+    AM:  I agree that it's weird: we should not be able to weaken a linear context, if not
+    with unrestricted types --- but this is what we need for Sc-Res-Inact to be type preserving:
+    from $\Delta\vdash 0$ we need $\Delta\vdash (\nu x y)0$. BTW, this is also a problem in Vasco's system 
   \end{metanote}
 \end{lemma}
 \begin{proof}
@@ -202,11 +206,12 @@ The following lemmas are needed:
 \begin{proof}
   By induction on the structure of a process context involved in the congruence. In the base case where the context is a hole, proceed by case analysis on the \textsl{Sc} rule applied:
   \begin{description}
-  \item[Res:] use weakening~\ref{lemma:weak} part 2
-  \item[Comm/Assoc:] by rearranging sub-derivations noting that  order does not matter for linear context
-  \item[Inact] Left-to-right by
+  \item[Par-Comm/Assoc:] by rearranging sub-derivations noting that
+    order does not matter for linear contexts
+  \item[Par-Inact] right-to-left by
     strengthening~\ref{lemma:strenD}. Vice-versa, by weakening~\ref{lemma:weak} part 2.
   \item[Res-Par] Follows Vasco's proof by case analysis on $x : T$ being linear and applying weak and stren accordingly.
+  \item[Res-Inact:] use weakening~\ref{lemma:weak} part 2
   \item[Res] order does not matter
   \end{description}
   For the step case, TBD
