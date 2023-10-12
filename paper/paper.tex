@@ -210,8 +210,8 @@ we have designed our challenge problems to exercise the three aspects (linearity
 We have designed each problem to be small and easy to understand with basic knowledge of textbook concurrency theory, process calculi and type theory.  The process calculus used in each challenge
 focuses on the features we want to exercise, and we have omitted all constructs
 (such as choices) that would complicate the mechanisation without bringing tangible
-benefits and insights.  (Re-adding the omitted constructs if of course possible, but we leave
-such extensions as a possibility for future benchmark challenge.)
+benefits and insights.  (Adding the omitted constructs is of course possible, but we leave
+such extensions as a possibility for a future benchmark challenge.)
 
 The minimality and uniformity of the calculi also allows us to target our
 design goal \ref{item:goal-tutorials}, i.e.~encouraging the development of
@@ -236,14 +236,14 @@ reasoning without many definitions. Accordingly, we have chosen not to
 include channel delegation and to use a reduction instead of a
 transition system semantics.
 
-Linearity is of course interesting in many other subfields of programming languages, and we have thus chosen to base our challenge on a  session type system primarily due to the common use of session types in concurrency theory.
+Linearity is of course interesting in many other subfields of programming languages, but we have chosen to base our challenge on a session type system primarily due to the common use of session types in concurrency theory.
 
 Inspired by Vasconcelos~\cite{Vasconcelos2012}, we use a syntax where
-restriction binds two variables. This presentation makes the duality
+restriction binds two names. This presentation makes the duality
 of the two names obvious in the type system.
 
-We have simple notion of well-formedness for our challenge problem,
-and does not for instance consider deadlocked processes. While more
+We have chosen a simple notion of well-formedness for our challenge problem,
+and do not for instance consider deadlocked processes. While more
 sophisticated notions of well-formedness are also interesting, the
 proofs of these properties are more complicated and would thus make
 the challenge problem more difficult and less focused on the linear
