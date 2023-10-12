@@ -161,7 +161,7 @@ On the other hand, since the rule \TirName{Out} only applies to base values, the
 \subsubsection{Bisimilarity}
 Our notion of process equivalence relations builds on a notion of \emph{observables}.
 If we allow ourselves only to observe internal transitions, we will relate either too few processes (in the strong case where we relate only processes with exactly the same number of internal transitions) or every process (in the weak case where we relate processes with any amount of internal transitions).
-We must therefore allow ourselves to observe more, and here choose to define the observables of a process as the names it can use for sending and receiving.
+We must therefore allow ourselves to observe more than just internal transitions, and here choose to define the observables of a process as the names it can use for sending and receiving.
 
 To this end, we define the \emph{observability predicate} \( \observable{P}{\mu} \) by the following rules:
 \begin{align}

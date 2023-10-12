@@ -3,14 +3,14 @@
 
 We list here some common notions that we will use in the following. Since the calculi under study are somewhat different, we will note in each section which will apply.
 
-We assume the existence of some type of \emph{base values}, represented by the symbols
-\( a, b, \dots \), the existence of some type
+We assume the existence of some set of \emph{base values}, represented by the symbols
+\( a, b, \dots \), the existence of some set
 of \emph{variable names}, represented by the symbols
-\( l, m, \dots \), and the existence of some type of \emph{names},
+\( l, m, \dots \), and the existence of some set of \emph{names},
 represented by the symbols \( x, y, \dots \). \ednote{AM: are we assuming that names can be compared for equality everywhere or only in C2?} % 
 
 The syntax of processes will include:
-the process \( \Pend \) or \emph{inaction}, a process which can do nothing. The process \( \Ppar{P}{Q} \) is the \emph{composition} of process \( P \) and process \( Q \).
+the process \( \Pend \) or \emph{inaction}, a process which can do nothing. The process \( \Ppar{P}{Q} \) is the \emph{parallel composition} of process \( P \) and process \( Q \).
 The two components can proceed independently of each other, or they can interact via shared names.
 %The process \( \Pchoice{P}{Q} \) is a non-deterministic \emph{choice} between continuing as the process \( P \) or as the process \( Q \).
 
