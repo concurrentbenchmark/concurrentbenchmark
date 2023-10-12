@@ -10,13 +10,11 @@ system, the syntax and semantics of which are given below. The
 calculus is a fragment of the one presented in~\cite{Vasconcelos2012},
 formulated in the dual style of~\cite{barber96tr}.
 
-\begin{metanote}
- AM: do we mean type safety? If so the description is half the story
-\end{metanote}
-The objective of this challenge is to prove type preservation (also
-known as subject reduction) for the type system, i.e.\ that well-typed
+The main objective of this challenge is to prove type preservation (also
+known as subject reduction), i.e.\ that well-typed
 processes can only transition to processes which are also well-typed
 in the same context.
+The second objective is to prove type safety, i.e.\ that well-typed processes are also well-formed in the sense that they do not use endpoints in a non-dual way.
 
 \subsubsection{Syntax.}
 The syntax is given by the grammar
