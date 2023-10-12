@@ -10,6 +10,9 @@ system, the syntax and semantics of which are given below. The
 calculus is a fragment of the one presented in~\cite{Vasconcelos2012},
 formulated in the dual style of~\cite{barber96tr}.
 
+\begin{metanote}
+ AM: do we mean type safety? If so the description is half the story
+\end{metanote}
 The objective of this challenge is to prove type preservation (also
 known as subject reduction) for the type system, i.e.\ that well-typed
 processes can only transition to processes which are also well-typed
@@ -31,14 +34,14 @@ The input process \( \Pin{x}{l}{P} \) waits for a base value from \( x \) and th
 %
 The process \( \Presd{x}{y}{P} \) represents a \emph{session} with endpoints named \( x \) and \( y \) which are bound in \( P \). In \( P \), the names \( x \) and \( y \) can be used to exchange messages over the session (sending on \( x \) and receiving on \( y \) or vice versa).
 %
-Finally, the process $\PBpar{P}{Q}$ represents the parallel composition of $P$ and $Q$.
+%Finally, the process $\PBpar{P}{Q}$ represents the parallel composition of $P$ and $Q$.
 %
 Note that in this calculus channels cannot be sent in messages, therefore the topology of the communication network described by a process cannot change.
 Also, there is no recursion or replication in the syntax, hence no infinite behaviors can be expressed. In particular, we only model linear (as opposed to shared) channels.
 
 \subsubsection{Semantics.}
 We describe the actions that the system can perform through a small step operational semantics.
-As usual, we make use of a \emph{structural congruence} relation that equates processes that we deem to be indistinguishable. Structural congruence is the smallest congruence relation that satisfies the following axioms:
+As usual, we use  a \emph{structural congruence} relation that equates processes that we deem to be indistinguishable. Structural congruence is the smallest congruence relation that satisfies the following axioms:
 \begin{mathpar}
   \inferrule[Sc-Par-Comm]{ }{\scong{\Ppar{P}{Q}}{\Ppar{Q}{P}}}
   \and
@@ -70,9 +73,18 @@ Note also that due to rule \TirName{R-Com}, the process \( \Pin{y}{l}{P} \) can 
 On the other hand, since the rule \TirName{R-Com} only applies to sending base values, there is no way to send a variable name or a name.
 
 \subsubsection{Session types.}
-Our process syntax allows us to write processes that are ill formed in the sense that they either use the endpoints bound by a restriction to communicate in a way that does not follow the intended duality of communication, or attempt to send something which is not a base value.
-As an example, the process \( \Presd{x}{y}{(\Ppar{\Pout{x}{a}{\Pend}}{\Pout{y}{a}{\Pend}})} \) attempts to send a base value on both \( x \) and \( y\), whereas one of the names should be used for receiving in order to guarantee progress.
-Another example is the process \( \Presd{x}{y}{(\Ppar{\Pout{x}{l}{\Pend}}{\Pin{y}{l}{\Pend}})} \), which attempts to send a variable that is not instantiated at the time of sending.
+Our process syntax allows us to write processes that are ill formed in
+the sense that they either use the endpoints bound by a restriction to
+communicate in a way that does not follow the intended duality, or
+attempt to send something which is not a base value.  As an example,
+the process
+\( \Presd{x}{y}{(\Ppar{\Pout{x}{a}{\Pend}}{\Pout{y}{a}{\Pend}})} \)
+attempts to send a base value on both \( x \) and \( y\), whereas one
+of the names should be used for receiving in order to guarantee
+progress.  Another example is the process
+\( \Presd{x}{y}{(\Ppar{\Pout{x}{l}{\Pend}}{\Pin{y}{l}{\Pend}})} \),
+which attempts to send a variable that is not instantiated at the time
+of sending.
 %
 To prevent these issues, we introduce a \emph{session type system} which
 rules out ill-formed processes.
@@ -95,8 +107,8 @@ The \emph{output type} \( \Tout{S} \) describes endpoints used for sending a val
 Typing contexts gather type information about names and variables.
 \emph{Unrestricted} contexts are simply sets of names since we only have one
 base type. \emph{Linear contexts} associate a type to endpoints. We use
-the comma as split/union, overloaded to singletons, and \( \Cempty \) is the
-empty multiset. We extend the Barendregt convention to contexts, so that all
+the comma as split/union, overloaded to singletons, and \( \Cempty \) as the
+empty context. We extend the Barendregt convention to contexts, so that all
 entries are distinct.  Note that the order in which information is added to a
 type context does not matter.
 
@@ -116,16 +128,15 @@ Our type system is aimed at maintaining two invariants:
 \item No endpoint is used simultaneously by parallel processes;
 \item The two endpoints of the same session have dual types.
 \end{enumerate}
-The first invariant is maintained by linearly splitting type contexts when typing compositions of processes.
-The second invariant is maintained by requiring duality when typing restrictions.
+The first invariant is maintained by linearly splitting type contexts when typing compositions of processes, the second  by requiring duality when typing restrictions.
 
 We have three typing judgments: one for values, one for names, and one for processes.
-The typing rules for values are as follows:
+The typing rules for values are:
 \begin{mathpar}
   \inferrule[T-Base]{ }{\typev{\Gamma}{\hastype{a}{\Tbase}}} \and
   \inferrule[T-Var]{ }{\typev{\Cadd{\Gamma}l }{\hastype{l}{\Tbase}}}
 \end{mathpar}
-The typing rule for names is as follows, where $\tend \Phi$ denotes that all types in the range of $\Phi$ are $\Tend$:
+In the typing rule for names, $\tend \Phi$ denotes that all types in the range of $\Phi$ are $\Tend$:
 \begin{mathpar}
   \inferrule[T-Name]{{\tend\Delta }}{\types{{\Gamma; (\Delta,\hastype{x}{T})}}{\hastype{x}{T}}}
 \end{mathpar}
@@ -155,14 +166,14 @@ The objective of this challenge is to prove subject reduction and type safety fo
   By induction on the derivation of $\reduces{P}{Q}$. TBD
 \end{proof}
 
-The following lemmas may be of use:
+The following lemmas are needed:
 \begin{lemma}[Weakening]\mbox{}
   \label{lemma:weak}
   \begin{enumerate}
   \item If \( \types{\Gamma; \Delta}{P} \) then
-    \( \types{\Cadd{\Gamma}{l};\Delta}{P} \).
+    \( \types{(\Cadd{\Gamma}{l});\Delta}{P} \).
       \item If \( \types{\Gamma; \Delta}{P} \) and \( \tend{\Delta} \) then
-    \( \types{\Gamma;\Cadd{\Delta}{\hastype{x}{T}}}{P} \).
+    \( \types{\Gamma;(\Cadd{\Delta}{\hastype{x}{T}})}{P} \).
 \end{enumerate}
 \end{lemma}
 \begin{proof}
@@ -170,7 +181,7 @@ The following lemmas may be of use:
 \end{proof}
 \begin{lemma}[Strengthening]\mbox{}
   \label{lemma:strenD}
-  If \( \types{\Gamma; \Delta, z : T}{P} \) and $z\not\in \freenames{P}$, then \( \types{\Gamma; \Delta}{P} \).
+  If \( \types{\Gamma; (\Delta, x : T)}{P} \) and $x\not\in \freenames{P}$, then \( \types{\Gamma; \Delta}{P} \).
 \end{lemma}
 \begin{proof}
   By induction on the given derivation.
