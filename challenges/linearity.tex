@@ -130,16 +130,16 @@ Our type system is aimed at maintaining two invariants:
 \end{enumerate}
 The first invariant is maintained by linearly splitting type contexts when typing compositions of processes, the second  by requiring duality when typing restrictions.
 
-We have three typing judgments: one for values, one for names, and one for processes.
+We have two typing judgments: one for values, and one for processes.
 The typing rules for values are:
 \begin{mathpar}
   \inferrule[T-Base]{ }{\typev{\Gamma}{\hastype{a}{\Tbase}}} \and
   \inferrule[T-Var]{ }{\typev{\Cadd{\Gamma}l }{\hastype{l}{\Tbase}}}
 \end{mathpar}
-In the typing rule for names, $\tend \Phi$ denotes that all types in the range of $\Phi$ are $\Tend$:
-\begin{mathpar}
-  \inferrule[T-Name]{{\tend\Delta }}{\types{{\Gamma; (\Delta,\hastype{x}{T})}}{\hastype{x}{T}}}
-\end{mathpar}
+% In the typing rule for names, $\tend \Phi$ denotes that all types in the range of $\Phi$ are $\Tend$:
+% \begin{mathpar}
+%   \inferrule[T-Name]{{\tend\Delta }}{\types{{\Gamma; (\Delta,\hastype{x}{T})}}{\hastype{x}{T}}}
+% \end{mathpar}
 The typing rules for processes are as follows:
 \begin{mathpar}
 
@@ -156,6 +156,7 @@ The typing rules for processes are as follows:
     \inferrule[T-IN]{
       \types{(\Gamma,  l ); (\Cupdate{\Delta}{\hastype{x}{T}})}{P}}{\types{\Gamma; (\Csplit{\Delta}{\hastype{x}{\Tin{T}}})}{\Pin{x}{l}{P}}}
 \end{mathpar}
+Note that we do not need a judgment for typing channels, since it is already folded into the T-IN and T-OUT rules.
 
 \subsubsection{Challenge}
 The objective of this challenge is to prove subject reduction and type safety for our calculus with session types. We start with:
