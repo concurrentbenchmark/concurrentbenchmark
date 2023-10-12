@@ -188,17 +188,22 @@ Note that, since our systems have potentially infinite behaviors, and strong bar
   \item Reflexivity is straightforward: for any $P$, we need to show
     that $P\sbbisim{}{} P$. Both conditions in
     equations~\ref{eq:bisim1} and \ref{eq:bisim2} follow trivially.
-  \item Symmetry is similar to the previous case: for both
-    $P\sbbisim{}{} Q$ and $Q\sbbisim{}{} P$ the same conditions apply.
+  \item Symmetry follows immediately since bisimilarity is defined as
+    a {\em symmetric} relation.
   \item For transitivity, we need to prove that if $P\sbbisim{}{} Q$
-    and $Q\sbbisim{}{} R$ then $P\sbbisim{}{} R$. If
+    and $Q\sbbisim{}{} R$ then $P\sbbisim{}{} R$. In order to do so,
+    we prove that the relation
+    $\mathcal R=\{(P,R)\mid \exists Q\text{ such that }P\sbbisim{}{} Q
+    \land Q\sbbisim{}{} R\}$ is a strong barbed bisimulation. Let us
+    assume that $(P,R)\in\mathcal R$. Hence, there exists a $Q$ such
+    that $P\sbbisim{}{} Q$ and $Q\sbbisim{}{} R$. Clearly, if
     $\observable{P}{\mu}$ then, by $P\sbbisim{}{} Q$,
-    $\observable{Q}{\mu}$. Hence, by $Q\sbbisim{}{} R$,
+    $\observable{Q}{\mu}$. And, by $Q\sbbisim{}{} R$,
     $\observable{R}{\mu}$. Moreover, if $\transition{P}{\Atau}{P'}$
     there exists $Q'$ such that $\transition{Q}{\Atau}{Q'}$ and
-    $P'\sbbisim{}{}Q'$. Also, $\transition{R}{\Atau}{R'}$ with
-    $Q'\sbbisim{}{}R'$. Coinductively, $P'\sbbisim{}{}R'$, hence
-    $P\sbbisim{}{}R$.
+    $P'\sbbisim{}{}Q'$. And also, $\transition{R}{\Atau}{R'}$ with
+    $Q'\sbbisim{}{}R'$. Finally, by definition of $\mathcal R$,
+    $(P',R')\in\mathcal R$.
   \end{itemize}
   
 \end{proof}
@@ -232,11 +237,22 @@ A congruence is exactly what we need to make strong barbed bisimilarity consider
 We define \emph{strong barbed congruence}, written \( \sbcong{}{} \), by saying that two processes \( P \) and \( Q \) are \emph{strong barbed congruent}, written \( \sbcong{P}{Q} \), if \( \sbbisim{\applyctx{C}{P}}{\applyctx{C}{Q}} \) for every context \( C \).
 
 \begin{lemma}
-  \( \sbcong{}{} \) is the largest congruence included in \( \sbbisim{}{} \).
+  \( \sbcong{}{} \) is the largest congruence included in
+  \( \sbbisim{}{} \).
 \end{lemma}
+\begin{proof}
+  By definition, \( \sbcong{}{} \) is a congruence and is included in
+  \( \sbbisim{}{} \). Also, if it were strictly included in another
+  relation then we would get a contradiction since it must be closed
+  under all contexts.
+\end{proof}
 
 \subsubsection{Challenge}
 The objective of this challenge is to prove the following theorem:
 \begin{theorem}
-  \( \sbcong{P}{Q} \) if and only if for any process \( R \) and substitution \( \sigma \), \( \sbbisim{\Ppar{\applysubst{\sigma}{P}}{R}}{\Ppar{\applysubst{\sigma}{Q}}{R}} \).
+  \( \sbcong{P}{Q} \) if and only if for any process \( R \) and
+  substitution \( \sigma \),
+  \(
+  \sbbisim{\Ppar{\applysubst{\sigma}{P}}{R}}{\Ppar{\applysubst{\sigma}{Q}}{R}}
+  \).
 \end{theorem}
