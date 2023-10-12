@@ -11,6 +11,7 @@
 \usepackage{hyperref}
 \usepackage{cleveref}
 \usepackage{hyperref}
+\usepackage[inline]{enumitem}
 \usepackage{color}
 \renewcommand\UrlFont{\color{blue}\rmfamily}
 
@@ -92,10 +93,8 @@ further increase the reach of the POPLMark challenges, we propose a new
 collection of benchmark problems specifically designed to address typical issues
 that arise when mechanising message-passing concurrency using process calculi.
 
-Large scale mechanisation of concurrency theory is already possible,
-\fxwarning{Citations?}
 %(Paragraphs about related work in this vein)
-and several papers in the realm of process calculi do include mechanised proofs
+Several papers in the realm of process calculi already include mechanised proofs
 (e.g.~\cite{DBLP:conf/pldi/Castro-Perez0GY21,DBLP:conf/tacas/CastroFY20,lmcs:9985,
   DBLP:journals/jar/CruzFilipeMP23, Tirore:2023}), or
 discuss proof mechanisation techniques
@@ -106,56 +105,50 @@ tools remains a significant challenge with few guidelines.  This often leads
 researchers towards trial-and-error, attempting sub-optimal and ad-hoc
 solutions; this increases the overall effort required for proof mechanisation,
 and hampers the reuse of techniques and results.
-
+%
 Therefore, it is our opinion that the research community in message-passing
 concurrency (and more specifically, in process calculi) will benefit from a set
 of solutions exploring different ways of mechanising typical problems in the
-field. Like the authors of the previous POPLMark challenges, we thus seek to
+field.
+
+Like the authors of the previous POPLMark challenges, we seek to
 answer a number of questions:
-\begin{enumerate}
+\begin{enumerate}[label=\textbf{(Q\arabic*)},leftmargin=10mm]
 \item What is the current state of the art in mechanising process calculi?
 \item What techniques and best practices can be recommended when starting formalisation projects within concurrency theory?
 \item What improvements are needed to make mechanisation tools more user-friendly with regards to the issues faced when mechanising process calculi?
 \end{enumerate}
 
-\subsection*{Benchmark design goals and considerations}%
-
 We have identified three key aspects which typically cause difficulties when
-mechanising concurrency theory: \emph{linearity}, \emph{scope extrusion} in
-name-passing systems, and \emph{coinductive reasoning} for infinite behaviours.
-Our main goals are:
+mechanising concurrency theory: \emph{linearity}, \emph{scope extrusion},
+% in name-passing systems,
+and \emph{coinductive reasoning} for infinite behaviours.
+Our benchmark problems are designed to focus on these aspects (discussed
+in more detail in \cref{sec:challenge-problems}), with three main goals:
 
-\begin{enumerate}
-\item Enable the comparison of different proof mechanisation approaches, making
-  the challenges accessible to mechanisation experts who may not be familiar
-  with concurrency theory. To this end, we strive to keep the challenge problems
-  orthogonal: our collection of benchmark problems is designed to exercise one
-  of the aforementioned three aspects independently from the others, and include
-  as little syntax and as few definitions as possible.
+\begin{enumerate}[label=\textbf{(G\arabic*)},leftmargin=10mm]
+\item\label{item:goal-comperison-accessibility} Enable the comparison of
+  different proof mechanisation approaches, making the challenges accessible to
+  mechanisation experts who may not be familiar with concurrency theory.
 
-\item Encourage the development of guidelines and tutorials demonstrating and
-  comparing the many available proof mechanisation techniques, libraries, and
-  proof assistant features.  Therefore, our challenge problems strive for
-  minimality, and adopt a simple and uniform notation.
+\item\label{item:goal-tutorials} Encourage the development of guidelines and
+  tutorials demonstrating and comparing the many available proof mechanisation
+  techniques, libraries, and proof assistant features.
 
-\item Prioritise the exploration of mechanisation techniques that may be useful
-  and reusable for future research. To this end, our problems are drawn from the
-  basic metatheory of process calculi (instead of requiring the development of
-  new theory), and focus on well-known theorems and results that involve
-  interesting proof techniques.
+\item\label{item:goal-reusability} Prioritise the exploration of mechanisation
+  techniques that may be useful and reusable for future research.
 \end{enumerate}
 
-We also see the goals above as a stepping stone towards strengthening the
-culture of mechanisation, by rallying the community to collaborate on exploring
-and developing new tools and techniques.
+We also aim at strengthening the culture of mechanisation, by rallying the
+community to collaborate on exploring and developing new tools and techniques.
 
 The three aspects we selected (linearity, scope extrusion, coinduction) are of
 course not the only ones that may cause issues in mechanisations --- but they
-are fundamental to the field of concurrency theory, and they emerge in most
-mechanisations.  Moreover, the mechanisation of novel research results often
-requires addressing more than just one of these aspects at once --- and we see
-the combination of techniques as a next step beyond the scope of this challenge
-(we discuss the topic in \cref{sec:going-beyond}).
+are fundamental to concurrency theory, and they emerge in most mechanisations.
+The mechanisation of novel research results often requires addressing more than
+just one of these aspects at once --- and we see the combination of techniques
+as a next step beyond the scope of this challenge (we discuss this in
+\cref{sec:going-beyond}).
 
 % Our challenge problems are designed to stimulate progress on answering these questions by providing simple environments in which to demonstrate, evaluate, and compare the many tools and techniques available.
 % While the challenge problems themselves are thus not of scientific interest, we expect that the best practices and mechanisations developed by solving the challenge problems will also be useful for future research.
@@ -180,48 +173,57 @@ aspects of our challenge problems.  We discuss our design choices in
 The full challenge problems, including proofs, are available in \cref{app:challenges}.
 
 \section{The challenge problems}\label{sec:challenge-problems}
-In this section we will briefly describe our three challenge problems, referring to the appendix for the full text of each challenge.
+In this section we briefly describe the three aspects of our challenge problems, referring to the appendix for the full text of each one.
 
 \subsection{Linearity}
-Our \textbf{linearity challenge} (Appendix~\ref{sec:challenge:linearity-beh-types}) is to prove type preservation (also known as subject reduction) for a process calculus with a session type system.
-Session type systems require linear handling of typing contexts, and the proof involves reasoning about the linearity of context splitting operations.
+Our \textbf{linearity challenge} (Appendix~\ref{sec:challenge:linearity-beh-types}) is to prove type preservation (also known as subject reduction) for a process calculus with a minimal
+session typing system (without delegation of communication channels, to avoid overlapping with the scope
+extrusion challenge below).
+Session type systems require linear handling of typing contexts, and the key
+issue of this challenge is reasoning about the linearity of context splitting operations.
 
 \subsection{Scope extrusion}
-In name passing systems, scope extrusion is the expansion of the scope of a name when the name is sent outside of its original scope.
-Our \textbf{scope extrusion challenge} (Appendix~\ref{sec:challenge:name-passing-scope-extrusion}) is to prove the equivalence between reduction semantics and labelled transition system semantics up to structural congruence.
-The proof involves reasoning about names that are ``in the process'' of being scope extruded, which presents issues for some approaches to mechanising binders.
+In name-passing systems, scope extrusion is the expansion of the scope of a name (i.e.~a communication channel) that is sent from one process to another.
+Our \textbf{scope extrusion challenge} (Appendix~\ref{sec:challenge:name-passing-scope-extrusion}) is to prove the equivalence between the reduction semantics and the labelled transition system (LTS) semantics of a process calculus (up-to structural congruence).
+The key issue of this challenge is reasoning about names that are ``in the process'' of being scope-extruded, which often presents difficulties for the mechanisation of binders.
 
 \subsection{Coinduction}
-Our \textbf{coinduction challenge} (Appendix~\ref{sec:challenge:coinduction}) is to prove that strong barbed congruence acts like a congruence for an untyped calculus of communicating systems with (infinite) replication of processes.
-The proof involves reasoning coinductively about the infinite behaviours of the replication operator.
+Our \textbf{coinduction challenge} (Appendix~\ref{sec:challenge:coinduction}) is to prove that \emph{strong barbed bisimilarity} is a congruence for a limited calculus with (infinite) replication of processes.
+The key issue of this challenge is the coinductive reasoning about the infinite behaviours of the replication operator.
 
 \section{Design of the benchmark}\label{sec:design-discussion}
+
 In this section, we outline the factors considered in designing the
 benchmark challenges. We start with some general remarks, then
 describe the individual design considerations for each challenge
 problem.
 
-We have identified three key aspects fundamental to mechanisations of concurrent calculi and designed our challenge problems to exercise these.
-Like previous benchmark authors, we would like to stress that our challenge is not meant to be comprehensive: applications such as multiparty session types, choreographies, conversation types and psi-calculi are not directly covered by our challenge problems.
-Most applications will however still need the basic techniques that our challenge problems exercise.
-We have designed our challenge problems to exercise the three aspects independently, and they can be solved individually and in any order.
-We have designed each problem to be small and easy to understand with basic knowledge of textbook concurrency theory, process calculi and type theory.
+% We have identified three key aspects fundamental to mechanisations of concurrent calculi and designed our challenge problems to exercise these.
+Like the previous POPLMark and POPLMark Reloaded challenges, our challenge is not meant to be comprehensive: applications such as multiparty session types, choreographies, conversation types, psi-calculi, or encodings between different calculi are not directly covered.  Still, these (and other) proof mechanisation applications will need the basic techniques that our challenge problems exercise:
+as per our design goal \ref{item:goal-reusability},
+our problems are drawn from the basic metatheory of process calculi (instead
+of requiring the development of new theory), and focus on well-known theorems
+and results that involve interesting proof techniques that may be reused in further work.
+
+To achieve our design goal \ref{item:goal-comperison-accessibility},
+we have designed our challenge problems to exercise the three aspects (linearity, scope extrusion, coinduction) independently, and they can be solved individually and in any order.
+We have designed each problem to be small and easy to understand with basic knowledge of textbook concurrency theory, process calculi and type theory.  The process calculus used in each challenge
+focuses on the features we want to exercise, and we have omitted all constructs
+(such as choices) that would complicate the mechanisation without bringing tangible
+benefits and insights.  (Re-adding the omitted constructs if of course possible, but we leave
+such extensions as a possibility for future benchmark challenge.)
+
+The minimality and uniformity of the calculi also allows us to target our
+design goal \ref{item:goal-tutorials}, i.e.~encouraging the development of
+concurrency theory proof mechanisation guidelines and tutorials.
 
 % While our challenges require reasoning about binders, which was the main topic of the original POPLMark, they also require other techniques.
 % Our challenges also require reasoning about logical relations which goes above the reasoning involved in POPLMark Reloaded.
 
-The aim of this challenge is to keep the problems focused on the
-features we want to exercise. For that reason, we have decided not to
-include the choice construct in our challenge problems. Choice
-constructs complicate the theory. For the same reason, each challenge
-problem only includes the fragment necessary to express the theorems
-we are interested in. We leave extensions of the syntax for a future
-benchmark challenge.
-
-Our challenge problems do not include reasoning about encodings. While
-this kind of reasoning is common in the field, it does not require any
-different reasoning techniques in a concurrency setting than in any
-other setting.
+% Our challenge problems do not include reasoning about encodings. While
+% this kind of reasoning is common in the field, it does not require any
+% different reasoning techniques in a concurrency setting than in any
+% other setting.
 
 \subsection{Linearity}
 - Linearity type system dual vs. Vasco's?
