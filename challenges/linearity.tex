@@ -64,8 +64,6 @@ The operational semantics is then defined as the following binary relation on pr
   \inferrule[R-Struct]{\scong{P}{P'} \\ \reduces{P'}{Q'} \\ \scong{Q}{Q'}}{\reduces{P}{Q}}
 \end{mathpar}
 
-Note that there is no rule for inferring an action of an input or output process except those that match the input/output capability.\luca{Unclear to me. Since it is a reduction semantics it's obvious that input/output actions alone cannot do anything. I would remove this sentence}
-%
 Note that reductions are allowed only for restricted pairs of session endpoints. This makes it possible to formulate subject reduction so that the typing context is exactly the same before and after each reduction.
 %
 Note also that due to rule \TirName{R-Com}, the process \( \Pin{y}{l}{P} \) can receive \emph{any} base value.
