@@ -284,25 +284,24 @@ Solutions to our challenges do not need to strictly follow the definitions and l
 
 \section{Going beyond the challenge problems}\label{sec:going-beyond}
 
-As with the challenges that came before, this one is intended to be
-useful on its own, but not to exhaustively cover every possible
-problem in the area. The current challenge can be extended in two
-dimensions: the first is taking the existing challenges further.
-And the second is devising new challenges not covered by the current
-benchmarks.
+As with the POPLMark and POPLMark Reloaded challegnes, this challenge is
+intended to be useful, but it does not aim at covering every possible
+problem in the area. Our benchmark can be extended in two
+dimensions: further expanding and combining the current challenges,
+and addressing calculi and features not covered by the current challenges.
+We discuss these dimensions in the rest if this section.
 
+\paragraph{Extending and combining the current challenges.}
 The proposed challenges try to minimise the overlap of the techniques
-they exercise, however, most systems will combine some or all aspects
-of the challenges. An interesting second round of formalisations could
-entail combining the features of the challenges. In the following
-table we consider the following three additions: First the addition of
-choice to the type level and the process level. Second, the addition
+and aspects they exercise (linearity, scope extrusion, coinduction) --- but most
+research on concurrency theory combines some or all such aspects. An interesting second round of formalisations could
+entail combining the features of the challenges.
+
+In the following table we consider the following three extensions: first, the
+addition of choice to the type level and the process level. Second, the addition
 of recursion (and recursion types for typed systems). And finally, the
 addition of channel delegation to those calculi that do not already
-support it.
-
-The following table shows which extension should be suitable (that we
-mark with $+$) for each challenge:
+support it.  We mark each suitable extension with ``$+$'':
 
 \vspace{.5em}
 
@@ -322,24 +321,22 @@ mark with $+$) for each challenge:
 
 \vspace{.5em}
 
-The other dimension to extend these calculi corresponds to systems
-that are not covered by our challenges. Extending in this dimension
+\paragraph{Addressing new calculi and new features.}
+Extending in this dimension
 means proposing new challenges to cover for different features of
-message passing calculi, or to cover different features of mechanised
-proof.
+message passing calculi, or to cover different proof mechanisation features.
 
-Some interesting aspects of message passing calculi to explore in
-further challenges could be: Multiparty session types, and
-choreographies because their definitions and meta-theory have elements
-that we do not cover here, however the elements that we do cover will
-appear in these problems. Also, while we explore a form of barbed
-bisimilarity one could easily design a challenge exploring different
-notions of bisimilarity (barbed, or weak, etc.), and trace
-equivalence.
+Some interesting aspects of message passing calculi to explore in further
+challenges could be multiparty session types, and choreographies because their
+definitions and meta-theory have aspects that we do not cover here\fxerror{Such
+as?} (although the aspects that we cover here do appear in these problems).
+Also, one could easily design a challenge that goes beyond our coinduction
+challenge, by exploring different notions of bisimilarity (barbed, or weak,
+etc.), and trace equivalence.
 
 On the side of proof assistants, the current challenge proposes
 mechanising the proofs of theorems. An interesting venue to explore
-would be to take advantage of other aspects of proof assistants. For
+would be to take advantage of other proof assistant features. For
 example, proof assistants are often able to produce certified code (by
 using code extraction, or compiling and running their definitions).
 Additionally, while having effective automation in our current
@@ -347,20 +344,24 @@ challenge is possible, a challenge could be designed with the explicit
 objective of automating aspects of the proofs. And finally, a
 challenge could propose the integration with other formal reasoning
 tools, namely model checkers. These tools are in common use in the
-field. However, combining automated proofs with proof assistants
+field --- and combining automated proofs with proof assistants
 offers the potential to ease the path for attempting larger proofs
 with less effort.
 
 Ultimately, the current challenges can be extended in several
 worthwhile directions, and we look forward to a future when they
-indeed are extended. Moreover, we see the current challenge as setting
+indeed are extended. We see the current challenge as setting
 the foundation for those future extensions. It is our expectation that
 the solutions of those hypothetical challenges will build on solutions
 to this challenge.
 
 \section{Conclusion}\label{sec:conclusion}
 
+\fxerror{TODO? Remove?}
+
 \subsubsection*{Acknowledgements}
+
+\fxerror{TODO? Remove?}
 
 \appendix
 \section{Challenges}\label{app:challenges}

@@ -99,23 +99,6 @@ doi="10.1007/11541868_4"
   bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
-
-@article{DBLP:journals/jar/CruzFilipeMP23,
-  author       = {Lu{\'{\i}}s Cruz{-}Filipe and
-                  Fabrizio Montesi and
-                  Marco Peressotti},
-  title        = {A Formal Theory of Choreographic Programming},
-  journal      = {J. Autom. Reason.},
-  volume       = {67},
-  number       = {2},
-  eid          = {21},
-  year         = {2023},
-  doi          = {10.1007/s10817-023-09665-3},
-  timestamp    = {Mon, 26 Jun 2023 20:56:54 +0200},
-  biburl       = {https://dblp.org/rec/journals/jar/CruzFilipeMP23.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
-}
-
 @article{POPLMarkReloaded,
 title={{POPLMark} reloaded: Mechanizing proofs by logical relations},
 volume={29},
@@ -335,4 +318,143 @@ author = {Vasco T. Vasconcelos}
   year =         "1996",
   number =       "ECS-LFCS-96-347",
   url =          "www.lfcs.inf.ed.ac.uk/reports/96/ECS-LFCS-96-347/"
+}
+
+@article{10.1145/2827695,
+author = {Honda, Kohei and Yoshida, Nobuko and Carbone, Marco},
+title = {Multiparty Asynchronous Session Types},
+year = {2016},
+issue_date = {March 2016},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {63},
+number = {1},
+issn = {0004-5411},
+url = {https://doi.org/10.1145/2827695},
+doi = {10.1145/2827695},
+abstract = {Communication is a central elements in software development. As a potential typed foundation for structured communication-centered programming, session types have been studied over the past decade for a wide range of process calculi and programming languages, focusing on binary (two-party) sessions. This work extends the foregoing theories of binary session types to multiparty, asynchronous sessions, which often arise in practical communication-centered applications. Presented as a typed calculus for mobile processes, the theory introduces a new notion of types in which interactions involving multiple peers are directly abstracted as a global scenario. Global types retain the friendly type syntax of binary session types while specifying dependencies and capturing complex causal chains of multiparty asynchronous interactions. A global type plays the role of a shared agreement among communication peers and is used as a basis of efficient type-checking through its projection onto individual peers. The fundamental properties of the session type discipline, such as communication safety, progress, and session fidelity, are established for general n-party asynchronous interactions.},
+journal = {J. ACM},
+month = {mar},
+articleno = {9},
+numpages = {67},
+keywords = {the pi-calculus, global protocols, global types, progress, Session types, projection}
+}
+
+@article{10.1145/3290343,
+author = {Scalas, Alceste and Yoshida, Nobuko},
+title = {Less is More: Multiparty Session Types Revisited},
+year = {2019},
+issue_date = {January 2019},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {3},
+number = {POPL},
+url = {https://doi.org/10.1145/3290343},
+doi = {10.1145/3290343},
+abstract = {Multiparty Session Types (MPST) are a typing discipline ensuring that a message-passing process implements a multiparty session protocol, without errors. In this paper, we propose a new, generalised MPST theory. Our contribution is fourfold. (1) We demonstrate that a revision of the theoretical foundations of MPST is necessary: classic MPST have a limited subject reduction property, with inherent restrictions that are easily overlooked, and in previous work have led to flawed type safety proofs; our new theory removes such restrictions and fixes such flaws. (2) We contribute a new MPST theory that is less complicated, and yet more general, than the classic one: it does not require global multiparty session types nor binary session type duality — instead, it is grounded on general behavioural type-level properties, and proves type safety of many more protocols and processes. (3) We produce a detailed analysis of type-level properties, showing how, in our new theory, they allow to ensure decidability of type checking, and statically guarantee that processes enjoy, , deadlock-freedom and liveness at run-time. (4) We show how our new theory can integrate type and model checking: type-level properties can be expressed in modal µ-calculus, and verified with well-established tools.},
+journal = {Proc. ACM Program. Lang.},
+month = {jan},
+articleno = {30},
+numpages = {29},
+keywords = {duality, liveness, session types, deadlock-freedom}
+}
+
+@article{DBLP:journals/jar/CruzFilipeMP23,
+  author       = {Lu{\'{\i}}s Cruz{-}Filipe and
+                  Fabrizio Montesi and
+                  Marco Peressotti},
+  title        = {A Formal Theory of Choreographic Programming},
+  journal      = {J. Autom. Reason.},
+  volume       = {67},
+  number       = {2},
+  pages        = {21},
+  year         = {2023},
+  url          = {https://doi.org/10.1007/s10817-023-09665-3},
+  doi          = {10.1007/s10817-023-09665-3},
+  timestamp    = {Tue, 12 Sep 2023 07:57:44 +0200},
+  biburl       = {https://dblp.org/rec/journals/jar/CruzFilipeMP23.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@article{DBLP:journals/tcs/CairesV10,
+  author       = {Lu{\'{\i}}s Caires and
+                  Hugo Torres Vieira},
+  title        = {Conversation types},
+  journal      = {Theor. Comput. Sci.},
+  volume       = {411},
+  number       = {51-52},
+  pages        = {4399--4440},
+  year         = {2010},
+  url          = {https://doi.org/10.1016/j.tcs.2010.09.010},
+  doi          = {10.1016/j.tcs.2010.09.010},
+  timestamp    = {Wed, 17 Feb 2021 21:57:41 +0100},
+  biburl       = {https://dblp.org/rec/journals/tcs/CairesV10.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@article{lmcs:696,
+  TITLE = {{Psi-calculi: a framework for mobile processes with nominal data and
+  logic}},
+  AUTHOR = {Jesper Bengtson and Magnus Johansson and Joachim Parrow and BjÃ¶rn Victor},
+  URL = {http://lmcs.episciences.org/696},
+  DOI = {10.2168/LMCS-7(1:11)2011},
+  JOURNAL = {{Logical Methods in Computer Science}},
+  VOLUME = {{Volume 7, Issue 1}},
+  YEAR = {2011},
+  MONTH = Mar,
+  KEYWORDS = {Computer Science - Logic in Computer Science ; F.1.2, F.3.1, F.3.2},
+}
+
+@article{DBLP:journals/iandc/DardhaGS17,
+  author       = {Ornela Dardha and
+                  Elena Giachino and
+                  Davide Sangiorgi},
+  title        = {Session types revisited},
+  journal      = {Inf. Comput.},
+  volume       = {256},
+  pages        = {253--286},
+  year         = {2017},
+  url          = {https://doi.org/10.1016/j.ic.2017.06.002},
+  doi          = {10.1016/j.ic.2017.06.002},
+  timestamp    = {Tue, 21 Mar 2023 21:09:35 +0100},
+  biburl       = {https://dblp.org/rec/journals/iandc/DardhaGS17.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{DBLP:conf/ecoop/ScalasDHY17,
+  author       = {Alceste Scalas and
+                  Ornela Dardha and
+                  Raymond Hu and
+                  Nobuko Yoshida},
+  editor       = {Peter M{\"{u}}ller},
+  title        = {A Linear Decomposition of Multiparty Sessions for Safe Distributed
+                  Programming},
+  booktitle    = {31st European Conference on Object-Oriented Programming, {ECOOP} 2017,
+                  June 19-23, 2017, Barcelona, Spain},
+  series       = {LIPIcs},
+  volume       = {74},
+  pages        = {24:1--24:31},
+  publisher    = {Schloss Dagstuhl - Leibniz-Zentrum f{\"{u}}r Informatik},
+  year         = {2017},
+  url          = {https://doi.org/10.4230/LIPIcs.ECOOP.2017.24},
+  doi          = {10.4230/LIPIcs.ECOOP.2017.24},
+  timestamp    = {Tue, 21 Mar 2023 20:55:24 +0100},
+  biburl       = {https://dblp.org/rec/conf/ecoop/ScalasDHY17.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@article{DBLP:journals/iandc/Gorla10,
+  author       = {Daniele Gorla},
+  title        = {Towards a unified approach to encodability and separation results
+                  for process calculi},
+  journal      = {Inf. Comput.},
+  volume       = {208},
+  number       = {9},
+  pages        = {1031--1053},
+  year         = {2010},
+  url          = {https://doi.org/10.1016/j.ic.2010.05.002},
+  doi          = {10.1016/j.ic.2010.05.002},
+  timestamp    = {Thu, 14 Oct 2021 09:23:53 +0200},
+  biburl       = {https://dblp.org/rec/journals/iandc/Gorla10.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
