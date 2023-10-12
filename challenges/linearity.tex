@@ -22,8 +22,8 @@ in the same context.
 The syntax is given by the grammar
 \[
 \begin{array}{rcl}
-  v,w & ::= & a \mid l \\
-   P,Q & ::=& \Pend \mid \Pout{x}{v}{P} \mid \Pin{x}{l}{P} \mid \PBpar{P}{Q} \mid  \Presd{x}{y}{P}
+  v,w & ::= & a \quad\mid\quad l \\
+   P,Q & ::=& \Pend \quad\mid\quad \Pout{x}{v}{P} \quad\mid\quad \Pin{x}{l}{P} \quad\mid\quad \PBpar{P}{Q} \quad\mid\quad  \Presd{x}{y}{P}
 \end{array}
 \]
 where a \emph{value} \( v, w, \dots \) is either a base value \( a \) or a variable name \( l \).
@@ -94,9 +94,9 @@ Our type system does not type processes directly, but instead focuses on the cha
 The syntax of \emph{session types} \( S, T \), unrestricted type contexts \( \Gamma \) and linear type contexts \( \Delta \) is as follows:
 \[
   \begin{array}{rcl}
-  S,T & ::= & \Tend \mid \Tbase \mid \Tin{S} \mid \Tout{S} \\
-    \Gamma &::= & \Cempty \mid \Gamma, l \\
-                    \Delta &::= & \Cempty \mid \Cadd{\Delta}{\hastype{x}{S}}
+  S,T & ::= & \Tend \quad\mid\quad \Tbase \quad\mid\quad \Tin{S} \quad\mid\quad \Tout{S} \\
+    \Gamma &::= & \Cempty \quad\mid\quad \Gamma, l \\
+                    \Delta &::= & \Cempty \quad\mid\quad \Cadd{\Delta}{\hastype{x}{S}}
   \end{array}
 \]
 The \emph{end type} \( \Tend \) describes an endpoint on which no further interaction is possible.
