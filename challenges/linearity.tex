@@ -128,7 +128,7 @@ Our type system is aimed at maintaining two invariants:
 \item No endpoint is used simultaneously by parallel processes;
 \item The two endpoints of the same session have dual types.
 \end{enumerate}
-The first invariant is maintained by linearly splitting type contexts when typing compositions of processes, the second  by requiring duality when typing restrictions.
+The first invariant is maintained by linearly splitting type contexts when typing compositions of processes, the second by requiring duality when typing restrictions.
 
 We have two typing judgments: one for values, and one for processes.
 The typing rules for values are:
@@ -175,7 +175,10 @@ The following lemmas are needed:
     \( \types{(\Cadd{\Gamma}{l});\Delta}{P} \).
       \item If \( \types{\Gamma; \Delta}{P} \) and \( \tend{\Delta} \) then
     \( \types{\Gamma;(\Cadd{\Delta}{\hastype{x}{T}})}{P} \).
-\end{enumerate}
+  \end{enumerate}
+  \begin{metanote}
+    Note from Dawit: Does \( \Delta \) really have to be only ends to be weakened? I had expected that if \( P \) is typed by \( \Delta \) and \( \Delta' \) is only ends, then \( P \) is typed by \( \Cadd{\Delta}{\Delta'} \).
+  \end{metanote}
 \end{lemma}
 \begin{proof}
   By induction on the given derivations.
@@ -199,7 +202,7 @@ The following lemmas are needed:
   If \( \types{\Gamma;\Delta}{P} \) and \( \scong{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
 \end{lemma}
 \begin{proof}
-  By induction on the structure of a process context. In the base case, proceed by case analysis on the \textsl{Sc} rule applied:
+  By induction on the structure of a process context involved in the congruence. In the base case where the context is a hole, proceed by case analysis on the \textsl{Sc} rule applied:
   \begin{description}
   \item[Res:] use weakening~\ref{lemma:weak} part 2
   \item[Comm/Assoc:] by rearranging sub-derivations noting that  order does not matter for linear context

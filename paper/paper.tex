@@ -153,16 +153,16 @@ as a next step beyond the scope of this challenge (we discuss this in
 % Our challenge problems are designed to stimulate progress on answering these questions by providing simple environments in which to demonstrate, evaluate, and compare the many tools and techniques available.
 % While the challenge problems themselves are thus not of scientific interest, we expect that the best practices and mechanisations developed by solving the challenge problems will also be useful for future research.
 
-We have begun collecting solutions to our challenge problems on our website:
+We have begun collecting solutions to our challenges on our website:
 %
 \begin{center}
   \url{https://concurrentbenchmark.github.io/}
 \end{center}
 %
 In the longer term, we expect to use the website for promoting best practices,
-tutorials and guidelines derived from solutions to our challenge problems.
+tutorials and guidelines derived from solutions to our challenges.
 %The interested reader can find more information about the current status at:
-We encourage anyone interested to try the challenge problems using their
+We encourage anyone interested to try the challenges using their
 favourite tools and techniques, and to send us their solutions.
 
 \paragraph{Outline of this paper.}
@@ -170,10 +170,10 @@ In \cref{sec:challenge-problems} we describe in more detail the three key
 aspects of our challenge problems.  We discuss our design choices in
 \cref{sec:design-discussion}, and possible extensions and further topics in
 \cref{sec:going-beyond}.  We conclude in \cref{sec:conclusion}.
-The full challenge problems, including proofs, are available in \cref{app:challenges}.
+The full challenges, including proofs, are available in \cref{app:challenges}.
 
-\section{The challenge problems}\label{sec:challenge-problems}
-In this section we briefly describe the three aspects of our challenge problems, referring to the appendix for the full text of each one.
+\section{The challenges}\label{sec:challenge-problems}
+In this section we briefly describe the three aspects of our challenges, referring to the appendix for the full text of each one.
 
 \subsection{Linearity}
 Our \textbf{linearity challenge} (Appendix~\ref{sec:challenge:linearity-beh-types}) is to prove type preservation (also known as subject reduction) for a process calculus with a minimal
@@ -195,18 +195,17 @@ The key issue of this challenge is the coinductive reasoning about the infinite 
 
 In this section, we outline the factors considered in designing the
 benchmark challenges. We start with some general remarks, then
-describe the individual design considerations for each challenge
-problem.
+describe the individual design considerations for each challenge problem.
 
 % We have identified three key aspects fundamental to mechanisations of concurrent calculi and designed our challenge problems to exercise these.
-Like the previous POPLMark and POPLMark Reloaded challenges, our challenge is not meant to be comprehensive: applications such as multiparty session types, choreographies, conversation types, psi-calculi, or encodings between different calculi are not directly covered.  Still, these (and other) proof mechanisation applications will need the basic techniques that our challenge problems exercise:
+Like the previous POPLMark and POPLMark Reloaded challenges, our challenge is not meant to be comprehensive: applications such as multiparty session types, choreographies, conversation types, psi-calculi, or encodings between different calculi are not directly covered.  Still, these (and other) proof mechanisation applications will need the basic techniques that our challenges exercise:
 as per our design goal \ref{item:goal-reusability},
 our problems are drawn from the basic metatheory of process calculi (instead
 of requiring the development of new theory), and focus on well-known theorems
 and results that involve interesting proof techniques that may be reused in further work.
 
 To achieve our design goal \ref{item:goal-comperison-accessibility},
-we have designed our challenge problems to exercise the three aspects (linearity, scope extrusion, coinduction) independently, and they can be solved individually and in any order.
+we have designed our challenges to exercise the three aspects (linearity, scope extrusion, coinduction) independently, and they can be solved individually and in any order.
 We have designed each problem to be small and easy to understand with basic knowledge of textbook concurrency theory, process calculi and type theory.  The process calculus used in each challenge
 focuses on the features we want to exercise, and we have omitted all constructs
 (such as choices) that would complicate the mechanisation without bringing tangible
@@ -242,11 +241,11 @@ Inspired by Vasconcelos~\cite{Vasconcelos2012}, we use a syntax where
 restriction binds two names. This presentation makes the duality
 of the two names obvious in the type system.
 
-We have chosen a simple notion of well-formedness for our challenge problem,
+We have chosen a simple notion of well-formedness for our challenge,
 and do not for instance consider deadlocked processes. While more
 sophisticated notions of well-formedness are also interesting, the
 proofs of these properties are more complicated and would thus make
-the challenge problem more difficult and less focused on the linear
+the challenge more difficult and less focused on the linear
 aspects of the system.
 
 \subsection{Scope extrusion}
@@ -271,7 +270,7 @@ Though weak barbed congruence is a more common behavioural equivalence for \(\pi
 We have chosen not to include delegation in the coinduction challenge since it is orthogonal to our primary aim of exploring coinductive proof techniques.
 
 \subsection{Evaluation criteria}
-Solutions to our challenge problems should be compared on three measures: the mechanisation overhead, this being the amount of manually written infrastructure and setup needed to express the definitions in the mechanisation; the adequacy of the formal statements in the mechanisation, i.e.\ whether the proven theorems are easily recognisable as the theorems from the challenge; and the cost of entry for the tools and techniques employed, i.e.\ the difficulty of learning to use the techniques.
+Solutions to our challenges should be compared on three measures: the mechanisation overhead, this being the amount of manually written infrastructure and setup needed to express the definitions in the mechanisation; the adequacy of the formal statements in the mechanisation, i.e.\ whether the proven theorems are easily recognisable as the theorems from the challenge; and the cost of entry for the tools and techniques employed, i.e.\ the difficulty of learning to use the techniques.
 Solutions to our challenges do not need to strictly follow the definitions and lemmas set out in the problem text, but solutions which deviate from the original challenges need to present more elaborate argumentation for their adequacy.
 
 
