@@ -6,7 +6,7 @@ Scope extrusion is the notion that a process can send restricted names to anothe
 This e.g.\ allows a process to set up a private connection by sending a restricted name to another process, then using this name for further communication.
 
 Reasoning about scope extrusion explicitly can sometimes be avoided by introducing a structural congruence rule into the semantics, but doing this means we lose information about the scope when reasoning about the semantics.
-Explicitly reasoning about scope extrusion is necessary to describe e.g.\ monitors and compositions.
+Explicitly reasoning about scope extrusion is necessary to describe e.g.\ runtime monitors and compositions of systems.
 
 The setting for this challenge is an untyped \( \pi \)-calculus, the syntax and semantics of which are presented below.
 We will define two different semantics for our system: one that avoids explicit reasoning about scope extrusion, and one that does not.
@@ -26,7 +26,7 @@ The syntax of processes is given by:
 %The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
 The process \( \Pout{x}{y}{P} \) is an \emph{output}, which can send the name \( y \) via \( x \), then continue as \( P \).
 The process \( \Pin{x}{y}{P} \) is an \emph{input}, which can receive a name via \( x \), then continue as \( P \) with the received name substituted for \( y \).
-%The input operator thus binds the name \( y \) in \( P \).
+The input operator thus binds the name \( y \) in \( P \).
 % The process \( \Ppar{P}{Q} \) is the \emph{composition} of process \( P \) and process \( Q \).
 % The two components can proceed independently of each other, or they can interact via shared names.
 % The process \( \Pres{x}{P} \) is the \emph{restriction} of the name \( x \) to \( P \).
