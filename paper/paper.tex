@@ -527,7 +527,6 @@ bound output action \( \Aoutb{x}{y} \), \( x \) is a free name, while
 \( \names{\alpha} \) to denote the union of \( \freenames{\alpha} \)
 and \( \boundnames{\alpha} \), i.e.\ the set of all names that occur
 in the action \( \alpha \).
-
 The transition relation is then defined by the following rules:
 \begin{mathpar}
   \inferrule[Out]{ }{\transition{\Pout{x}{y}{P}}{\Aoutf{x}{y}}{P}}
@@ -739,7 +738,6 @@ internal communication.
 %
 We will use the notation \( \names{\alpha} \) to denote the set of
 names that occur in the action \( \alpha \).
-
 The transition relation is then defined by the following rules:
 \begin{mathpar}
   \inferrule[Out]{ }{\transition{\Pout{x}{a}{P}}{\Aoutf{x}{a}}{P}}
@@ -777,7 +775,6 @@ the weak case where we relate processes with any amount of internal
 transitions).  We must therefore allow ourselves to observe more than
 just internal transitions, and here choose to define the observables
 of a process as the names it can use for sending and receiving.
-
 To this end, we define the \emph{observability predicate}
 \( \observable{P}{\mu} \) as follows:
 \begin{align}
@@ -867,7 +864,6 @@ congruence. Formally,
 In this section, we outline the factors considered in designing the
 benchmark challenges. We start with some general remarks, then
 describe the individual design considerations for each challenge problem.
-
 % We have identified three key aspects fundamental to mechanisations of concurrent calculi and designed our challenge problems to exercise these.
 Like the previous POPLMark and POPLMark Reloaded challenges, our challenge is not meant to be comprehensive:
 applications such as multiparty session types~\cite{10.1145/2827695,10.1145/3290343}, choreographies~\cite{DBLP:journals/jar/CruzFilipeMP23}, conversation types~\cite{DBLP:journals/tcs/CairesV10}, psi-calculi~\cite{lmcs:696}, or encodings between different calculi~\cite{DBLP:journals/iandc/Gorla10,DBLP:journals/iandc/DardhaGS17,DBLP:conf/ecoop/ScalasDHY17} are not directly covered.  Still, these (and other) proof mechanisation applications will need the basic techniques that our challenge problems exercise:
@@ -875,7 +871,6 @@ as per our design goal \ref{item:goal-reusability},
 our problems are drawn from the basic metatheory of process calculi (instead
 of requiring the development of new theory), and focus on well-known theorems
 and results that involve interesting proof techniques that may be reused in further work.
-
 To achieve our design goal \ref{item:goal-comperison-accessibility},
 we have designed our challenge problems to exercise the three aspects (linearity, scope extrusion, coinduction) independently, and they can be solved individually and in any order.
 We have designed each problem to be small and easy to understand with basic knowledge of textbook concurrency theory, process calculi, and type theory.  The process calculus used in each challenge
@@ -883,7 +878,6 @@ focuses on the features we want to exercise, and omits all constructs
 (such as choices) that would complicate the mechanisation without bringing tangible
 benefits and insights.  (It is of course possible to reintroduce the omitted
 constructs, but we leave this as a possibility for a future benchmark challenge.)
-
 The minimality and uniformity of the calculi also allows us to target our design
 goal \ref{item:goal-tutorials}, i.e.~encouraging the development guidelines and
 tutorials for the mechanisation of concurrency theory.
@@ -896,27 +890,24 @@ tutorials for the mechanisation of concurrency theory.
 % different reasoning techniques in a concurrency setting than in any
 % other setting.
 
-\subsection{Linearity}
+\paragraph{Linearity}
 For our challenge on linear reasoning we have chosen a safety theorem
 for a session type system since this allows us to involve linear
 reasoning without many definitions. Accordingly, we have chosen not to
 include channel delegation and to use a reduction instead of a
 transition system semantics.
-
 Linearity is of course interesting in many other subfields of programming languages, but we have chosen to base our challenge on a session type system primarily due to the common use of session types in concurrency theory.
-
 Inspired by Vasconcelos~\cite{Vasconcelos2012}, we use a syntax where
 restriction binds two names. This presentation makes the duality
 of the two names obvious in the type system.
-
 We have chosen a simple notion of well-formedness for our challenge,
 and do not for instance consider deadlocked processes. While more
 sophisticated notions of well-formedness are also interesting, the
 proofs of these properties are more complicated and would thus make
 the challenge more difficult and less focused on the linear
-aspects of the system.
+aspects.
 
-\subsection{Scope extrusion}
+\paragraph{Scope extrusion}
 This is the challenge most closely related to the original POPLMark
 challenge since it concerns the properties of binders in restrictions.
 It is not clear that the techniques used to solve the POPLMark challenges about binders can be easily extended to reasoning about scope extrusion.
@@ -926,14 +917,13 @@ not immediately obvious how to encode the operational semantics in
 this kind of system.
 
 
-\subsection{Coinduction}
+\paragraph{Coinduction}
 %\fxerror{
 % ``Proper'' barbs with a structural congruence in coinduction instead of LTS semantics?
 %}
 
 Our coinduction challenge concerns strong barbed bisimulation and congruence.
 Though weak barbed congruence is a more common behavioural equivalence for \(\pi\)-terms, we avoid having to abstract over the number of internal transitions when considering the strong notions of equivalence, thus simplifying the theory.
-
 We have chosen not to include delegation in the coinduction challenge since it is orthogonal to our primary aim of exploring coinductive proof techniques.
 
 \subsection{Evaluation criteria}
@@ -943,19 +933,16 @@ Solutions to our challenges do not need to strictly follow the definitions and l
 
 \section{Going beyond the challenge problems}\label{sec:going-beyond}
 
-As with the POPLMark and POPLMark Reloaded challegnes, this challenge is
-intended to be useful, but it does not aim at covering every possible
+As with the POPLMark and POPLMark Reloaded challegnes, this challenge does not aim to cover every possible
 problem in the area. Our benchmark can be extended in two
 dimensions: further expanding and combining the current challenges,
-and addressing calculi and features not covered by the current challenges.
-We discuss these dimensions in the rest if this section.
+and addressing features not covered by the current challenges.
 
 \paragraph{Extending and combining the current challenges.}
 The proposed challenges try to minimise the overlap of the techniques
 and aspects they exercise (linearity, scope extrusion, coinduction) --- but most
 research on concurrency theory combines some or all such aspects. An interesting second round of formalisations could
 entail combining the features of the challenges.
-
 In \cref{tab:extensions} we consider the following three extensions: first, the
 addition of choice to the type level and the process level. Second, the addition
 of recursion (and recursion types for typed systems). And finally, the
@@ -964,7 +951,7 @@ support it.
 
 \begin{table}[btp]
   \caption{Possible extensions of the challenges. Each suitable extension is marked ``+''. \label{tab:extensions}}
-  \begin{center}
+  \begin{center}\small
     \begin{tabular}{|r|c|c|c|}
       \hline
       & Linearity & Scope extrusion & Coinduction \\
@@ -983,7 +970,6 @@ support it.
 Extending in this dimension
 means proposing new challenges to cover for different features of
 message passing calculi, or to cover different proof mechanisation features.
-
 Some interesting aspects of message passing calculi to explore in
 further challenges could be multiparty session types, and
 choreographies because their definitions and meta-theory have aspects
@@ -993,7 +979,6 @@ that we cover here do appear in these problems. Also, one could easily
 design a challenge that goes beyond our coinduction challenge, by
 exploring different notions of bisimilarity (barbed, or weak, etc.),
 and trace equivalence.
-
 On the side of proof assistants, the current challenge proposes
 mechanising the proofs of theorems. An interesting venue to explore
 would be to take advantage of other proof assistant features. For
@@ -1005,9 +990,7 @@ objective of automating aspects of the proofs. And finally, a
 challenge could propose the integration with other formal reasoning
 tools, namely model checkers. These tools are in common use in the
 field --- and combining automated proofs with proof assistants
-offers the potential to ease the path for attempting larger proofs
-with less effort.
-
+offers the potential to ease the path for attempting larger proofs.
 Ultimately, the current challenges can be extended in several
 worthwhile directions, and we look forward to a future when they
 indeed are extended. We see the current challenge as setting
