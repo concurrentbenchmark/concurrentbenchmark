@@ -154,7 +154,7 @@ The typing rules for processes are as follows:
     \inferrule[T-IN]{
       \types{(\Gamma,  l ); (\Cupdate{\Delta}{\hastype{x}{T}})}{P}}{\types{\Gamma; (\Csplit{\Delta}{\hastype{x}{\Tin{T}}})}{\Pin{x}{l}{P}}}
 \end{mathpar}
-Note that we do not need a judgment for typing channels, since it is already folded into the T-IN and T-OUT rules.
+Note that we do not need a judgment for typing channels, since it is already folded into the \TirName{T-In} and \TirName{T-Out} rules.
 
 \subsubsection{Challenge}
 The objective of this challenge is to prove subject reduction and type safety for our calculus with session types. We start with:
