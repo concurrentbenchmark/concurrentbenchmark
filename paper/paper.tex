@@ -378,16 +378,16 @@ The following lemmas are needed:
   \begin{enumerate}
   \item If \( \types{\Gamma; \Delta}{P} \) then
     \( \types{(\Cadd{\Gamma}{l});\Delta}{P} \).
-      \item If \( \types{\Gamma; \Delta}{P} \) % and \( \tend{\Delta} \) 
+      \item If \( \types{\Gamma; \Delta}{P} \) % and \( \tend{\Delta} \)
         then
     \( \types{\Gamma;(\Cadd{\Delta}{\hastype{x}{\Tend}})}{P} \).
   \end{enumerate}
   % \begin{metanote}
   %   Note from Dawit: Does \( \Delta \) really have to be only ends to be weakened? I had expected that if \( P \) is typed by \( \Delta \) and \( \Delta' \) is only ends, then \( P \) is typed by \( \Cadd{\Delta}{\Delta'} \).
-    
+
   %   AM:  I agree that it's weird: we should not be able to weaken a linear context, if not
   %   with unrestricted types --- but this is what we need for Sc-Res-Inact to be type preserving:
-  %   from $\Delta\vdash 0$ we need $\Delta\vdash (\nu x y)0$. BTW, this is also a problem in Vasco's system 
+  %   from $\Delta\vdash 0$ we need $\Delta\vdash (\nu x y)0$. BTW, this is also a problem in Vasco's system
   % \end{metanote}
 \end{lemma}
 
@@ -409,7 +409,7 @@ To formulate safety, we need to formally define what we mean by well-formed proc
 We say that a process \( P \) is \emph{prefixed at variable \( x \)} if it is of the form \( \Pout{x}{v}{P} \) or \( \Pin{x}{l}{P} \).
 A process is then \emph{well formed} if, for each of its structurally congruent processes of the form \( \Presd{x_1}{y_1}{\dots \Presd{x_n}{y_n}{(\Ppar{\Ppar{P}{Q}}{R})}} \), with \( n \geq 0 \), it holds that, if \( P \) is prefixed at \( x_1 \) and \( Q \) is prefixed at \( y_1 \), then \( \Ppar{P}{Q} \) is of the form \( \Ppar{\Pout{x_1}{a}{P'}}{\Pin{y_1}{l}{Q'}} \).
 
-Note that well-formed processes do not necessarily reduce. For example, the process
+Note that well-formed processes do not necessarily reduce. For example, the process:
 \begin{equation*}
   \Presd{x_1}{y_1}{\Presd{x_2}{y_2}{(\Ppar{\Pout{x_1}{a}{\Pin{y_2}{l}{\Pend}}}{\Pout{y_2}{x_2}{\Pin{y_1}{l}{\Pend}}})}}
 \end{equation*}
@@ -517,7 +517,7 @@ The \emph{input action} \( \Ain{x}{y} \) is receiving the name \( y \) via \( x 
 The \emph{bound output action} \( \Aoutb{x}{y} \) is sending a fresh name \( y \) via \( x \).
 The \emph{internal action} \( \Atau \) is performing some unobservable action, e.g.\ internal communication.
 
-We will extend the notion of free and bound occurrences with 
+We will extend the notion of free and bound occurrences with
 \( \freenames{\alpha} \) to denote the set of names that occur free in
 the action \( \alpha \) and  \( \boundnames{\alpha} \) to
 denote the set of names that occur bound in the action \( \alpha \).
@@ -562,7 +562,7 @@ the name \( z \) (which occurs bound in \( P \) and the action
 \( \Aoutb{x}{z} \)) may occur free in \( Q \).  Without this exception
 it would be impossible to express scope extrusion.
 
-Before getting to our challenge, we prove some intermediate results. 
+Before getting to our challenge, we prove some intermediate results.
 \begin{lemma}\label{se-lemma-harmony-fact}
   If \( \scong{P}{Q} \) and \( \transition{P}{\alpha}{P'} \), then for some \( Q' \) we have \( \transition{Q}{\alpha}{Q'} \) and \( \scong{P'}{Q'} \).
 \end{lemma}
@@ -910,9 +910,9 @@ the challenge more difficult and less focused on the linear
 aspects.
 
 \paragraph{Scope extrusion}
-This is the challenge most closely related to the original POPLMark
+This is the challenge most closely related to the POPLMark
 challenge since it concerns the properties of binders in restrictions.
-It is not clear that the techniques used to solve the POPLMark challenges about binders can be easily extended to reasoning about scope extrusion.
+It is not clear that the techniques used to solve the original challenges about binders can be easily extended to reasoning about scope extrusion.
 Notably, techniques like Higher Order Abstract Syntax, or well-scoped
 De\ Bruijn indices do not have the concept of free variables. It is
 not immediately obvious how to encode the operational semantics in
