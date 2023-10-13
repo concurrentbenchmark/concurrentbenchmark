@@ -562,7 +562,7 @@ the name \( z \) (which occurs bound in \( P \) and the action
 \( \Aoutb{x}{z} \)) may occur free in \( Q \).  Without this exception
 it would be impossible to express scope extrusion.
 
-\subsubsection{Challenge}
+Before getting to our challenge, we prove some intermediate results. 
 \begin{lemma}\label{se-lemma-harmony-fact}
   If \( \scong{P}{Q} \) and \( \transition{P}{\alpha}{P'} \), then for some \( Q' \) we have \( \transition{Q}{\alpha}{Q'} \) and \( \scong{P'}{Q'} \).
 \end{lemma}
@@ -582,6 +582,7 @@ The last rule is an application of \TirName{R-Struct}.
   \end{align*}
 \end{lemma}
 
+\subsubsection{Challenge}
 The objective of this challenge is to prove the following theorems, which together show the equivalence between the reduction semantics and the transition system semantics up to structural congruence.
 The first of the theorems involves reasoning about scope extrusion more directly than the other, and if time does not permit proving both of the theorems, \cref{thm:se-trans-implies-red} should be proven first.
 \begin{theorem}\label{thm:se-trans-implies-red}
