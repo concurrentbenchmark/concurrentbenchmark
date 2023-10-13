@@ -157,15 +157,8 @@ The typing rules for processes are as follows:
 Note that we do not need a judgment for typing channels, since it is already folded into the \TirName{T-In} and \TirName{T-Out} rules.
 
 \subsubsection{Challenge}
-The objective of this challenge is to prove subject reduction and type safety for our calculus with session types. We start with:
-\begin{theorem}[Subject reduction]
-  If \( \types{\Gamma;\Delta}{P} \) and \( \reduces{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
-\end{theorem}
-\begin{proof}
-  By induction on the derivation of $\reduces{P}{Q}$. TBD
-\end{proof}
+The objective of this challenge is to prove subject reduction and type safety for our calculus with session types. We start with some lemmas:
 
-The following lemmas are needed:
 \begin{lemma}[Weakening]\mbox{}
   \label{lemma:weak}
   \begin{enumerate}
@@ -174,13 +167,6 @@ The following lemmas are needed:
       \item If \( \types{\Gamma; \Delta}{P} \) and \( \tend{\Delta} \) then
     \( \types{\Gamma;(\Cadd{\Delta}{\hastype{x}{\Tend}})}{P} \).
   \end{enumerate}
-  % \begin{metanote}
-  %   Note from Dawit: Does \( \Delta \) really have to be only ends to be weakened? I had expected that if \( P \) is typed by \( \Delta \) and \( \Delta' \) is only ends, then \( P \) is typed by \( \Cadd{\Delta}{\Delta'} \).
-    
-  %   AM:  I agree that it's weird: we should not be able to weaken a linear context, if not
-  %   with unrestricted types --- but this is what we need for Sc-Res-Inact to be type preserving:
-  %   from $\Delta\vdash 0$ we need $\Delta\vdash (\nu x y)0$. BTW, this is also a problem in Vasco's system 
-  % \end{metanote}
 \end{lemma}
 \begin{proof}
   By induction on the given derivations.
@@ -194,6 +180,7 @@ The following lemmas are needed:
 \end{proof}
 
 \begin{lemma}[Substitution]\mbox{}
+  \label{le:subst}
   If $\types{(\Gamma, l);\Delta}{P}$ and ${\typev{\Gamma}{\hastype{a}{\Tbase}}}$ then
   \( \types{\Gamma;\Delta}{\subst{P}{l}{a}} \).
 \end{lemma}
@@ -201,6 +188,7 @@ The following lemmas are needed:
   By induction on the first derivation.
 \end{proof}
 \begin{lemma}[Preservation for $\equiv$]
+  \label{le:presequiv}
   If \( \types{\Gamma;\Delta}{P} \) and \( \scong{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
 \end{lemma}
 \begin{proof}
@@ -215,6 +203,25 @@ The following lemmas are needed:
   \item[Res] order does not matter
   \end{description}
   For the step case, TBD
+\end{proof}
+
+\begin{theorem}[Subject reduction]
+  If \( \types{\Gamma;\Delta}{P} \) and \( \reduces{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
+\end{theorem}
+\begin{proof}
+  By induction on the derivation of $\reduces{P}{Q}$. The cases R-PAR
+  and R-RES follows immediately by IH. Case R-STRUCT appeals twice to
+  preservation of $\equiv$ (Lemma~\ref{le:presequiv}) and to the
+  IH. For R-COM, suppose that T-RES introduces in $\Delta$ the
+  assumptions $x : !.U, y : ?\dual U$.  Building the only tree for the
+  hypothesis, we know that $\Delta = \Delta_1, \Delta_2, \Delta_3$
+  where $\Gamma;\Delta_3 \vdash R$. We also have
+  $ \Gamma;\Delta_1 , x : U \vdash P$, ${\cal D}_{2} $ a proof of
+  $\Gamma,l;\Delta_2, y : \dual U \vdash Q$ and $\cal V $ is a proof of
+  $\Gamma \vdash a : \Tbase$.  From ${\cal D}_{2}$ and $\cal V$ we use the
+  substitution Lemma~\ref{le:subst} to obtain $\Gamma;\Delta_2 , y : \dual U \vdash
+  Q[a/l]$. We then conclude the proof with rules T-PAR, T-PAR and
+  T-RES.
 \end{proof}
 
 To formulate safety, we need to formally define what we mean by
