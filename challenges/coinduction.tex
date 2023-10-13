@@ -130,7 +130,7 @@ restriction $\Pres{x}{}{P}$.
 
 \paragraph{Semantics.} We choose to give an LTS semantics for this
 challenge. As an alternative, it is also possible to adopt a reduction
-semantics which features less rules but needs a structural
+semantics which features fewer rules but needs a structural
 congruence. The semantics of the system describes the actions that the
 system can perform by defining a labelled transition relation on
 processes.  The transitions are labelled by \emph{actions}, the syntax
@@ -179,9 +179,8 @@ On the other hand, since the rule \TirName{Out} only applies to base values, the
 \subsubsection{Bisimilarity}
 Bisimilarity is a notion of equivalence for processes and
 % .  Our notion of process equivalence relations
-builds on a notion of \emph{observable}, i.e., what can we externally
-observe from the semantics of a process and can we use that to tell
-two different process apart.  If we allow ourselves only to observe
+builds on a notion of \emph{observables}, i.e., what we can externally
+observe from the semantics of a process. If we allow ourselves only to observe
 internal transitions, i.e., observe that a process is internally
 performing a step of computation, we will relate either too few
 processes (in the strong case where we relate only processes with
@@ -277,11 +276,9 @@ because the left process can perform a \( \Atau \)-action such that
 % We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).
 
 \subsubsection{Strong barbed congruence}
-In order to make sure that strong barbed bisimilarity detects cases
-like the one above, we need to restrict it so that it becomes a
-congruence,
+In order to detect cases like the one above, we need to restrict strong barbed bisimilarity so that it becomes a congruence,
 i.e., % we need to make strong barbed bisimilarity consider
-it has to consider the environment in which processes may be placed.
+we have to consider the environment in which processes may be placed.
 % (i.e.\ the context) of processes.
 
 We define \emph{strong barbed congruence}, written \( \sbcong{}{} \), by saying that two processes \( P \) and \( Q \) are \emph{strong barbed congruent}, written \( \sbcong{P}{Q} \), if \( \sbbisim{\applyctx{C}{P}}{\applyctx{C}{Q}} \) for every context \( C \).
