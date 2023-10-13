@@ -55,7 +55,7 @@
 \maketitle
 
 \begin{abstract}
-  The POPLMark challenge and its follow-up POPLMark Reloaded sparked a flurry of
+  The POPLMark challenge and its follow-up POPLMark Re\-loaded sparked a flurry of
   work on machine-checked proofs, and fostered the adoption of proof
   mechanisation in programming language research.  However, both POPLMark and
   POPLMark Reloaded were purposely limited in scope, with benchmark problems
@@ -111,12 +111,12 @@ concurrency (and more specifically, in process calculi) will benefit from a set
 of solutions exploring different ways of mechanising typical problems in the
 field.
 
-Like the authors of the previous POPLMark challenges, we seek to
+Like the authors of the POPLMark challenges, we seek to
 answer a number of questions:
 \begin{enumerate}[label=\textbf{(Q\arabic*)},leftmargin=10mm]
-\item What is the current state of the art in mechanising process calculi?
-\item What techniques and best practices can be recommended when starting formalisation projects within concurrency theory?
-\item What improvements are needed to make mechanisation tools more user-friendly with regards to the issues faced when mechanising process calculi?
+\item\label{item:rq1} What is the current state of the art in mechanising process calculi?
+\item\label{item:rq2} What techniques and best practices can be recommended when starting formalisation projects within concurrency theory?
+\item\label{item:rq3} What improvements are needed to make mechanisation tools more user-friendly with regards to the issues faced when mechanising process calculi?
 \end{enumerate}
 
 We have identified three key aspects which typically cause difficulties when
@@ -277,9 +277,9 @@ Though weak barbed congruence is a more common behavioural equivalence for \(\pi
 We have chosen not to include delegation in the coinduction challenge since it is orthogonal to our primary aim of exploring coinductive proof techniques.
 
 \subsection{Evaluation criteria}
+The idea of our benchmark is to obtain evidence towards answering questions \cref{item:rq1,item:rq2,item:rq3}, and we are thus interested in not only the solutions, but in the experience of solving the challenges with the chosen approach.
 Solutions to our challenges should be compared on three measures: the mechanisation overhead, this being the amount of manually written infrastructure and setup needed to express the definitions in the mechanisation; the adequacy of the formal statements in the mechanisation, i.e.\ whether the proven theorems are easily recognisable as the theorems from the challenge; and the cost of entry for the tools and techniques employed, i.e.\ the difficulty of learning to use the techniques.
 Solutions to our challenges do not need to strictly follow the definitions and lemmas set out in the problem text, but solutions which deviate from the original challenges need to present more elaborate argumentation for their adequacy.
-
 
 \section{Going beyond the challenge problems}\label{sec:going-beyond}
 
