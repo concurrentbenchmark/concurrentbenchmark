@@ -93,7 +93,6 @@ further increase the reach of the POPLMark challenges, we propose a new
 collection of benchmark problems specifically designed to address typical issues
 that arise when mechanising message-passing concurrency using process calculi.
 
-%(Paragraphs about related work in this vein)
 Several papers in the realm of process calculi already include mechanised proofs
 (e.g.~\cite{DBLP:conf/pldi/Castro-Perez0GY21,DBLP:conf/tacas/CastroFY20,lmcs:9985,
   DBLP:journals/jar/CruzFilipeMP23, Tirore:2023}), or
@@ -121,7 +120,6 @@ answer a number of questions:
 
 We have identified three key aspects which typically cause difficulties when
 mechanising concurrency theory: \emph{linearity}, \emph{scope extrusion},
-% in name-passing systems,
 and \emph{coinductive reasoning} for infinite behaviours.
 Our benchmark problems are designed to focus on these aspects (discussed
 in more detail in \cref{sec:challenge-problems}), with three main goals:
@@ -161,7 +159,6 @@ We have begun collecting solutions to our challenges on our website:
 %
 In the longer term, we expect to use the website for promoting best practices,
 tutorials and guidelines derived from solutions to our challenges.
-%The interested reader can find more information about the current status at:
 We encourage anyone interested to try the challenges using their
 favourite tools and techniques, and to send us their solutions.
 
@@ -169,7 +166,7 @@ favourite tools and techniques, and to send us their solutions.
 In \cref{sec:challenge-problems} we describe in more detail the three key
 aspects of our challenge problems.  We discuss our design choices in
 \cref{sec:design-discussion}, and possible extensions and further topics in
-\cref{sec:going-beyond}.  We conclude in \cref{sec:conclusion}.
+\cref{sec:going-beyond}.
 The full challenges, including proofs, are available in \cref{app:challenges}.
 
 \section{The challenges}\label{sec:challenge-problems}
@@ -226,12 +223,6 @@ tutorials for the mechanisation of concurrency theory.
 % other setting.
 
 \subsection{Linearity}
-\fxerror{%
-- Linearity type system dual vs. Vasco's?
-- Linearity: the context is polymorphic
-- Asynchrony? Not necessary, that is a bit more advanced
-}%
-
 For our challenge on linear reasoning we have chosen a safety theorem
 for a session type system since this allows us to involve linear
 reasoning without many definitions. Accordingly, we have chosen not to
@@ -252,10 +243,6 @@ the challenge more difficult and less focused on the linear
 aspects of the system.
 
 \subsection{Scope extrusion}
-\fxerror{%
-- Why do we keep the restrictions around in the LTS semantics in scope extrusion?
-}
-
 This is the challenge most closely related to the original POPLMark
 challenge since it concerns the properties of binders in restrictions.
 It is not clear that the techniques used to solve the POPLMark challenges about binders can be easily extended to reasoning about scope extrusion.
@@ -266,10 +253,9 @@ this kind of system.
 
 
 \subsection{Coinduction}
-\fxerror{
-- Coinduction: why is congruence interesting?
-- ``Proper'' barbs with a structural congruence in coinduction instead of LTS semantics
-}
+%\fxerror{
+% ``Proper'' barbs with a structural congruence in coinduction instead of LTS semantics?
+%}
 
 Our coinduction challenge concerns strong barbed bisimulation and congruence.
 Though weak barbed congruence is a more common behavioural equivalence for \(\pi\)-terms, we avoid having to abstract over the number of internal transitions when considering the strong notions of equivalence, thus simplifying the theory.
@@ -354,14 +340,6 @@ indeed are extended. We see the current challenge as setting
 the foundation for those future extensions. It is our expectation that
 the solutions of those hypothetical challenges will build on solutions
 to this challenge.
-
-\section{Conclusion}\label{sec:conclusion}
-
-\fxerror{TODO? Remove?}
-
-\subsubsection*{Acknowledgements}
-
-\fxerror{TODO? Remove?}
 
 \appendix
 \section{Challenges}\label{app:challenges}
