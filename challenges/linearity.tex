@@ -178,14 +178,12 @@ The objective of this challenge is to prove subject reduction and type safety fo
 \begin{proof}
   By induction on $P$, for each case inverting $\types{\Gamma; (\Delta, x : T)}{P}$ to the uniquely applicable rule.
   \begin{description}
-    \item[$P = \Pend$] By inversion on the typing we have $\tend{\Delta}$. Apply T-INACT.
+    \item[$P = \Pend$] By inversion on the typing we have $\tend{\Delta}$. Apply \TirName{T-Inact}.
     \item[$P = \Ppar{P_0}{P_1}$] By inversion on the typing we have  $ \Delta, x : T = \Delta_0 , \Delta_1$.
       By cases on which environment $x$ is in, apply IH on that environment. 
-     \item[$P = \Presd{y}{z}{P}$] We may assume $x \notin \{y,z\}$. By inversion, $\Delta, x : T = \Delta', y : T_0, z : \dual{T_1}, x : T $. From the assumptions present we can apply IH.\\
-
-       The remaining case are analogous
-
+    \item[$P = \Presd{y}{z}{P}$] We may assume $x \notin \{y,z\}$. By inversion, $\Delta, x : T = \Delta', y : T_0, z : \dual{T_1}, x : T $. From the assumptions present we can apply IH.
   \end{description}
+  The remaining cases are analogous.
 \end{proof}
 
 \begin{lemma}[Substitution]\mbox{}
@@ -194,13 +192,13 @@ The objective of this challenge is to prove subject reduction and type safety fo
   \( \types{\Gamma;\Delta}{\subst{P}{a}{l}} \).
 \end{lemma}
 \begin{proof}
-  By induction on $P$ inverting  $\types{(\Gamma, l);\Delta}{P}$ in each case.
+  By induction on $P$, inverting  $\types{(\Gamma, l);\Delta}{P}$ in each case.
   \begin{description}
     \item[$P = \Pend$] Immediate after inverting typing.
     \item[$P = \Ppar{P_0}{P_1}$] By inversion on the typing we get derivations for $P_0$ and $P_1$. Apply IH on both.
      \item[$P = \Presd{x}{y}{P}$] Immediate after inverting typing.
-     \item[$P = \Pout{x}{v}{P}$] Invert typing. we have  $\typev{(\Gamma,l)}{\hastype{v}{\Tbase}}$.
-       We must show $\typev{\Gamma}{\hastype{v}{\Tbase}}$ to build the conclusion with IH and T-OUT. Go by cases on the struture of $\typev{(\Gamma,l)}{\hastype{v}{\Tbase}}$.
+     \item[$P = \Pout{x}{v}{P}$] Invert typing. We have $\typev{(\Gamma,l)}{\hastype{v}{\Tbase}}$.
+       We must show $\typev{\Gamma}{\hastype{v}{\Tbase}}$ to build the conclusion with IH and \TirName{T-Out}. Go by cases on the structure of $\typev{(\Gamma,l)}{\hastype{v}{\Tbase}}$.
      \item[$P = \Pin{x}{v}{P}$] Immediate after inverting typing.
 
   \end{description}
@@ -210,7 +208,7 @@ The objective of this challenge is to prove subject reduction and type safety fo
   If \( \types{\Gamma;\Delta}{P} \) and \( \scong{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
 \end{lemma}
 \begin{proof}
-  By induction on the structure of a process context involved in the congruence. In the base case where the context is a hole, proceed by case analysis on the \textsl{Sc} rule applied:
+  By induction on the structure of a process context involved in the congruence. In the base case where the context is a hole, proceed by case analysis on the \TirName{Sc} rule applied:
   \begin{description}
   \item[Par-Comm/Assoc:] by rearranging sub-derivations noting that
     order does not matter for linear contexts
@@ -227,19 +225,16 @@ The objective of this challenge is to prove subject reduction and type safety fo
   If \( \types{\Gamma;\Delta}{P} \) and \( \reduces{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
 \end{theorem}
 \begin{proof}
-  By induction on the derivation of $\reduces{P}{Q}$. The cases R-PAR
-  and R-RES follows immediately by IH. Case R-STRUCT appeals twice to
+  By induction on the derivation of $\reduces{P}{Q}$. The cases \TirName{R-Par} and \TirName{R-Res} follow immediately by IH. Case \TirName{R-Struct} appeals twice to
   preservation of $\equiv$ (Lemma~\ref{le:presequiv}) and to the
-  IH. For R-COM, suppose that T-RES introduces in $\Delta$ the
-  assumptions $x : !.U, y : ?\dual U$.  Building the only tree for the
+  IH. For \TirName{R-Com}, suppose that \TirName{T-Res} introduces in $\Delta$ the
+  assumptions $\Cadd{\hastype{x}{\Tout{U}}}{\hastype{y}{\Tin{\dual{U}}}}$.  Building the only tree for the
   hypothesis, we know that $\Delta = \Delta_1, \Delta_2, \Delta_3$
-  where $\Gamma;\Delta_3 \vdash R$. We also have
-  $ \Gamma;\Delta_1 , x : U \vdash P$, ${\cal D}_{2} $ a proof of
-  $\Gamma,l;\Delta_2, y : \dual U \vdash Q$ and $\cal V $ is a proof of
-  $\Gamma \vdash a : \Tbase$.  From ${\cal D}_{2}$ and $\cal V$ we use the
-  substitution Lemma~\ref{le:subst} to obtain $\Gamma;\Delta_2 , y : \dual U \vdash
-  Q[a/l]$. We then conclude the proof with rules T-PAR, T-PAR and
-  T-RES.
+  where $\types{\Gamma;\Delta_3}{R}$. We also have
+  $\types{\Gamma;(\Cadd{\Delta_1}{\hastype{x}{U}})}{P}$, ${\cal D}_{2} $ a proof of
+  $\types{\Gamma,l;(\Cadd{\Delta_2}{\hastype{y}{\dual{U}}})}{Q}$ and $\cal V $ a proof of
+  $\typev{\Gamma}{\hastype{a}{\Tbase}}$.  From ${\cal D}_{2}$ and $\cal V$ we use the
+  substitution \cref{le:subst} to obtain $\types{\Gamma;\Cadd{\Delta_2}{\hastype{y}{\dual{U}}}}{\subst{Q}{a}{l}}$. We then conclude the proof with rules \TirName{T-Par} (twice) and \TirName{T-Res}.
 \end{proof}
 
 To formulate safety, we need to formally define what we mean by
