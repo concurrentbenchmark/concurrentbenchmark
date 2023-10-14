@@ -52,8 +52,95 @@
 \end{frame}
 
 \begin{frame}{Linearity and behavioural type systems}
-  Handling contexts linearly + small example
+  %Handling contexts linearly + small example
+  Processes:
+  \begin{footnotesize}
+\[
+\begin{array}{rcl}
+  v,w & ::= & a \quad\mid\quad l \\
+  P,Q & ::=& \Pend \quad\mid\quad \Pout{x}{v}{P} \quad\mid\quad \Pin{x}{l}{P} \quad\mid\quad \PBpar{P}{Q} \quad\mid\quad  \Presd{x}{y}{P}
+  \end{array}
+\]
+  \end{footnotesize}
+  
+  Semantics:
+  \begin{footnotesize}
+  \begin{mathpar}
+  \inferrule[R-Com]{ }{\reduces{\Presd{x}{y}{(\Ppar{\Pout{x}{a}{P}}{\Ppar{\Pin{y}{l}{Q}}{R}})}}{\Presd{x}{y}{(\Ppar{P}{\Ppar{\subst{Q}{a}{l}}{R}})}}}
+  \and
+  \inferrule[R-Res]{\reduces{P}{Q}}{\reduces{\Presd{x}{y}{P}}{\Presd{x}{y}{Q}}}
+  \and
+  \inferrule[R-Par]{\reduces{P}{Q}}{\reduces{\Ppar{P}{R}}{\Ppar{Q}{R}}}
+  \and
+  \inferrule[R-Struct]{\scong{P}{P'} \\ \reduces{P'}{Q'} \\ \scong{Q}{Q'}}{\reduces{P}{Q}}
+  \end{mathpar}
+  \end{footnotesize}
+
+
 \end{frame}
+
+\begin{frame}{Linearity and behavioural type systems}
+  %Handling contexts linearly + small example
+
+  %Desiderata:
+\begin{enumerate}
+\item No endpoint is used simultaneously by parallel processes. %;
+\item The two endpoints of the same session have dual types.
+\end{enumerate}
+\ \\ \ \\
+\visible<2->{
+  Types:
+  \begin{footnotesize}
+\[
+\begin{array}{rcl}
+    S,T & ::= & \Tend \quad\mid\quad \Tbase \quad\mid\quad \Tin{S} \quad\mid\quad \Tout{S} \\
+    \Gamma &::= & \Cempty \quad\mid\quad \Gamma, l \qquad\quad
+    \begin{array}{rcl}
+      \Delta &::= & \Cempty \quad\mid\quad \Cadd{\Delta}{\hastype{x}{S}}
+    \end{array}
+\end{array}
+\]
+  \end{footnotesize}
+  
+  Typing rules:
+  \begin{footnotesize}
+\begin{mathpar}
+
+  \inferrule[T-Inact]{\tend\Delta }{\types{\Gamma;\Delta}{\Pend}}
+  \and
+  \inferrule[T-Par]{\types{\Gamma;\Delta_1}{P} \\ \types{\Gamma;\Delta_2}{Q}}
+  {\types{\Gamma; \Csplit{\Delta_1}{\Delta_2}}{\Ppar{P}{Q}}}
+  \and
+  \inferrule[T-Res]{\types{\Gamma; (\Cadd{\Cadd{\Delta}{\hastype{x}{T}}}{\hastype{y}{\dual{T}}}}{P})}{\types{\Gamma}{\Presd{x}{y}{P}}}
+  \and
+    \inferrule[T-Out]{
+      \typev{\Gamma}{\hastype{v}{\Tbase}} \\ \types{\Gamma; \Cupdate{\Delta}{\hastype{x}{T}}}{P}}{\types{\Gamma; (\Csplit{\Delta}{\hastype{x}{\Tout{T}}})}{\Pout{x}{v}{P}}}
+    \and
+    \inferrule[T-IN]{
+      \types{(\Gamma,  l ); (\Cupdate{\Delta}{\hastype{x}{T}})}{P}}{\types{\Gamma; (\Csplit{\Delta}{\hastype{x}{\Tin{T}}})}{\Pin{x}{l}{P}}}
+\end{mathpar}
+\end{footnotesize}
+
+}
+  
+\end{frame}
+
+\begin{frame}{Linearity and behavioural type systems}
+  %Handling contexts linearly + small example
+  Challenge!
+  
+  \begin{theorem}[Subject reduction]
+  If \( \types{\Gamma;\Delta}{P} \) and \( \reduces{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
+  \end{theorem}
+
+  \begin{theorem}[Type safety]
+  If \( \types{\Cempty}{P} \), then \( P \) is well formed.
+  \end{theorem}
+  
+\end{frame}
+
+
+
 
 \begin{frame}{Name passing and scope extrusion}
   %Handling opening and closing of restrictions + small example
