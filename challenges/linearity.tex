@@ -164,7 +164,8 @@ The objective of this challenge is to prove subject reduction and type safety fo
   \begin{enumerate}
   \item If \( \types{\Gamma; \Delta}{P} \) then
     \( \types{(\Cadd{\Gamma}{l});\Delta}{P} \).
-      \item If \( \types{\Gamma; \Delta}{P} \) and \( \tend{\Delta} \) then
+  \item If \( \types{\Gamma; \Delta}{P} \) % and \( \tend{\Delta} \)
+    then
     \( \types{\Gamma;(\Cadd{\Delta}{\hastype{x}{\Tend}})}{P} \).
   \end{enumerate}
 \end{lemma}
@@ -177,7 +178,8 @@ The objective of this challenge is to prove subject reduction and type safety fo
   $x\not\in \freenames{P}$, then \( \types{\Gamma; \Delta}{P} \).
 \end{lemma}
 \begin{proof}
-  By induction on the last applied rule of the proof of
+  By induction on the derivation of 
+%%  last applied rule of the proof of --AM changed for uniformity
   $\types{\Gamma; (\Delta, x : T)}{P}$.
   % , for each case inverting $\types{\Gamma; (\Delta, x : T)}{P}$ to
   % the uniquely applicable rule.
@@ -234,13 +236,14 @@ The objective of this challenge is to prove subject reduction and type safety fo
 \begin{proof}
   By induction on the structure of a process context involved in the congruence. In the base case where the context is a hole, proceed by case analysis on the \TirName{Sc} rule applied:
   \begin{description}
-  \item[Par-Comm/Assoc:] by rearranging sub-derivations noting that
+  \item[\TirName {Par-Comm/Assoc}] By rearranging sub-derivations noting that
     order does not matter for linear contexts
-  \item[Par-Inact] right-to-left by
-    strengthening~\ref{lemma:strenD}. Vice-versa, by picking $T$ to be $\Tend$ and weakening~\ref{lemma:weak} part 2.
-  \item[Res-Par] Follows Vasco's proof by case analysis on $x : T$ being linear and applying weak and stren accordingly.
-  \item[Res-Inact:] use weakening~\ref{lemma:weak} part 2
-  \item[Res] order does not matter
+  \item[\TirName{Par-Inact}]
+    % right-to-left by strengthening~\ref{lemma:strenD}. Vice-versa,
+    By picking $T$ to be $\Tend$ and weakening~\ref{lemma:weak} part 2.
+  \item[\TirName{Res-Par}] By case analysis on $x : T$ being linear and applying weak and strenghening accordingly.
+  \item[\TirName{Res-Inact:}] use weakening~\ref{lemma:weak} part 2
+  \item[\TirName{Res}] Noting that order does not matter
   \end{description}
   For the step case, TBD
 \end{proof}
