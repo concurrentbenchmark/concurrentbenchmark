@@ -4,6 +4,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{mathtools}
 \usepackage{graphicx}
 \usepackage{mathpartir}
 \usepackage{cite}
@@ -135,14 +136,25 @@ We discuss our design choices in \cref{sec:design-discussion}, and possible exte
 
 \section{The challenges}\label{sec:challenge-problems}
 \label{sec:prelim}
-First, we list some common notions and conventions that we use in the challenges. Since the calculi under study are somewhat different, each section will list the changes that apply.
+First, we list some common notions and conventions that we use in the
+challenges. Since the calculi under study are somewhat different, each section
+lists the changes that apply.
 
 We assume the existence of some set of \emph{base values}, represented by the symbols
 \( a, b, \dots \), the existence of some set
 of \emph{variable names}, represented by the symbols
 \( l, m, \dots \), and the existence of some set of \emph{names},
-represented by the symbols \( x, y, \dots \).
-We assume that all of these sets are infinite and that their elements can be compared for equality.
+represented by the symbols \( x, y, \dots \).%
+\footnote{%
+  Unlike the standard $\pi$-calculus, we distinguish variables from names to
+  better control the expressiveness of the calculi under study, and the scope of
+  the corresponding challenges: the key distinction is that names can be sent
+  and received (thus realising channel delegation), whereas variables can only
+  be substituted with base values.%
+} %
+\fxerror{Double-check the footnote!}%
+We assume that all of these sets are infinite and that their elements can be
+compared for equality.
 
 The syntax of processes includes:
 the process \( \Pend \) or \emph{inaction}, a process which can do nothing. The process \( \Ppar{P}{Q} \) is the \emph{parallel composition} of process \( P \) and process \( Q \).
@@ -150,8 +162,10 @@ The two components can proceed independently of each other, or they can interact
 %The process \( \Pchoice{P}{Q} \) is a non-deterministic \emph{choice} between continuing as the process \( P \) or as the process \( Q \).
 
 For communication, processes include \emph{input} and \emph{output}, whose
-signature will depend on the calculus being value or name-passing.
-We use here the metavariables $c,k$ to abstract over this choice.
+signature depends on the calculus being value-passing or name-passing.
+We use here the metavariables $c,k$ to abstract over this choice
+--- i.e.~$c$ may be either a value or a variable or a name, whereas $k$ may
+be a variable or a name.
 The process \( \Pout{x}{c}{P} \) is an \emph{output}, which can send
 \( c \) via \( x \), then continue as \( P \).  % The intention is that
 % the value \( v \) must be a base value when it is actually sent, and
@@ -167,9 +181,9 @@ The process \( \Pres{x}{P} \) is the \emph{restriction} of the name
 
 The process \( \Preplicate{P} \) is the \emph{replication} of the process \( P \).
 It can be thought of as the infinite composition \( \Ppar{P}{\Ppar{P}{\cdots}} \).
-Replication makes it possible to express infinite behaviors.
+Replication makes it possible to express infinite behaviours.
 
-We will use the notation \( \freenames{P} \) to denote the set of
+We use the notation \( \freenames{P} \) to denote the set of
 names that occur free,
 % (i.e.\ not bound by a restriction) in \( P \),
 \( \boundnames{P} \) to denote the set of names that occur bound
@@ -177,19 +191,19 @@ names that occur free,
 in \( P \) and  \( \freevars{P} \)
 to denote the set of variable names that occur free
 % (i.e.\ not bound by an input)
-in \( P \).  We will use the notation \( \boundvars{P} \)
+in \( P \).  We use the notation \( \boundvars{P} \)
 for the set of variable names that occur bound
 % (by an input)
-in \( P \).  We will use the notation \( \subst{P}{a}{l} \) to denote
+in \( P \).  We use the notation \( \subst{P}{a}{l} \) to denote
 the process \( P \) with base value \( a \) substituted for variable name
 \( l \). Similarly, \( \subst{P}{x}{y} \) denotes the process
 \( P \) with name \( x \) substituted for name \( y \).
-We will use the notation \( \applysubst{\sigma}{P} \) to denote the process \( P \) with a finite number of arbitrary substitutions applied to it.
+We use the notation \( \applysubst{\sigma}{P} \) to denote the process \( P \) with a finite number of arbitrary substitutions applied to it.
 
 Two processes \( P \) and \( Q \) are \( \alpha \)-convertible,
 written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \)
 by a finite number of substitutions of bound variable names.  As a
-convention, we will identify \( \alpha \)-convertible processes and we
+convention, we identify \( \alpha \)-convertible processes and we
 assume that bound names and bound variable names of any processes are
 chosen to be different from the names and variable names that occur
 free in any other entities under consideration, such as processes,
@@ -200,10 +214,10 @@ because any overlapping names and variable names may be
 
 A \emph{context} is obtained by taking a process and replacing a single occurrence of \( \Pend \) in it with the special \emph{hole} symbol \( \ctxhole \).
 As a convention, we do \emph{not} identify \( \alpha \)-convertible contexts.
-
-We will think of contexts as functions between processes.
-A context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
-The replacement should be literal, so names and variable names that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
+%
+A context acts as a function between processes:
+a context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
+The replacement is literal, so names and variable names that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
 
 We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).
 
@@ -229,15 +243,15 @@ The second objective is to prove type safety, i.e.\ that well-typed processes ar
 \subsubsection{Syntax.}
 The syntax is given by the grammar
 \[
-\begin{array}{rcl}
-  v,w & ::= & a \quad\mid\quad l \\
-   P,Q & ::=& \Pend \quad\mid\quad \Pout{x}{v}{P} \quad\mid\quad \Pin{x}{l}{P} \quad\mid\quad \PBpar{P}{Q} \quad\mid\quad  \Presd{x}{y}{P}
+\begin{array}{r@{\qquad}c@{\qquad}l}
+  v,w & \Coloneqq & a \quad\mid\quad l \\
+   P,Q & \Coloneqq & \Pend \quad\mid\quad \Pout{x}{v}{P} \quad\mid\quad \Pin{x}{l}{P} \quad\mid\quad \PBpar{P}{Q} \quad\mid\quad  \Presd{x}{y}{P}
 \end{array}
 \]
 where a \emph{value} \( v, w, \dots \) is either a base value \( a \) or a variable name \( l \).
 
 The output process \( \Pout{x}{v}{P} \) sends the value \( v \) via \( x \) and then continues as \( P \).
-The intention is that the value \( v \) must be a base value when it is actually sent, and this will be enforced in the semantics later on.
+The intention is that the value \( v \) must be a base value when it is actually sent, and this is enforced in the semantics later on.
 The input process \( \Pin{x}{l}{P} \) waits for a base value from \( x \) and then continues as \( P \) with the received value substituted for the variable name \( l \).
 %
 The process \( \Presd{x}{y}{P} \) represents a \emph{session} with endpoints named \( x \) and \( y \) which are bound in \( P \). In \( P \), the names \( x \) and \( y \) can be used to exchange messages over the session (sending on \( x \) and receiving on \( y \) or vice versa).
@@ -264,7 +278,7 @@ As usual, we use  a \emph{structural congruence} relation that equates processes
   \inferrule[Sc-Res]{ }{\scong{\Presd{x_1}{y_1}{\Presd{x_2}{y_2}{P}}}{\Presd{x_2}{y_2}{\Presd{x_1}{y_1}{P}}}}
 \end{mathpar}
 
-The operational semantics is then defined as the following binary relation on processes:
+The operational semantics is defined as the following relation on processes:
 \begin{mathpar}
   \inferrule[R-Com]{ }{\reduces{\Presd{x}{y}{(\Ppar{\Pout{x}{a}{P}}{\Ppar{\Pin{y}{l}{Q}}{R}})}}{\Presd{x}{y}{(\Ppar{P}{\Ppar{\subst{Q}{a}{l}}{R}})}}}
   \and
@@ -297,13 +311,13 @@ of sending.
 To prevent these issues, we introduce a \emph{session type system} which
 rules out ill-formed processes.
 
-\paragraph{Syntax}
+\subsubsection{Syntax.}
 Our type system does not type processes directly, but instead focuses on the channels used in the process.
 The syntax of \emph{session types} \( S, T \), unrestricted type contexts \( \Gamma \) and linear type contexts \( \Delta \) is as follows:
 \[
-  \begin{array}{rcl}
-  S,T & ::= & \Tend \quad\mid\quad \Tbase \quad\mid\quad \Tin{S} \quad\mid\quad \Tout{S} \\
-    \Gamma &::= & \Cempty \quad\mid\quad \Gamma, l \\
+  \begin{array}{r@{\qquad}c@{\qquad}l}
+  S,T & \Coloneqq & \Tend \quad\mid\quad \Tbase \quad\mid\quad \Tin{S} \quad\mid\quad \Tout{S} \\
+    \Gamma & \Coloneqq & \Cempty \quad\mid\quad \Gamma, l \\
                     \Delta &::= & \Cempty \quad\mid\quad \Cadd{\Delta}{\hastype{x}{S}}
   \end{array}
 \]
@@ -330,7 +344,7 @@ Since we need to determine whether endpoints are used in complementary ways to d
 \end{mathpar}
 Note that the dual function is partial since it is undefined for the base type.
 
-\subsubsection{Typing rules}
+\subsubsection{Typing rules.}
 Our type system is aimed at maintaining two invariants:
 \begin{enumerate}
 \item No endpoint is used simultaneously by parallel processes;
@@ -366,7 +380,7 @@ The typing rules for processes are as follows:
 \end{mathpar}
 Note that we do not need a judgment for typing channels, since it is already folded into the \TirName{T-In} and \TirName{T-Out} rules.
 
-\subsubsection{Challenge}
+\subsubsection{Challenge.}
 The objective of this challenge is to prove subject reduction and type safety for our calculus with session types. We start with:
 \begin{theorem}[Subject reduction]
   If \( \types{\Gamma;\Delta}{P} \) and \( \reduces{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
@@ -378,16 +392,16 @@ The following lemmas are needed:
   \begin{enumerate}
   \item If \( \types{\Gamma; \Delta}{P} \) then
     \( \types{(\Cadd{\Gamma}{l});\Delta}{P} \).
-      \item If \( \types{\Gamma; \Delta}{P} \) % and \( \tend{\Delta} \) 
+      \item If \( \types{\Gamma; \Delta}{P} \) % and \( \tend{\Delta} \)
         then
     \( \types{\Gamma;(\Cadd{\Delta}{\hastype{x}{\Tend}})}{P} \).
   \end{enumerate}
   % \begin{metanote}
   %   Note from Dawit: Does \( \Delta \) really have to be only ends to be weakened? I had expected that if \( P \) is typed by \( \Delta \) and \( \Delta' \) is only ends, then \( P \) is typed by \( \Cadd{\Delta}{\Delta'} \).
-    
+
   %   AM:  I agree that it's weird: we should not be able to weaken a linear context, if not
   %   with unrestricted types --- but this is what we need for Sc-Res-Inact to be type preserving:
-  %   from $\Delta\vdash 0$ we need $\Delta\vdash (\nu x y)0$. BTW, this is also a problem in Vasco's system 
+  %   from $\Delta\vdash 0$ we need $\Delta\vdash (\nu x y)0$. BTW, this is also a problem in Vasco's system
   % \end{metanote}
 \end{lemma}
 
@@ -409,7 +423,7 @@ To formulate safety, we need to formally define what we mean by well-formed proc
 We say that a process \( P \) is \emph{prefixed at variable \( x \)} if it is of the form \( \Pout{x}{v}{P} \) or \( \Pin{x}{l}{P} \).
 A process is then \emph{well formed} if, for each of its structurally congruent processes of the form \( \Presd{x_1}{y_1}{\dots \Presd{x_n}{y_n}{(\Ppar{\Ppar{P}{Q}}{R})}} \), with \( n \geq 0 \), it holds that, if \( P \) is prefixed at \( x_1 \) and \( Q \) is prefixed at \( y_1 \), then \( \Ppar{P}{Q} \) is of the form \( \Ppar{\Pout{x_1}{a}{P'}}{\Pin{y_1}{l}{Q'}} \).
 
-Note that well-formed processes do not necessarily reduce. For example, the process
+Note that well-formed processes do not necessarily reduce. For example, the process:
 \begin{equation*}
   \Presd{x_1}{y_1}{\Presd{x_2}{y_2}{(\Ppar{\Pout{x_1}{a}{\Pin{y_2}{l}{\Pend}}}{\Pout{y_2}{x_2}{\Pin{y_1}{l}{\Pend}}})}}
 \end{equation*}
@@ -435,14 +449,14 @@ Reasoning about scope extrusion explicitly can sometimes be avoided by introduci
 Explicitly reasoning about scope extrusion is necessary to describe e.g.\ runtime monitors and compositions of systems.
 
 The setting for this challenge is an untyped \( \pi \)-calculus, the syntax and semantics of which are presented below.
-We will define two different semantics for our system: one that avoids explicit reasoning about scope extrusion, and one that does not.
+We define two different semantics for our system: one that avoids explicit reasoning about scope extrusion, and one that does not.
 The objective of this challenge is to prove that the two semantics are equivalent up to structural congruence.
 
-\subsubsection{Syntax}
+\subsubsection{Syntax.}
 The syntax of processes is given by:
 \[
-\begin{array}{rcl}
-  P,Q & :=& \Pend \quad\mid\quad \PBpar{P}{Q} \quad\mid\quad \Pout{x}{y}{P} \quad\mid\quad \Pin{x}{y}{P} \quad\mid\quad \Pres{x}{P}
+\begin{array}{r@{\qquad}c@{\qquad}l}
+  P,Q & \Coloneqq & \Pend \quad\mid\quad \PBpar{P}{Q} \quad\mid\quad \Pout{x}{y}{P} \quad\mid\quad \Pin{x}{y}{P} \quad\mid\quad \Pres{x}{P}
 \end{array}
 \]
 
@@ -471,9 +485,10 @@ This simplifies the theory and is orthogonal to the concept of scope extrusion.
 % As a convention, we assume that the bound names occurring in any collection of processes are chosen to be different from the free names occurring in those processes and from the names occurring in any substitutions applied to the processes.
 % This is justified because any overlapping names may be \( \alpha \)-converted such that the assumption is satisfied.
 
-\subsubsection{Reduction semantics}
+\subsubsection{Reduction semantics.}
 The first semantics is an operational reduction semantics, which avoids reasoning explicitly about scope extrusion by way of a structural congruence rule.
 \emph{Structural congruence} is the smallest congruence relation that satisfies the following axioms:
+
 \begin{mathpar}
   \inferrule[Sc-Par-Assoc]{ }{\scong{\Ppar{P}{(\Ppar{Q}{R})}}{\Ppar{(\Ppar{P}{Q})}{R}}}
   \and
@@ -488,7 +503,7 @@ The first semantics is an operational reduction semantics, which avoids reasonin
   \inferrule[Sc-Res]{ }{\scong{\Pres{x}{\Pres{y}{P}}}{\Pres{y}{\Pres{x}{P}}}}
 \end{mathpar}
 
-The operational semantics is then defined as the following binary relation on processes:
+The operational semantics is defined as the following relation on processes:
 \begin{mathpar}
   \inferrule[R-Com]{ }{\reduces{\Ppar{\Pout{x}{y}{P}}{\Pin{x}{z}{Q}}}{\Ppar{P}{\subst{Q}{y}{z}}}}
   \and
@@ -500,15 +515,15 @@ The operational semantics is then defined as the following binary relation on pr
 \end{mathpar}
 Note that there is no rule for inferring an action of an input or output process except those that match the input/output capability.
 Note also that due to rule \TirName{R-Com}, the process \( \Pin{x}{z}{P} \) can receive \emph{any} name.
-Finally, note that rule \TirName{R-Struct} allows for applying the structural congruence both before and after the reduction.
-This ensures that the reduction relation is closed under structural congruence.
+Finally, note that rule \TirName{R-Struct} allows for applying the structural congruence both before and after the reduction:
+this makes the reduction relation closed under structural congruence.
 
-\subsubsection{Transition system semantics}
+\subsubsection{Transition system semantics.}
 The second semantics of the system describe the actions that the system can perform by defining a labelled transition relation on processes.
-The transitions are labelled by \emph{actions}, the syntax of which is as follows:
+The transitions are labelled by \emph{actions}, the syntax of which is:
 \[
-\begin{array}{rcl}
-  \alpha & :=& \Aoutf{x}{y} \quad\mid\quad \Ain{x}{y} \quad\mid\quad \Aoutb{x}{y} \quad\mid\quad \Atau
+\begin{array}{r@{\qquad}c@{\qquad}l}
+  \alpha & \Coloneqq & \Aoutf{x}{y} \quad\mid\quad \Ain{x}{y} \quad\mid\quad \Aoutb{x}{y} \quad\mid\quad \Atau
 \end{array}
 \]
 
@@ -517,14 +532,14 @@ The \emph{input action} \( \Ain{x}{y} \) is receiving the name \( y \) via \( x 
 The \emph{bound output action} \( \Aoutb{x}{y} \) is sending a fresh name \( y \) via \( x \).
 The \emph{internal action} \( \Atau \) is performing some unobservable action, e.g.\ internal communication.
 
-We will extend the notion of free and bound occurrences with 
+We extend the notion of free and bound occurrences with
 \( \freenames{\alpha} \) to denote the set of names that occur free in
 the action \( \alpha \) and  \( \boundnames{\alpha} \) to
 denote the set of names that occur bound in the action \( \alpha \).
 In the free output action \( \Aoutf{x}{y} \) and the input action
 \( \Ain{x}{y} \), both \( x \) and \( y \) are free names.  In the
 bound output action \( \Aoutb{x}{y} \), \( x \) is a free name, while
-\( y \) is a bound name.  We will further use the notation
+\( y \) is a bound name.  We also use the notation
 \( \names{\alpha} \) to denote the union of \( \freenames{\alpha} \)
 and \( \boundnames{\alpha} \), i.e.\ the set of all names that occur
 in the action \( \alpha \).
@@ -562,12 +577,12 @@ the name \( z \) (which occurs bound in \( P \) and the action
 \( \Aoutb{x}{z} \)) may occur free in \( Q \).  Without this exception
 it would be impossible to express scope extrusion.
 
-Before getting to our challenge, we prove some intermediate results. 
+Before getting to our challenge, we prove some intermediate results.
 \begin{lemma}\label{se-lemma-harmony-fact}
   If \( \scong{P}{Q} \) and \( \transition{P}{\alpha}{P'} \), then for some \( Q' \) we have \( \transition{Q}{\alpha}{Q'} \) and \( \scong{P'}{Q'} \).
 \end{lemma}
 
-For the proof of the challenge theorem, we will introduce the notion of a \emph{normalized derivation} of a reduction \( \reduces{P}{Q} \), which is of the following form.
+For the proof of the challenge theorem, we introduce the notion of a \emph{normalized derivation} of a reduction \( \reduces{P}{Q} \), which is of the following form.
 The first rule applied is \TirName{R-Com}. The derivation continues with an application of \TirName{R-Par}, followed by zero or more applications of \TirName{R-Res}.
 The last rule is an application of \TirName{R-Struct}.
 \begin{lemma}\label{se-lemma-normalized-derivation}
@@ -582,7 +597,7 @@ The last rule is an application of \TirName{R-Struct}.
   \end{align*}
 \end{lemma}
 
-\subsubsection{Challenge}
+\subsubsection{Challenge.}
 The objective of this challenge is to prove the following theorems, which together show the equivalence between the reduction semantics and the transition system semantics up to structural congruence.
 The first of the theorems involves reasoning about scope extrusion more directly than the other, and if time does not permit proving both of the theorems, \cref{thm:se-trans-implies-red} should be proven first.
 \begin{theorem}\label{thm:se-trans-implies-red}
@@ -635,7 +650,7 @@ them and composing them in parallel with an arbitrary process are
 strongly barbed bisimilar.
 The key issue of this challenge is the coinductive reasoning about the infinite behaviours of the replication operator.
 
-\paragraph{Syntax.}
+\subsubsection{Syntax.}
 % We assume the existence of some type of \emph{base values}, values
 % of which we will denote by \( a, b, \dots \), the existence of some
 % type of \emph{variable names}, values of which we will denote by
@@ -647,9 +662,9 @@ linearity), except from restriction, now unary, and the addition of
 replication:
 % for including replication and having unary restriction:
 \begin{displaymath}
-  \begin{array}{rcl}
-    v,w & ::= & a \quad\mid\quad l \\
-    P,Q & ::=& \Pend
+  \begin{array}{r@{\qquad}c@{\qquad}l}
+    v,w & \Coloneqq & a \quad\mid\quad l \\
+    P,Q & \Coloneqq & \Pend
                \quad \mid\quad \Pout{x}{v}{P}
                \quad \mid\quad \Pin{x}{l}{P}
                \quad \mid\quad \Ppar{P}{Q}
@@ -717,20 +732,20 @@ restriction $\Pres{x}{}{P}$.
 % justified because any overlapping names and variable names may be
 % \( \alpha \)-converted such that the assumption is satisfied.
 
-\paragraph{Semantics.} We choose to give an LTS semantics for this
+\subsubsection{Semantics.} We choose to give an LTS semantics for this
 challenge. As an alternative, it is also possible to adopt a reduction
 semantics which features fewer rules but needs a structural
 congruence. The semantics of the system describes the actions that the
 system can perform by defining a labelled transition relation on
 processes.  The transitions are labelled by \emph{actions}, the syntax
-of which are as follows:
+of which is as follows:
 % \begin{align*}
 %   \alpha := &&& \Aoutf{x}{a} \\
 %   |&&& \Ain{x}{a} \\
 %   |&&& \Atau
 % \end{align*}
 \begin{align*}
-  \alpha\ :=\  \Aoutf{x}{a} \ \mid\ \Ain{x}{a} \ \mid\ \Atau
+  \alpha\ \ \Coloneqq\ \ \Aoutf{x}{a} \ \mid\ \Ain{x}{a} \ \mid\ \Atau
 \end{align*}
 The \emph{output action} \( \Aoutf{x}{y} \) is sending the base value
 \( a \) via \( x \).  The \emph{input action} \( \Ain{x}{y} \) is
@@ -738,7 +753,7 @@ receiving the base value \( y \) via \( x \).  The \emph{internal
   action} \( \Atau \) is performing some unobservable action, e.g.\
 internal communication.
 %
-We will use the notation \( \names{\alpha} \) to denote the set of
+We use the notation \( \names{\alpha} \) to denote the set of
 names that occur in the action \( \alpha \).
 The transition relation is then defined by the following rules:
 \begin{mathpar}
@@ -764,31 +779,31 @@ On the other hand, since the rule \TirName{Out} only applies to base values, the
 
 % As a convention, we assume that bound names and bound variable names of any processes or actions are chosen to be different from the names and variable names that occur free in any other entities under consideration, such as processes, actions, substitutions, and sets of names or variable names.
 
-\subsubsection{Bisimilarity}
+\subsubsection{Bisimilarity.}
 Bisimilarity is a notion of equivalence for processes and
 % .  Our notion of process equivalence relations
 builds on a notion of \emph{observables}, i.e., what we can externally
-observe from the semantics of a process. If we allow ourselves only to observe
-internal transitions, i.e., observe that a process is internally
-performing a step of computation, we will relate either too few
+observe from the semantics of a process. If we allowed ourselves only to observe
+internal transitions (i.e., observe that a process is internally
+performing a step of computation) we would relate either too few
 processes (in the strong case where we relate only processes with
 exactly the same number of internal transitions) or every process (in
 the weak case where we relate processes with any amount of internal
 transitions).  We must therefore allow ourselves to observe more than
-just internal transitions, and here choose to define the observables
+just internal transitions, and here we choose to define the observables
 of a process as the names it can use for sending and receiving.
 To this end, we define the \emph{observability predicate}
 \( \observable{P}{\mu} \) as follows:
-\begin{align}
+\begin{align*}
   \observable{P}{\obsin{x}}  &\quad \textrm{if \( P \) can perform an input action via \( x \).} \\
   \observable{P}{\obsout{x}} &\quad \textrm{if \( P \) can perform an output action via \( x \).}
-\end{align}
+\end{align*}
 
 \emph{Strong barbed bisimilarity}, written \( \sbbisim{}{} \), is then the largest symmetric relation such that, whenever \( \sbbisim{P}{Q} \):
-\begin{gather}
-  \observable{P}{\mu}~\textrm{implies}~\observable{Q}{\mu}\label{eq:bisim1} \\
-  \transition{P}{\Atau}{P'}~\textrm{implies}~\transition{Q}{\Atau}{\sbbisim{}{} P'}\label{eq:bisim2}
-\end{gather}
+\begin{gather*}
+  \observable{P}{\mu}~\textrm{implies}~\observable{Q}{\mu} \\%\label{eq:bisim1} \\
+  \transition{P}{\Atau}{P'}~\textrm{implies}~\transition{Q}{\Atau}{\sbbisim{}{} P'} %\label{eq:bisim2}
+\end{gather*}
 We say that a relation is a \emph{strong barbed bisimulation} if it satisfies the conditions given above, but is not necessarily the largest such relation, and that \( P \) and \( Q \) are \emph{strong barbed bisimilar} if \( \sbbisim{P}{Q} \).
 Note that, since our systems have potentially infinite behaviors, and strong barbed bisimilarity is defined as the largest relation that satisfies the conditions, bisimulation cannot be defined inductively.
 
@@ -797,18 +812,17 @@ Note that, since our systems have potentially infinite behaviors, and strong bar
 \end{theorem}
 
 Unfortunately, strong barbed bisimilarity is not a good process
-equivalence since it is not a congruence. This is because we wish to
-be able to substitute a process with an equivalent one in any context
-it may appear.
+equivalence since it is not a congruence, hence it does not allow for
+substituting a process with an equivalent one in any context.
 % equivalent processes to be since it does not consider the
 % environment of processes.
 For instance, the processes $\Pout{x}{a}{\Pout{y}{b}{\Pend}}$ and
 $\Pout{x}{a}{\Pend}$ are strong barbed bisimilar, i.e.,
 $\sbbisim{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pout{x}{a}{\Pend}}$. This
 is because \( \obsout{x} \) is the only observable in both processes
-and they cannot perform a \( \Atau \)-action. However, if composed in
-parallel with the process $\Pin{x}{l}{\Pend}$, the relation will no
-longer hold. In fact,
+and they cannot perform a \( \Atau \)-action. However, in the context 
+$C = \Ppar{\ctxhole}{\Pin{x}{l}{\Pend}}$, the relation no
+longer holds: in fact,
 $\nsbbisim{\Ppar{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pin{x}{l}{\Pend}}}{\Pout{x}{a}{\Pend}\Ppar{}{\Pin{x}{l}{\Pend}}}$
 %
 because the left process can perform a \( \Atau \)-action such that
@@ -835,20 +849,21 @@ because the left process can perform a \( \Atau \)-action such that
 
 % We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).
 
-\subsubsection{Strong barbed congruence}
+\subsubsection{Strong barbed congruence.}
 In order to detect cases like the one above, we need to restrict strong barbed bisimilarity so that it becomes a congruence,
 i.e., % we need to make strong barbed bisimilarity consider
 we have to consider the environment in which processes may be placed.
 % (i.e.\ the context) of processes.
 
-We define \emph{strong barbed congruence}, written \( \sbcong{}{} \), by saying that two processes \( P \) and \( Q \) are \emph{strong barbed congruent}, written \( \sbcong{P}{Q} \), if \( \sbbisim{\applyctx{C}{P}}{\applyctx{C}{Q}} \) for every context \( C \).
+% We define \emph{strong barbed congruence}, written \( \sbcong{}{} \), by saying
+We say that two processes \( P \) and \( Q \) are \emph{strong barbed congruent}, written \( \sbcong{P}{Q} \), if \( \sbbisim{\applyctx{C}{P}}{\applyctx{C}{Q}} \) for every context \( C \).
 
 \begin{lemma}
   \( \sbcong{}{} \) is the largest congruence included in
   \( \sbbisim{}{} \).
 \end{lemma}
 
-\subsubsection{Challenge}
+\subsubsection{Challenge.}
 The objective of this challenge is to prove a theorem that shows that
 making strong barbed bisimilarity sensitive to substitution and
 parallel composition is equivalent to strong barbed
@@ -865,23 +880,25 @@ congruence. Formally,
 
 In this section, we outline the factors considered in designing the
 benchmark challenges. We start with some general remarks, then
-describe the individual design considerations for each challenge problem.
+describe the individual design considerations for each challenge problem,
+and the evaluation criteria.
 % We have identified three key aspects fundamental to mechanisations of concurrent calculi and designed our challenge problems to exercise these.
+
+\subsubsection{General design remarks.}
 Like the previous POPLMark and POPLMark Reloaded challenges, our challenge is not meant to be comprehensive:
-applications such as multiparty session types~\cite{10.1145/2827695,10.1145/3290343}, choreographies~\cite{DBLP:journals/jar/CruzFilipeMP23}, conversation types~\cite{DBLP:journals/tcs/CairesV10}, psi-calculi~\cite{lmcs:696}, or encodings between different calculi~\cite{DBLP:journals/iandc/Gorla10,DBLP:journals/iandc/DardhaGS17,DBLP:conf/ecoop/ScalasDHY17} are not directly covered.  Still, these (and other) proof mechanisation applications will need the basic techniques that our challenge problems exercise:
+applications such as multiparty session types~\cite{10.1145/2827695,10.1145/3290343}, choreographies~\cite{DBLP:journals/jar/CruzFilipeMP23}, conversation types~\cite{DBLP:journals/tcs/CairesV10}, psi-calculi~\cite{lmcs:696}, or encodings between different calculi~\cite{DBLP:journals/iandc/Gorla10,DBLP:conf/forte/CairesP16,DBLP:journals/iandc/DardhaGS17,DBLP:conf/ecoop/ScalasDHY17,DBLP:journals/iandc/KouzapasPY19,10.1145/3479394.3479407} are not directly covered.  Still, these (and other) proof mechanisation applications need the basic techniques that our challenge problems exercise:
 as per our design goal \ref{item:goal-reusability},
-our problems are drawn from the basic metatheory of process calculi (instead
-of requiring the development of new theory), and focus on well-known theorems
+our problems are drawn from the basic metatheory of process calculi (without requiring the development of new theory), and focus on well-known theorems
 and results that involve interesting proof techniques that may be reused in further work.
 To achieve our design goal \ref{item:goal-comperison-accessibility},
-we have designed our challenge problems to exercise the three aspects (linearity, scope extrusion, coinduction) independently, and they can be solved individually and in any order.
-We have designed each problem to be small and easy to understand with basic knowledge of textbook concurrency theory, process calculi, and type theory.  The process calculus used in each challenge
+we have designed our challenge problems to exercise the three aspects (linearity, scope extrusion, coinduction) independently, and they can be solved individually and in any order;
+each problem should be small and easy to understand with basic knowledge of textbook concurrency theory, process calculi, and type theory.  The process calculus used in each challenge
 focuses on the features we want to exercise, and omits all constructs
 (such as choices) that would complicate the mechanisation without bringing tangible
-benefits and insights.  (It is of course possible to reintroduce the omitted
-constructs, but we leave this as a possibility for a future benchmark challenge.)
-The minimality and uniformity of the calculi also allows us to target our design
-goal \ref{item:goal-tutorials}, i.e.~encouraging the development guidelines and
+benefits and insights.\footnote{It is of course possible to reintroduce the omitted
+constructs, but we leave this as a possibility for a future benchmark challenge.}
+The minimality and uniformity of the calculi also allows us to target the design
+goal \ref{item:goal-tutorials}, i.e.~encouraging the creation of guidelines and
 tutorials for the mechanisation of concurrency theory.
 
 % While our challenges require reasoning about binders, which was the main topic of the original POPLMark, they also require other techniques.
@@ -892,7 +909,7 @@ tutorials for the mechanisation of concurrency theory.
 % different reasoning techniques in a concurrency setting than in any
 % other setting.
 
-\paragraph{Linearity}
+\subsubsection{Linearity.}
 For our challenge on linear reasoning we have chosen a safety theorem
 for a session type system since this allows us to involve linear
 reasoning without many definitions. Accordingly, we have chosen not to
@@ -909,28 +926,32 @@ proofs of these properties are more complicated and would thus make
 the challenge more difficult and less focused on the linear
 aspects.
 
-\paragraph{Scope extrusion}
-This is the challenge most closely related to the original POPLMark
+\subsubsection{Scope extrusion.}
+This is the challenge most closely related to the POPLMark
 challenge since it concerns the properties of binders in restrictions.
-It is not clear that the techniques used to solve the POPLMark challenges about binders can be easily extended to reasoning about scope extrusion.
+It is not clear that the techniques used to solve the original challenges about binders can be easily extended to reasoning about scope extrusion.
 Notably, techniques like Higher Order Abstract Syntax, or well-scoped
 De\ Bruijn indices do not have the concept of free variables. It is
 not immediately obvious how to encode the operational semantics in
 this kind of system.
 
 
-\paragraph{Coinduction}
+\subsubsection{Coinduction.}
 %\fxerror{
 % ``Proper'' barbs with a structural congruence in coinduction instead of LTS semantics?
 %}
 
 Our coinduction challenge concerns strong barbed bisimulation and congruence.
-Though weak barbed congruence is a more common behavioural equivalence for \(\pi\)-terms, we avoid having to abstract over the number of internal transitions when considering the strong notions of equivalence, thus simplifying the theory.
+Though weak barbed congruence is a more common behavioural equivalence for \(\pi\)-terms, here we prefer strong equivalences to avoid the need to abstract over the number of internal transitions, % when considering the strong notions of equivalence,
+thus simplifying the theory.
 We have chosen not to include delegation in the coinduction challenge since it is orthogonal to our primary aim of exploring coinductive proof techniques.
 
-\subsection{Evaluation criteria}
-The idea of our benchmark is to obtain evidence towards answering questions \cref{item:rq1,item:rq2,item:rq3}, and we are thus interested in not only the solutions, but in the experience of solving the challenges with the chosen approach.
-Solutions to our challenges should be compared on three measures: the mechanisation overhead, this being the amount of manually written infrastructure and setup needed to express the definitions in the mechanisation; the adequacy of the formal statements in the mechanisation, i.e.\ whether the proven theorems are easily recognisable as the theorems from the challenge; and the cost of entry for the tools and techniques employed, i.e.\ the difficulty of learning to use the techniques.
+\subsubsection{Evaluation criteria.}
+The idea of our benchmark is to obtain evidence towards answering questions \cref{item:rq1,item:rq2,item:rq3}: therefore, we are interested in not only the solutions, but in the experience of solving the challenges with the chosen approach.
+Solutions to our challenges should be compared on three measures:
+\begin{itemize}
+\item the mechanisation overhead, i.e.~the amount of manually written infrastructure and setup needed to express the definitions in the mechanisation; \item the adequacy of the formal statements in the mechanisation, i.e.~whether the proven theorems are easily recognisable as the theorems from the challenge; \item the cost of entry for the tools and techniques employed, i.e.~the difficulty of learning to use the techniques.
+\end{itemize}
 Solutions to our challenges do not need to strictly follow the definitions and lemmas set out in the problem text, but solutions which deviate from the original challenges need to present more elaborate argumentation for their adequacy.
 
 \section{Going beyond the challenge problems}\label{sec:going-beyond}
@@ -940,20 +961,23 @@ problem in the area. Our benchmark can be extended in two
 dimensions: further expanding and combining the current challenges,
 and addressing features not covered by the current challenges.
 
+\vspace{-1mm}%
 \paragraph{Extending and combining the current challenges.}
 The proposed challenges try to minimise the overlap of the techniques
 and aspects they exercise (linearity, scope extrusion, coinduction) --- but most
-research on concurrency theory combines some or all such aspects. An interesting second round of formalisations could
+research on concurrency theory combines some or all such aspects. A second round of formalisations could
 entail combining the features of the challenges.
-In \cref{tab:extensions} we consider the following three extensions: first, the
-addition of choice to the type level and the process level. Second, the addition
-of recursion (and recursion types for typed systems). And finally, the
+In \cref{tab:extensions} we consider the following three extensions:
+\emph{(1)} the addition of choice to the type level and the process level,
+\emph{(2)} the addition of recursion (and recursive types for typed systems),
+and \emph{(3)} the
 addition of channel delegation to those calculi that do not already
 support it.
 
 \begin{table}[btp]
   \caption{Possible extensions of the challenges. Each suitable extension is marked ``+''. \label{tab:extensions}}
   \begin{center}\small
+    \vspace{-4mm}%
     \begin{tabular}{|r|c|c|c|}
       \hline
       & Linearity & Scope extrusion & Coinduction \\
@@ -965,39 +989,41 @@ support it.
       Delegation & $+$ & & $+$ \\
       \hline
     \end{tabular}
+    \vspace{-3mm}%
   \end{center}
 \end{table}
 
+\vspace{-1mm}%
 \paragraph{Addressing new calculi and new features.}
 Extending in this dimension
-means proposing new challenges to cover for different features of
-message passing calculi, or to cover different proof mechanisation features.
+means proposing new challenges covering different features of
+process calculi, or different proof mechanisation features.
 Some interesting aspects of message passing calculi to explore in
-further challenges could be multiparty session types, and
-choreographies because their definitions and meta-theory have aspects
-that we do not cover here (e.g.: representing well formed global types
-and projection as a partial function). Although, dually, some aspects
-that we cover here do appear in these problems. Also, one could easily
+further challenges could be multiparty session types and
+choreographies, as their meta-theory includes aspects
+that we do not cover here (e.g.: well-formed global types,
+projection as a partial function) --- although, dually, some aspects
+that we cover here do appear in their theory. Also, one could easily
 design a challenge that goes beyond our coinduction challenge, by
-exploring different notions of bisimilarity (barbed, or weak, etc.),
+exploring different notions of bisimilarity (barbed, weak, etc.),
 and trace equivalence.
-On the side of proof assistants, the current challenge proposes
-mechanising the proofs of theorems. An interesting venue to explore
-would be to take advantage of other proof assistant features. For
-example, proof assistants are often able to produce certified code (by
-using code extraction, or compiling and running their definitions).
-Additionally, while having effective automation in our current
-challenge is possible, a challenge could be designed with the explicit
-objective of automating aspects of the proofs. And finally, a
-challenge could propose the integration with other formal reasoning
-tools, namely model checkers. These tools are in common use in the
-field --- and combining automated proofs with proof assistants
-offers the potential to ease the path for attempting larger proofs.
+
+On the side of proof assistants, the current challenge proposes mechanising the
+proofs of theorems. An interesting venue to explore would be to take advantage
+of other proof assistant features. For example, proof assistants can often
+produce certified code (via code extraction, or compiling and running their
+definitions). Additionally, while our current challenge allow for proof
+automation, a more specific challenge could be designed with the objective of
+automating aspects of the proofs. Finally, a challenge could propose the
+integration with other formal reasoning tools, namely model checkers. These
+tools are in common use in the field --- and combining automated proofs with
+proof assistants offers the potential to ease the path towards larger proofs.
+
 Ultimately, the current challenges can be extended in several
 worthwhile directions, and we look forward to a future when they
 indeed are extended. We see the current challenge as setting
 the foundation for those future extensions. It is our expectation that
-the solutions of those hypothetical challenges will build on solutions
+the solutions of those future challenges will build on solutions
 to this challenge.
 
 \appendix
