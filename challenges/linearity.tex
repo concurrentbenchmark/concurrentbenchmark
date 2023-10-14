@@ -252,7 +252,7 @@ The objective of this challenge is to prove subject reduction and type safety fo
   By induction on the derivation of $\reduces{P}{Q}$. The cases \TirName{R-Par} and \TirName{R-Res} follow immediately by IH. Case \TirName{R-Struct} appeals twice to
   preservation of $\equiv$ (Lemma~\ref{le:presequiv}) and to the
   IH. For \TirName{R-Com}, suppose that \TirName{T-Res} introduces in $\Delta$ the
-  assumptions $\Cadd{\hastype{x}{\Tout{U}}}{\hastype{y}{\Tin{\dual{U}}}}$.  Building the only tree for the
+  assumptions $\Cadd{\hastype{x}{\Tout{U}}}{\hastype{y}{\Tin{\dual{U}}}}$.  Building the only derivation for the
   hypothesis, we know that $\Delta = \Delta_1, \Delta_2, \Delta_3$
   where $\types{\Gamma;\Delta_3}{R}$. We also have
   $\types{\Gamma;(\Cadd{\Delta_1}{\hastype{x}{U}})}{P}$, ${\cal D}_{2} $ a proof of
@@ -293,10 +293,10 @@ is well formed but also irreducible.
   structurally congruent to $P$. Clearly, by Lemma~\ref{le:presequiv},
   well-typedness must be preserved by structural congruence. Moreover,
   assume that $P_1$ is prefixed at $x_1$ and $P_2$ is prefixed at
-  $y_1$ such that $P_1\equiv\Pout{x_1}{v}{P_1'}$ (the opposite case
+  $y_1$ such that $\scong{P_1}{\Pout{x_1}{v}{P_1'}}$ (the opposite case
   proceeds similarly). We need to show that
-  $P_2\equiv\Pin{y_1}{v}{P_2'}$. This can be easily done by
-  contradiction. In fact, if $P_2\equiv\Pout{x}{v}{P_2'}$ then the
+  $\scong{P_2}{\Pin{y_1}{v}{P_2'}}$. This can be easily done by
+  contradiction. In fact, if $\scong{P_2}{\Pout{x}{v}{P_2'}}$ then the
   typing rule for restriction would be violated since the type of
   $x_1$ and $y_1$ cannot be dual.
   % 
