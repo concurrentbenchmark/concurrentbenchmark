@@ -264,15 +264,27 @@ Note that well-formed processes do not necessarily reduce. For example, the proc
 is well formed but also irreducible.
 
 \begin{theorem}[Type safety]
-  If \( \types{\Cempty}{P} \), then \( P \) is well formed.
+  If \( \types{\Cempty}{P} \), then \( P \) is well-formed.
 \end{theorem}
 \begin{proof}
-  We proceed by induction on the definition of $\types{}{}$. The key
-  cases are that for parallel composition and that for name
-  restriction. In the case of parallel composition, linearity (and
-  context splitting) ensure that every process in parallel will have
-  different channel names. Then, the restriction rule enforces
-  duality, therefore an output will be matched by an input.
+  In order to prove that $P$ is well-formed, let us consider any
+  process of the form
+  $\Presd{x_1}{y_1}{\dots
+    \Presd{x_n}{y_n}{(\Ppar{\Ppar{P_1}{P_2}}{R})}}$ that is
+  structurally congruent to $P$. Moreover, assume that $P_1$ is
+  prefixed at some $x_1$ and $P_2$ is prefixed at some $x_2$ such that
+  $P_1\equiv\Pout{x}{v}{P_1'}$ (the opposite case proceeds
+  similarly). We need to show that $P_2\equiv\Pin{x}{v}{P_2'}$. This
+  can be easily done by contradiction. In fact, if
+  $P_2\equiv\Pout{x}{v}{P_2'}$ then the typing rule for restriction
+  would be violated since the type of $x_1$ and $y_1$ cannot be dual.
+  % 
+  % We proceed by induction on the definition of $\types{}{}$. The key
+  % cases are that for parallel composition and that for name
+  % restriction. In the case of parallel composition, linearity (and
+  % context splitting) ensure that every process in parallel will have
+  % different channel names. Then, the restriction rule enforces
+  % duality, therefore an output will be matched by an input.
 \end{proof}
 
 \begin{corollary}
