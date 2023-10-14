@@ -306,3 +306,35 @@ congruence. Formally,
   \sbbisim{\Ppar{\applysubst{\sigma}{P}}{R}}{\Ppar{\applysubst{\sigma}{Q}}{R}}
   \).
 \end{theorem}
+\begin{proof}
+  \fxerror{This direction of the proof uses structural congruence, which we haven't defined plus some extra lemmas about it. The other direction is the interesting case anyway, so might as well scrap this direction of the theorem?}
+  First, assume \( \sbcong{P}{Q} \).
+  Suppose that \( \sigma \) substitutes \( y_1, \dots, y_n \) by \( z_1, \dots, z_n \).
+  For a fixed \( R \) and some fresh name \( x \), we then define
+  \begin{equation*}
+    C = \Ppar{\Ppar{\Pin{x}{y_1}{\dots \Pin{x}{y_n}{\Pend}}}{\Pout{x}{z_1}{\dots \Pout{x}{z_n}{\ctxhole}}}}{R}
+  \end{equation*}
+  and from the assumption have \( \sbbisim{\applyctx{C}{P}}{\applyctx{C}{Q}} \).
+  \( \applyctx{C}{P} \) reduces to \( \Ppar{\applysubst{\sigma}{P}}{R} \) in \( n \) steps and, up to \( \scong{}{} \), the only process \( S \) such that \( \applyctx{C}{Q} \) reduces to \( S \) and not \( \observable{S}{\obsout{x}} \) in \( n \) steps is \( \Ppar{\applysubst{\sigma}{Q}}{R} \).
+  From this we conclude that \( \sbbisim{\Ppar{\applysubst{\sigma}{P}}{R}}{\Ppar{\applysubst{\sigma}{Q}}{R}} \).
+
+  For the other direction, it suffices to show that if \( \sbbisim{\Ppar{\applysubst{\sigma}{P}}{R}}{\Ppar{\applysubst{\sigma}{Q}}{R}} \) for any \( R \) and \( \sigma \), then \( \sbbisim{\Ppar{\applysubst{\sigma}{\applyctx{C}{P}}}{R}}{\Ppar{\applysubst{\sigma}{\applyctx{C}{Q}}}{R}} \) for any \( C \), \( R \) and \( \sigma \), since \( \sbcong{}{} \) is the largest congruence included in \( \sbbisim{}{} \).
+  We proceed by induction on \( C \).
+  \begin{description}
+  \item[\( C = \Pin{x}{z}{C'} \)] Let \( \mathcal{S} = \{ (\Ppar{\applysubst{\sigma}{\applyctx{C}{P}}}{R}, \Ppar{\applysubst{\sigma}{\applyctx{C}{Q}}}{R}) \mid \text{$R$ and $\sigma$ arbitrary} \} \cup \sbbisim{}{} \).
+    We can easily check that \( \mathcal{S} \) is a strong barbed bisimulation, noting that \( \sbbisim{}{} \) is preserved by restriction and is contained in \( \mathcal{S} \).
+  \item[\( C = \Ppar{C'}{S} \)] Then by the induction hypothesis,
+    \begin{equation*}
+      \sbbisim{\sbbisim{\Ppar{\applysubst{\sigma}{\applyctx{C}{P}}}{R}}{\Ppar{\applysubst{\sigma}{\applyctx{C'}{P}}}{(\Ppar{\applysubst{\sigma}{S}}{R})}}}{\sbbisim{\Ppar{\applysubst{\sigma}{\applyctx{C'}{Q}}}{(\Ppar{\applysubst{\sigma}{S}}{R})}}{\Ppar{\applysubst{\sigma}{\applyctx{C}{Q}}}{R}}}
+    \end{equation*}
+    for any \( R \) and \( \sigma \).
+  \item[\( C = \Pres{z}{C'} \)] Then by the induction hypothesis we have \( \sbbisim{\Ppar{\applysubst{\sigma}{\applyctx{C'}{P}}}{R}}{\Ppar{\applysubst{\sigma}{\applyctx{C'}{Q}}}{R}} \) for any \( R \) and \( \sigma \).
+    Without loss of generality, we assume that \( z \notin \freenames{R} \cup \names{\sigma} \).
+    Then, using that \( \sbbisim{}{} \) is preserved by restriction, we have
+    \begin{equation*}
+      \sbbisim{\sbbisim{\Ppar{\applysubst{\sigma}{\applyctx{C}{P}}}{R}}{\Pres{z}{(\Ppar{\applysubst{\sigma}{\applyctx{C'}{P}}}{R})}}}{\sbbisim{\Pres{z}{(\Ppar{\applysubst{\sigma}{\applyctx{C'}{Q}}}{R})}}{\Ppar{\applysubst{\sigma}{\applyctx{C}{Q}}}{R}}}
+    \end{equation*}
+  \item[\( C = \Preplicate{C'} \)] TBD (this is the one that uses up-to techniques)
+  \end{description}
+  The remaining cases are similar.
+\end{proof}
