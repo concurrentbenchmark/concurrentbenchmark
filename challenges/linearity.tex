@@ -174,35 +174,35 @@ The objective of this challenge is to prove subject reduction and type safety fo
 \end{proof}
 \begin{lemma}[Strengthening]\mbox{}
   \label{lemma:strenD}
-  If \( \types{\Gamma; (\Delta, x : T)}{P} \) and
+  If \( \types{\Gamma; (\Cadd{\Delta}{\hastype{x}{T}})}{P} \) and
   $x\not\in \freenames{P}$, then \( \types{\Gamma; \Delta}{P} \).
 \end{lemma}
 \begin{proof}
   By induction on the derivation of 
 %%  last applied rule of the proof of --AM changed for uniformity
-  $\types{\Gamma; (\Delta, x : T)}{P}$.
+  $\types{\Gamma; (\Cadd{\Delta}{\hastype{x}{T}})}{P}$.
   % , for each case inverting $\types{\Gamma; (\Delta, x : T)}{P}$ to
   % the uniquely applicable rule.
   \begin{description}
   \item[\TirName{T-End}] Since $\tend{\Delta}$, we can just reapply
-    the rule without $x:T$.
+    the rule without $\hastype{x}{T}$.
     % [$P = \Pend$] we Apply \TirName{T-Inact}.
     
   \item[\TirName{T-Par}] In this case, we have that
-    $ \Delta, x : T = \Delta_0 , \Delta_1$.  By cases on which
-    environment $x$ is in, we just apply the induction hypothesis on
-    that environment.
+    $\Cadd{\Delta}{\hastype{x}{T}} = \Csplit{\Delta_0}{\Delta_1}$.  By cases on which
+    context $x$ is in, we just apply the induction hypothesis on
+    that context.
     %
     %
     % [$P = \Ppar{P_0}{P_1}$] By inversion on the typing we have  $ \Delta, x : T = \Delta_0 , \Delta_1$.
     %   By cases on which environment $x$ is in, apply IH on that environment. 
   \item[\TirName{T-Res}] Without loss of generality, we assume that
     $x \notin \{y,z\}$, for $P=\Presd{y}{z}{P'}$. Since
-    $\types{\Gamma;\;\Delta, y : T_0, z : \dual{T_0}, x : T}{P'}$, by
+    $\types{\Gamma;(\Cadd{\Cadd{\Cadd{\Delta}{\hastype{y}{T_0}}}{\hastype{z}{\dual{T_0}}}}{\hastype{x}{T}})}{P'}$, by
     induction hypothesis, we have
-    $\types{\Gamma;\;\Delta, y : T_0, z : \dual{T_0}}{P'}$. Applying
+    $\types{\Gamma;(\Cadd{\Cadd{\Delta}{\hastype{y}{T_0}}}{\hastype{z}{\dual{T_0}}})}{P'}$. Applying
     again \TirName{T-Res}, we have
-    $\types{\Gamma;\;\Delta}{\Presd yz{P'}}$.
+    $\types{\Gamma;\Delta}{\Presd{y}{z}{P'}}$.
     % inversion,
     % $\Delta, x : T = \Delta', y : T_0, z : \dual{T_1}, x : T $. From
     % the assumptions present we can apply IH.
@@ -217,12 +217,12 @@ The objective of this challenge is to prove subject reduction and type safety fo
 
 \begin{lemma}[Substitution]\mbox{}
   \label{le:subst}
-  If $\types{(\Gamma, l);\Delta}{P}$ and
+  If $\types{(\Cadd{\Gamma}{l});\Delta}{P}$ and
   ${\typev{\Gamma}{\hastype{a}{\Tbase}}}$ then
   \( \types{\Gamma;\Delta}{\subst{P}{a}{l}} \).
 \end{lemma}
 \begin{proof}
-  By induction on the derivation of $\types{(\Gamma, l);\Delta}{P}$.
+  By induction on the derivation of $\types{(\Cadd{\Gamma}{l});\Delta}{P}$.
   \begin{description}
   \item[\TirName{T-End}] Immediate since $\tend{\Delta}$.
     
@@ -232,10 +232,10 @@ The objective of this challenge is to prove subject reduction and type safety fo
   \item[\TirName{T-Res}] Immediate on the premise of the rule.
     
   \item[\TirName{T-Out}] Let $P = \Pout{x}{v}{P'}$. We have that
-    $\typev{(\Gamma,l)}{\hastype{v}{\Tbase}}$.  We must show
+    $\typev{(\Cadd{\Gamma}{l})}{\hastype{v}{\Tbase}}$.  We must show
     $\typev{\Gamma}{\hastype{v}{\Tbase}}$ to build the conclusion with
     the induction hypothesis and \TirName{T-Out}. We proceed by cases
-    on the structure of $\typev{(\Gamma,l)}{\hastype{v}{\Tbase}}$.
+    on the structure of $\typev{(\Cadd{\Gamma}{l})}{\hastype{v}{\Tbase}}$.
     % \item[$P = \Pin{x}{v}{P}$] Immediate after inverting typing.
   \end{description}
   The remaining cases are analogous.
@@ -286,7 +286,7 @@ and $R$ such that
 \( P\equiv \Presd{x_1}{y_1}{\dots
   \Presd{x_n}{y_n}{(\Ppar{\Ppar{P_1}{P_2}}{R})}} \), with
 \( n \geq 0 \), it holds that, if \( P_1 \) is prefixed at \( x_1 \)
-and \( P_2 \) is prefixed at \( y_1 \) (or viceversa), then
+and \( P_2 \) is prefixed at \( y_1 \) (or vice versa), then
 \( \Ppar{P_1}{P_2}
 \equiv\Ppar{\Pout{x_1}{a}{P_1'}}{\Pin{y_1}{l}{P_2'}} \), for some
 $P_1'$ and $P_2'$.
