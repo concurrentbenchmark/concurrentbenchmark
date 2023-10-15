@@ -41,7 +41,7 @@ The objective of this challenge is to % prove % a context theorem for
 draw a formal connection between strong barbed congruence and strong
 barbed bisimilarity.  % I.e., The context lemma
 The result establishes that two processes are strong barbed congruent
-if and only if the processes obtained by applying a substitution to
+if the processes obtained by applying a finite number of substitutions to
 them and composing them in parallel with an arbitrary process are
 strongly barbed bisimilar.  Which, to reiterate, entails the use of
 coinduction due to the presence of infinite behaviour.
@@ -297,31 +297,36 @@ We define \emph{strong barbed congruence}, written \( \sbcong{}{} \), by saying 
 \subsubsection{Challenge}
 The objective of this challenge is to prove a theorem that shows that
 making strong barbed bisimilarity sensitive to substitution and
-parallel composition is equivalent to strong barbed
-congruence. Formally,
+parallel composition is enough to show strong barbed
+congruence.
+To prove the theorem, we will use an \emph{up-to technique}.
+A relation \( \mathcal{S} \) is called a \emph{strong barbed bisimulation up to \( \sbbisim{}{} \)} if, whenever \( (P,Q) \in \mathcal{S} \), the following conditions hold:
+\begin{enumerate}
+\item \( \observable{P}{\mu} \) if and only if \( \observable{Q}{\mu} \).
+\item if \( \transition{P}{\Atau}{P'} \) then \( \transition{Q}{\Atau}{Q'} \) for some \( Q' \) with \( \uptosbb{P'}{\mathcal{S}}{Q'} \).
+\item if \( \transition{Q}{\Atau}{Q'} \) then \( \transition{P}{\Atau}{P'} \) for some \( P' \) with \( \uptosbb{P'}{\mathcal{S}}{Q'} \).
+\end{enumerate}
+These relations are useful owing to the following lemma:
+\begin{lemma}\label{lemma:up-to}
+  If \( \mathcal{S} \) is a strong barbed bisimulation up to \( \sbbisim{}{} \), \( (P,Q) \in \mathcal{S} \) implies \( \sbbisim{P}{Q} \).
+\end{lemma}
+\begin{proof}
+  We check that \( \uptosbb{}{\mathcal{S}}{} \) is a strong barbed bisimulation and is thus included in \( \sbbisim{}{} \).
+\end{proof}
+
+We are now ready to prove the theorem:
 \begin{theorem}
-  \( \sbcong{P}{Q} \) if and only if for any process \( R \) and
+  \( \sbcong{P}{Q} \) if, for any process \( R \) and
   substitution \( \sigma \),
   \(
   \sbbisim{\Ppar{\applysubst{\sigma}{P}}{R}}{\Ppar{\applysubst{\sigma}{Q}}{R}}
   \).
 \end{theorem}
 \begin{proof}
-  \fxerror{This direction of the proof uses structural congruence, which we haven't defined plus some extra lemmas about it. The other direction is the interesting case anyway, so might as well scrap this direction of the theorem?}
-  First, assume \( \sbcong{P}{Q} \).
-  Suppose that \( \sigma \) substitutes \( y_1, \dots, y_n \) by \( z_1, \dots, z_n \).
-  For a fixed \( R \) and some fresh name \( x \), we then define
-  \begin{equation*}
-    C = \Ppar{\Ppar{\Pin{x}{y_1}{\dots \Pin{x}{y_n}{\Pend}}}{\Pout{x}{z_1}{\dots \Pout{x}{z_n}{\ctxhole}}}}{R}
-  \end{equation*}
-  and from the assumption have \( \sbbisim{\applyctx{C}{P}}{\applyctx{C}{Q}} \).
-  \( \applyctx{C}{P} \) reduces to \( \Ppar{\applysubst{\sigma}{P}}{R} \) in \( n \) steps and, up to \( \scong{}{} \), the only process \( S \) such that \( \applyctx{C}{Q} \) reduces to \( S \) and not \( \observable{S}{\obsout{x}} \) in \( n \) steps is \( \Ppar{\applysubst{\sigma}{Q}}{R} \).
-  From this we conclude that \( \sbbisim{\Ppar{\applysubst{\sigma}{P}}{R}}{\Ppar{\applysubst{\sigma}{Q}}{R}} \).
-
-  For the other direction, it suffices to show that if \( \sbbisim{\Ppar{\applysubst{\sigma}{P}}{R}}{\Ppar{\applysubst{\sigma}{Q}}{R}} \) for any \( R \) and \( \sigma \), then \( \sbbisim{\Ppar{\applysubst{\sigma}{\applyctx{C}{P}}}{R}}{\Ppar{\applysubst{\sigma}{\applyctx{C}{Q}}}{R}} \) for any \( C \), \( R \) and \( \sigma \), since \( \sbcong{}{} \) is the largest congruence included in \( \sbbisim{}{} \).
+  Since \( \sbcong{}{} \) is the largest congruence included in \( \sbbisim{}{} \), it suffices to show that if \( \sbbisim{\Ppar{\applysubst{\sigma}{P}}{R}}{\Ppar{\applysubst{\sigma}{Q}}{R}} \) for any \( R \) and \( \sigma \), then \( \sbbisim{\Ppar{\applysubst{\sigma}{\applyctx{C}{P}}}{R}}{\Ppar{\applysubst{\sigma}{\applyctx{C}{Q}}}{R}} \) for any \( C \), \( R \) and \( \sigma \).
   We proceed by induction on \( C \).
   \begin{description}
-  \item[\( C = \Pin{x}{z}{C'} \)] Let \( \mathcal{S} = \{ (\Ppar{\applysubst{\sigma}{\applyctx{C}{P}}}{R}, \Ppar{\applysubst{\sigma}{\applyctx{C}{Q}}}{R}) \mid \text{$R$ and $\sigma$ arbitrary} \} \cup \sbbisim{}{} \).
+  \item[\( C = \Pin{x}{z}{C'} \)] Let \( \mathcal{S} = \{ (\Ppar{\applysubst{\sigma}{\applyctx{C}{P}}}{R}, \Ppar{\applysubst{\sigma}{\applyctx{C}{Q}}}{R}) \mid \text{$R$ and $\sigma$ arbitrary} \}~\cup \sbbisim{}{} \).
     We can easily check that \( \mathcal{S} \) is a strong barbed bisimulation, noting that \( \sbbisim{}{} \) is preserved by restriction and is contained in \( \mathcal{S} \).
   \item[\( C = \Ppar{C'}{S} \)] Then by the induction hypothesis,
     \begin{equation*}
@@ -334,7 +339,20 @@ congruence. Formally,
     \begin{equation*}
       \sbbisim{\sbbisim{\Ppar{\applysubst{\sigma}{\applyctx{C}{P}}}{R}}{\Pres{z}{(\Ppar{\applysubst{\sigma}{\applyctx{C'}{P}}}{R})}}}{\sbbisim{\Pres{z}{(\Ppar{\applysubst{\sigma}{\applyctx{C'}{Q}}}{R})}}{\Ppar{\applysubst{\sigma}{\applyctx{C}{Q}}}{R}}}
     \end{equation*}
-  \item[\( C = \Preplicate{C'} \)] TBD (this is the one that uses up-to techniques)
+  \item[\( C = \Preplicate{C'} \)] Let \( \mathcal{S} = \{ (\Ppar{\applysubst{\sigma}{\applyctx{C}{P}}}{R}, \Ppar{\applysubst{\sigma}{\applyctx{C}{Q}}}{R}) \mid \text{$R$ and $\sigma$ arbitrary} \} \).
+    Using \cref{lemma:up-to}, it suffices to show that \( \mathcal{S} \) is a strong barbed bisimulation up to \( \sbbisim{}{} \).
+    To this end, let
+    \begin{align*}
+      A &= \applysubst{\sigma}{\applyctx{C'}{P}}, & A' &= \applysubst{\sigma}{\applyctx{C}{P}} \\
+      B &= \applysubst{\sigma}{\applyctx{C'}{Q}}, & B' &= \applysubst{\sigma}{\applyctx{C}{Q}} ,
+    \end{align*}
+    noting that \( A' = \Preplicate{A} \) and \( B' = \Preplicate{B} \).
+
+    Suppose \( \transition{\Ppar{R}{A'}}{\Atau}{S} \) for some \( S \).
+    Then we can show by a case analysis on the derivation of this transition that there exists a \( T \) such that \( \transition{\Ppar{R}{(\Ppar{A}{A})}}{\Atau}{T} \) and \( \sbbisim{S}{\Ppar{T}{A'}} \).
+    Using the induction hypothesis twice, we note that \( \sbbisim{\Ppar{R}{B'}}{\Ppar{R}{\Ppar{(\Ppar{A}{A})}{B'}}} \).
+    Since by rule \TirName{Par-L}, \( \transition{\Ppar{\Ppar{R}{(\Ppar{A}{A})}}{B'}}{\Atau}{\Ppar{T}{B'}} \), there must thus exist a \( U \) such that \( \transition{\Ppar{R}{B'}}{\Atau}{U} \), \( \sbbisim{U}{\Ppar{T}{B'}} \) and \( \uptosbb{S}{\mathcal{S}}{U} \) as required.
+    The proof for \( \transition{\Ppar{R}{B'}}{\Atau}{S} \) is analogous.
   \end{description}
   The remaining cases are similar.
 \end{proof}

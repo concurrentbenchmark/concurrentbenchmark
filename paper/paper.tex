@@ -645,7 +645,7 @@ The objective of this challenge is to % prove % a context theorem for
 draw a formal connection between strong barbed congruence and strong
 barbed bisimilarity.  % I.e., The context lemma
 The result establishes that two processes are strong barbed congruent
-if and only if the processes obtained by applying a substitution to
+if the processes obtained by applying a finite number of substitutions to
 them and composing them in parallel with an arbitrary process are
 strongly barbed bisimilar.
 The key issue of this challenge is the coinductive reasoning about the infinite behaviours of the replication operator.
@@ -866,10 +866,10 @@ We say that two processes \( P \) and \( Q \) are \emph{strong barbed congruent}
 \subsubsection{Challenge.}
 The objective of this challenge is to prove a theorem that shows that
 making strong barbed bisimilarity sensitive to substitution and
-parallel composition is equivalent to strong barbed
+parallel composition is enough to show strong barbed
 congruence. Formally,
 \begin{theorem}
-  \( \sbcong{P}{Q} \) if and only if for any process \( R \) and
+  \( \sbcong{P}{Q} \) if for any process \( R \) and
   substitution \( \sigma \),
   \(
   \sbbisim{\Ppar{\applysubst{\sigma}{P}}{R}}{\Ppar{\applysubst{\sigma}{Q}}{R}}
