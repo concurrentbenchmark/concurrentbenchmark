@@ -241,23 +241,45 @@ The objective of this challenge is to prove subject reduction and type safety fo
   The remaining cases are analogous.
   
 \end{proof}
-\begin{lemma}[Preservation for $\equiv$]
-  \label{le:presequiv}
-  If \( \types{\Gamma;\Delta}{P} \) and \( \scong{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
+
+\newcommand{\sconga}[2]{#1 \stackrel{a}{\equiv} #2}
+To prove that congruence preserves typing we need to spell out in more detail the former. First, we denote with $\sconga\cdot\cdot$ the relation induced by the six axioms.
+
+\begin{lemma}[Preservation for $\stackrel{a}{\equiv}$]
+  \label{le:presequiva}
+  If \( \sconga{P}{Q} \) then \( \types{\Gamma;\Delta}{P} \)  iff \( \types{\Gamma;\Delta}{Q} \).
 \end{lemma}
 \begin{proof}
-  By induction on the structure of a process context involved in the congruence. In the base case where the context is a hole, proceed by case analysis on the \TirName{Sc} rule applied:
+  By case analysis on the \TirName{Sc} rule applied:
   \begin{description}
   \item[\TirName {Par-Comm/Assoc}] By rearranging sub-derivations noting that
     order does not matter for linear contexts
   \item[\TirName{Par-Inact}]
-    % right-to-left by strengthening~\ref{lemma:strenD}. Vice-versa,
-    By picking $T$ to be $\Tend$ and weakening~\ref{lemma:weak} part 2.
-  \item[\TirName{Res-Par}] By case analysis on $x : T$ being linear and applying weak and strenghening accordingly.
-  \item[\TirName{Res-Inact:}] use weakening~\ref{lemma:weak} part 2
+   Right-to-left by strengthening~\ref{lemma:strenD}. Vice-versa,
+    by picking $T$ to be $\Tend$ and weakening~\ref{lemma:weak} part 2.
+  \item[\TirName{Res-Par}] By case analysis on $x : T$ being linear or $\tend$ and applying weakening and strengthening accordingly.
+  \item[\TirName{Res-Inact:}] Use weakening~\ref{lemma:weak} part 2
   \item[\TirName{Res}] Noting that order does not matter
   \end{description}
-  For the step case, TBD
+\end{proof}
+
+Now, following Sangiorgi \& Walker define as the compatible equivalence relation induced by $\sconga\cdot\cdot$, namely add to reflexivity, symmetry  and transitivity the following:
+ \begin{mathpar}
+   \inferrule[Cong]{\sconga P Q}{\scong {C[P]}{C[Q]}}
+ \end{mathpar}
+
+\begin{lemma}[Preservation for $\equiv$]
+  \label{le:presequiv}
+    If \( \scong{P}{Q} \) then \( \types{\Gamma;\Delta}{P} \)  iff \( \types{\Gamma;\Delta}{Q} \).
+\end{lemma}
+\begin{proof}
+  By induction on the structure of the derivation of \( \scong{P}{Q} \), with an inner induction of the structure of a process context.
+  \begin{description}
+  \item[\TirName {Refl}] Immediate
+      \item[\TirName {Sym}] By IH.
+      \item[\TirName {Trans}]  By two appeal to the IH
+          \item[\TirName {Cong}] By induction on the structure of $C$. If the context is a hole, apply Lemma~\ref{le:presequiva}. In the step case, apply the IH: for example if $C$ has the form ${\Ppar C R}$, noting that ${\PBpar C R}[P]$ is equal to ${\Ppar {C[P]} R}$ we have \( \types{\Gamma;\Delta}{{\PBpar C R}[P]} \)  iff \( \types{\Gamma;\Delta}{{\PBpar C R}[Q]} \) by rule T-Par and the IH.
+  \end{description}
 \end{proof}
 
 \begin{theorem}[Subject reduction]
