@@ -5,7 +5,7 @@ First, we list some common notions and conventions that we use in the challenges
 
 We assume the existence of some set of \emph{base values}, represented by the symbols
 \( a, b, \dots \), the existence of some set
-of \emph{variable names}, represented by the symbols
+of \emph{variables}, represented by the symbols
 \( l, m, \dots \), and the existence of some set of \emph{names},
 represented by the symbols \( x, y, \dots \).%
 \footnote{%
@@ -50,26 +50,26 @@ names that occur free,
 \( \boundnames{P} \) to denote the set of names that occur bound
 % (by a restriction)
 in \( P \) and  \( \freevars{P} \)
-to denote the set of variable names that occur free
+to denote the set of variables that occur free
 % (i.e.\ not bound by an input)
 in \( P \).  We use the notation \( \boundvars{P} \)
-for the set of variable names that occur bound
+for the set of variables that occur bound
 % (by an input)
 in \( P \).  We use the notation \( \subst{P}{a}{l} \) to denote
-the process \( P \) with base value \( a \) substituted for variable name
+the process \( P \) with base value \( a \) substituted for variable
 \( l \). Similarly, \( \subst{P}{x}{y} \) denotes the process
 \( P \) with name \( x \) substituted for name \( y \).
 We use the notation \( \applysubst{\sigma}{P} \) to denote the process \( P \) with a finite number of arbitrary substitutions applied to it.
 
 Two processes \( P \) and \( Q \) are \( \alpha \)-convertible,
 written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \)
-by a finite number of substitutions of bound variable names.  As a
+by a finite number of substitutions of bound variables.  As a
 convention, we identify \( \alpha \)-convertible processes and we
-assume that bound names and bound variable names of any processes are
-chosen to be different from the names and variable names that occur
+assume that bound names and bound variables of any processes are
+chosen to be different from the names and variables that occur
 free in any other entities under consideration, such as processes,
-substitutions, and sets of names or variable names.  This is justified
-because any overlapping names and variable names may be
+substitutions, and sets of names or variables.  This is justified
+because any overlapping names and variables may be
 \( \alpha \)-converted such that the assumption is satisfied.
 
 
@@ -78,6 +78,6 @@ As a convention, we do \emph{not} identify \( \alpha \)-convertible contexts.
 %
 A context acts as a function between processes:
 a context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
-The replacement is literal, so names and variable names that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
+The replacement is literal, so names and variables that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
 
 We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).
