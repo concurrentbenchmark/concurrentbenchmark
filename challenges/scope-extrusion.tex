@@ -4,6 +4,7 @@
 This challenge formalises a proof that requires explicit scope extrusion.
 Scope extrusion is the notion that a process can send restricted names to another process, as long as the restriction can safely be ``extruded'' (i.e.\ expanded) to include the receiving process.
 This e.g.\ allows a process to set up a private connection by sending a restricted name to another process, then using this name for further communication.
+The key issue of this challenge is reasoning about names that are ``in the process'' of being scope-extruded, which often presents difficulties for the mechanisation of binders.
 
 Reasoning about scope extrusion explicitly can sometimes be avoided by introducing a structural congruence rule into the semantics, but doing this means we lose information about the scope when reasoning about the semantics.
 Explicitly reasoning about scope extrusion is necessary to describe e.g.\ runtime monitors and compositions of systems.
