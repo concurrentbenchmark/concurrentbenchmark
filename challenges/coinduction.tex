@@ -12,11 +12,11 @@ This challenge is  about the mechanisation of proofs concerning infinite behavio
 % coinductive techniques.
 %
 % Coinduction is a proof technique for infinite structures,
-This is usually connected to coinductive definitions where an infinite
+This is usually connected to \emph{coinductive} definitions where an infinite
 structure is defined as the greatest fixed point of a recursive
 definition.
 %
-Coinduction is then a technique for defining and proving properties of
+Coinduction is a technique for defining and proving properties of
 such infinite structures,
 %
 which, in the context of the concurrent benchmark, arise
@@ -63,7 +63,7 @@ replication:
     P,Q & \Coloneqq & \Pend
                \quad \mid\quad \Pout{x}{v}{P}
                \quad \mid\quad \Pin{x}{l}{P}
-               \quad \mid\quad \Ppar{P}{Q}
+               \quad \mid\quad \PBpar{P}{Q}
                \quad \mid\quad \Pres{x}{}{P}
                \quad \mid\quad !P
   \end{array}
@@ -131,9 +131,11 @@ restriction $\Pres{x}{}{P}$.
 \subsubsection{Semantics.} We choose to give an LTS semantics for this
 challenge. As an alternative, it is also possible to adopt a reduction
 semantics which features fewer rules but needs a structural
-congruence. The semantics of the system describes the actions that the
-system can perform by defining a labelled transition relation on
-processes.  The transitions are labelled by \emph{actions}, the syntax
+congruence. %  The semantics of the system describes the actions that the
+% system can perform by defining a labelled transition relation on
+% processes.
+
+The transitions are labelled by \emph{actions}, the syntax
 of which is as follows:
 % \begin{align*}
 %   \alpha := &&& \Aoutf{x}{a} \\
@@ -152,7 +154,7 @@ internal communication.
 We use the notation \( \names{\alpha} \) to denote the set of
 names that occur in the action \( \alpha \).
 
-The transition relation is then defined by the following rules:
+The transition relation is defined by the following rules:
 \begin{mathpar}
   \inferrule[Out]{ }{\transition{\Pout{x}{a}{P}}{\Aoutf{x}{a}}{P}}
   \and
@@ -186,9 +188,9 @@ performing a step of computation) we would relate either too few
 processes (in the strong case where we relate only processes with
 exactly the same number of internal transitions) or every process (in
 the weak case where we relate processes with any amount of internal
-transitions).  We must therefore allow ourselves to observe more than
-just internal transitions, and here we choose to define the observables
-of a process as the names it can use for sending and receiving.
+transitions).  As a result, we must allow ourselves to observe more than
+just internal transitions, and we choose to describe a process's observables
+as the names it might use for sending and receiving.
 
 To this end, we define the \emph{observability predicate}
 \( \observable{P}{\mu} \) as follows:
@@ -197,7 +199,7 @@ To this end, we define the \emph{observability predicate}
   \observable{P}{\obsout{x}} &\quad \textrm{if \( P \) can perform an output action via \( x \).}
 \end{align*}
 
-\emph{Strong barbed bisimilarity}, written \( \sbbisim{}{} \), is then the largest symmetric relation such that, whenever \( \sbbisim{P}{Q} \):
+\emph{Strong barbed bisimilarity}, written \( \sbbisim{}{} \), is the largest symmetric relation such that, whenever \( \sbbisim{P}{Q} \):
 \begin{gather}
   \observable{P}{\mu}~\textrm{implies}~\observable{Q}{\mu}\label{eq:bisim1} \\
   \transition{P}{\Atau}{P'}~\textrm{implies}~\transition{Q}{\Atau}{\sbbisim{}{} P'}\label{eq:bisim2}
@@ -206,7 +208,7 @@ We say that a relation is a \emph{strong barbed bisimulation} if it satisfies th
 Note that, since our systems have potentially infinite behaviors, and strong barbed bisimilarity is defined as the largest relation that satisfies the conditions, bisimulation cannot be defined inductively.
 
 \begin{theorem}
-  \( \sbbisim{}{} \) is an equivalence relation, that is, the relation is reflexive, symmetric, and transitive.
+  \( \sbbisim{}{} \) is an equivalence relation. %that is, the relation is reflexive, symmetric, and transitive.
 \end{theorem}
 \begin{proof}
   % We need to prove that $\sbbisim{}{}$ is reflexive, symmetric, and
