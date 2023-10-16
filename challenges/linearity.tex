@@ -178,7 +178,7 @@ The objective of this challenge is to prove subject reduction and type safety fo
   $x\not\in \freenames{P}$, then \( \types{\Gamma; \Delta}{P} \).
 \end{lemma}
 \begin{proof}
-  By induction on the derivation of 
+  By induction on the derivation of
 %%  last applied rule of the proof of --AM changed for uniformity
   $\types{\Gamma; (\Cadd{\Delta}{\hastype{x}{T}})}{P}$.
   % , for each case inverting $\types{\Gamma; (\Delta, x : T)}{P}$ to
@@ -187,7 +187,7 @@ The objective of this challenge is to prove subject reduction and type safety fo
   \item[\TirName{T-End}] Since $\tend{\Delta}$, we can just reapply
     the rule without $\hastype{x}{T}$.
     % [$P = \Pend$] we Apply \TirName{T-Inact}.
-    
+
   \item[\TirName{T-Par}] In this case, we have that
     $\Cadd{\Delta}{\hastype{x}{T}} = \Csplit{\Delta_0}{\Delta_1}$.  By cases on which
     context $x$ is in, we just apply the induction hypothesis on
@@ -195,7 +195,7 @@ The objective of this challenge is to prove subject reduction and type safety fo
     %
     %
     % [$P = \Ppar{P_0}{P_1}$] By inversion on the typing we have  $ \Delta, x : T = \Delta_0 , \Delta_1$.
-    %   By cases on which environment $x$ is in, apply IH on that environment. 
+    %   By cases on which environment $x$ is in, apply IH on that environment.
   \item[\TirName{T-Res}] Without loss of generality, we assume that
     $x \notin \{y,z\}$, for $P=\Presd{y}{z}{P'}$. Since
     $\types{\Gamma;(\Cadd{\Cadd{\Cadd{\Delta}{\hastype{y}{T_0}}}{\hastype{z}{\dual{T_0}}}}{\hastype{x}{T}})}{P'}$, by
@@ -225,12 +225,12 @@ The objective of this challenge is to prove subject reduction and type safety fo
   By induction on the derivation of $\types{(\Cadd{\Gamma}{l});\Delta}{P}$.
   \begin{description}
   \item[\TirName{T-End}] Immediate since $\tend{\Delta}$.
-    
+
   \item[\TirName{T-Par}] For $P = \Ppar{P_0}{P_1}$, we apply the
     induction hypothesis on the derivations for $P_0$ and $P_1$.
-    
+
   \item[\TirName{T-Res}] Immediate on the premise of the rule.
-    
+
   \item[\TirName{T-Out}] Let $P = \Pout{x}{v}{P'}$. We have that
     $\typev{(\Cadd{\Gamma}{l})}{\hastype{v}{\Tbase}}$.  We must show
     $\typev{\Gamma}{\hastype{v}{\Tbase}}$ to build the conclusion with
@@ -239,7 +239,7 @@ The objective of this challenge is to prove subject reduction and type safety fo
     % \item[$P = \Pin{x}{v}{P}$] Immediate after inverting typing.
   \end{description}
   The remaining cases are analogous.
-  
+
 \end{proof}
 
 \newcommand{\sconga}[2]{#1 \stackrel{a}{\equiv} #2}
@@ -263,7 +263,7 @@ To prove that congruence preserves typing we need to spell out in more detail th
   \end{description}
 \end{proof}
 
-Now, following Sangiorgi \& Walker, we give rules for the compatible
+Now, following Sangiorgi \& Walker~\cite{picalcbook}, we give rules for the compatible
 equivalence relation induced by $\sconga\cdot\cdot$, which we still
 write as $\scong\cdot\cdot$: namely, add to reflexivity, symmetry and
 transitivity the following condition:
@@ -346,7 +346,7 @@ is well formed but also irreducible.
   contradiction. In fact, if $\scong{P_2}{\Pout{y_1}{v}{P_2'}}$ then
   the typing rule for restriction would be violated since the type of
   $x_1$ and $y_1$ cannot be dual.
-  % 
+  %
   % We proceed by induction on the definition of $\types{}{}$. The key
   % cases are that for parallel composition and that for name
   % restriction. In the case of parallel composition, linearity (and

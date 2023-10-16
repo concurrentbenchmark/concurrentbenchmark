@@ -138,7 +138,7 @@ We discuss our design choices in \cref{sec:design-discussion}, and possible exte
 \label{sec:prelim}
 First, we list some common notions and conventions that we use in the
 challenges. Since the calculi under study are somewhat different, each section
-lists the changes that apply.
+lists the changes that apply. The challenges are inspired by simplified versions of calculi (and proofs) from~\cite{picalcbook} and~\cite{Vasconcelos2012}.
 
 We assume the existence of some set of \emph{base values}, represented by the symbols
 \( a, b, \dots \), the existence of some set
@@ -820,7 +820,7 @@ For instance, the processes $\Pout{x}{a}{\Pout{y}{b}{\Pend}}$ and
 $\Pout{x}{a}{\Pend}$ are strong barbed bisimilar, i.e.,
 $\sbbisim{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pout{x}{a}{\Pend}}$. This
 is because \( \obsout{x} \) is the only observable in both processes
-and they cannot perform a \( \Atau \)-action. However, in the context 
+and they cannot perform a \( \Atau \)-action. However, in the context
 $C = \Ppar{\ctxhole}{\Pin{x}{l}{\Pend}}$, the relation no
 longer holds: in fact,
 $\nsbbisim{\Ppar{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pin{x}{l}{\Pend}}}{\Pout{x}{a}{\Pend}\Ppar{}{\Pin{x}{l}{\Pend}}}$
