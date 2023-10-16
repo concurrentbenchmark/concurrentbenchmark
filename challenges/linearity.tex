@@ -25,11 +25,11 @@ The syntax is given by the grammar
    P,Q & \Coloneqq & \Pend \quad\mid\quad \Pout{x}{v}{P} \quad\mid\quad \Pin{x}{l}{P} \quad\mid\quad \PBpar{P}{Q} \quad\mid\quad  \Presd{x}{y}{P}
 \end{array}
 \]
-where a \emph{value} \( v, w, \dots \) is either a base value \( a \) or a variable name \( l \).
+where a \emph{value} \( v, w, \dots \) is either a base value \( a \) or a variable \( l \).
 
 The output process \( \Pout{x}{v}{P} \) sends the value \( v \) via \( x \) and then continues as \( P \).
 The intention is that the value \( v \) must be a base value when it is actually sent, and this is enforced in the semantics later on.
-The input process \( \Pin{x}{l}{P} \) waits for a base value from \( x \) and then continues as \( P \) with the received value substituted for the variable name \( l \).
+The input process \( \Pin{x}{l}{P} \) waits for a base value from \( x \) and then continues as \( P \) with the received value substituted for the variable \( l \).
 %
 The process \( \Presd{x}{y}{P} \) represents a \emph{session} with endpoints named \( x \) and \( y \) which are bound in \( P \). In \( P \), the names \( x \) and \( y \) can be used to exchange messages over the session (sending on \( x \) and receiving on \( y \) or vice versa).
 %
@@ -69,7 +69,7 @@ The operational semantics is defined as the following relation on processes:
 Note that reductions are allowed only for restricted pairs of session endpoints. This makes it possible to formulate subject reduction so that the typing context is exactly the same before and after each reduction.
 %
 Note also that due to rule \TirName{R-Com}, the process \( \Pin{y}{l}{P} \) can receive \emph{any} base value.
-On the other hand, since the rule \TirName{R-Com} only applies to sending base values, there is no way to send a variable name or a name.
+On the other hand, since the rule \TirName{R-Com} only applies to sending base values, there is no way to send a variable or a name.
 
 \subsubsection{Session types.}
 Our process syntax allows us to write processes that are ill formed in

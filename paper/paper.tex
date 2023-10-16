@@ -142,7 +142,7 @@ lists the changes that apply. The challenges are inspired by simplified versions
 
 We assume the existence of some set of \emph{base values}, represented by the symbols
 \( a, b, \dots \), the existence of some set
-of \emph{variable names}, represented by the symbols
+of \emph{variables}, represented by the symbols
 \( l, m, \dots \), and the existence of some set of \emph{names},
 represented by the symbols \( x, y, \dots \).%
 \footnote{%
@@ -186,26 +186,26 @@ names that occur free,
 \( \boundnames{P} \) to denote the set of names that occur bound
 % (by a restriction)
 in \( P \) and  \( \freevars{P} \)
-to denote the set of variable names that occur free
+to denote the set of variables that occur free
 % (i.e.\ not bound by an input)
 in \( P \).  We use the notation \( \boundvars{P} \)
-for the set of variable names that occur bound
+for the set of variables that occur bound
 % (by an input)
 in \( P \).  We use the notation \( \subst{P}{a}{l} \) to denote
-the process \( P \) with base value \( a \) substituted for variable name
+the process \( P \) with base value \( a \) substituted for variable
 \( l \). Similarly, \( \subst{P}{x}{y} \) denotes the process
 \( P \) with name \( x \) substituted for name \( y \).
 We use the notation \( \applysubst{\sigma}{P} \) to denote the process \( P \) with a finite number of arbitrary substitutions applied to it.
 
 Two processes \( P \) and \( Q \) are \( \alpha \)-convertible,
 written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \)
-by a finite number of substitutions of bound variable names.  As a
+by a finite number of substitutions of bound variables.  As a
 convention, we identify \( \alpha \)-convertible processes and we
-assume that bound names and bound variable names of any processes are
-chosen to be different from the names and variable names that occur
+assume that bound names and bound variables of any processes are
+chosen to be different from the names and variables that occur
 free in any other entities under consideration, such as processes,
-substitutions, and sets of names or variable names.  This is justified
-because any overlapping names and variable names may be
+substitutions, and sets of names or variables.  This is justified
+because any overlapping names and variables may be
 \( \alpha \)-converted such that the assumption is satisfied.
 
 
@@ -214,7 +214,7 @@ As a convention, we do \emph{not} identify \( \alpha \)-convertible contexts.
 %
 A context acts as a function between processes:
 a context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
-The replacement is literal, so names and variable names that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
+The replacement is literal, so names and variables that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
 
 We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).
 
@@ -245,11 +245,11 @@ The syntax is given by the grammar
    P,Q & \Coloneqq & \Pend \quad\mid\quad \Pout{x}{v}{P} \quad\mid\quad \Pin{x}{l}{P} \quad\mid\quad \PBpar{P}{Q} \quad\mid\quad  \Presd{x}{y}{P}
 \end{array}
 \]
-where a \emph{value} \( v, w, \dots \) is either a base value \( a \) or a variable name \( l \).
+where a \emph{value} \( v, w, \dots \) is either a base value \( a \) or a variable \( l \).
 
 The output process \( \Pout{x}{v}{P} \) sends the value \( v \) via \( x \) and then continues as \( P \).
 The intention is that the value \( v \) must be a base value when it is actually sent, and this is enforced in the semantics later on.
-The input process \( \Pin{x}{l}{P} \) waits for a base value from \( x \) and then continues as \( P \) with the received value substituted for the variable name \( l \).
+The input process \( \Pin{x}{l}{P} \) waits for a base value from \( x \) and then continues as \( P \) with the received value substituted for the variable \( l \).
 %
 The process \( \Presd{x}{y}{P} \) represents a \emph{session} with endpoints named \( x \) and \( y \) which are bound in \( P \). In \( P \), the names \( x \) and \( y \) can be used to exchange messages over the session (sending on \( x \) and receiving on \( y \) or vice versa).
 %
@@ -289,7 +289,7 @@ The operational semantics is defined as the following relation on processes:
 Note that reductions are allowed only for restricted pairs of session endpoints. This makes it possible to formulate subject reduction so that the typing context is exactly the same before and after each reduction.
 %
 Note also that due to rule \TirName{R-Com}, the process \( \Pin{y}{l}{P} \) can receive \emph{any} base value.
-On the other hand, since the rule \TirName{R-Com} only applies to sending base values, there is no way to send a variable name or a name.
+On the other hand, since the rule \TirName{R-Com} only applies to sending base values, there is no way to send a variable or a name.
 
 \subsubsection{Session types.}
 Our process syntax allows us to write processes that are ill formed in
@@ -445,7 +445,7 @@ The key issue of this challenge is reasoning about names that are ``in the proce
 Reasoning about scope extrusion explicitly can sometimes be avoided by introducing a structural congruence rule into the semantics, but doing this means we lose information about the scope when reasoning about the semantics.
 Explicitly reasoning about scope extrusion is necessary to describe e.g.\ runtime monitors and compositions of systems.
 
-The setting for this challenge is a ``classic'' untyped \( \pi \)-calculus, where (unlike the calculi in the other challenges) names can be sent and received, and bound by input constructs (similarly to variable names in the other calculi).
+The setting for this challenge is a ``classic'' untyped \( \pi \)-calculus, where (unlike the calculi in the other challenges) names can be sent and received, and bound by input constructs (similarly to variables in the other calculi).
 We define two different semantics for our system: one that avoids explicit reasoning about scope extrusion, and one that does not.
 The objective of this challenge is to prove that the two semantics are equivalent up to structural congruence.
 
@@ -650,7 +650,7 @@ The key issue of this challenge is the coinductive reasoning about the infinite 
 \subsubsection{Syntax.}
 % We assume the existence of some type of \emph{base values}, values
 % of which we will denote by \( a, b, \dots \), the existence of some
-% type of \emph{variable names}, values of which we will denote by
+% type of \emph{variables}, values of which we will denote by
 % \( l, m, \dots \), and the existence of some type of \emph{names},
 % values of which we will denote by \( x, y, \dots \).
 The syntax of the calculus is identical to that of
@@ -687,7 +687,7 @@ restriction $\Pres{x}{}{P}$.
 %   |&&& \Preplicate{P}
 % \end{align*}
 % A \emph{value} \( v, w, \dots \) is either a base value \( a \) or a
-% variable name \( l \).  The process \( \Pend \) is \emph{inaction}:
+% variable \( l \).  The process \( \Pend \) is \emph{inaction}:
 % a process which can do nothing.  The process \( \Pout{x}{a}{P} \) is
 % an \emph{output}, which can send the value \( v \) via \( x \), then
 % continue as \( P \).  The intention is that the value \( v \) must
@@ -695,8 +695,8 @@ restriction $\Pres{x}{}{P}$.
 % in the semantics later on.  The process \( \Pin{x}{l}{P} \) is an
 % \emph{input}, which can receive a base value via \( x \), then
 % continue as \( P \) with the received value substituted for the
-% variable name \( l \).  The input operator thus binds the variable
-% name \( l \) in \( P \).  The process \( \Ppar{P}{Q} \) is the
+% variable \( l \).  The input operator thus binds the variable
+%  \( l \) in \( P \).  The process \( \Ppar{P}{Q} \) is the
 % \emph{composition} of process \( P \) and process \( Q \).  The two
 % components can proceed independently of each other, or they can
 % interact via shared names.  The process \( \Pres{x}{P} \) is the
@@ -712,21 +712,21 @@ restriction $\Pres{x}{}{P}$.
 % express infinite behaviours.
 
 % We will use the notation \( \subst{P}{v}{l} \) to denote the process
-% \( P \) with value \( v \) substituted for variable name \( l \).
+% \( P \) with value \( v \) substituted for variable \( l \).
 
 % % We will use the notation \( \subst{P}{v}{w} \) to denote the process \( P \) with value \( v \) substituted for value \( w \).
 % Two processes \( P \) and \( Q \) are \( \alpha \)-convertible,
 % written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from
-% \( P \) by a finite number of substitutions of bound variable names.
+% \( P \) by a finite number of substitutions of bound variables.
 % As a convention, we will identify \( \alpha \)-convertible
 % processes.
 
 % Also as a convention, we assume that the bound names and bound
-% variable names occurring in any collection of processes are chosen
-% to be different from the free names and free variable names
-% occurring in those processes and from the names and variable names
+% variables occurring in any collection of processes are chosen
+% to be different from the free names and free variables
+% occurring in those processes and from the names and variables
 % occurring in any substitutions applied to the processes.  This is
-% justified because any overlapping names and variable names may be
+% justified because any overlapping names and variables may be
 % \( \alpha \)-converted such that the assumption is satisfied.
 
 \subsubsection{Semantics.} We choose to give an LTS semantics for this
@@ -773,9 +773,9 @@ The transition relation is defined by the following rules:
 \end{mathpar}
 Note that there is no rule for inferring transitions from \( \Pend \), and that there is no rule for inferring an action of an input or output process except those that match the input/output capability.
 Note also that due to rule \TirName{In}, the process \( \Pin{x}{l}{P} \) can receive \emph{any} base value.
-On the other hand, since the rule \TirName{Out} only applies to base values, there is no way to send a variable name.
+On the other hand, since the rule \TirName{Out} only applies to base values, there is no way to send a variable.
 
-% As a convention, we assume that bound names and bound variable names of any processes or actions are chosen to be different from the names and variable names that occur free in any other entities under consideration, such as processes, actions, substitutions, and sets of names or variable names.
+% As a convention, we assume that bound names and bound variables of any processes or actions are chosen to be different from the names and variables that occur free in any other entities under consideration, such as processes, actions, substitutions, and sets of names or variables.
 
 \subsubsection{Bisimilarity.}
 Bisimilarity is a notion of equivalence for processes and
@@ -847,7 +847,7 @@ because the left process can perform a \( \Atau \)-action such that
 
 % We can think of contexts as functions between processes.
 % A context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
-% The replacement should be literal, so names and variable names that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
+% The replacement should be literal, so names and variables that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
 
 % We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).
 
