@@ -148,11 +148,8 @@ represented by the symbols \( x, y, \dots \).%
 \footnote{%
   Unlike the standard $\pi$-calculus, we distinguish variables from names to
   better control the expressiveness of the calculi under study, and the scope of
-  the corresponding challenges: the key distinction is that names can be sent
-  and received (thus realising channel delegation), whereas variables can only
-  be substituted with base values.%
+  the corresponding challenges: the key distinction is that names are used as communication channels (and can be sent and received in the scope extrusion challenge), whereas variables are only bound by inputs and cannot be restricted, sent nor received, in the style of value-passing CCS \cite{Milner1989}.%
 } %
-\fxerror{Double-check the footnote!}%
 We assume that all of these sets are infinite and that their elements can be
 compared for equality.
 
@@ -448,7 +445,7 @@ The key issue of this challenge is reasoning about names that are ``in the proce
 Reasoning about scope extrusion explicitly can sometimes be avoided by introducing a structural congruence rule into the semantics, but doing this means we lose information about the scope when reasoning about the semantics.
 Explicitly reasoning about scope extrusion is necessary to describe e.g.\ runtime monitors and compositions of systems.
 
-The setting for this challenge is an untyped \( \pi \)-calculus, the syntax and semantics of which are presented below.
+The setting for this challenge is a ``classic'' untyped \( \pi \)-calculus, where (unlike the calculi in the other challenges) names can be sent and received, and bound by input constructs (similarly to variable names in the other calculi).
 We define two different semantics for our system: one that avoids explicit reasoning about scope extrusion, and one that does not.
 The objective of this challenge is to prove that the two semantics are equivalent up to structural congruence.
 

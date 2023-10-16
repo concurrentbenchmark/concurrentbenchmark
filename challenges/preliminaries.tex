@@ -11,11 +11,8 @@ represented by the symbols \( x, y, \dots \).%
 \footnote{%
   Unlike the standard $\pi$-calculus, we distinguish variables from names to
   better control the expressiveness of the calculi under study, and the scope of
-  the corresponding challenges: the key distinction is that names can be sent
-  and received (thus realising channel delegation), whereas variables can only
-  be substituted with base values.%
+  the corresponding challenges: the key distinction is that names are used as communication channels (and can be sent and received in the scope extrusion challenge), whereas variables are only bound by inputs and cannot be restricted, sent nor received, in the style of value-passing CCS \cite{Milner1989}.%
 } %
-\fxerror{Double-check the footnote!}%
 We assume that all of these sets are infinite and that their elements can be
 compared for equality.
 We assume that all of these sets are infinite and that their elements can be compared for equality.
