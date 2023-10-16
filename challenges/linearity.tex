@@ -257,13 +257,16 @@ To prove that congruence preserves typing we need to spell out in more detail th
   \item[\TirName{Par-Inact}]
    Right-to-left by strengthening~\ref{lemma:strenD}. Vice-versa,
     by picking $T$ to be $\Tend$ and weakening~\ref{lemma:weak} part 2.
-  \item[\TirName{Res-Par}] By case analysis on $x : T$ being linear or $\tend$ and applying weakening and strengthening accordingly.
-  \item[\TirName{Res-Inact:}] Use weakening~\ref{lemma:weak} part 2
+  \item[\TirName{Res-Par}] By case analysis on $x : T$ being linear or $\Tend$ and applying weakening and strengthening accordingly.
+  \item[\TirName{Res-Inact:}] Use weakening %~\ref{lemma:weak} part 2
   \item[\TirName{Res}] Noting that order does not matter
   \end{description}
 \end{proof}
 
-Now, following Sangiorgi \& Walker define as the compatible equivalence relation induced by $\sconga\cdot\cdot$, namely add to reflexivity, symmetry  and transitivity the following:
+Now, following Sangiorgi \& Walker, we give rules for the compatible
+equivalence relation induced by $\sconga\cdot\cdot$, which we still
+write as $\scong\cdot\cdot$: namely, add to reflexivity, symmetry and
+transitivity the following condition:
  \begin{mathpar}
    \inferrule[Cong]{\sconga P Q}{\scong {C[P]}{C[Q]}}
  \end{mathpar}
@@ -278,7 +281,14 @@ Now, following Sangiorgi \& Walker define as the compatible equivalence relation
   \item[\TirName {Refl}] Immediate
       \item[\TirName {Sym}] By IH.
       \item[\TirName {Trans}]  By two appeal to the IH
-          \item[\TirName {Cong}] By induction on the structure of $C$. If the context is a hole, apply Lemma~\ref{le:presequiva}. In the step case, apply the IH: for example if $C$ has the form ${\Ppar C R}$, noting that ${\PBpar C R}[P]$ is equal to ${\Ppar {C[P]} R}$ we have \( \types{\Gamma;\Delta}{{\PBpar C R}[P]} \)  iff \( \types{\Gamma;\Delta}{{\PBpar C R}[Q]} \) by rule T-Par and the IH.
+      \item[\TirName {Cong}] By induction on the structure of $C$. If
+        the context is a hole, apply Lemma~\ref{le:presequiva}. In the
+        step case, apply the IH: for example if $C$ has the form
+        ${\Ppar {C'} R}$, noting that ${\PBpar{ C'} R}[P]$ is equal to
+        ${\Ppar {C'[P]} R}$ we have
+        \( \types{\Gamma;\Delta}{{\PBpar {C'} R}[P]} \) iff
+        \( \types{\Gamma;\Delta}{{\PBpar {C'} R}[Q]} \) by rule T-Par and
+        the IH.
   \end{description}
 \end{proof}
 
