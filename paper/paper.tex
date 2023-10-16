@@ -389,38 +389,60 @@ The following lemmas are needed:
   \begin{enumerate}
   \item If \( \types{\Gamma; \Delta}{P} \) then
     \( \types{(\Cadd{\Gamma}{l});\Delta}{P} \).
-      \item If \( \types{\Gamma; \Delta}{P} \) % and \( \tend{\Delta} \)
-        then
-    \( \types{\Gamma;(\Cadd{\Delta}{\hastype{x}{\Tend}})}{P} \).
+  \item If \( \types{\Gamma; \Delta}{P} \) % and \( \tend{\Delta} \)
+    then \( \types{\Gamma;(\Cadd{\Delta}{\hastype{x}{\Tend}})}{P} \).
   \end{enumerate}
-  % \begin{metanote}
-  %   Note from Dawit: Does \( \Delta \) really have to be only ends to be weakened? I had expected that if \( P \) is typed by \( \Delta \) and \( \Delta' \) is only ends, then \( P \) is typed by \( \Cadd{\Delta}{\Delta'} \).
-
-  %   AM:  I agree that it's weird: we should not be able to weaken a linear context, if not
-  %   with unrestricted types --- but this is what we need for Sc-Res-Inact to be type preserving:
-  %   from $\Delta\vdash 0$ we need $\Delta\vdash (\nu x y)0$. BTW, this is also a problem in Vasco's system
-  % \end{metanote}
 \end{lemma}
 
 \begin{lemma}[Strengthening]\mbox{}
   \label{lemma:strenD}
-  If \( \types{\Gamma; (\Delta, x : T)}{P} \) and $x\not\in \freenames{P}$, then \( \types{\Gamma; \Delta}{P} \).
+  If \( \types{\Gamma; (\Cadd{\Delta}{\hastype{x}{T}})}{P} \) and
+  $x\not\in \freenames{P}$, then \( \types{\Gamma; \Delta}{P} \).
 \end{lemma}
 
 \begin{lemma}[Substitution]\mbox{}
-  If $\types{(\Gamma, l);\Delta}{P}$ and ${\typev{\Gamma}{\hastype{a}{\Tbase}}}$ then
-  \( \types{\Gamma;\Delta}{\subst{P}{l}{a}} \).
+  \label{le:subst}
+  If $\types{(\Cadd{\Gamma}{l});\Delta}{P}$ and
+  ${\typev{\Gamma}{\hastype{a}{\Tbase}}}$ then
+  \( \types{\Gamma;\Delta}{\subst{P}{a}{l}} \).
 \end{lemma}
+
+To prove that congruence preserves typing we need to spell out in more detail the former. First, we denote with $\sconga\cdot\cdot$ the relation induced by the six axioms.
+
+\begin{lemma}[Preservation for $\stackrel{a}{\equiv}$]
+  \label{le:presequiva}
+  If \( \sconga{P}{Q} \) then \( \types{\Gamma;\Delta}{P} \)  iff \( \types{\Gamma;\Delta}{Q} \).
+\end{lemma}
+
+Now, following Sangiorgi \& Walker~\cite{picalcbook}, we give rules for the compatible
+equivalence relation induced by $\sconga\cdot\cdot$, which we still
+write as $\scong\cdot\cdot$: namely, add to reflexivity, symmetry and
+transitivity the following condition:
+ \begin{mathpar}
+   \inferrule[Cong]{\sconga P Q}{\scong {C[P]}{C[Q]}}
+ \end{mathpar}
 
 \begin{lemma}[Preservation for $\equiv$]
-  If \( \types{\Gamma;\Delta}{P} \) and \( \scong{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
+  \label{le:presequiv}
+    If \( \scong{P}{Q} \) then \( \types{\Gamma;\Delta}{P} \)  iff \( \types{\Gamma;\Delta}{Q} \).
 \end{lemma}
 
-To formulate safety, we need to formally define what we mean by well-formed process.
-We say that a process \( P \) is \emph{prefixed at variable \( x \)} if it is of the form \( \Pout{x}{v}{P} \) or \( \Pin{x}{l}{P} \).
-A process is then \emph{well formed} if, for each of its structurally congruent processes of the form \( \Presd{x_1}{y_1}{\dots \Presd{x_n}{y_n}{(\Ppar{\Ppar{P}{Q}}{R})}} \), with \( n \geq 0 \), it holds that, if \( P \) is prefixed at \( x_1 \) and \( Q \) is prefixed at \( y_1 \), then \( \Ppar{P}{Q} \) is of the form \( \Ppar{\Pout{x_1}{a}{P'}}{\Pin{y_1}{l}{Q'}} \).
+To formulate safety, we need to formally define what we mean by
+well-formed process.  We say that a process \( P \) is \emph{prefixed
+  at variable \( x \)} if \( P\equiv\Pout{x}{v}{P'} \) or
+\( P\equiv\Pin{x}{l}{P'} \) for some $P'$.
+%
+A process $P$ is then \emph{well formed} if, for every $P_1$, $P_2$,
+and $R$ such that
+\( P\equiv \Presd{x_1}{y_1}{\dots
+  \Presd{x_n}{y_n}{(\Ppar{\Ppar{P_1}{P_2}}{R})}} \), with
+\( n \geq 0 \), it holds that, if \( P_1 \) is prefixed at \( x_1 \)
+and \( P_2 \) is prefixed at \( y_1 \) (or vice versa), then
+\( \Ppar{P_1}{P_2}
+\equiv\Ppar{\Pout{x_1}{a}{P_1'}}{\Pin{y_1}{l}{P_2'}} \), for some
+$P_1'$ and $P_2'$.
 
-Note that well-formed processes do not necessarily reduce. For example, the process:
+Note that well-formed processes do not necessarily reduce. For example, the process
 \begin{equation*}
   \Presd{x_1}{y_1}{\Presd{x_2}{y_2}{(\Ppar{\Pout{x_1}{a}{\Pin{y_2}{l}{\Pend}}}{\Pout{y_2}{x_2}{\Pin{y_1}{l}{\Pend}}})}}
 \end{equation*}
@@ -869,7 +891,20 @@ We say that two processes \( P \) and \( Q \) are \emph{strong barbed congruent}
 The objective of this challenge is to prove a theorem that shows that
 making strong barbed bisimilarity sensitive to substitution and
 parallel composition is enough to show strong barbed
-congruence. Formally,
+congruence.
+To prove the theorem, we will use an \emph{up-to technique}.
+A relation \( \mathcal{S} \) is called a \emph{strong barbed bisimulation up to \( \sbbisim{}{} \)} if, whenever \( (P,Q) \in \mathcal{S} \), the following conditions hold:
+\begin{enumerate}
+\item \( \observable{P}{\mu} \) if and only if \( \observable{Q}{\mu} \).
+\item if \( \transition{P}{\Atau}{P'} \) then \( \transition{Q}{\Atau}{Q'} \) for some \( Q' \) with \( \uptosbb{P'}{\mathcal{S}}{Q'} \).
+\item if \( \transition{Q}{\Atau}{Q'} \) then \( \transition{P}{\Atau}{P'} \) for some \( P' \) with \( \uptosbb{P'}{\mathcal{S}}{Q'} \).
+\end{enumerate}
+These relations are useful owing to the following lemma:
+\begin{lemma}\label{lemma:up-to}
+  If \( \mathcal{S} \) is a strong barbed bisimulation up to \( \sbbisim{}{} \), \( (P,Q) \in \mathcal{S} \) implies \( \sbbisim{P}{Q} \).
+\end{lemma}
+
+We are now ready to prove the theorem:
 \begin{theorem}
   \( \sbcong{P}{Q} \) if for any process \( R \) and
   substitution \( \sigma \),
