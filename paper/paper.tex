@@ -893,9 +893,9 @@ as per our design goal \ref{item:goal-reusability},
 our problems are drawn from the basic metatheory of process calculi (without requiring the development of new theory), and focus on well-known theorems
 and results that involve interesting proof techniques that may be reused in further work.
 To achieve our design goal \ref{item:goal-comperison-accessibility},
-we have designed our challenge problems to exercise the three aspects (linearity, scope extrusion, coinduction) independently, and they can be solved individually and in any order;
-each problem should be small and easy to understand with basic knowledge of textbook concurrency theory, process calculi, and type theory.  The process calculus used in each challenge
-focuses on the features we want to exercise, and omits all constructs
+we have drafted our challenge problems to exercise the three aspects (linearity, scope extrusion, coinduction) independently, so that they can be solved individually and in any order;
+each problem should be reasonably small and easy to understand with basic knowledge of textbook concurrency theory, process calculi, and type theory.  The process calculus used in each challenge
+focuses on the features that we want to exercise, and omits all constructs
 (such as choices) that would complicate the mechanisation without bringing tangible
 benefits and insights.\footnote{It is of course possible to reintroduce the omitted
 constructs, but we leave this as a possibility for a future benchmark challenge.}
@@ -912,7 +912,7 @@ tutorials for the mechanisation of concurrency theory.
 % other setting.
 
 \subsubsection{Linearity.}
-For our challenge on linear reasoning we have chosen a safety theorem
+For our challenge on linear reasoning we have chosen a type preservation theorem
 for a session type system since this allows us to involve linear
 reasoning without many definitions. Accordingly, we have chosen not to
 include channel delegation and to use a reduction instead of a
@@ -1014,7 +1014,7 @@ On the side of proof assistants, the current challenge proposes mechanising the
 proofs of theorems. An interesting venue to explore would be to take advantage
 of other proof assistant features. For example, proof assistants can often
 produce certified code (via code extraction, or compiling and running their
-definitions). Additionally, while our current challenge allow for proof
+definitions). Additionally, while our current challenge is agnostic about proof
 automation, a more specific challenge could be designed with the objective of
 automating aspects of the proofs. Finally, a challenge could propose the
 integration with other formal reasoning tools, namely model checkers. These
