@@ -1,13 +1,23 @@
 \subsection{Preliminaries}
 \label{sec:prelim}
 
-First, we list some common notions and conventions that we use in the challenges. Since the calculi under study are somewhat different, each section will list the changes that apply.
+First, we list some common notions and conventions that we use in the challenges. Since the calculi under study are somewhat different, each section lists the changes that apply.
 
 We assume the existence of some set of \emph{base values}, represented by the symbols
 \( a, b, \dots \), the existence of some set
 of \emph{variable names}, represented by the symbols
 \( l, m, \dots \), and the existence of some set of \emph{names},
-represented by the symbols \( x, y, \dots \).
+represented by the symbols \( x, y, \dots \).%
+\footnote{%
+  Unlike the standard $\pi$-calculus, we distinguish variables from names to
+  better control the expressiveness of the calculi under study, and the scope of
+  the corresponding challenges: the key distinction is that names can be sent
+  and received (thus realising channel delegation), whereas variables can only
+  be substituted with base values.%
+} %
+\fxerror{Double-check the footnote!}%
+We assume that all of these sets are infinite and that their elements can be
+compared for equality.
 We assume that all of these sets are infinite and that their elements can be compared for equality.
 
 The syntax of processes includes:
@@ -16,8 +26,10 @@ The two components can proceed independently of each other, or they can interact
 %The process \( \Pchoice{P}{Q} \) is a non-deterministic \emph{choice} between continuing as the process \( P \) or as the process \( Q \).
 
 For communication, processes include \emph{input} and \emph{output}, whose
-signature will depend on the calculus being value or name-passing.
-We use here the metavariables $c,k$ to abstract over this choice.
+signature signature depends on the calculus being value-passing or name-passing.
+We use here the metavariables $c,k$ to abstract over this choice
+--- i.e.~$c$ may be either a value or a variable or a name, whereas $k$ may
+be a variable or a name.
 The process \( \Pout{x}{c}{P} \) is an \emph{output}, which can send
 \( c \) via \( x \), then continue as \( P \).  % The intention is that
 % the value \( v \) must be a base value when it is actually sent, and
@@ -33,9 +45,9 @@ The process \( \Pres{x}{P} \) is the \emph{restriction} of the name
 
 The process \( \Preplicate{P} \) is the \emph{replication} of the process \( P \).
 It can be thought of as the infinite composition \( \Ppar{P}{\Ppar{P}{\cdots}} \).
-Replication makes it possible to express infinite behaviors.
+Replication makes it possible to express infinite behaviours.
 
-We will use the notation \( \freenames{P} \) to denote the set of
+We use the notation \( \freenames{P} \) to denote the set of
 names that occur free,
 % (i.e.\ not bound by a restriction) in \( P \),
 \( \boundnames{P} \) to denote the set of names that occur bound
@@ -43,19 +55,19 @@ names that occur free,
 in \( P \) and  \( \freevars{P} \)
 to denote the set of variable names that occur free
 % (i.e.\ not bound by an input)
-in \( P \).  We will use the notation \( \boundvars{P} \)
+in \( P \).  We use the notation \( \boundvars{P} \)
 for the set of variable names that occur bound
 % (by an input)
-in \( P \).  We will use the notation \( \subst{P}{a}{l} \) to denote
+in \( P \).  We use the notation \( \subst{P}{a}{l} \) to denote
 the process \( P \) with base value \( a \) substituted for variable name
 \( l \). Similarly, \( \subst{P}{x}{y} \) denotes the process
 \( P \) with name \( x \) substituted for name \( y \).
-We will use the notation \( \applysubst{\sigma}{P} \) to denote the process \( P \) with a finite number of arbitrary substitutions applied to it.
+We use the notation \( \applysubst{\sigma}{P} \) to denote the process \( P \) with a finite number of arbitrary substitutions applied to it.
 
 Two processes \( P \) and \( Q \) are \( \alpha \)-convertible,
 written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \)
 by a finite number of substitutions of bound variable names.  As a
-convention, we will identify \( \alpha \)-convertible processes and we
+convention, we identify \( \alpha \)-convertible processes and we
 assume that bound names and bound variable names of any processes are
 chosen to be different from the names and variable names that occur
 free in any other entities under consideration, such as processes,
@@ -66,9 +78,9 @@ because any overlapping names and variable names may be
 
 A \emph{context} is obtained by taking a process and replacing a single occurrence of \( \Pend \) in it with the special \emph{hole} symbol \( \ctxhole \).
 As a convention, we do \emph{not} identify \( \alpha \)-convertible contexts.
-
-We will think of contexts as functions between processes.
-A context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
-The replacement should be literal, so names and variable names that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
+%
+A context acts as a function between processes:
+a context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
+The replacement is literal, so names and variable names that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
 
 We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).

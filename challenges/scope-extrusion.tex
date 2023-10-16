@@ -10,14 +10,14 @@ Reasoning about scope extrusion explicitly can sometimes be avoided by introduci
 Explicitly reasoning about scope extrusion is necessary to describe e.g.\ runtime monitors and compositions of systems.
 
 The setting for this challenge is an untyped \( \pi \)-calculus, the syntax and semantics of which are presented below.
-We will define two different semantics for our system: one that avoids explicit reasoning about scope extrusion, and one that does not.
+We define two different semantics for our system: one that avoids explicit reasoning about scope extrusion, and one that does not.
 The objective of this challenge is to prove that the two semantics are equivalent up to structural congruence.
 
-\subsubsection{Syntax}
+\subsubsection{Syntax.}
 The syntax of processes is given by:
 \[
-\begin{array}{rcl}
-  P,Q & :=& \Pend \quad\mid\quad \PBpar{P}{Q} \quad\mid\quad \Pout{x}{y}{P} \quad\mid\quad \Pin{x}{y}{P} \quad\mid\quad \Pres{x}{P}
+\begin{array}{r@{\qquad}c@{\qquad}l}
+  P,Q & \Coloneqq & \Pend \quad\mid\quad \PBpar{P}{Q} \quad\mid\quad \Pout{x}{y}{P} \quad\mid\quad \Pin{x}{y}{P} \quad\mid\quad \Pres{x}{P}
 \end{array}
 \]
 
@@ -46,9 +46,10 @@ This simplifies the theory and is orthogonal to the concept of scope extrusion.
 % As a convention, we assume that the bound names occurring in any collection of processes are chosen to be different from the free names occurring in those processes and from the names occurring in any substitutions applied to the processes.
 % This is justified because any overlapping names may be \( \alpha \)-converted such that the assumption is satisfied.
 
-\subsubsection{Reduction semantics}
+\subsubsection{Reduction semantics.}
 The first semantics is an operational reduction semantics, which avoids reasoning explicitly about scope extrusion by way of a structural congruence rule.
 \emph{Structural congruence} is the smallest congruence relation that satisfies the following axioms:
+
 \begin{mathpar}
   \inferrule[Sc-Par-Assoc]{ }{\scong{\Ppar{P}{(\Ppar{Q}{R})}}{\Ppar{(\Ppar{P}{Q})}{R}}}
   \and
@@ -63,7 +64,7 @@ The first semantics is an operational reduction semantics, which avoids reasonin
   \inferrule[Sc-Res]{ }{\scong{\Pres{x}{\Pres{y}{P}}}{\Pres{y}{\Pres{x}{P}}}}
 \end{mathpar}
 
-The operational semantics is then defined as the following binary relation on processes:
+The operational semantics is defined as the following relation on processes:
 \begin{mathpar}
   \inferrule[R-Com]{ }{\reduces{\Ppar{\Pout{x}{y}{P}}{\Pin{x}{z}{Q}}}{\Ppar{P}{\subst{Q}{y}{z}}}}
   \and
@@ -75,15 +76,15 @@ The operational semantics is then defined as the following binary relation on pr
 \end{mathpar}
 Note that there is no rule for inferring an action of an input or output process except those that match the input/output capability.
 Note also that due to rule \TirName{R-Com}, the process \( \Pin{x}{z}{P} \) can receive \emph{any} name.
-Finally, note that rule \TirName{R-Struct} allows for applying the structural congruence both before and after the reduction.
-This ensures that the reduction relation is closed under structural congruence.
+Finally, note that rule \TirName{R-Struct} allows for applying the structural congruence both before and after the reduction:
+this makes the reduction relation closed under structural congruence.
 
-\subsubsection{Transition system semantics}
+\subsubsection{Transition system semantics.}
 The second semantics of the system describe the actions that the system can perform by defining a labelled transition relation on processes.
-The transitions are labelled by \emph{actions}, the syntax of which is as follows:
+The transitions are labelled by \emph{actions}, the syntax of which is:
 \[
-\begin{array}{rcl}
-  \alpha & :=& \Aoutf{x}{y} \quad\mid\quad \Ain{x}{y} \quad\mid\quad \Aoutb{x}{y} \quad\mid\quad \Atau
+\begin{array}{r@{\qquad}c@{\qquad}l}
+  \alpha & \Coloneqq & \Aoutf{x}{y} \quad\mid\quad \Ain{x}{y} \quad\mid\quad \Aoutb{x}{y} \quad\mid\quad \Atau
 \end{array}
 \]
 
@@ -92,14 +93,14 @@ The \emph{input action} \( \Ain{x}{y} \) is receiving the name \( y \) via \( x 
 The \emph{bound output action} \( \Aoutb{x}{y} \) is sending a fresh name \( y \) via \( x \).
 The \emph{internal action} \( \Atau \) is performing some unobservable action, e.g.\ internal communication.
 
-We will extend the notion of free and bound occurrences with 
+We extend the notion of free and bound occurrences with 
 \( \freenames{\alpha} \) to denote the set of names that occur free in
 the action \( \alpha \) and  \( \boundnames{\alpha} \) to
 denote the set of names that occur bound in the action \( \alpha \).
 In the free output action \( \Aoutf{x}{y} \) and the input action
 \( \Ain{x}{y} \), both \( x \) and \( y \) are free names.  In the
 bound output action \( \Aoutb{x}{y} \), \( x \) is a free name, while
-\( y \) is a bound name.  We will further use the notation
+\( y \) is a bound name.  We also use the notation
 \( \names{\alpha} \) to denote the union of \( \freenames{\alpha} \)
 and \( \boundnames{\alpha} \), i.e.\ the set of all names that occur
 in the action \( \alpha \).
@@ -138,7 +139,7 @@ the name \( z \) (which occurs bound in \( P \) and the action
 \( \Aoutb{x}{z} \)) may occur free in \( Q \).  Without this exception
 it would be impossible to express scope extrusion.
 
-\subsubsection{Challenge}
+\subsubsection{Challenge.}
 \begin{lemma}\label{se-lemma-harmony-fact}
   If \( \scong{P}{Q} \) and \( \transition{P}{\alpha}{P'} \), then for some \( Q' \) we have \( \transition{Q}{\alpha}{Q'} \) and \( \scong{P'}{Q'} \).
 \end{lemma}
@@ -146,7 +147,7 @@ it would be impossible to express scope extrusion.
   First, show the special case when \( P \) can be rewritten to \( Q \) with a single application of an axiom of the structural congruence to some subterm of P.
   The proof is then by induction on the number of such steps.
 \end{proof}
-For the proof of the challenge theorem, we will introduce the notion of a \emph{normalized derivation} of a reduction \( \reduces{P}{Q} \), which is of the following form.
+For the proof of the challenge theorem, we introduce the notion of a \emph{normalized derivation} of a reduction \( \reduces{P}{Q} \), which is of the following form.
 The first rule applied is \TirName{R-Com}. The derivation continues with an application of \TirName{R-Par}, followed by zero or more applications of \TirName{R-Res}.
 The last rule is an application of \TirName{R-Struct}.
 \begin{lemma}\label{se-lemma-normalized-derivation}

@@ -20,15 +20,15 @@ The second objective is to prove type safety, i.e.\ that well-typed processes ar
 \subsubsection{Syntax.}
 The syntax is given by the grammar
 \[
-\begin{array}{rcl}
-  v,w & ::= & a \quad\mid\quad l \\
-   P,Q & ::=& \Pend \quad\mid\quad \Pout{x}{v}{P} \quad\mid\quad \Pin{x}{l}{P} \quad\mid\quad \PBpar{P}{Q} \quad\mid\quad  \Presd{x}{y}{P}
+\begin{array}{r@{\qquad}c@{\qquad}l}
+  v,w & \Coloneqq & a \quad\mid\quad l \\
+   P,Q & \Coloneqq & \Pend \quad\mid\quad \Pout{x}{v}{P} \quad\mid\quad \Pin{x}{l}{P} \quad\mid\quad \PBpar{P}{Q} \quad\mid\quad  \Presd{x}{y}{P}
 \end{array}
 \]
 where a \emph{value} \( v, w, \dots \) is either a base value \( a \) or a variable name \( l \).
 
 The output process \( \Pout{x}{v}{P} \) sends the value \( v \) via \( x \) and then continues as \( P \).
-The intention is that the value \( v \) must be a base value when it is actually sent, and this will be enforced in the semantics later on.
+The intention is that the value \( v \) must be a base value when it is actually sent, and this is enforced in the semantics later on.
 The input process \( \Pin{x}{l}{P} \) waits for a base value from \( x \) and then continues as \( P \) with the received value substituted for the variable name \( l \).
 %
 The process \( \Presd{x}{y}{P} \) represents a \emph{session} with endpoints named \( x \) and \( y \) which are bound in \( P \). In \( P \), the names \( x \) and \( y \) can be used to exchange messages over the session (sending on \( x \) and receiving on \( y \) or vice versa).
@@ -55,7 +55,7 @@ As usual, we use  a \emph{structural congruence} relation that equates processes
   \inferrule[Sc-Res]{ }{\scong{\Presd{x_1}{y_1}{\Presd{x_2}{y_2}{P}}}{\Presd{x_2}{y_2}{\Presd{x_1}{y_1}{P}}}}
 \end{mathpar}
 
-The operational semantics is then defined as the following binary relation on processes:
+The operational semantics is defined as the following relation on processes:
 \begin{mathpar}
   \inferrule[R-Com]{ }{\reduces{\Presd{x}{y}{(\Ppar{\Pout{x}{a}{P}}{\Ppar{\Pin{y}{l}{Q}}{R}})}}{\Presd{x}{y}{(\Ppar{P}{\Ppar{\subst{Q}{a}{l}}{R}})}}}
   \and
@@ -88,13 +88,13 @@ of sending.
 To prevent these issues, we introduce a \emph{session type system} which
 rules out ill-formed processes.
 
-\paragraph{Syntax}
+\subsubsection{Syntax.}
 Our type system does not type processes directly, but instead focuses on the channels used in the process.
 The syntax of \emph{session types} \( S, T \), unrestricted type contexts \( \Gamma \) and linear type contexts \( \Delta \) is as follows:
 \[
-  \begin{array}{rcl}
-  S,T & ::= & \Tend \quad\mid\quad \Tbase \quad\mid\quad \Tin{S} \quad\mid\quad \Tout{S} \\
-    \Gamma &::= & \Cempty \quad\mid\quad \Gamma, l \\
+  \begin{array}{r@{\qquad}c@{\qquad}l}
+  S,T & \Coloneqq & \Tend \quad\mid\quad \Tbase \quad\mid\quad \Tin{S} \quad\mid\quad \Tout{S} \\
+    \Gamma & \Coloneqq & \Cempty \quad\mid\quad \Gamma, l \\
                     \Delta &::= & \Cempty \quad\mid\quad \Cadd{\Delta}{\hastype{x}{S}}
   \end{array}
 \]
@@ -121,7 +121,7 @@ Since we need to determine whether endpoints are used in complementary ways to d
 \end{mathpar}
 Note that the dual function is partial since it is undefined for the base type.
 
-\subsubsection{Typing rules}
+\subsubsection{Typing rules.}
 Our type system is aimed at maintaining two invariants:
 \begin{enumerate}
 \item No endpoint is used simultaneously by parallel processes;
@@ -157,7 +157,7 @@ The typing rules for processes are as follows:
 \end{mathpar}
 Note that we do not need a judgment for typing channels, since it is already folded into the \TirName{T-In} and \TirName{T-Out} rules.
 
-\subsubsection{Challenge}
+\subsubsection{Challenge.}
 The objective of this challenge is to prove subject reduction and type safety for our calculus with session types. We start with some lemmas:
 
 \begin{lemma}[Weakening]\mbox{}
