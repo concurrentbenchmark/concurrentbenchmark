@@ -131,7 +131,7 @@ We encourage anyone interested to try the challenges using their
 favourite tools and techniques, and to send us their solutions.
 
 \paragraph{Outline of this paper.}
-In \cref{sec:challenge-problems} we describe our three challenges.
+In \cref{sec:challenge-problems} we describe our three challenges (proofs of the theorems are available in \cref{app:challenges}).
 We discuss our design choices in \cref{sec:design-discussion}, and possible extensions and further topics in \cref{sec:going-beyond}.
 
 \section{The challenges}\label{sec:challenge-problems}
@@ -276,7 +276,7 @@ As usual, we use  a \emph{structural congruence} relation that equates processes
 \end{mathpar}
 
 The operational semantics is defined as the following relation on processes:
-\begin{mathpar}
+\begin{mathparpagebreakable}
   \inferrule[R-Com]{ }{\reduces{\Presd{x}{y}{(\Ppar{\Pout{x}{a}{P}}{\Ppar{\Pin{y}{l}{Q}}{R}})}}{\Presd{x}{y}{(\Ppar{P}{\Ppar{\subst{Q}{a}{l}}{R}})}}}
   \and
   \inferrule[R-Res]{\reduces{P}{Q}}{\reduces{\Presd{x}{y}{P}}{\Presd{x}{y}{Q}}}
@@ -284,12 +284,12 @@ The operational semantics is defined as the following relation on processes:
   \inferrule[R-Par]{\reduces{P}{Q}}{\reduces{\Ppar{P}{R}}{\Ppar{Q}{R}}}
   \and
   \inferrule[R-Struct]{\scong{P}{P'} \\ \reduces{P'}{Q'} \\ \scong{Q}{Q'}}{\reduces{P}{Q}}
-\end{mathpar}
+\end{mathparpagebreakable}
 
 Note that reductions are allowed only for restricted pairs of session endpoints. This makes it possible to formulate subject reduction so that the typing context is exactly the same before and after each reduction.
 %
 Note also that due to rule \TirName{R-Com}, the process \( \Pin{y}{l}{P} \) can receive \emph{any} base value.
-On the other hand, since the rule \TirName{R-Com} only applies to sending base values, there is no way to send a variable or a name.
+Since the rule \TirName{R-Com} only applies to sending base values, there is no way to send a variable or a name.
 
 \subsubsection{Session types.}
 Our process syntax allows us to write processes that are ill formed in
@@ -549,7 +549,7 @@ The transitions are labelled by \emph{actions}, the syntax of which is:
 The \emph{free output action} \( \Aoutf{x}{y} \) is sending the name \( y \) via \( x \).
 The \emph{input action} \( \Ain{x}{y} \) is receiving the name \( y \) via \( x \).
 The \emph{bound output action} \( \Aoutb{x}{y} \) is sending a fresh name \( y \) via \( x \).
-The \emph{internal action} \( \Atau \) is performing some unobservable action, e.g.\ internal communication.
+The \emph{internal action} \( \Atau \) is performing internal communication.
 
 We extend the notion of free and bound occurrences with
 \( \freenames{\alpha} \) to denote the set of names that occur free in
@@ -563,7 +563,7 @@ bound output action \( \Aoutb{x}{y} \), \( x \) is a free name, while
 and \( \boundnames{\alpha} \), i.e.\ the set of all names that occur
 in the action \( \alpha \).
 The transition relation is then defined by the following rules:
-\begin{mathpar}
+\begin{mathparpagebreakable}
   \inferrule[Out]{ }{\transition{\Pout{x}{y}{P}}{\Aoutf{x}{y}}{P}}
   \and
   \inferrule[In]{ }{\transition{\Pin{x}{z}{P}}{\Ain{x}{y}}{\subst{P}{y}{z}}}
@@ -583,7 +583,7 @@ The transition relation is then defined by the following rules:
   \inferrule[Close-R]{\transition{P}{\Ain{x}{z}}{P'} \\ \transition{Q}{\Aoutb{x}{z}}{Q'} \\ z \notin \freenames{P}}{\transition{\Ppar{P}{Q}}{\tau}{\Pres{z}{\Ppar{P'}{Q'}}}}
   \and
   \inferrule[Res]{\transition{P}{\alpha}{P'} \\ z \notin \names{\alpha}}{\transition{\Pres{z}{P}}{\alpha}{\Pres{z}{P'}}}
-\end{mathpar}
+\end{mathparpagebreakable}
 Note that there is no rule for inferring transitions from \( \Pend \), and that there is no rule for inferring an action of an input or output process except those that match the input/output capability.
 Note also that due to rule \TirName{In}, the process \( \Pin{x}{z}{P} \) can receive \emph{any} name.
 
@@ -629,7 +629,7 @@ The first of the theorems involves reasoning about scope extrusion more directly
 
 \subsection{Challenge: Coinduction and infinite processes}
 \label{sec:challenge:coinduction}
-This challenge is about the mechanisation of proofs concerning infinite behaviours.
+This challenge is about the mechanisation of proofs concerning processes with infinite behaviours.
 % formalises a proof
 % that require coinduction.
 % coinductive techniques.
@@ -639,16 +639,12 @@ This is usually connected to \emph{coinductive} definitions where an infinite
 structure is defined as the greatest fixed point of a recursive
 definition.
 %
-Coinduction is a technique for defining and proving properties of
-such infinite structures,
+Coinduction is a technique for proving properties of
+such infinite structures.
 %
-which, in the context of the concurrent benchmark, arise
-% in this context
-due to systems with behaviors that continue indefinitely.
-%
-Coinduction is the dual of induction: whereas induction is useful for
-proving properties of least fixed points, coinduction is useful for
-proving properties of greatest fixed points.
+%Coinduction is the dual of induction: whereas induction is useful for
+%proving properties of least fixed points, coinduction is useful for
+%proving properties of greatest fixed points.
 %
 % \marco{Should we be more specific here and give a deeper explanation
 %   of what coinduction is? If not, then why do we even say that it's
@@ -675,10 +671,7 @@ The key issue of this challenge is the coinductive reasoning about the infinite 
 % type of \emph{variables}, values of which we will denote by
 % \( l, m, \dots \), and the existence of some type of \emph{names},
 % values of which we will denote by \( x, y, \dots \).
-The syntax of the calculus is identical to that of
-Section~\ref{sec:challenge:linearity-beh-types} (challenge on
-linearity), except from restriction, now unary, and the addition of
-replication:
+The syntax of processes is given by:
 % for including replication and having unary restriction:
 \begin{displaymath}
   \begin{array}{r@{\qquad}c@{\qquad}l}
@@ -691,12 +684,12 @@ replication:
                \quad \mid\quad !P
   \end{array}
 \end{displaymath}
-Note that, unlike the process calculus from
-Section~\ref{sec:challenge:linearity-beh-types}, communications occur
-over the same channel name. Moreover, since replication $!P$ allows
-for infinite copies of the process $P$, processes can dynamically
-create an infinite number of names during execution when combined with
-restriction $\Pres{x}{}{P}$.
+The output process \( \Pout{x}{v}{P} \) sends the value \( v \) on channel \( x \) and continues as \( P \).
+The intention is that \( v \) must be a base value when it is actually sent, and this is enforced in the semantics later on.
+The input process \( \Pin{x}{l}{P} \) waits for a base value from channel \( x \) and then continues as \( P \) with the received value substituted for the variable \( l \).
+Since replication allows for infinite copies of the process $P$, processes can dynamically
+create an infinite number of names during execution.
+
 %
 % \begin{align*}
 %   v,w :=&&& a \\
@@ -752,9 +745,9 @@ restriction $\Pres{x}{}{P}$.
 % \( \alpha \)-converted such that the assumption is satisfied.
 
 \subsubsection{Semantics.} We choose to give an LTS semantics for this
-challenge. As an alternative, it is also possible to adopt a reduction
-semantics which features fewer rules but needs a structural
-congruence. %  The semantics of the system describes the actions that the
+challenge. %As an alternative, it is also possible to adopt a reduction
+%semantics which features fewer rules but needs a structural
+%congruence. %  The semantics of the system describes the actions that the
 % system can perform by defining a labelled transition relation on
 % processes. 
 The transitions are labelled by \emph{actions}, the syntax
@@ -770,13 +763,12 @@ of which is as follows:
 The \emph{output action} \( \Aoutf{x}{y} \) is sending the base value
 \( a \) via \( x \).  The \emph{input action} \( \Ain{x}{y} \) is
 receiving the base value \( y \) via \( x \).  The \emph{internal
-  action} \( \Atau \) is performing some unobservable action, e.g.\
-internal communication.
+  action} \( \Atau \) is performing internal communication.
 %
 We use the notation \( \names{\alpha} \) to denote the set of
 names that occur in the action \( \alpha \).
 The transition relation is defined by the following rules:
-\begin{mathpar}
+\begin{mathparpagebreakable}
   \inferrule[Out]{ }{\transition{\Pout{x}{a}{P}}{\Aoutf{x}{a}}{P}}
   \and
   \inferrule[In]{ }{\transition{\Pin{x}{l}{P}}{\Ain{x}{a}}{\subst{P}{a}{l}}}
@@ -792,7 +784,7 @@ The transition relation is defined by the following rules:
   \inferrule[Res]{\transition{P}{\alpha}{P'} \\ x \notin \names{\alpha}}{\transition{\Pres{x}{P}}{\alpha}{\Pres{x}{P'}}}
   \and
   \inferrule[Rep]{\transition{P}{\alpha}{P'}}{\transition{\Preplicate{P}}{\alpha}{\Ppar{P'}{\Preplicate{P}}}}
-\end{mathpar}
+\end{mathparpagebreakable}
 Note that there is no rule for inferring transitions from \( \Pend \), and that there is no rule for inferring an action of an input or output process except those that match the input/output capability.
 Note also that due to rule \TirName{In}, the process \( \Pin{x}{l}{P} \) can receive \emph{any} base value.
 On the other hand, since the rule \TirName{Out} only applies to base values, there is no way to send a variable.
@@ -892,19 +884,17 @@ The objective of this challenge is to prove a theorem that shows that
 making strong barbed bisimilarity sensitive to substitution and
 parallel composition is enough to show strong barbed
 congruence.
-To prove the theorem, we will use an \emph{up-to technique}.
+To prove the theorem, we will use an \emph{up-to technique}, utilizing the following definition and lemma.
 A relation \( \mathcal{S} \) is called a \emph{strong barbed bisimulation up to \( \sbbisim{}{} \)} if, whenever \( (P,Q) \in \mathcal{S} \), the following conditions hold:
 \begin{enumerate}
 \item \( \observable{P}{\mu} \) if and only if \( \observable{Q}{\mu} \).
 \item if \( \transition{P}{\Atau}{P'} \) then \( \transition{Q}{\Atau}{Q'} \) for some \( Q' \) with \( \uptosbb{P'}{\mathcal{S}}{Q'} \).
 \item if \( \transition{Q}{\Atau}{Q'} \) then \( \transition{P}{\Atau}{P'} \) for some \( P' \) with \( \uptosbb{P'}{\mathcal{S}}{Q'} \).
 \end{enumerate}
-These relations are useful owing to the following lemma:
 \begin{lemma}\label{lemma:up-to}
   If \( \mathcal{S} \) is a strong barbed bisimulation up to \( \sbbisim{}{} \), \( (P,Q) \in \mathcal{S} \) implies \( \sbbisim{P}{Q} \).
 \end{lemma}
 
-We are now ready to prove the theorem:
 \begin{theorem}
   \( \sbcong{P}{Q} \) if for any process \( R \) and
   substitution \( \sigma \),
@@ -922,8 +912,8 @@ and the evaluation criteria.
 % We have identified three key aspects fundamental to mechanisations of concurrent calculi and designed our challenge problems to exercise these.
 
 \subsubsection{General design remarks.}
-Like the previous POPLMark and POPLMark Reloaded challenges, our challenge is not meant to be comprehensive:
-applications such as multiparty session types~\cite{10.1145/2827695,10.1145/3290343}, choreographies~\cite{DBLP:journals/jar/CruzFilipeMP23}, conversation types~\cite{DBLP:journals/tcs/CairesV10}, psi-calculi~\cite{lmcs:696}, or encodings between different calculi~\cite{DBLP:journals/iandc/Gorla10,DBLP:conf/forte/CairesP16,DBLP:journals/iandc/DardhaGS17,DBLP:conf/ecoop/ScalasDHY17,DBLP:journals/iandc/KouzapasPY19,10.1145/3479394.3479407} are not directly covered.  Still, these (and other) proof mechanisation applications need the basic techniques that our challenge problems exercise:
+Like the POPLMark and POPLMark Reloaded challenges, our challenge is not meant to be comprehensive:
+applications such as multiparty session types~\cite{10.1145/2827695,10.1145/3290343}, choreographies~\cite{DBLP:journals/jar/CruzFilipeMP23}, conversation types~\cite{DBLP:journals/tcs/CairesV10}, psi-calculi~\cite{lmcs:696}, or encodings between different calculi~\cite{DBLP:journals/iandc/Gorla10,DBLP:conf/forte/CairesP16,DBLP:journals/iandc/DardhaGS17,DBLP:conf/ecoop/ScalasDHY17,DBLP:journals/iandc/KouzapasPY19,10.1145/3479394.3479407} are not directly covered.  Still, these (and other) applications need the basic techniques that our challenge problems exercise:
 as per our design goal \ref{item:goal-reusability},
 our problems are drawn from the basic metatheory of process calculi (without requiring the development of new theory), and focus on well-known theorems
 and results that involve interesting proof techniques that may be reused in further work.
@@ -932,11 +922,9 @@ we have drafted our challenge problems to exercise the three aspects (linearity,
 each problem should be reasonably small and easy to understand with basic knowledge of textbook concurrency theory, process calculi, and type theory.  The process calculus used in each challenge
 focuses on the features that we want to exercise, and omits all constructs
 (such as choices) that would complicate the mechanisation without bringing tangible
-benefits and insights.\footnote{It is of course possible to reintroduce the omitted
-constructs, but we leave this as a possibility for a future benchmark challenge.}
+benefits and insights.
 The minimality and uniformity of the calculi also allows us to target the design
-goal \ref{item:goal-tutorials}, i.e.~encouraging the creation of guidelines and
-tutorials for the mechanisation of concurrency theory.
+goal \ref{item:goal-tutorials}.
 
 % While our challenges require reasoning about binders, which was the main topic of the original POPLMark, they also require other techniques.
 % Our challenges also require reasoning about logical relations which goes above the reasoning involved in POPLMark Reloaded.
@@ -957,9 +945,9 @@ Inspired by Vasconcelos~\cite{Vasconcelos2012}, we use a syntax where
 restriction binds two names. This presentation makes the duality
 of the two names obvious in the type system.
 We have chosen a simple notion of well-formedness for our challenge,
-and do not for instance consider deadlocked processes. While more
-sophisticated notions of well-formedness are also interesting, the
-proofs of these properties are more complicated and would thus make
+and do not for instance consider deadlocks. While more
+sophisticated notions of well-formedness are interesting, the
+proofs of these properties are more complicated and would make
 the challenge more difficult and less focused on the linear
 aspects.
 
@@ -971,7 +959,6 @@ Notably, techniques like Higher Order Abstract Syntax, or well-scoped
 De\ Bruijn indices do not have the concept of free variables. It is
 not immediately obvious how to encode the operational semantics in
 this kind of system.
-
 
 \subsubsection{Coinduction.}
 %\fxerror{
@@ -1004,7 +991,7 @@ The proposed challenges try to minimise the overlap of the techniques
 and aspects they exercise (linearity, scope extrusion, coinduction) --- but most
 research on concurrency theory combines some or all such aspects. A second round of formalisations could
 entail combining the features of the challenges.
-In \cref{tab:extensions} we consider the following three extensions:
+In \cref{table:extensions} we consider the following three extensions:
 \emph{(1)} the addition of choice to the type level and the process level,
 \emph{(2)} the addition of recursion (and recursive types for typed systems),
 and \emph{(3)} the
@@ -1066,6 +1053,7 @@ to this challenge.
 \bibliographystyle{splncs04}
 \bibliography{../references}
 
+\clearpage
 \appendix
 \section{Challenges}\label{app:challenges}
 \input{../challenges/challenges.tex}
