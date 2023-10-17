@@ -289,10 +289,22 @@ We say that two processes \( P \) and \( Q \) are \emph{strong barbed congruent}
   \( \sbbisim{}{} \).
 \end{lemma}
 \begin{proof}
-  By definition, \( \sbcong{}{} \) is a congruence and is included in
-  \( \sbbisim{}{} \). Also, if it were strictly included in another
-  relation then we would get a contradiction since it must be closed
-  under all contexts.
+  We first prove that \( \sbcong{}{} \) is indeed a congruence, i.e.~it is an
+  equivalence relation that is preserved by all contexts.  Proving that \(
+  \sbcong{}{} \) is an equivalence is easy; to prove that \( \sbcong{}{} \)  is
+  preserved by all contexts, we show that $\forall C: \sbcong{P}{Q}$ implies
+  $\sbcong{\applyctx{C}{P}}{\applyctx{C}{Q}}$, by structural induction on the
+  context $C$.
+
+  To prove that \(\sbcong{}{}\) is the largest congruence included in
+  \(\sbbisim{}{}\), we show that for any congruence $\mathcal{S} \subseteq
+  {\sbbisim{}{}}$ we have $\mathcal{S} \subseteq {\sbcong{}{}}$. Take any $P,Q$
+  such that $P \mathrel{\mathcal{S}} Q$ (hence, $\sbbisim{P}{Q}$): since $S$ is
+  a congruence by hypothesis, this implies $\forall C: \applyctx{C}{P}
+  \mathrel{\mathcal{S}} \applyctx{C}{Q}$ (hence,
+  $\sbbisim{\applyctx{C}{P}}{\applyctx{C}{Q}}$). %
+  Therefore, by the definition of \(\sbcong{}{}\), we have $\sbcong{P}{Q}$,
+  from which we conclude $\mathcal{S} \subseteq {\sbcong{}{}}$.
 \end{proof}
 
 \subsubsection{Challenge.}
