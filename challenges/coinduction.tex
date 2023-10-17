@@ -6,7 +6,7 @@
 %   unreasonable to shorten the title to {\em Coinduction and infinite
 %     processes}?}
 
-This challenge is  about the mechanisation of proofs concerning infinite behaviours.
+This challenge is  about the mechanisation of proofs concerning processes wih infinite behaviours.
 % formalises a proof
 %that require coinduction.
 % coinductive techniques.
@@ -17,15 +17,7 @@ structure is defined as the greatest fixed point of a recursive
 definition.
 %
 Coinduction is a technique for defining and proving properties of
-such infinite structures,
-%
-which, in the context of the concurrent benchmark, arise
-% in this context
-due to systems with behaviors that continue indefinitely.
-%
-Coinduction is the dual of induction: whereas induction is useful for
-proving properties of least fixed points, coinduction is useful for
-proving properties of greatest fixed points.
+such infinite structures.
 %
 % \marco{Should we be more specific here and give a deeper explanation
 %   of what coinduction is? If not, then why do we even say that it's
@@ -52,10 +44,7 @@ The key issue of this challenge is the coinductive reasoning about the infinite 
 % type of \emph{variables}, values of which we will denote by
 % \( l, m, \dots \), and the existence of some type of \emph{names},
 % values of which we will denote by \( x, y, \dots \).
-The syntax of the calculus is identical to that of
-Section~\ref{sec:challenge:linearity-beh-types} (challenge on
-linearity), except from restriction, now unary, and the addition of
-replication:
+The syntax of values and processes is given by:
 % for including replication and having unary restriction:
 \begin{displaymath}
   \begin{array}{r@{\qquad}c@{\qquad}l}
@@ -68,12 +57,12 @@ replication:
                \quad \mid\quad !P
   \end{array}
 \end{displaymath}
-Note that, unlike the process calculus from
-Section~\ref{sec:challenge:linearity-beh-types}, communications occur
-over the same channel name. Moreover, since replication $!P$ allows
-for infinite copies of the process $P$, processes can dynamically
-create an infinite number of names during execution when combined with
-restriction $\Pres{x}{}{P}$.
+The output process \( \Pout{x}{v}{P} \) sends the value \( v \) on channel \( x \) and continues as \( P \).
+The intention is that \( v \) must be a base value when it is actually sent, and this is enforced in the semantics later on.
+The input process \( \Pin{x}{l}{P} \) waits for a base value from channel \( x \) and then continues as \( P \) with the received value substituted for the variable \( l \).
+Since replication allows for infinite copies of the process $P$, processes can dynamically
+create an infinite number of names during execution.
+
 %
 % \begin{align*}
 %   v,w :=&&& a \\
@@ -129,9 +118,9 @@ restriction $\Pres{x}{}{P}$.
 % \( \alpha \)-converted such that the assumption is satisfied.
 
 \subsubsection{Semantics.} We choose to give an LTS semantics for this
-challenge. As an alternative, it is also possible to adopt a reduction
-semantics which features fewer rules but needs a structural
-congruence. %  The semantics of the system describes the actions that the
+challenge. %As an alternative, it is also possible to adopt a reduction
+%semantics which features fewer rules but needs a structural
+%congruence. %  The semantics of the system describes the actions that the
 % system can perform by defining a labelled transition relation on
 % processes.
 
@@ -148,8 +137,7 @@ of which is as follows:
 The \emph{output action} \( \Aoutf{x}{y} \) is sending the base value
 \( a \) via \( x \).  The \emph{input action} \( \Ain{x}{y} \) is
 receiving the base value \( y \) via \( x \).  The \emph{internal
-  action} \( \Atau \) is performing some unobservable action, e.g.\
-internal communication.
+  action} \( \Atau \) is performing internal communication.
 %
 We use the notation \( \names{\alpha} \) to denote the set of
 names that occur in the action \( \alpha \).
@@ -174,7 +162,7 @@ The transition relation is defined by the following rules:
 \end{mathpar}
 Note that there is no rule for inferring transitions from \( \Pend \), and that there is no rule for inferring an action of an input or output process except those that match the input/output capability.
 Note also that due to rule \TirName{In}, the process \( \Pin{x}{l}{P} \) can receive \emph{any} base value.
-On the other hand, since the rule \TirName{Out} only applies to base values, there is no way to send a variable.
+Since the rule \TirName{Out} only applies to base values, there is no way to send a variable.
 
 % As a convention, we assume that bound names and bound variables of any processes or actions are chosen to be different from the names and variables that occur free in any other entities under consideration, such as processes, actions, substitutions, and sets of names or variables.
 
@@ -289,10 +277,22 @@ We say that two processes \( P \) and \( Q \) are \emph{strong barbed congruent}
   \( \sbbisim{}{} \).
 \end{lemma}
 \begin{proof}
-  By definition, \( \sbcong{}{} \) is a congruence and is included in
-  \( \sbbisim{}{} \). Also, if it were strictly included in another
-  relation then we would get a contradiction since it must be closed
-  under all contexts.
+  We first prove that \( \sbcong{}{} \) is indeed a congruence, i.e.~it is an
+  equivalence relation that is preserved by all contexts.  Proving that \(
+  \sbcong{}{} \) is an equivalence is easy; to prove that \( \sbcong{}{} \)  is
+  preserved by all contexts, we show that $\forall C: \sbcong{P}{Q}$ implies
+  $\sbcong{\applyctx{C}{P}}{\applyctx{C}{Q}}$, by structural induction on the
+  context $C$.
+
+  To prove that \(\sbcong{}{}\) is the largest congruence included in
+  \(\sbbisim{}{}\), we show that for any congruence $\mathcal{S} \subseteq
+  {\sbbisim{}{}}$ we have $\mathcal{S} \subseteq {\sbcong{}{}}$. Take any $P,Q$
+  such that $P \mathrel{\mathcal{S}} Q$ (hence, $\sbbisim{P}{Q}$): since $S$ is
+  a congruence by hypothesis, this implies $\forall C: \applyctx{C}{P}
+  \mathrel{\mathcal{S}} \applyctx{C}{Q}$ (hence,
+  $\sbbisim{\applyctx{C}{P}}{\applyctx{C}{Q}}$). %
+  Therefore, by the definition of \(\sbcong{}{}\), we have $\sbcong{P}{Q}$,
+  from which we conclude $\mathcal{S} \subseteq {\sbcong{}{}}$.
 \end{proof}
 
 \subsubsection{Challenge.}
@@ -300,14 +300,14 @@ The objective of this challenge is to prove a theorem that shows that
 making strong barbed bisimilarity sensitive to substitution and
 parallel composition is enough to show strong barbed
 congruence.
-To prove the theorem, we will use an \emph{up-to technique}.
+To prove the theorem, we will use an \emph{up-to technique}, utilizing the following definition and lemma.
 A relation \( \mathcal{S} \) is called a \emph{strong barbed bisimulation up to \( \sbbisim{}{} \)} if, whenever \( (P,Q) \in \mathcal{S} \), the following conditions hold:
 \begin{enumerate}
 \item \( \observable{P}{\mu} \) if and only if \( \observable{Q}{\mu} \).
 \item if \( \transition{P}{\Atau}{P'} \) then \( \transition{Q}{\Atau}{Q'} \) for some \( Q' \) with \( \uptosbb{P'}{\mathcal{S}}{Q'} \).
 \item if \( \transition{Q}{\Atau}{Q'} \) then \( \transition{P}{\Atau}{P'} \) for some \( P' \) with \( \uptosbb{P'}{\mathcal{S}}{Q'} \).
 \end{enumerate}
-These relations are useful owing to the following lemma:
+
 \begin{lemma}\label{lemma:up-to}
   If \( \mathcal{S} \) is a strong barbed bisimulation up to \( \sbbisim{}{} \), \( (P,Q) \in \mathcal{S} \) implies \( \sbbisim{P}{Q} \).
 \end{lemma}
@@ -315,7 +315,6 @@ These relations are useful owing to the following lemma:
   We check that \( \uptosbb{}{\mathcal{S}}{} \) is a strong barbed bisimulation and is thus included in \( \sbbisim{}{} \).
 \end{proof}
 
-We are now ready to prove the theorem:
 \begin{theorem}
   \( \sbcong{P}{Q} \) if, for any process \( R \) and
   substitution \( \sigma \),
