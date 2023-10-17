@@ -418,7 +418,7 @@ To prove that congruence preserves typing we need to spell out in more detail th
   If \( \sconga{P}{Q} \) then \( \types{\Gamma;\Delta}{P} \)  iff \( \types{\Gamma;\Delta}{Q} \).
 \end{lemma}
 
-Now, following Sangiorgi \& Walker~\cite{picalcbook}, we give rules for the compatible
+Now we give rules for the compatible
 equivalence relation induced by $\sconga\cdot\cdot$, which we still
 write as $\scong\cdot\cdot$: namely, add to reflexivity, symmetry and
 transitivity the following condition:
@@ -821,10 +821,10 @@ To this end, we define the \emph{observability predicate}
 \end{align*}
 
 \emph{Strong barbed bisimilarity}, written \( \sbbisim{}{} \), is the largest symmetric relation such that, whenever \( \sbbisim{P}{Q} \):
-\begin{gather*}
-  \observable{P}{\mu}~\textrm{implies}~\observable{Q}{\mu} \\\label{eq:bisim1} \\
+\begin{gather}
+  \observable{P}{\mu}~\textrm{implies}~\observable{Q}{\mu} \label{eq:bisim1}\\
   \transition{P}{\Atau}{P'}~\textrm{implies}~\transition{Q}{\Atau}{\sbbisim{}{} P'} \label{eq:bisim2}
-\end{gather*}
+\end{gather}
 We say that a relation is a \emph{strong barbed bisimulation} if it satisfies the conditions given above, but is not necessarily the largest such relation, and that \( P \) and \( Q \) are \emph{strong barbed bisimilar} if \( \sbbisim{P}{Q} \).
 Note that, since our systems have potentially infinite behaviors, and strong barbed bisimilarity is defined as the largest relation that satisfies the conditions, bisimulation cannot be defined inductively.
 
@@ -983,7 +983,7 @@ Solutions to our challenges do not need to strictly follow the definitions and l
 
 \section{Going beyond the challenge problems}\label{sec:going-beyond}
 
-As with the POPLMark and POPLMark Reloaded challegnes, this challenge does not aim to cover every possible
+As with the POPLMark and POPLMark Reloaded challenges, this challenge does not aim to cover every possible
 problem in the area. Our benchmark can be extended in two
 dimensions: further expanding and combining the current challenges,
 and addressing features not covered by the current challenges.
@@ -1029,14 +1029,14 @@ Some interesting aspects of message passing calculi to explore in
 further challenges could be multiparty session types and
 choreographies, as their meta-theory includes aspects
 that we do not cover here (e.g.: well-formed global types,
-projection as a partial function) --- although, dually, some aspects
+projection as a partial function) --- although some aspects
 that we cover here do appear in their theory. Also, one could easily
 design a challenge that goes beyond our coinduction challenge, by
 exploring different notions of bisimilarity (barbed, weak, etc.),
 and trace equivalence.
 
-On the side of proof assistants, the current challenge proposes mechanising the
-proofs of theorems. An interesting venue to explore would be to take advantage
+On the mechanisation side, the present challenge proposes mechanising the
+proofs of theorems. An interesting avenue to explore would be to take advantage
 of other proof assistant features. For example, proof assistants can often
 produce certified code (via code extraction, or compiling and running their
 definitions). Additionally, while our current challenge is agnostic about proof
