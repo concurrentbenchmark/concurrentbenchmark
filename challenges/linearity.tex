@@ -69,7 +69,7 @@ The operational semantics is defined as the following relation on processes:
 Note that reductions are allowed only for restricted pairs of session endpoints. This makes it possible to formulate subject reduction so that the typing context is exactly the same before and after each reduction.
 %
 Note also that due to rule \TirName{R-Com}, the process \( \Pin{y}{l}{P} \) can receive \emph{any} base value.
-On the other hand, since the rule \TirName{R-Com} only applies to sending base values, there is no way to send a variable or a name.
+Since the rule \TirName{R-Com} only applies to sending base values, there is no way to send a variable or a name.
 
 \subsubsection{Session types.}
 Our process syntax allows us to write processes that are ill formed in
