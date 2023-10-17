@@ -383,6 +383,7 @@ Note that we do not need a judgment for typing channels, since it is already fol
 \subsubsection{Challenge.}
 The objective of this challenge is to prove subject reduction and type safety for our calculus with session types. We start with:
 \begin{theorem}[Subject reduction]
+  \label{thm:subject-reduction}
   If \( \types{\Gamma;\Delta}{P} \) and \( \reduces{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
 \end{theorem}
 
@@ -452,6 +453,7 @@ Note that well-formed processes do not necessarily reduce. For example, the proc
 is well formed but also irreducible.
 
 \begin{theorem}[Type safety]
+  \label{thm:type-safety}
   If \( \types{\Cempty}{P} \), then \( P \) is well formed.
 \end{theorem}
 
@@ -626,7 +628,7 @@ The first of the theorems involves reasoning about scope extrusion more directly
   \( \transition{P}{\Atau}{Q} \) implies \( \reduces{P}{Q} \).
 \end{theorem}
 
-\begin{theorem}
+\begin{theorem}\label{thm:harmony-2}
   \( \reduces{P}{Q} \) implies the existence of a \( Q' \) such that \( \transition{P}{\Atau}{Q'} \) and \( \scong{Q}{Q'} \).
 \end{theorem}
 
@@ -820,13 +822,13 @@ To this end, we define the \emph{observability predicate}
 
 \emph{Strong barbed bisimilarity}, written \( \sbbisim{}{} \), is the largest symmetric relation such that, whenever \( \sbbisim{P}{Q} \):
 \begin{gather*}
-  \observable{P}{\mu}~\textrm{implies}~\observable{Q}{\mu} \\%\label{eq:bisim1} \\
-  \transition{P}{\Atau}{P'}~\textrm{implies}~\transition{Q}{\Atau}{\sbbisim{}{} P'} %\label{eq:bisim2}
+  \observable{P}{\mu}~\textrm{implies}~\observable{Q}{\mu} \\\label{eq:bisim1} \\
+  \transition{P}{\Atau}{P'}~\textrm{implies}~\transition{Q}{\Atau}{\sbbisim{}{} P'} \label{eq:bisim2}
 \end{gather*}
 We say that a relation is a \emph{strong barbed bisimulation} if it satisfies the conditions given above, but is not necessarily the largest such relation, and that \( P \) and \( Q \) are \emph{strong barbed bisimilar} if \( \sbbisim{P}{Q} \).
 Note that, since our systems have potentially infinite behaviors, and strong barbed bisimilarity is defined as the largest relation that satisfies the conditions, bisimulation cannot be defined inductively.
 
-\begin{theorem}
+\begin{theorem}\label{thm:bisim-equiv}
   \( \sbbisim{}{} \) is an equivalence relation. %, that is, the relation is reflexive, symmetric, and transitive.
 \end{theorem}
 
@@ -877,7 +879,7 @@ we have to consider the environment in which processes may be placed.
 % We define \emph{strong barbed congruence}, written \( \sbcong{}{} \), by saying
 We say that two processes \( P \) and \( Q \) are \emph{strong barbed congruent}, written \( \sbcong{P}{Q} \), if \( \sbbisim{\applyctx{C}{P}}{\applyctx{C}{Q}} \) for every context \( C \).
 
-\begin{lemma}
+\begin{lemma}\label{lemma:sbcong-largest}
   \( \sbcong{}{} \) is the largest congruence included in
   \( \sbbisim{}{} \).
 \end{lemma}
@@ -898,7 +900,7 @@ A relation \( \mathcal{S} \) is called a \emph{strong barbed bisimulation up to 
   If \( \mathcal{S} \) is a strong barbed bisimulation up to \( \sbbisim{}{} \), \( (P,Q) \in \mathcal{S} \) implies \( \sbbisim{P}{Q} \).
 \end{lemma}
 
-\begin{theorem}
+\begin{theorem}\label{thm:coinduction}
   \( \sbcong{P}{Q} \) if for any process \( R \) and
   substitution \( \sigma \),
   \(
@@ -1056,7 +1058,7 @@ to this challenge.
 
 \clearpage
 \appendix
-\section{Challenges}\label{app:challenges}
-\input{../challenges/challenges.tex}
+\section{Proofs}\label{app:challenges}
+\input{../proof-appendix/proofs.tex}
 
 \end{document}
