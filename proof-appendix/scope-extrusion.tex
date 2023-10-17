@@ -1,0 +1,34 @@
+\subsection{Proofs: Name passing and scope extrusion}
+\begin{proof}[of \cref{se-lemma-harmony-fact}, sketch]
+  First, show the special case when \( P \) can be rewritten to \( Q \) with a single application of an axiom of the structural congruence to some subterm of P.
+  The proof is then by induction on the number of such steps.
+\end{proof}
+
+\begin{proof}[of \cref{se-lemma-normalized-derivation}, sketch]
+  To obtain a normalized derivation from an arbitrary derivation we will need to check that rules \TirName{R-Com}, \TirName{R-Par} and \TirName{R-Res} commute with \TirName{R-Struct}, and that two applications of \TirName{R-Struct} can be combined into one.
+\end{proof}
+
+\begin{proof}[of \cref{se-lemma-normalized-reduction}]
+  Follows immediately from \cref{se-lemma-normalized-derivation} and the shape of a normalized derivation.
+\end{proof}
+
+\begin{proof}[of \cref{thm:se-trans-implies-red}, sketch]
+  The proof is by induction on the inference of\\\( \transition{P}{\Atau}{Q} \) using the following lemmas:
+  \begin{enumerate}
+  \item if \( \transition{Q}{\Aoutf{x}{y}}{Q'} \) then \( \scong{Q}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\Pout{x}{y}{R}}{S})}}} \)\\and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x,y \notin \{ w_1, \dots, w_n \} \).
+  \item if \( \transition{Q}{\Aoutb{x}{z}}{Q'} \) then \( \scong{Q}{\Pres{z}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\Pout{x}{z}{R}}{S})}}}} \)\\and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x \notin \{ z, w_1, \dots, w_n \} \).
+  \item if \( \transition{Q}{\Ain{x}{y}}{Q'} \) then \( \scong{Q}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\Pin{x}{z}{R}}{S})}}} \)\\and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\subst{R}{y}{z}}{S})}}} \) where \( x \notin \{ w_1, \dots, w_n \} \).
+  \end{enumerate}
+\end{proof}
+
+\begin{proof}[of \cref{thm:harmony-2}]
+  If \( \reduces{P}{Q} \), then by \cref{se-lemma-normalized-reduction}, \( \scong{P}{P'} \) with
+  \begin{equation*}
+    P' = \Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{\Pout{x}{y}{R_1}}{\Pin{x}{z}{R_2}})}{S})}}
+  \end{equation*}
+  and \( \scong{Q}{Q'} \) with
+  \begin{equation*}
+    Q' = \Pres{z_1}{\!\dots \Pres{z_n}{(\Ppar{(\Ppar{R_1}{\subst{R_2}{y}{z}})}{S})}} \ .
+  \end{equation*}
+  We can easily check that \( \transition{P'}{\tau}{Q'} \) and so by \cref{se-lemma-harmony-fact}, \( \transition{P}{\tau}{Q'} \).
+\end{proof}
