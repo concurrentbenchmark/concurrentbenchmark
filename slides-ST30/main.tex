@@ -53,18 +53,67 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}{Introduction}
+
+  We want to mechanise Session Types!
+
+  \ \\
+  \visible<2->{
+  Proof assistants are (fun and) useful:
+    \begin{itemize}
+    \item certified code generation
+    \item no mistakes in overlooked cases
+    \item new insights
+    \end{itemize}
+  }
+
+  \ \\
+  \visible<3->{
+    Realisation: mechanising (multiparty) session types is a big effort.
+  }
+  
+\end{frame}
+
+\begin{frame}{The Benchmark Approach}
+  Mixing session types with the POPLMark spirit!
+
+  \ \\
+  Three fundamental challenges on concurrency and session types:
+  \begin{enumerate}
+  \item linearity and behavioral type systems
+  \item name passing and scope extrusion
+  \item coinduction and infinite processes
+  \end{enumerate}
+
+  \ \\
+  \visible<2->{
+    What we want to encourage:
+    \begin{itemize}
+    \item the comparison of different approaches for accessibility
+    \item the development of guidelines, tutorials, techniques, libraries...
+    \item reusabilty
+    \end{itemize}
+  }
+  
+\ \\
+  \url{https://concurrentbenchmark.github.io/}
+\end{frame}
+
 \begin{frame}{Linearity and behavioural type systems}
   %Handling contexts linearly + small example
-  Processes:
-  \begin{footnotesize}
-\[
-\begin{array}{rcl}
-  v,w & ::= & a \quad\mid\quad l \\
-  P,Q & ::=& \Pend \quad\mid\quad \Pout{x}{v}{P} \quad\mid\quad \Pin{x}{l}{P} \quad\mid\quad \PBpar{P}{Q} \quad\mid\quad  \Presd{x}{y}{P}
-  \end{array}
-\]
-  \end{footnotesize}
+  \visible<2->{
+    Processes:
+    \begin{footnotesize}
+      \[
+      \begin{array}{rcl}
+        v,w & ::= & a \quad\mid\quad l \\
+        P,Q & ::=& \Pend \quad\mid\quad \Pout{x}{v}{P} \quad\mid\quad \Pin{x}{l}{P} \quad\mid\quad \PBpar{P}{Q} \quad\mid\quad  \Presd{x}{y}{P}
+      \end{array}
+      \]
+    \end{footnotesize}
+  }
   
+  \visible<3->{
   Semantics:
   \begin{footnotesize}
   \begin{mathpar}
@@ -77,6 +126,7 @@
   \inferrule[R-Struct]{\scong{P}{P'} \\ \reduces{P'}{Q'} \\ \scong{Q}{Q'}}{\reduces{P}{Q}}
   \end{mathpar}
   \end{footnotesize}
+  }
 
 
 \end{frame}
@@ -129,16 +179,19 @@
 
 \begin{frame}{Linearity and behavioural type systems}
   %Handling contexts linearly + small example
-  Challenge!
   
   \begin{theorem}[Subject reduction]
   If \( \types{\Gamma;\Delta}{P} \) and \( \reduces{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
   \end{theorem}
 
+  \ \\
+  \visible<2->{
   \begin{theorem}[Type safety]
   If \( \types{\Cempty}{P} \), then \( P \) is well formed.
   \end{theorem}
   
+  In particular, no $\PBpar{\Pout{x}{v}{P}}{\Pout{x}{v'}{P'}}$.
+  }
 \end{frame}
 
 
