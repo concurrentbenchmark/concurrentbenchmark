@@ -38,24 +38,24 @@
 \begin{document}
 \inserttitlepage
 
-\begin{frame}{Introduction}
-  \begin{itemize}
-  \item Why this challenge? We want to formalise session types, but that's a big challenge... we isolate smaller parts
-  \item Why mechanized proofs?
-    \begin{itemize}
-    \item Certified code generation
-    \item No mistakes in overlooked cases
-    \item New insights
-    \end{itemize}
-  \item Basic concurrency + session types
-  \item Why these challenges and not other stuff?
-  \item Why is this related to session types (why is session types not the main thing?)
-  \end{itemize}
-\end{frame}
+%% \begin{frame}{Introduction}
+%%   \begin{itemize}
+%%   \item Why this challenge? We want to formalise session types, but that's a big challenge... we isolate smaller parts
+%%   \item Why mechanized proofs?
+%%     \begin{itemize}
+%%     \item Certified code generation
+%%     \item No mistakes in overlooked cases
+%%     \item New insights
+%%     \end{itemize}
+%%   \item Basic concurrency + session types
+%%   \item Why these challenges and not other stuff?
+%%   \item Why is this related to session types (why is session types not the main thing?)
+%%   \end{itemize}
+%% \end{frame}
 
 \begin{frame}{Introduction}
 
-  We want to mechanise Session Types!
+  We want (everyone) to mechanise Session Types!
 
   \ \\
   \visible<2->{
@@ -69,7 +69,7 @@
 
   \ \\
   \visible<3->{
-    Realisation: mechanising (multiparty) session types is a big effort.
+    Realisation: mechanising (Multiparty) Session Types is a big effort.
   }
   
 \end{frame}
@@ -89,15 +89,17 @@
   \visible<2->{
     What we want to encourage:
     \begin{itemize}
-    \item the comparison of different approaches for accessibility
+    \item the comparison of different approaches
     \item the development of guidelines, tutorials, techniques, libraries...
-    \item reusabilty
+    \item reusability
     \end{itemize}
   }
   
 \ \\
   \url{https://concurrentbenchmark.github.io/}
 \end{frame}
+
+%%% LINEARITY
 
 \begin{frame}{Linearity and behavioural type systems}
   %Handling contexts linearly + small example
@@ -179,7 +181,9 @@
 
 \begin{frame}{Linearity and behavioural type systems}
   %Handling contexts linearly + small example
-  
+  Challenge:
+
+  \ \\
   \begin{theorem}[Subject reduction]
   If \( \types{\Gamma;\Delta}{P} \) and \( \reduces{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
   \end{theorem}
@@ -195,37 +199,46 @@
 \end{frame}
 
 
-
+%%% SCOPE EXTRUSION
 
 \begin{frame}{Name passing and scope extrusion}
   %Handling opening and closing of restrictions + small example
 
-  \[P,Q := \Pend\quad|\quad \Ppar{P}{Q}\quad|\quad\Pout{x}{y}{P}\quad|\quad\Pin{x}{y}{P}\quad|\quad \Pres{x}{P}\]
+  \visible<2->{
+    Processes:
+    \begin{footnotesize}
+      \[P,Q := \Pend\quad|\quad \Ppar{P}{Q}\quad|\quad\Pout{x}{y}{P}\quad|\quad\Pin{x}{y}{P}\quad|\quad \Pres{x}{P}\]
+    \end{footnotesize}  
+    }
 
   \ \\
 
-  \visible<2->{
+  \visible<3->{
     One relevant example:
-    \[\Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})}\]
+    \begin{footnotesize}
+      \[\Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})}\]
+    \end{footnotesize}
   }
   
       
 \end{frame}
 
-\begin{frame}{Name passing and scope extrusion 1: structural congruence}
+\begin{frame}{Name passing and scope extrusion}
   %Handling opening and closing of restrictions + small example
 
-  First approach:\ \\
+  First approach: structural congruence and reduction.\ \\
 
+  \begin{footnotesize}
   \[
   \begin{array}{ll}
     \Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})} & \visible<2->{\equiv}\\
     \visible<2->{\Pres{y}{ (\Ppar{\Pout{x}{y}{P}}{\Pin{x}{z}{Q}})}} & \visible<3->{\rightarrow}\\
-    \visible<3->{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}} & \visible<4->{\dots}
+    \visible<3->{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}} & %\visible<4->{\dots}
   \end{array}
   \]
+  \end{footnotesize}
   \ \\ \ \\
-
+\begin{footnotesize}
   \visible<2->{
     \alt<3->
         {
@@ -243,7 +256,7 @@
           \]
         }
   }  
-      
+\end{footnotesize}      
 \end{frame}
 
 \definecolor{myred}{RGB}{255,160,160}
@@ -251,29 +264,63 @@
 \newcommand{\hg}[1]{\colorbox{mygreen}{$\displaystyle #1$}}
 \newcommand{\hr}[1]{\colorbox{myred}{$\displaystyle #1$}}
 
-\begin{frame}{Name passing and scope extrusion 2: labelled transition system}
+\begin{frame}{Name passing and scope extrusion}
   %Handling opening and closing of restrictions + small example
 
-  Second approach:\ \\
-
+  Second approach: labelled transition system.\ \\
+\begin{footnotesize}
   \[
-  \begin{array}{llll}
+  \begin{array}{lll}
     \Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})} & \visible<2->{\xrightarrow{\tau}} &
-    \visible<2->{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}} & \visible<6->{\dots}
+    \visible<2->{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}} % & %\visible<6->{\dots}
   \end{array}
   \]
+\end{footnotesize}
   \ \\ \ \\
 \begin{footnotesize}
   \visible<2->{
     \[
     \begin{array}{l}
       \inferrule{
-        \inferrule{\transition{\Pout{x}{y}{P}}{\Aoutf{x}{y}}{P}\\x\neq y}{\transition{\Pres{y}{\Pout{x}{y}{P}}}{\Aoutb{x}{y}}{P}} \\
-        \transition{\Pin{x}{z}{Q}}{\Ain{x}{y}}{\subst{Q}{y}{z}} \\
+        \inferrule{
+          \alt<4->{\alt<5->{\hg{\transition{\Pout{x}{y}{P}}{\Aoutf{x}{y}}{P}}}
+            {\hr{\transition{\Pout{x}{y}{P}}{\Aoutf{x}{y}}{P}}}
+          }
+                  {\transition{\Pout{x}{y}{P}}{\Aoutf{x}{y}}{P}} \\
+                  x\neq y}
+                  {
+                    \alt<3->
+                        {\alt<4->
+                          {\hg{\transition{\Pres{y}{\Pout{x}{y}{P}}}{\Aoutb{x}{y}}{P}}}
+                          {\hr{\transition{\Pres{y}{\Pout{x}{y}{P}}}{\Aoutb{x}{y}}{P}}}
+                        }
+                    {\transition{\Pres{y}{\Pout{x}{y}{P}}}{\Aoutb{x}{y}}{P}}
+                  }
+        %%     \alt<4->{
+        %%       bla
+        %%     }
+        %%             %% {
+        %%             %%   bla%\transition{\Pout{x}{y}{P}}{\Aoutf{x}{y}{P}}
+        %%             %%   }
+        %%      {bla}
+        %%   \\x\neq y}
+        %%       {\transition{\Pres{y}{\Pout{x}{y}{P}}}{\Aoutb{x}{y}}{P}
+  %%                } 
+             \\
+        \alt<3->{
+          \alt<5->{\hg{\transition{\Pin{x}{z}{Q}}{\Ain{x}{y}}{\subst{Q}{y}{z}}}
+          }
+                  {\hr{\transition{\Pin{x}{z}{Q}}{\Ain{x}{y}}{\subst{Q}{y}{z}}}
+                  }
+        }
+                {
+          \transition{\Pin{x}{z}{Q}}{\Ain{x}{y}}{\subst{Q}{y}{z}}
+        }
+        \\
         z \notin \freenames{Q}
   }{
         \alt<3->
-            {\transition{\Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})}}{\tau}{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}}}
+            {\hg{\transition{\Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})}}{\tau}{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}}}}
             {\hr{\transition{\Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})}}{\tau}{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}}}}
   }
         
@@ -303,10 +350,25 @@
 \end{footnotesize}      
 \end{frame}
 
+\begin{frame}{Name passing and scope extrusion}
+  %Handling opening and closing of restrictions + small example
+  Challenge:
+
+  \ \\
+  \begin{theorem}\label{thm:se-trans-implies-red}
+  \( \transition{P}{\Atau}{Q} \) implies \( \reduces{P}{Q} \).
+\end{theorem}
+  \begin{theorem}
+  \( \reduces{P}{Q} \) implies the existence of a \( Q' \) such that \( \transition{P}{\Atau}{Q'} \) and \( \scong{Q}{Q'} \).
+\end{theorem}
+\end{frame}
+
+%%% COINDUCTION
 
 \begin{frame}{Coinduction and infinite processes}
   %Up-to techniques + small example
-  Describing the behaviour of recursive loops in programs.
+  \visible<2->
+  {Describing the behaviour of recursive loops in programs.
 \begin{displaymath}
   \begin{array}{r@{\qquad}c@{\qquad}l}
     v,w & ::= & a \ \mid\ l \\
@@ -317,9 +379,9 @@
                \ \mid\  \Pres{x}{}{P}
                \ \mid\  \alt<2->{\hg{!P}}{!P}
   \end{array}
-\end{displaymath}
+\end{displaymath}}
   \ \\ \ \\
-\visible<2->{
+\visible<3->{
   \[
   \begin{array}{c}
     \inferrule[Rep]{\transition{P}{\alpha}{P'}}{\transition{\Preplicate{P}}{\alpha}{\Ppar{P'}{\Preplicate{P}}}} \\[6mm]
@@ -339,7 +401,7 @@
   \observable{P}{\obsout{x}} &\quad \textrm{if \( P \) can perform an output action via \( x \).}
   \end{align*}
 
-  Strong barbed bisimilarty:\\
+  Strong barbed bisimilarity:\\
   \textrm{the \emph{largest} symmetric relation such that, whenever \( \sbbisim{P}{Q} \):}
 \begin{gather}
   \observable{P}{\mu}~\textrm{implies}~\observable{Q}{\mu}\label{eq:bisim1} \\
@@ -361,10 +423,34 @@ $\ \nsbbisim{\Ppar{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pin{x}{l}{\Pend}}}{\Pout{x}
 
 Strong barbed congruence:\\  
 \textrm{
- \( \sbcong{P}{Q} \), if \( \sbbisim{\applyctx{C}{P}}{\applyctx{C}{Q}} \) for every context \( C \).}
-   \ \\ \ \\ \ \\
+  \( \sbcong{P}{Q} \), if \( \sbbisim{\applyctx{C}{P}}{\applyctx{C}{Q}} \) for every context \( C \).}
 
-PLACEHOLDER: results and upto.
+\ \\
+\begin{lemma}
+  \( \sbcong{}{} \) is the largest congruence included in
+  \( \sbbisim{}{} \).
+\end{lemma}
+
+
+\ \\
+\visible<2->{
+  Challenge:
+
+    \ \\
+\begin{theorem}
+  \( \sbcong{P}{Q} \) if, for any process \( R \) and
+  substitution \( \sigma \),
+  \(
+  \sbbisim{\Ppar{\applysubst{\sigma}{P}}{R}}{\Ppar{\applysubst{\sigma}{Q}}{R}}
+  \).
+\end{theorem}
+
+
+  
+}
+
+
+
 
 \end{frame}
 
