@@ -11,7 +11,7 @@
 \usepackage{hyperref}
 \usepackage{cleveref}
 
-\title[Concurrent Calculi Formalisation Benchmark]{\texorpdfstring{Concurrent Calculi\\Formalisation Benchmark}{Concurrent Calculi Formalisation Benchmark}}
+\title[The Concurrent Calculi Formalisation Benchmark]{\texorpdfstring{The Concurrent Calculi\\Formalisation Benchmark}{Concurrent Calculi Formalisation Benchmark}}
 \author{Marco Carbone
 \and David Castro-Perez
 \and Francisco Ferreira
@@ -20,8 +20,10 @@
 \and Alberto Momigliano
 \and Luca Padovani
 \and Alceste Scalas
+\and Dawit Tirore
 \and Martin Vassor
-\and Nobuko Yoshida}
+\and Nobuko Yoshida
+\and Daniel Zackon}
 \date{October 22, 2023}
 
 \setevent{30 Years of Session Types}
@@ -36,33 +38,84 @@
 \begin{document}
 \inserttitlepage
 
+%% \begin{frame}{Introduction}
+%%   \begin{itemize}
+%%   \item Why this challenge? We want to formalise session types, but that's a big challenge... we isolate smaller parts
+%%   \item Why mechanized proofs?
+%%     \begin{itemize}
+%%     \item Certified code generation
+%%     \item No mistakes in overlooked cases
+%%     \item New insights
+%%     \end{itemize}
+%%   \item Basic concurrency + session types
+%%   \item Why these challenges and not other stuff?
+%%   \item Why is this related to session types (why is session types not the main thing?)
+%%   \end{itemize}
+%% \end{frame}
+
 \begin{frame}{Introduction}
-  \begin{itemize}
-  \item Why this challenge? We want to formalise session types, but that's a big challenge... we isolate smaller parts
-  \item Why mechanized proofs?
+
+  We want (everyone) to mechanise Session Types!
+
+  \ \\
+  \visible<2->{
+  Proof assistants are (fun and) useful:
     \begin{itemize}
-    \item Certified code generation
-    \item No mistakes in overlooked cases
-    \item New insights
+    \item certified code generation
+    \item no mistakes in overlooked cases
+    \item new insights
     \end{itemize}
-  \item Basic concurrency + session types
-  \item Why these challenges and not other stuff?
-  \item Why is this related to session types (why is session types not the main thing?)
-  \end{itemize}
+  }
+
+  \ \\
+  \visible<3->{
+    Realisation: mechanising (Multiparty) Session Types is a big effort.
+  }
+  
 \end{frame}
+
+\begin{frame}{The Benchmark Approach}
+  Mixing session types with the POPLMark spirit!
+
+  \ \\
+  Three fundamental challenges on concurrency and session types:
+  \begin{enumerate}
+  \item linearity and behavioral type systems
+  \item name passing and scope extrusion
+  \item coinduction and infinite processes
+  \end{enumerate}
+
+  \ \\
+  \visible<2->{
+    What we want to encourage:
+    \begin{itemize}
+    \item the comparison of different approaches
+    \item the development of guidelines, tutorials, techniques, libraries...
+    \item reusability
+    \end{itemize}
+  }
+  
+\ \\
+  \url{https://concurrentbenchmark.github.io/}
+\end{frame}
+
+%%% LINEARITY
 
 \begin{frame}{Linearity and behavioural type systems}
   %Handling contexts linearly + small example
-  Processes:
-  \begin{footnotesize}
-\[
-\begin{array}{rcl}
-  v,w & ::= & a \quad\mid\quad l \\
-  P,Q & ::=& \Pend \quad\mid\quad \Pout{x}{v}{P} \quad\mid\quad \Pin{x}{l}{P} \quad\mid\quad \PBpar{P}{Q} \quad\mid\quad  \Presd{x}{y}{P}
-  \end{array}
-\]
-  \end{footnotesize}
+  \visible<2->{
+    Processes:
+    \begin{footnotesize}
+      \[
+      \begin{array}{rcl}
+        v,w & ::= & a \quad\mid\quad l \\
+        P,Q & ::=& \Pend \quad\mid\quad \Pout{x}{v}{P} \quad\mid\quad \Pin{x}{l}{P} \quad\mid\quad \PBpar{P}{Q} \quad\mid\quad  \Presd{x}{y}{P}
+      \end{array}
+      \]
+    \end{footnotesize}
+  }
   
+  \visible<3->{
   Semantics:
   \begin{footnotesize}
   \begin{mathpar}
@@ -75,6 +128,7 @@
   \inferrule[R-Struct]{\scong{P}{P'} \\ \reduces{P'}{Q'} \\ \scong{Q}{Q'}}{\reduces{P}{Q}}
   \end{mathpar}
   \end{footnotesize}
+  }
 
 
 \end{frame}
@@ -127,50 +181,64 @@
 
 \begin{frame}{Linearity and behavioural type systems}
   %Handling contexts linearly + small example
-  Challenge!
-  
+  Challenge:
+
+  \ \\
   \begin{theorem}[Subject reduction]
   If \( \types{\Gamma;\Delta}{P} \) and \( \reduces{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
   \end{theorem}
 
+  \ \\
+  \visible<2->{
   \begin{theorem}[Type safety]
   If \( \types{\Cempty}{P} \), then \( P \) is well formed.
   \end{theorem}
   
+  In particular, no $\Presd{x}{x'}{\PBpar{\Pout{x}{v}{P}}{\Pout{x'}{v'}{P'}}}$.
+  }
 \end{frame}
 
 
-
+%%% SCOPE EXTRUSION
 
 \begin{frame}{Name passing and scope extrusion}
   %Handling opening and closing of restrictions + small example
 
-  \[P,Q := \Pend\quad|\quad \Ppar{P}{Q}\quad|\quad\Pout{x}{y}{P}\quad|\quad\Pin{x}{y}{P}\quad|\quad \Pres{x}{P}\]
+  \visible<2->{
+    Processes:
+    \begin{footnotesize}
+      \[P,Q := \Pend\quad|\quad \Ppar{P}{Q}\quad|\quad\Pout{x}{y}{P}\quad|\quad\Pin{x}{y}{P}\quad|\quad \Pres{x}{P}\]
+    \end{footnotesize}  
+    }
 
   \ \\
 
-  \visible<2->{
+  \visible<3->{
     One relevant example:
-    \[\Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})}\]
+    \begin{footnotesize}
+      \[\Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})}\]
+    \end{footnotesize}
   }
   
       
 \end{frame}
 
-\begin{frame}{Name passing and scope extrusion 1: structural congruence}
+\begin{frame}{Name passing and scope extrusion}
   %Handling opening and closing of restrictions + small example
 
-  First approach:\ \\
+  First approach: structural congruence and reduction.\ \\
 
+  \begin{footnotesize}
   \[
   \begin{array}{ll}
     \Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})} & \visible<2->{\equiv}\\
     \visible<2->{\Pres{y}{ (\Ppar{\Pout{x}{y}{P}}{\Pin{x}{z}{Q}})}} & \visible<3->{\rightarrow}\\
-    \visible<3->{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}} & \visible<4->{\dots}
+    \visible<3->{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}} & %\visible<4->{\dots}
   \end{array}
   \]
+  \end{footnotesize}
   \ \\ \ \\
-
+\begin{footnotesize}
   \visible<2->{
     \alt<3->
         {
@@ -188,7 +256,7 @@
           \]
         }
   }  
-      
+\end{footnotesize}      
 \end{frame}
 
 \definecolor{myred}{RGB}{255,160,160}
@@ -196,29 +264,63 @@
 \newcommand{\hg}[1]{\colorbox{mygreen}{$\displaystyle #1$}}
 \newcommand{\hr}[1]{\colorbox{myred}{$\displaystyle #1$}}
 
-\begin{frame}{Name passing and scope extrusion 2: labelled transition system}
+\begin{frame}{Name passing and scope extrusion}
   %Handling opening and closing of restrictions + small example
 
-  Second approach:\ \\
-
+  Second approach: labelled transition system.\ \\
+\begin{footnotesize}
   \[
-  \begin{array}{llll}
+  \begin{array}{lll}
     \Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})} & \visible<2->{\xrightarrow{\tau}} &
-    \visible<2->{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}} & \visible<6->{\dots}
+    \visible<2->{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}} % & %\visible<6->{\dots}
   \end{array}
   \]
+\end{footnotesize}
   \ \\ \ \\
 \begin{footnotesize}
   \visible<2->{
     \[
     \begin{array}{l}
       \inferrule{
-        \inferrule{\transition{\Pout{x}{y}{P}}{\Aoutf{x}{y}}{P}\\x\neq y}{\transition{\Pres{y}{\Pout{x}{y}{P}}}{\Aoutb{x}{y}}{P}} \\
-        \transition{\Pin{x}{z}{Q}}{\Ain{x}{y}}{\subst{Q}{y}{z}} \\
+        \inferrule{
+          \alt<4->{\alt<5->{\hg{\transition{\Pout{x}{y}{P}}{\Aoutf{x}{y}}{P}}}
+            {\hr{\transition{\Pout{x}{y}{P}}{\Aoutf{x}{y}}{P}}}
+          }
+                  {\transition{\Pout{x}{y}{P}}{\Aoutf{x}{y}}{P}} \\
+                  x\neq y}
+                  {
+                    \alt<3->
+                        {\alt<4->
+                          {\hg{\transition{\Pres{y}{\Pout{x}{y}{P}}}{\Aoutb{x}{y}}{P}}}
+                          {\hr{\transition{\Pres{y}{\Pout{x}{y}{P}}}{\Aoutb{x}{y}}{P}}}
+                        }
+                    {\transition{\Pres{y}{\Pout{x}{y}{P}}}{\Aoutb{x}{y}}{P}}
+                  }
+        %%     \alt<4->{
+        %%       bla
+        %%     }
+        %%             %% {
+        %%             %%   bla%\transition{\Pout{x}{y}{P}}{\Aoutf{x}{y}{P}}
+        %%             %%   }
+        %%      {bla}
+        %%   \\x\neq y}
+        %%       {\transition{\Pres{y}{\Pout{x}{y}{P}}}{\Aoutb{x}{y}}{P}
+  %%                } 
+             \\
+        \alt<3->{
+          \alt<5->{\hg{\transition{\Pin{x}{z}{Q}}{\Ain{x}{y}}{\subst{Q}{y}{z}}}
+          }
+                  {\hr{\transition{\Pin{x}{z}{Q}}{\Ain{x}{y}}{\subst{Q}{y}{z}}}
+                  }
+        }
+                {
+          \transition{\Pin{x}{z}{Q}}{\Ain{x}{y}}{\subst{Q}{y}{z}}
+        }
+        \\
         z \notin \freenames{Q}
   }{
         \alt<3->
-            {\transition{\Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})}}{\tau}{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}}}
+            {\hg{\transition{\Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})}}{\tau}{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}}}}
             {\hr{\transition{\Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})}}{\tau}{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}}}}
   }
         
@@ -248,28 +350,176 @@
 \end{footnotesize}      
 \end{frame}
 
+\begin{frame}{Name passing and scope extrusion}
+  %Handling opening and closing of restrictions + small example
+  Challenge:
+
+  \ \\
+  \begin{theorem}\label{thm:se-trans-implies-red}
+  \( \transition{P}{\Atau}{Q} \) implies \( \reduces{P}{Q} \).
+\end{theorem}
+  \begin{theorem}
+  \( \reduces{P}{Q} \) implies the existence of a \( Q' \) such that \( \transition{P}{\Atau}{Q'} \) and \( \scong{Q}{Q'} \).
+\end{theorem}
+\end{frame}
+
+%%% COINDUCTION
 
 \begin{frame}{Coinduction and infinite processes}
-  Up-to techniques + small example
+  %Up-to techniques + small example
+  \visible<2->
+  {Describing the behaviour of recursive loops in programs.
+\begin{displaymath}
+  \begin{array}{r@{\qquad}c@{\qquad}l}
+    v,w & ::= & a \ \mid\ l \\
+    P,Q & ::= & \Pend
+               \ \mid\ \Pout{x}{v}{P}
+               \ \mid\  \Pin{x}{l}{P}
+               \ \mid\  \PBpar{P}{Q}
+               \ \mid\  \Pres{x}{}{P}
+               \ \mid\  \alt<2->{\hg{!P}}{!P}
+  \end{array}
+\end{displaymath}}
+  \ \\ \ \\
+\visible<3->{
+  \[
+  \begin{array}{c}
+    \inferrule[Rep]{\transition{P}{\alpha}{P'}}{\transition{\Preplicate{P}}{\alpha}{\Ppar{P'}{\Preplicate{P}}}} \\[6mm]
+    \alpha\ ::= \ \ \Aoutf{x}{a} \ \mid\ \Ain{x}{a} \ \mid\ \Atau
+  \end{array}
+  \]
+
+}
+
 \end{frame}
 
-\begin{frame}{What's the point?}
-  \begin{itemize}
-  \item Showing off cool proof assistant features
-  \item Tutorial formalizations showcasing various approaches
-  \item Discovering the limits of current proof assistants and suggesting new features
-  \item Comparing approaches, and maybe developing new techniques
-  \item Establishing best practices which work across different ``flavours'' of session types
-  \end{itemize}
+\begin{frame}{Coinduction and infinite processes}
+
+  Observability predicate:
+  \begin{align*}
+  \observable{P}{\obsin{x}}  &\quad \textrm{if \( P \) can perform an input action via \( x \).} \\
+  \observable{P}{\obsout{x}} &\quad \textrm{if \( P \) can perform an output action via \( x \).}
+  \end{align*}
+
+  Strong barbed bisimilarity:\\
+  \textrm{the \emph{largest} symmetric relation such that, whenever \( \sbbisim{P}{Q} \):}
+\begin{gather}
+  \observable{P}{\mu}~\textrm{implies}~\observable{Q}{\mu}\label{eq:bisim1} \\
+  \transition{P}{\Atau}{P'}~\textrm{implies}~\transition{Q}{\Atau}{\sbbisim{}{} P'}%\label{eq:bisim2}
+\end{gather}
+  
+
+  \visible<2->{Equivalence, but NOT A CONGRUENCE: $\ \sbbisim{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pout{x}{a}{\Pend}}\ $, but
+   in the context
+$C = \Ppar{\ctxhole}{\Pin{x}{l}{\Pend}}$, 
+$\ \nsbbisim{\Ppar{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pin{x}{l}{\Pend}}}{\Pout{x}{a}{\Pend}\Ppar{}{\Pin{x}{l}{\Pend}}}\ $.}
+  
+
+
 \end{frame}
 
-\begin{frame}{How to join}
+
+\begin{frame}{Coinduction and infinite processes}
+
+Strong barbed congruence:\\  
+\textrm{
+  \( \sbcong{P}{Q} \), if \( \sbbisim{\applyctx{C}{P}}{\applyctx{C}{Q}} \) for every context \( C \).}
+
+\ \\
+\begin{lemma}
+  \( \sbcong{}{} \) is the largest congruence included in
+  \( \sbbisim{}{} \).
+\end{lemma}
+
+
+\ \\
+\visible<2->{
+  Challenge:
+
+    \ \\
+\begin{theorem}
+  \( \sbcong{P}{Q} \) if, for any process \( R \) and
+  substitution \( \sigma \),
+  \(
+  \sbbisim{\Ppar{\applysubst{\sigma}{P}}{R}}{\Ppar{\applysubst{\sigma}{Q}}{R}}
+  \).
+\end{theorem}
+
+
+  
+}
+
+
+\end{frame}
+
+\begin{frame}{Was this tedious? :)}
+  \visible<2->{
+    Repeating the mechanisation effort for the basics definitely is.
+  }
+  
+  \ \\
+  \visible<3->{
+    A community effort towards:
+    \begin{itemize}
+    \item tutorial formalisations for different approaches
+    \item comparing different approaches
+    \item establishing ``best practices''
+    \item investigating strengths and weaknesses of proof assistants
+    \item suggesting and developing new features of proof assistants
+    \end{itemize}
+  }
+
+  
+\end{frame}
+
+%% \begin{frame}{What's the point?}
+%%   \begin{itemize}
+%%   \item Showing off cool proof assistant features
+%%   \item Tutorial formalizations showcasing various approaches
+%%   \item Discovering the limits of current proof assistants and suggesting new features
+%%   \item Comparing approaches, and maybe developing new techniques
+%%   \item Establishing best practices which work across different ``flavours'' of session types
+%%   \end{itemize}
+%% \end{frame}
+
+%% \begin{frame}{How to join}
+%%   \begin{itemize}
+%%   \item Website
+%%   \item Mailing list
+%%   \item Technical report
+%%   \item Active formalisation efforts
+%%   \end{itemize}
+%% \end{frame}
+
+\begin{frame}{Why contribute and how to get involved}
+
+  WHY:
   \begin{itemize}
-  \item Website
-  \item Mailing list
-  \item Technical report
-  \item Active formalisation efforts
+  \item relevance and interest (solving your problems and other people's)
+  \item connecting different parts of the community
+  \item conducting your own mechanisation
+  \item publication, both experience reports/tutorials and novelties
+  \item pedagogical value
   \end{itemize}
+
+  \ \\
+  HOW:\\ 
+  \url{https://concurrentbenchmark.github.io/}\\
+  concurrentbenchmark@googlegroups.com 
+  
+\end{frame}
+
+\begin{frame}{The long and winding road}
+  ``How close are we to a world where every paper on \alt<2->{\textbf{session types}}{programming languages} is accompanied by an electronic appendix with machine-checked proofs?''
+
+  \ \\
+  \visible<3>{
+    \begin{center}
+      Thank you very much!
+    \end{center}
+  }
+
+  
 \end{frame}
 
 \end{document}
