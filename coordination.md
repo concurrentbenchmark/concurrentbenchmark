@@ -21,6 +21,7 @@ you need to coordinate with that person.
 |               | Linearity                 | Isabelle/HOL    | Locally nameless, explicit set reasoning  |
 |               | Scope Extrusion           | Isabelle/HOL    | Locally nameless, explicit name reasoning |
 |               | Rewriting challenges      |                 |                                           |
-|---------------|---------------------------|-----------------|-------------------------------------------|Marco, Dawit   | Linearity Challenge       | Coq             | autosubst2, De Bruijn
-|---------------|---------------------------|-----------------|-------------------------------------------
+|---------------|---------------------------|-----------------|-------------------------------------------|
+| Marco, Dawit  | Linearity Challenge       | Coq             | autosubst2, De Bruijn                     |
 |
+|---------------|---------------------------|-----------------|-------------------------------------------
