@@ -17,6 +17,10 @@ auto/
 *.nav
 *.toc
 *.synctex.gz
+*.nav
+*.pre
+*.snm
+*.vrb
 
 # compiled documents
 *.pdf
