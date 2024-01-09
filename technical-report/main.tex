@@ -150,6 +150,7 @@ simplified versions of calculi (and proofs) from chapters 1 and 2
 of~\cite{picalcbook} and~\cite{Vasconcelos2012} where the idea is to
 use sources that can be considered standard and close to current practice.
 
+
 We assume the existence of some set of \emph{base values}, represented by the symbols
 \( a, b, \dots \), the existence of some set
 of \emph{variables}, represented by the symbols
@@ -217,7 +218,6 @@ free in any other entities under consideration, such as processes,
 substitutions, and sets of names or variables.  This is justified
 because any overlapping names and variables may be
 \( \alpha \)-converted such that the assumption is satisfied.
-
 
 A \emph{context} is obtained by taking a process and replacing a single occurrence of \( \Pend \) in it with the special \emph{hole} symbol \( \ctxhole \).
 As a convention, we do \emph{not} identify \( \alpha \)-convertible contexts.
@@ -918,6 +918,22 @@ A relation \( \mathcal{S} \) is called a \emph{strong barbed bisimulation up to 
 \section{The proofs}
 
 \input{../proof-appendix/proofs.tex}
+
+
+\section{Overview of existing mechanisations}
+\input{../existing-mechanisations/existing-mechanisations.tex}
+
+\section{Future work}
+\begin{itemize}
+\item Multiparty session types
+\item Choreography
+\item Encodings
+\item Code extraction
+\item Conversation types
+\item Psi-calculus
+\item Model checking for system properties
+\item More general types than session types
+\end{itemize}
 
 \bibliographystyle{plainnat}
 \bibliography{../references}
