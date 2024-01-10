@@ -517,3 +517,649 @@ series = {PPDP 2021}
   biburl       = {https://dblp.org/rec/conf/forte/CairesP16.bib},
   bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
+
+@InProceedings{Cruz-Filipe2021,
+author="Cruz-Filipe, Lu{\'i}s
+and Montesi, Fabrizio
+and Peressotti, Marco",
+editor="Cerone, Antonio
+and {\"O}lveczky, Peter Csaba",
+title="Certifying Choreography Compilation",
+booktitle="Theoretical Aspects of Computing -- ICTAC 2021",
+year="2021",
+series="Lecture Notes in Computer Science",
+volume="12819",
+publisher="Springer International Publishing",
+address="Cham",
+pages="115--133",
+abstract="Choreographic programming is a paradigm for developing concurrent and distributed systems, where programs are choreographies that define, from a global viewpoint, the computations and interactions that communicating processes should enact. Choreography compilation translates choreographies into the local definitions of process behaviours, given as terms in a process calculus.",
+isbn="978-3-030-85315-0",
+doi="10.1007/978-3-030-85315-0_8"
+}
+
+@InProceedings{Pohjola2022,
+  author =	{Pohjola, Johannes \r{A}man and G\'{o}mez-Londo\~{n}o, Alejandro and Shaker, James and Norrish, Michael},
+  title =	{{Kalas: A Verified, End-To-End Compiler for a Choreographic Language}},
+  booktitle =	{13th International Conference on Interactive Theorem Proving (ITP 2022)},
+  pages =	{27:1--27:18},
+  series =	{Leibniz International Proceedings in Informatics (LIPIcs)},
+  ISBN =	{978-3-95977-252-5},
+  ISSN =	{1868-8969},
+  year =	{2022},
+  volume =	{237},
+  editor =	{Andronick, June and de Moura, Leonardo},
+  publisher =	{Schloss Dagstuhl -- Leibniz-Zentrum f{\"u}r Informatik},
+  address =	{Dagstuhl, Germany},
+  URL =		{https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITP.2022.27},
+  URN =		{urn:nbn:de:0030-drops-167368},
+  doi =		{10.4230/LIPIcs.ITP.2022.27},
+  annote =	{Keywords: Choreographies, Interactive Theorem Proving, Compiler Verification}
+}
+
+@InProceedings{Tassarotti2017,
+author="Tassarotti, Joseph
+and Jung, Ralf
+and Harper, Robert",
+editor="Yang, Hongseok",
+title="A Higher-Order Logic for Concurrent Termination-Preserving Refinement",
+booktitle="Programming Languages and Systems",
+year="2017",
+series="Lecture Notes in Computer Science",
+volume="10201",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="909--936",
+abstract="Compiler correctness proofs for higher-order concurrent languages are difficult: they involve establishing a termination-preserving refinement between a concurrent high-level source language and an implementation that uses low-level shared memory primitives. However, existing logics for proving concurrent refinement either neglect properties such as termination, or only handle first-order state. In this paper, we address these limitations by extending Iris, a recent higher-order concurrent separation logic, with support for reasoning about termination-preserving refinements. To demonstrate the power of these extensions, we prove the correctness of an efficient implementation of a higher-order, session-typed language. To our knowledge, this is the first program logic capable of giving a compiler correctness proof for such a language. The soundness of our extensions and our compiler correctness proof have been mechanized in Coq.",
+isbn="978-3-662-54434-1",
+doi="10.1007/978-3-030-85315-0_8"
+}
+
+@inproceedings{Thiemann2019,
+author = {Thiemann, Peter},
+title = {Intrinsically-Typed Mechanized Semantics for Session Types},
+year = {2019},
+isbn = {9781450372497},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3354166.3354184},
+doi = {10.1145/3354166.3354184},
+abstract = {Session types have emerged as a powerful paradigm for structuring communication-based programs. They guarantee type soundness and session fidelity for concurrent programs with sophisticated communication protocols. As type soundness proofs for languages with session types are tedious and technically involved, it is rare to see mechanized soundness proofs for these systems.We present an executable intrinsically typed small-step semantics for a realistic functional session type calculus. The calculus includes linearity, recursion, and recursive sessions with subtyping. Asynchronous communication is modeled with an encoding.The semantics is implemented in Agda as an intrinsically typed, interruptible CEK machine. This implementation proves type preservation and a particular notion of progress by construction.},
+booktitle = {Proceedings of the 21st International Symposium on Principles and Practice of Declarative Programming},
+articleno = {19},
+numpages = {15},
+keywords = {dependent types, session types, concurrency},
+location = {Porto, Portugal},
+series = {PPDP '19}
+}
+
+@article{Goto2016,
+title={An extensible approach to session polymorphism},
+volume={26},
+DOI={10.1017/S0960129514000231},
+number={3},
+journal={Mathematical Structures in Computer Science},
+publisher={Cambridge University Press},
+author={Goto, Matthew and Jagadeesan, Radha and Jeffrey, Alan and Pitcher, Corin and Riely, James},
+year={2016},
+pages={465–509}
+}
+
+@article{Affeldt2008,
+title = {A {Coq} Library for Verification of Concurrent Programs},
+journal = {Electronic Notes in Theoretical Computer Science},
+volume = {199},
+pages = {17-32},
+year = {2008},
+note = {Proceedings of the Fourth International Workshop on Logical Frameworks and Meta-Languages (LFM 2004)},
+issn = {1571-0661},
+doi = {10.1016/j.entcs.2007.11.010},
+url = {https://www.sciencedirect.com/science/article/pii/S1571066108000765},
+author = {Reynald Affeldt and Naoki Kobayashi},
+keywords = {Proof assistant, Coq, concurrent programs, pi-calculus},
+abstract = {Thanks to recent advances, modern proof assistants now enable verification of realistic sequential programs. However, regarding the concurrency paradigm, previous work essentially focused on formalization of abstract systems, such as pure concurrent calculi, which are too minimal to be realistic. In this paper, we propose a library that enables verification of realistic concurrent programs in the Coq proof assistant. Our approach is based on an extension of the π-calculus whose encoding enables such programs to be modeled conveniently. This encoding is coupled with a specification language akin to spatial logics, including in particular a notion of fairness, which is important to write satisfactory specifications for realistic concurrent programs. In order to facilitate formal proof, we propose a collection of lemmas that can be reused in the context of different verifications. Among these lemmas, the most effective for simplifying the proof task take advantage of confluence properties. In order to evaluate feasibility of verification of concurrent programs using this library, we perform verification for a non-trivial application.}
+}
+
+@article{Scagnetto2002,
+title = {Ambient Calculus and its Logic in the Calculus of Inductive Constructions},
+journal = {Electronic Notes in Theoretical Computer Science},
+volume = {70},
+number = {2},
+pages = {76-95},
+year = {2002},
+note = {LFM 2002 International Workshop on Logical Frameworks and Meta-Languages (FLoC Satellite Event)},
+issn = {1571-0661},
+doi = {10.1016/S1571-0661(04)80507-3},
+url = {https://www.sciencedirect.com/science/article/pii/S1571066104805073},
+author = {Ivan Scagnetto and Marino Miculan},
+abstract = {The Ambient Calculus has been recently proposed as a model of mobility of agents in a dynamically changing hierarchy of domains. In this paper, we describe the implementation of the theory and metatheory of Ambient Calculus and its modal logic in the Calculus of Inductive Constructions. We take full advantage of Higher-Order Abstract Syntax, using the Theory of Contexts a fundamental tool for developing formally the metatheory of the object system. Among others, we have successfully proved a set of fresh renamings properties, and formalized the connection between the Theory of Contexts and Gabbay-Pitts' “new” quantifier. As a feedback, we introduce a new definition of satisfaction for the Ambients logic and derive some of the properties originally assumed as axioms in the Theory of Contexts.}
+}
+
+@InProceedings{Hirschkoff1997,
+author="Hirschkoff, Daniel",
+editor="Gunter, Elsa L.
+and Felty, Amy",
+title="A full formalisation of $\pi$-calculus theory in the calculus of constructions",
+booktitle="Theorem Proving in Higher Order Logics",
+year="1997",
+series="Lecture Notes in Computer Science",
+volume="1275",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="153--169",
+abstract="A formalisation of $\pi$-calculus in the Coq system is presented. Based on a de Bruijn notation for names, our implementation exploits the mechanisation of some proof techniques described by Sangiorgi in [San95b] to derive several results of classical $\pi$-calculus theory, including congruence, structural equivalence and the replication theorems. As the proofs are described, insight is given to the main implementational issues that arise in our study, without entering too much the technical details. Possible extensions of this work include the full verification for the ``functions as processes'' paradigm, as well as the design of a system to check bisimilarities for processes.",
+isbn="978-3-540-69526-4",
+doi="10.1007/BFb0028392"
+}
+
+@article{Melham1994,
+author = {Melham, T. F.},
+title = {A Mechanized Theory of the $\pi$-Calculus in {HOL}},
+year = 1994,
+issue_date = {Spring 1994},
+publisher = {Publishing Association Nordic Journal of Computing},
+address = {FIN},
+volume = 1,
+number = 1,
+issn = {1236-6064},
+abstract = {The φ-calculus is a process algebra for modelling concurrent systems in which the pattern of communication between processes may change over time. This paper describes the results of preliminary work on a definitional formal theory of the φ-calculus in higher order logic using the HOL theorem prover. The ultimate goal of this work is to provide practical mechanized support for reasoning with the φ-calculus about applications.},
+journal = {Nordic J. of Computing},
+month = {mar},
+pages = {50–76},
+numpages = 27
+}
+
+@techreport{Ait-Mohamed1994,
+  TITLE = {{V{\'e}rification de l'{\'e}quivalence du $\pi$-calcul dans HOL}},
+  AUTHOR = {Ait-Mohamed, Otmane},
+  URL = {https://inria.hal.science/inria-00074263},
+  NOTE = {Projet EURECA},
+  TYPE = {Research Report},
+  NUMBER = {RR-2412},
+  INSTITUTION = {{INRIA}},
+  YEAR = {1994},
+  KEYWORDS = {$\pi$-calcul ; HOL},
+  PDF = {https://inria.hal.science/inria-00074263/file/RR-2412.pdf},
+  HAL_ID = {inria-00074263},
+  HAL_VERSION = {v1},
+}
+
+@article{Rockl2003,
+title={A fully adequate shallow embedding of the $\pi$-calculus in {Isabelle/HOL} with mechanized syntax analysis},
+volume={13},
+DOI={10.1017/S0956796802004653},
+number={2},
+journal={Journal of Functional Programming},
+publisher={Cambridge University Press},
+author={Röckl, Christine and Hirschkoff, Daniel},
+year={2003},
+pages={415–451}
+}
+
+@InProceedings{Rockl2001,
+author="R{\"o}ckl, Christine
+and Hirschkoff, Daniel
+and Berghofer, Stefan",
+editor="Honsell, Furio
+and Miculan, Marino",
+title="Higher-Order Abstract Syntax with Induction in {Isabelle/HOL}: Formalizing the $\pi$-Calculus and Mechanizing the Theory of Contexts",
+booktitle="Foundations of Software Science and Computation Structures",
+year="2001",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="364--378",
+abstract="Higher-order abstract syntax is a natural way to formalize programming languages with binders, like the $\pi$-calculus, because $\alpha$-conversion, instantiations and capture avoidance are delegated to the meta-level of the provers, making tedious substitutions superfluous. However, such formalizations usually lack structural induction, which makes syntax-analysis impossible. Moreover, when applied in logical frameworks with object-logics, like Isabelle/HOL or standard extensions of Coq, exotic terms can be defined, for which important syntactic properties become invalid.",
+isbn="978-3-540-45315-4",
+doi="10.1007/3-540-45315-6_24",
+series="Lecture Notes in Computer Science",
+volume="2030"
+}
+
+@techreport{Henry-Greard1999,
+  TITLE = {{Proof of the Subject Reduction Property for a Pi-Calculus in Coq}},
+  AUTHOR = {Henry-Gr{\'e}ard, Lo{\"i}c},
+  URL = {https://inria.hal.science/inria-00072970},
+  NUMBER = {RR-3698},
+  INSTITUTION = {{INRIA}},
+  YEAR = {1999},
+  MONTH = May,
+  KEYWORDS = {PI-CALCULUS ; COQ ; SUBJECT REDUCTION},
+  PDF = {https://inria.hal.science/inria-00072970/file/RR-3698.pdf},
+  HAL_ID = {inria-00072970},
+  HAL_VERSION = {v1},
+}
+
+@misc{Miller2023,
+  title = {Specification of the pi-calculus},
+  url = {https://www.lix.polytechnique.fr/Labo/Dale.Miller/lProlog/examples/pi-calculus/toc.html},
+  author = {Dale Miller},
+  year = {2023}
+}
+
+@InProceedings{Gordon1996,
+author="Gordon, Andrew D.
+and Melham, Tom",
+editor="Goos, Gerhard
+and Hartmanis, Juris
+and van Leeuwen, Jan
+and von Wright, Joakim
+and Grundy, Jim
+and Harrison, John",
+title="Five axioms of alpha-conversion",
+booktitle="Theorem Proving in Higher Order Logics",
+year="1996",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="173--190",
+abstract="We present five axioms of name-carrying lambda-terms identified up to alpha-conversion---that is, up to renaming of bound variables. We assume constructors for constants, variables, application and lambda-abstraction. Other constants represent a function Fv that returns the set of free variables in a term and a function that substitutes a term for a variable free in another term. Our axioms are (1) equations relating Fv and each constructor, (2) equations relating substitution and each constructor, (3) alpha-conversion itself, (4) unique existence of functions on lambda-terms defined by structural iteration, and (5) construction of lambda-abstractions given certain functions from variables to terms. By building a model from de Bruijn's nameless lambda-terms, we show that our five axioms are a conservative extension of HOL. Theorems provable from the axioms include distinctness, injectivity and an exhaustion principle for the constructors, principles of structural induction and primitive recursion on lambda-terms, Hindley and Seldin's substitution lemmas and the existence of their length function. These theorems and the model have been mechanically checked in the Cambridge HOL system.",
+isbn="978-3-540-70641-0",
+doi="10.1007/BFb0105404",
+series="Lecture Notes in Computer Science",
+volume="1125"
+}
+
+@InProceedings{Gay2001,
+author="Gay, Simon J.",
+editor="Boulton, Richard J.
+and Jackson, Paul B.",
+title={A Framework for the Formalisation of Pi Calculus Type Systems in {Isabelle/HOL}},
+booktitle="Theorem Proving in Higher Order Logics",
+year="2001",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="217--232",
+abstract="We present a formalisation, in the theorem proving system Isabelle/HOL, of a linear type system for the pi calculus, including a proof of runtime safety of typed processes. The use of a uniform encoding of pi calculus syntax in a meta language, the development of a general theory of type environments, and the structured formalisation of the main proofs, facilitate the adaptation of the Isabelle theories and proof scripts to variations on the language and other type systems.",
+isbn="978-3-540-44755-9",
+doi="10.1007/3-540-44755-5_16",
+series="Lecture Notes in Computer Science",
+volume="2152"
+}
+
+@InProceedings{Despeyroux2000,
+author="Despeyroux, Jo{\"e}lle",
+editor="van Leeuwen, Jan
+and Watanabe, Osamu
+and Hagiya, Masami
+and Mosses, Peter D.
+and Ito, Takayasu",
+title="A Higher-Order Specification of the $\pi$-Calculus",
+booktitle="Theoretical Computer Science: Exploring New Frontiers of Theoretical Informatics",
+year="2000",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="425--439",
+abstract="We present a formalization of a typed $\pi$-calculus in the Calculus of Inductive Constructions. We give the rules for type-checking and for evaluation and formalize a proof of type preservation in the Coq system. The encoding of the $\pi$-calculus in Coq uses Coq functions to represent bindings of variables. This kind of encoding is called a higher-order specification. It provides a concise description of the calculus, leading to simple proofs. The specification we propose for the pi-calculus formalizes communication by means of function application.",
+isbn="978-3-540-44929-4",
+doi="10.1007/3-540-44929-9_30",
+series="Lecture Notes in Computer Science",
+volume="1872"
+}
+
+@InProceedings{Gillard2000,
+author="Gillard, Guillaume",
+editor="McAllester, David",
+title="A Formalization of a Concurrent Object Calculus up to $\alpha$-Conversion",
+booktitle="Automated Deduction - CADE-17",
+year="2000",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="417--432",
+abstract="We experiment a method for representing a concurrent object calculus in the Calculus of Inductive Constructions. Terms are first defined in de Bruijn style, then names are re-introduced in binders. The terms of the calculus are formalized in the mechanized logic by suitable subsets of the de Bruijn terms; namely those whose de Bruijn indices are relayed beyond the scene. The $\alpha$-equivalence relation is the Leibnitz equality and the substitution functions can be defined as sets of partial rewriting rules on these terms. We prove induction schemes for both the terms and some properties of the calculus which internalize the re-naming of bound variables. We show that despite the fact the terms which formalize the calculus are not generated by a last fixed point relation, we can prove the desired inversion lemmas. We formalize the computational part of the semantic and a simple type system of the calculus. Finally, we prove a subject reduction theorem and see that the specifications and proofs have the nice feature of not mixing de Bruijn technical manipulations with real proofs.",
+isbn="978-3-540-45101-3",
+doi="10.1007/10721959_33",
+series="Lecture Notes in Computer Science",
+volume="1831"
+}
+
+@article{Honsell2001,
+title = {$\pi$-calculus in (Co)inductive-type theory},
+journal = {Theoretical Computer Science},
+volume = {253},
+number = {2},
+pages = {239-285},
+year = {2001},
+note = {IC-EATCS'97},
+issn = {0304-3975},
+doi = {10.1016/S0304-3975(00)00095-5},
+url = {https://www.sciencedirect.com/science/article/pii/S0304397500000955},
+author = {Furio Honsell and Marino Miculan and Ivan Scagnetto},
+keywords = {Higher-order abstract syntax, -calculus, Proof checking, Logical frameworks, Typed -calculus},
+abstract = {We present a large and we think also significant case study in computer assisted formal reasoning. We start by giving a higher-order abstract syntax encoding of π-calculus in the higher-order inductive/coinductive-type theories CIC and CC(Co)Ind. This encoding gives rise to a full-fledged proof editor/proof assistant for the π-calculus, once we embed it in Coq, an interactive proof-development environment for CC(Co)Ind. Using this computerized assistant we prove formally a substantial chapter of the theory of strong late bisimilarity, which amounts essentially to Section 2 of A calculus of mobile processes by Milner, Parrow, and Walker. This task is greatly simplified by the use of higher-order syntax. In fact, not only we can delegate conveniently to the metalanguage α-conversion and substitution, but, introducing a suitable axiomatization of the theory of contexts, we can accommodate also the machinery for generating new names. The axiomatization we introduce is quite general and should be easily portable to other formalizations based on higher-order syntax. The use of coinductive types and corresponding tactics allows to give alternative, and possibly more natural, proofs of many properties of strong late bisimilarity, w.r.t. those originally given by Milner, Parrow, and Walker.}
+}
+
+@article{Perera2018,
+title={Proof-relevant $\pi$-calculus: a constructive account of concurrency and causality},
+volume={28},
+DOI={10.1017/S096012951700010X},
+number={9},
+journal={Mathematical Structures in Computer Science},
+publisher={Cambridge University Press},
+author={Perera, Roly and Cheney, James},
+year={2018},
+pages={1541–1577}
+}
+
+@article{Watkins2008,
+title = {Specifying Properties of Concurrent Computations in CLF},
+journal = {Electronic Notes in Theoretical Computer Science},
+volume = {199},
+pages = {67-87},
+year = {2008},
+note = {Proceedings of the Fourth International Workshop on Logical Frameworks and Meta-Languages (LFM 2004)},
+issn = {1571-0661},
+doi = {10.1016/j.entcs.2007.11.013},
+url = {https://www.sciencedirect.com/science/article/pii/S1571066108000790},
+author = {Kevin Watkins and Iliano Cervesato and Frank Pfenning and David Walker},
+keywords = {logical frameworks, type theory, linear logic, concurrency},
+abstract = {CLF (the Concurrent Logical Framework) is a language for specifying and reasoning about concurrent systems. Its most significant feature is the first-class representation of concurrent executions as monadic expressions. We illustrate the representation techniques available within CLF by applying them to an asynchronous pi-calculus with correspondence assertions, including its dynamic semantics, safety criterion, and a type system with latent effects due to Gordon and Jeffrey.}
+}
+
+@article{Tiu2010,
+author = {Tiu, Alwen and Miller, Dale},
+title = {Proof Search Specifications of Bisimulation and Modal Logics for the $\pi$-Calculus},
+year = {2010},
+issue_date = {January 2010},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {11},
+number = {2},
+issn = {1529-3785},
+url = {https://doi.org/10.1145/1656242.1656248},
+doi = {10.1145/1656242.1656248},
+abstract = {We specify the operational semantics and bisimulation relations for the finite φ-calculus within a logic that contains the ∇ quantifier for encoding generic judgments and definitions for encoding fixed points. Since we restrict to the finite case, the ability of the logic to unfold fixed points allows this logic to be complete for both the inductive nature of operational semantics and the coinductive nature of bisimulation. The ∇ quantifier helps with the delicate issues surrounding the scope of variables within φ-calculus expressions and their executions (proofs). We illustrate several merits of the logical specifications permitted by this logic: they are natural and declarative; they contain no side-conditions concerning names of variables while maintaining a completely formal treatment of such variables; differences between late and open bisimulation relations arise from familar logic distinctions; the interplay between the three quantifiers (∀, ∃, and ∇) and their scopes can explain the differences between early and late bisimulation and between various modal operators based on bound input and output actions; and proof search involving the application of inference rules, unification, and backtracking can provide complete proof systems for one-step transitions, bisimulation, and satisfaction in modal logic. We also illustrate how one can encode the φ-calculus with replications, in an extended logic with induction and co-induction.},
+journal = {ACM Trans. Comput. Logic},
+month = {jan},
+articleno = {13},
+numpages = {35},
+keywords = {modal logics, λ-tree syntax, generic judgments, ∇ quantifier, Proof search, higher-order abstract syntax, bisimulation, π-calculus}
+}
+
+@techreport{Cervesato2007,
+author = "Iliano  Cervesato and Frank  Pfenning and David  Walker and Kevin  Watkins",
+title = "{A Concurrent Logical Framework {II}: Examples and Applications}",
+year = "2007",
+institution="Carnegie Mellon University",
+month = "3",
+url = "https://kilthub.cmu.edu/articles/journal_contribution/A_Concurrent_Logical_Framework_II_Examples_and_Applications/6587294",
+doi = "10.1184/R1/6587294.v1"
+}
+
+@article{Baelde2014,
+title={{Abella}: A System for Reasoning about Relational Specifications},
+volume={7},
+url={https://jfr.unibo.it/article/view/4650},
+DOI={10.6092/issn.1972-5787/4650},
+abstractNote={The Abella interactive theorem prover is based on an intuitionistic logic that allows for inductive and co-inductive reasoning over relations. Abella supports the λ-tree approach to treating syntax containing binders: it allows simply typed λ-terms to be used to represent such syntax and it provides higher-order (pattern) unification, the nabla quantifier, and nominal constants for reasoning about these representations. As such, it is a suitable vehicle for formalizing the meta-theory of formal systems such as logics and programming languages. This tutorial exposes Abella incrementally, starting with its capabilities at a first-order logic level and gradually presenting more sophisticated features, ending with the support it offers to the two-level logic approach to meta-theoretic reasoning. Along the way, we show how Abella can be used prove theorems involving natural numbers, lists, and automata, as well as involving typed and untyped λ-calculi and the π-calculus.},
+number={2},
+journal={Journal of Formalized Reasoning},
+author={Baelde, David and Chaudhuri, Kaustuv and Gacek, Andrew and Miller, Dale and Nadathur, Gopalan and Tiu, Alwen and Wang, Yuting},
+year={2014},
+month={Jan.},
+pages={1–89}
+}
+
+@article{Bengtson2009,
+  TITLE = {{Formalising the pi-calculus using nominal logic}},
+  AUTHOR = {Jesper Bengtson and Joachim Parrow},
+  URL = {https://lmcs.episciences.org/832},
+  DOI = {10.2168/LMCS-5(2:16)2009},
+  JOURNAL = {{Logical Methods in Computer Science}},
+  VOLUME = {{Volume 5, Issue 2}},
+  YEAR = {2009},
+  MONTH = Jun,
+  KEYWORDS = {Computer Science - Logic in Computer Science ; F.4.1},
+}
+
+@inproceedings{Orchard2016,
+   title={Using session types as an effect system},
+   volume=203,
+   ISSN={2075-2180},
+   url={http://dx.doi.org/10.4204/EPTCS.203.1},
+   DOI={10.4204/eptcs.203.1},
+   journal={Electronic Proceedings in Theoretical Computer Science},
+   booktitle = {Proceedings PLACES 2015},
+   editor = {Simon Gay and Jade Alglave},
+   publisher={Open Publishing Association},
+   author={Orchard, Dominic and Yoshida, Nobuko},
+   year=2016,
+   month=feb, pages={1–13}
+}
+
+@InProceedings{Castro2020,
+author="Castro, David
+and Ferreira, Francisco
+and Yoshida, Nobuko",
+editor="Biere, Armin
+and Parker, David",
+title="{EMTST}: Engineering the Meta-theory of Session Types",
+booktitle="Tools and Algorithms for the Construction and Analysis of Systems",
+year="2020",
+publisher="Springer International Publishing",
+address="Cham",
+pages="278--285",
+abstract="Session types provide a principled programming discipline for structured interactions. They represent a wide spectrum of type-systems for concurrency. Their type safety is thus extremely important. EMTST is a tool to aid in representing and validating theorems about session types in the Coq proof assistant. On paper, these proofs are often tricky, and error prone. In proof assistants, they are typically long and difficult to prove. In this work, we propose a library that helps validate the theory of session types calculi in proof assistants. As a case study, we study two of the most used binary session types systems: we show the impossibility of representing the first system in {\$}{\$}{\backslash}alpha {\$}{\$}-equivalent representations, and we prove type preservation for the revisited system. We develop our tool in the Coq proof assistant, using locally nameless for binders and small scale reflection to simplify the handling of linear typing environments.",
+isbn="978-3-030-45237-7",
+doi="10.1007/978-3-030-45237-7_17",
+series="Lecture Notes in Computer Science",
+volume="12079"
+}
+
+@mastersthesis{Zalakain2019,
+title={Type-checking session-typed $\pi$-calculus with {Coq}},
+author="Uma Zalakain",
+school="University of Glasgow",
+year="2019",
+url="https://umazalakain.info/static/Z19/msc-thesis.pdf"
+}
+
+@mastersthesis{Petz2016,
+title={A Semantics for Attestation Protocols using Session Types in {Coq}},
+author={Adam Michael Petz},
+school={University of Kansas},
+year={2016},
+url={http://hdl.handle.net/1808/24137}
+}
+
+@misc{Bock2016,
+title = "Representing Session Types",
+abstract = "In this paper we propose a logical foundation of processes and their focused normal forms. We use a linear meta-language based on substructural operational semantics to describe focused forms of processes, and compare them to standard π-calculus processes with their respective operational semantics.The overall goal of this research is to understand how to reason about processes, multiparty communication and global types, and how to mechanize properties such as deadlock freeness and liveness. We are also interested in establishing the limitations of this approach.",
+author = "Bock, {Peter Brottveit} and Agata Murawska and Alessandro Bruni and Carsten Sch{\"u}rmann",
+year = "2016",
+language = "English",
+type = "Other",
+url = "https://pure.itu.dk/en/publications/representing-session-types"
+}
+
+@misc{Xi2016,
+      title={Session Types in a Linearly Typed Multi-Threaded Lambda-Calculus}, 
+      author={Hongwei Xi and Zhiqiang Ren and Hanwen Wu and William Blair},
+      year={2016},
+      eprint={1603.03727},
+      archivePrefix={arXiv},
+      doi={https://doi.org/10.48550/arXiv.1603.03727},
+      primaryClass={cs.PL}
+}
+
+@article{Hirsch2022,
+author = {Hirsch, Andrew K. and Garg, Deepak},
+title = {{Pirouette}: Higher-Order Typed Functional Choreographies},
+year = {2022},
+issue_date = {January 2022},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {6},
+number = {POPL},
+url = {https://doi.org/10.1145/3498684},
+doi = {10.1145/3498684},
+abstract = {We present Pirouette, a language for typed higher-order functional choreographic programming. Pirouette offers programmers the ability to write a centralized functional program and compile it via endpoint projection into programs for each node in a distributed system. Moreover, Pirouette is defined generically over a (local) language of messages, and lifts guarantees about the message type system to its own. Message type soundness also guarantees deadlock freedom. All of our results are verified in Coq.},
+journal = {Proc. ACM Program. Lang.},
+month = {jan},
+articleno = {23},
+numpages = {27},
+keywords = {Concurrency, Functional Programming, Choreographies}
+}
+
+@InProceedings{Cruz-Filipe2021b,
+  author =	{Cruz-Filipe, Lu{\'\i}s and Montesi, Fabrizio and Peressotti, Marco},
+  title =	{{Formalising a Turing-Complete Choreographic Language in Coq}},
+  booktitle =	{12th International Conference on Interactive Theorem Proving (ITP 2021)},
+  pages =	{15:1--15:18},
+  series =	{Leibniz International Proceedings in Informatics (LIPIcs)},
+  ISBN =	{978-3-95977-188-7},
+  ISSN =	{1868-8969},
+  year =	{2021},
+  volume =	{193},
+  editor =	{Cohen, Liron and Kaliszyk, Cezary},
+  publisher =	{Schloss Dagstuhl -- Leibniz-Zentrum f{\"u}r Informatik},
+  address =	{Dagstuhl, Germany},
+  URL =		{https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITP.2021.15},
+  URN =		{urn:nbn:de:0030-drops-139109},
+  doi =		{10.4230/LIPIcs.ITP.2021.15},
+  annote =	{Keywords: Choreographic Programming, Formalisation, Turing Completeness}
+}
+
+@InProceedings{Maksimovic2015,
+author="Maksimovi{\'{c}}, Petar
+and Schmitt, Alan",
+editor="Urban, Christian
+and Zhang, Xingyuan",
+title={{HOCore in Coq}},
+booktitle="Interactive Theorem Proving",
+year="2015",
+publisher="Springer International Publishing",
+address="Cham",
+pages="278--293",
+abstract="We consider a recent publication on higher-order process calculi [12] and describe how its main results have been formalized in the Coq proof assistant. We highlight a number of important technical issues that we have uncovered in the original publication. We believe that these issues are not unique to the paper under consideration and require particular care to be avoided.",
+isbn="978-3-319-22102-1",
+doi="10.1007/978-3-319-22102-1_19",
+series="Lecture Notes in Computer Science",
+volume="9236"
+}
+
+@article{Parrow2014,
+title={Higher-order psi-calculi},
+volume=24,
+DOI={10.1017/S0960129513000170},
+number=2,
+journal={Mathematical Structures in Computer Science},
+publisher={Cambridge University Press},
+author={Parrow, Joachim and Borgström, Johannes and Raabjerg, Palle and Åman Pohjola, Johannes},
+year=2014,
+eprint={e240203}
+}
+
+@article{Bengtson2016,
+title={Psi-Calculi in {Isabelle}},
+author={Jesper Bengtson and Joachim Parrow and Tjark Weber},
+year={2016},
+journal={Journal of Automated Reasoning},
+doi={10.1007/s10817-015-9336-2},
+volume={56},
+pages={1-47}
+}
+
+@InProceedings{Kahsai2008,
+author="Kahsai, Temesghen
+and Miculan, Marino",
+editor="Beckmann, Arnold
+and Dimitracopoulos, Costas
+and L{\"o}we, Benedikt",
+title="Implementing Spi Calculus Using Nominal Techniques",
+booktitle="Logic and Theory of Algorithms",
+year="2008",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="294--305",
+abstract="The aim of this work is to obtain an interactive proof environment based on Isabelle/HOL for reasoning formally about cryptographic protocols, expressed as processes of the spi calculus (a $\pi$-calculus with cryptographic primitives). To this end, we formalise syntax, semantics, and hedged bisimulation, an environment-sensitive bisimulation which can be used for proving security properties of protocols. In order to deal smoothly with binding operators and reason up-to $\alpha$-equivalence of bound names, we adopt the new Nominal datatype package. This simplifies both the encoding, and the formal proofs, which turn out to correspond closely to ``manual proofs''.",
+isbn="978-3-540-69407-6",
+doi="10.1007/978-3-540-69407-6_33",
+series="Lecture Notes in Computer Science",
+volume="5028"
+}
+
+@article{Bengtson2007,
+title = {A Completeness Proof for Bisimulation in the pi-calculus Using {Isabelle}},
+journal = {Electronic Notes in Theoretical Computer Science},
+volume = {192},
+number = {1},
+pages = {61-75},
+year = {2007},
+note = {Proceedings of the Fourth Workshop on Structural Operational Semantics (SOS 2007)},
+issn = {1571-0661},
+doi = {10.1016/j.entcs.2007.08.017},
+url = {https://www.sciencedirect.com/science/article/pii/S1571066107005774},
+author = {Jesper Bengtson and Joachim Parrow},
+keywords = {pi-calculus, Theorem Provers, Isabelle, Bisimulation, Axiomatization},
+abstract = {We use the interactive theorem prover Isabelle to prove that the algebraic axiomatization of bisimulation equivalence in the pi-calculus is sound and complete. This is the first proof of its kind to be wholly machine checked. Although the result has been known for some time the proof had parts which needed careful attention to detail to become completely formal. It is not that the result was ever in doubt; rather, our contribution lies in the methodology to prove completeness and get absolute certainty that the proof is correct, while at the same time following the intuitive lines of reasoning of the original proof. Completeness of axiomatizations is relevant for many variants of the calculus, so our method has applications beyond this single result. We build on our previous effort of implementing a framework for the pi-calculus in Isabelle using the nominal data type package, and strengthen our claim that this framework is well suited to represent the theory of the pi-calculus, especially in the smooth treatment of bound names.}
+}
+
+@inproceedings{Castro-Perez2021,
+author = {Castro-Perez, David and Ferreira, Francisco and Gheri, Lorenzo and Yoshida, Nobuko},
+title = {{Zooid}: A {DSL} for Certified Multiparty Computation: From Mechanised Metatheory to Certified Multiparty Processes},
+year = {2021},
+isbn = {9781450383912},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3453483.3454041},
+doi = {10.1145/3453483.3454041},
+abstract = {We design and implement Zooid, a domain specific language for certified multiparty communication, embedded in Coq and implemented atop our mechanisation framework of asynchronous multiparty session types (the first of its kind). Zooid provides a fully mechanised metatheory for the semantics of global and local types, and a fully verified end-point process language that faithfully reflects the type-level behaviours and thus inherits the global types properties such as deadlock freedom, protocol compliance, and liveness guarantees.},
+booktitle = {Proceedings of the 42nd ACM SIGPLAN International Conference on Programming Language Design and Implementation},
+pages = {237–251},
+numpages = {15},
+keywords = {multiparty session types, deadlock freedom, concurrent processes, mechanisation, Coq, liveness, protocol compliance},
+location = {Virtual, Canada},
+series = {PLDI 2021}
+}
+
+@inproceedings{Gay2020,
+   title={Duality of Session Types: The Final Cut},
+   ISSN={2075-2180},
+   url={http://dx.doi.org/10.4204/EPTCS.314.3},
+   DOI={10.4204/eptcs.314.3},
+   journal={Electronic Proceedings in Theoretical Computer Science},
+   publisher={Open Publishing Association},
+   author={Gay, Simon J. and Thiemann, Peter and Vasconcelos, Vasco T.},
+   year={2020},
+   volume={314},
+   booktitle={Proceedings PLACES 2020},
+   month=apr,
+   pages={23–33}
+}
+
+@article{Brady2017,
+title={Type-driven Development of Concurrent Communicating Systems},
+volume={18},
+url={https://journals.agh.edu.pl/csci/article/view/1413},
+DOI={10.7494/csci.2017.18.3.1413},
+abstractNote={Modern software systems rely on communication, for example mobile applcations communicating with a central server, distributed systems coordinaing a telecommunications network, or concurrent systems handling events and processes in a desktop application. However, reasoning about concurrent prgrams is hard, since we must reason about each process and the order in which communication might happen between processes. In this paper, I describe a type-driven approach to implementing communicating concurrent programs, using the dependently typed programming language Idris. I show how the type system can be used to describe resource access protocols (such as controlling access to a file handle) and verify that programs correctly follow those prtools. Finally, I show how to use the type system to reason about the order of communication between concurrent processes, ensuring that each end of a communication channel follows a defined protocol.},
+number={3},
+journal={Computer Science},
+author={Brady, Edwin Charles},
+year={2017},
+month={Jul.}
+}
+
+@article{Hinrichsen2019,
+title={Actris: session-type based reasoning in separation logic},
+author={Jonas Kastberg Hinrichsen and Jesper Bengtson and Robbert Krebbers},
+year={2019},
+journal={Proceedings of the ACM on Programming Languages},
+volume={4},
+issue={POPL},
+eprint=6,
+pages={1-30},
+doi={10.1145/3371074},
+publisher={Association for Computing Machinery}
+}
+
+@article{Sergey2017,
+title={Programming and proving with distributed protocols},
+author={Ilya Sergey and James R. Wilcox and Zachary Tatlock},
+year={2017},
+journal={Proceedings of the ACM on Programming Languages},
+volume={2},
+issue={POPL},
+eprint=28,
+pages={1-30},
+doi={10.1145/3158116},
+publisher={Association for Computing Machinery}
+}
