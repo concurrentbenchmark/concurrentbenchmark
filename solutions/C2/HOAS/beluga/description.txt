@@ -1,0 +1,41 @@
+A solution to the first part: LTS -> RED
+
+Author: Gabriele Cecilia
+Advisor: Alberto Momigliano
+System: Beluga v1.1.1
+Style:
+
+ - syntax: (weak) HOAS
+
+- LTS: distinguishes between free and bound transitions following
+  Honsell et al.'s Pi-calculus in coinductive type theories
+
+ - RED: takes congruence seriously, meaning structural congruence *is* a
+   compatible equivalence relation
+
+Development: one Theorem over 21 lemmata
+
+Theorem 1 --> lemma 1_1 --> lemma 1_1_1
+                                                     --> lemma 1_1_2
+                                                     --> lemma 1_1_3
+                      --> lemma 1_2 --> lemma 1_2_1
+                                                     --> lemma 1_2_2
+                                                     --> lemma 1_2_3
+                      --> lemma 1_3 --> lemma 1_2    --> ... as above
+                                                     --> lemma 1_3_1
+                                                     --> lemma 1_3_2
+                                                     --> lemma 1_3_3
+                                                     --> lemma 1_3_4
+                      --> lemma 1_4 --> lemma 1_4_1
+                      --> lemma 1_5 --> lemma 1_5_1
+                      --> lemma 1_6 --> lemma 1_6_1
+                      --> lemma 1_7 --> lemma 1_7_1
+
+Comments: no technical lemma about binders, names or extrusion. Lemmas
+that require n-ary sequences of restrictions are accounted for by
+defining those sequences inductively. A tiny bit of usual boilerplate
+required to code existential properties. Some ingenuity to simulate
+lexicographic induction that the termination checker does not
+completely support. Still, successfully totality checked.
+
+LOC: less of 300
