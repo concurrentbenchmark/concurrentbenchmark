@@ -80,7 +80,7 @@
   \fi
 }
 
-
+% Comments
 
 %%% For comments, add your own if you wish.
 \usepackage{color}
@@ -88,7 +88,16 @@
 \newcommand{\marco}[1]{\textcolor{cyan}{{\footnotesize Marco: #1}}}
 \newcommand{\luca}[1]{\textcolor{magenta}{{\footnotesize Luca: #1}}}
 
+% Common abbreviations
 
+\RequirePackage{xspace}
+\makeatletter
+\DeclareRobustCommand\onedot{\futurelet\@let@token\@onedot}
+\def\@onedot{\ifx\@let@token.\else.\null\fi\xspace}
+\def\eg{\emph{e.g}\onedot}
+\def\ie{\emph{i.e}\onedot}
+\def\etc{\emph{etc}\onedot}
+\makeatother
 
 %% Local Variables:
 %% mode: latex
