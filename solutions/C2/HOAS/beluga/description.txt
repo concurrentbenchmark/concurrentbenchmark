@@ -1,5 +1,3 @@
-A solution to the first part: LTS -> RED
-
 Author: Gabriele Cecilia
 Advisor: Alberto Momigliano
 System: Beluga v1.1.1
@@ -13,6 +11,7 @@ Style:
  - RED: takes congruence seriously, meaning structural congruence *is* a
    compatible equivalence relation
 
+First part: LTS -> RED
 Development: one Theorem over 21 lemmata
 
 Theorem 1 --> lemma 1_1 --> lemma 1_1_1
@@ -39,3 +38,9 @@ lexicographic induction that the termination checker does not
 completely support. Still, successfully totality checked.
 
 LOC: less of 300
+
+----------------------
+
+Second part:  RED -> LTS
+
+Similar, but needing a couple of strengthening lemmas. Heavy use of mutual recursion, but still totally checked.
