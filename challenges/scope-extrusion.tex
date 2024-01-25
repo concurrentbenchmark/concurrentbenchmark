@@ -2,12 +2,12 @@
 \label{sec:challenge:name-passing-scope-extrusion}
 
 This challenge formalises a proof that requires explicit scope extrusion.
-Scope extrusion is the notion that a process can send restricted names to another process, as long as the restriction can safely be ``extruded'' (i.e.\ expanded) to include the receiving process.
-This e.g.\ allows a process to set up a private connection by sending a restricted name to another process, then using this name for further communication.
+Scope extrusion is the notion that a process can send restricted names to another process, as long as the restriction can safely be ``extruded'' (\ie, expanded) to include the receiving process.
+This, for instance, allows a process to set up a private connection by sending a restricted name to another process, then using this name for further communication.
 The key issue of this challenge is reasoning about names that are ``in the process'' of being scope-extruded, which often presents difficulties for the mechanisation of binders.
 
 Reasoning about scope extrusion explicitly can sometimes be avoided by introducing a structural congruence rule into the semantics, but doing this means we lose information about the scope when reasoning about the semantics.
-Explicitly reasoning about scope extrusion is necessary to describe e.g.\ runtime monitors and compositions of systems.
+Explicitly reasoning about scope extrusion is necessary to describe, \eg, runtime monitors and compositions of systems.
 
 The setting for this challenge is a ``classic'' untyped \( \pi \)-calculus, where (unlike the calculi in the other challenges) names can be sent and received, and bound by input constructs (similarly to variables in the other calculi).
 We define two different semantics for our system: one that avoids explicit reasoning about scope extrusion, and one that does not.
@@ -33,7 +33,7 @@ The input operator thus binds the name \( y \) in \( P \).
 % The restriction operator thus binds the name \( x \) in \( P \).
 Note that the scope of a restriction may change when processes interact. Namely, a restricted name may be sent \emph{outside} of its scope.
 % The process \( \Pchoice{P}{Q} \) is a non-deterministic \emph{choice} between continuing as the process \( P \) or as the process \( Q \).
-Note that there is no recursion or replication in the syntax, and thus no infinite behaviors can be expressed.
+Note that there is no recursion or replication in the syntax, and thus no infinite behaviours can be expressed.
 This simplifies the theory and is orthogonal to the concept of scope extrusion.
 
 % We will use the notation \( \freenames{P} \) to denote the set of names that occur free (i.e.\ not bound by a restriction or an input) in \( P \).

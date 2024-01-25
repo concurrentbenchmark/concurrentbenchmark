@@ -1,10 +1,10 @@
-\subsection{Challenge: Linearity and behavioral type systems}
+\subsection{Challenge: Linearity and behavioural type systems}
 \label{sec:challenge:linearity-beh-types}
-This challenge formalises a proof that requires reasoning about linearity of channels.
-Linearity is the notion that a channel must be used exactly once in a process
+This challenge formalises a proof that requires reasoning about the linearity of channels.
+Linearity is the notion that a channel must be used exactly once by a process.
 This is necessary to prove properties about session type systems, and the key
 issue of this challenge is reasoning about the linearity of context splitting operations.
-Linear reasoning is also necessary to formalise e.g.\ linear and affine types for the pi-calculus and cut elimination in linear logics.
+Linear reasoning is also necessary to formalise, \eg, linear and affine types for the \(\pi\)-calculus and cut elimination in linear logics.
 
 The setting for this challenge is a small calculus with a session type
 system, the syntax and semantics of which are given below. The
@@ -12,10 +12,10 @@ calculus is a fragment of the one presented in~\cite{Vasconcelos2012},
 formulated in the dual style of~\cite{barber96tr}.
 
 The main objective of this challenge is to prove type preservation (also
-known as subject reduction), i.e.\ that well-typed
+known as subject reduction), \ie, that well-typed
 processes can only transition to processes which are also well-typed
 in the same context.
-The second objective is to prove type safety, i.e.\ that well-typed processes are also well-formed in the sense that they do not use endpoints in a non-dual way.
+The second objective is to prove type safety, \ie, that well-typed processes are also well-formed in the sense that they do not use endpoints in a non-dual way.
 
 \subsubsection{Syntax.}
 The syntax is given by the grammar
@@ -36,7 +36,7 @@ The process \( \Presd{x}{y}{P} \) represents a \emph{session} with endpoints nam
 %Finally, the process $\PBpar{P}{Q}$ represents the parallel composition of $P$ and $Q$.
 %
 Note that in this calculus channels cannot be sent in messages, therefore the topology of the communication network described by a process cannot change.
-Also, there is no recursion or replication in the syntax, hence no infinite behaviors can be expressed. In particular, we only model linear (as opposed to shared) channels.
+Also, there is no recursion or replication in the syntax, hence no infinite behaviours can be expressed. In particular, we only model linear (as opposed to shared) channels.
 
 \subsubsection{Semantics.}
 We describe the actions that the system can perform through a small step operational semantics.
@@ -55,7 +55,7 @@ As usual, we use  a \emph{structural congruence} relation that equates processes
   \inferrule[Sc-Res]{ }{\scong{\Presd{x_1}{y_1}{\Presd{x_2}{y_2}{P}}}{\Presd{x_2}{y_2}{\Presd{x_1}{y_1}{P}}}}
 \end{mathpar}
 
-The operational semantics is defined as the following relation on processes:
+The operational semantics are defined as the following relation on processes:
 \begin{mathpar}
   \inferrule[R-Com]{ }{\reduces{\Presd{x}{y}{(\Ppar{\Pout{x}{a}{P}}{\Ppar{\Pin{y}{l}{Q}}{R}})}}{\Presd{x}{y}{(\Ppar{P}{\Ppar{\subst{Q}{a}{l}}{R}})}}}
   \and
@@ -330,7 +330,7 @@ Note that well-formed processes do not necessarily reduce. For example, the proc
 is well formed but also irreducible.
 
 \begin{theorem}[Type safety]
-  If \( \types{\Cempty}{P} \), then \( P \) is well-formed.
+  If \( \types{\Gamma;\Cempty}{P} \), then \( P \) is well-formed.
 \end{theorem}
 \begin{proof}
   In order to prove that $P$ is well-formed, let us consider any
@@ -356,5 +356,5 @@ is well formed but also irreducible.
 \end{proof}
 
 \begin{corollary}
-  If \( \types{\Cempty}{P} \) and \( \reduces{P}{Q} \) then \( Q \) is well formed.
+  If \( \types{\Gamma;\Cempty}{P} \) and \( \reduces{P}{Q} \) then \( Q \) is well formed.
 \end{corollary}
