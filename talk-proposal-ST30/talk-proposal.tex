@@ -6,6 +6,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage{mathtools}
 \usepackage{mathpartir}
 \usepackage{bm}
 \usepackage{hyperref}
@@ -59,7 +60,7 @@ The programming language community has increasingly embraced mechanisations sinc
 Since POPLMark, the number of papers with accompanying mechanised proofs has grown steadily, but many mechanisations still rely on ad hoc techniques.
 POPLMark Reloaded~\cite{POPLMarkReloaded} aimed to identify and develop best practices and tool support for proofs using logical relations.
 The authors of both POPLMark and POPLMark Reloaded were careful to note that their benchmarks were only a beginning, and they specifically mention reasoning about concurrency using coinduction and linear environments as points for future work.
-Papers in concurrency theory do often include mechanised proofs (e.g.~\cite{DBLP:conf/pldi/Castro-Perez0GY21,DBLP:conf/tacas/CastroFY20,lmcs:9985, DBLP:journals/jar/CruzFilipeMP23, Tirore:2023}), and others also directly discuss formalisation techniques (e.g.~\cite{DBLP:journals/jar/BengtsonPW16, DBLP:conf/tphol/Gay01, DBLP:conf/ppdp/Thiemann19, DBLP:conf/forte/ZalakainD21}). However, our experience is that choosing techniques and tools remains a challenge with few guidelines.
+Papers in concurrency theory do often include mechanised proofs (e.g.~\cite{Castro-Perez2021,Castro2020,lmcs:9985, DBLP:journals/jar/CruzFilipeMP23, Tirore:2023}), and others also directly discuss formalisation techniques (e.g.~\cite{Bengtson2016, Gay2001, Thiemann2019, DBLP:conf/forte/ZalakainD21}). However, our experience is that choosing techniques and tools remains a challenge with few guidelines.
 We propose a new collection of benchmark problems specifically designed to tackle the issues encountered when mechanising message-passing concurrency using process calculi.
 A goal of our collection of benchmark problems is to push for the development of guidelines and tutorials, and our challenge problems are a simple setting in which to demonstrate and compare techniques.
 Another goal is to strengthen the culture of mechanisation by rallying the community to collaborate on exploring and developing new tools and techniques.
