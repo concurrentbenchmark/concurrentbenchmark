@@ -7,24 +7,30 @@
 \item[\cite{Thiemann2019}]                \url{https://doi.org/10.1145/3354166.3354184}
 \item[\cite{Goto2016}]                    \url{https://doi.org/10.1017/S0960129514000231}
 \item[\cite{Affeldt2008}]                 \url{https://doi.org/10.1016/j.entcs.2007.11.010}
-\item[\cite{Scagnetto2002}]               \url{https://doi.org/10.1016/S1571-0661(04)80507-3}
+\item[\cite{Honsell2001}]
+% \item[\cite{Scagnetto2002}]
+  \url{https://doi.org/10.1016/S1571-0661(04)80507-3} First weak HOAS
+  formalization of the full pi calculus in Coq within the ``Theory of
+  Context'', an axiomatic reflection of properties of
+  names. Congruence properties of bisimilarity mainly via Park's
+  principle.
 \item[\cite{Hirschkoff1997}]              \url{https://doi.org/10.1007/BFb0028392}
 \item[\cite{Melham1994}]                  T. F. Melham. 1994. A mechanized theory of the $\pi$-calculus in HOL. Nordic J. of Computing 1, 1 (Spring 1994), 50–76. (\url{https://dl.acm.org/doi/10.5555/640186.640190}, but paper is missing)
 \item[\cite{Ait-Mohamed1994}]             Otmane Ait-Mohamed. Vérification de l'équivalence du $\pi$-calcul dans HOL. RR-2412, INRIA. 1994 (\url{https://hal.science/inria-00074263/}, in French)
 \item[\cite{Rockl2003}]                   \url{https://doi.org/10.1017/S0956796802004653}
 \item[\cite{Rockl2001}]                   \url{https://doi.org/10.1007/3-540-45315-6_24}
 \item[\cite{Henry-Greard1999}]            \url{https://inria.hal.science/inria-00072970}
-\item[\cite{Miller2023}]                  \url{https://www.lix.polytechnique.fr/Labo/Dale.Miller/lProlog/examples/pi-calculus/toc.html}
+%\item[\cite{Miller2023}]                  \url{https://www.lix.polytechnique.fr/Labo/Dale.Miller/lProlog/examples/pi-calculus/toc.html}
 \item[\cite{Gordon1996}]                  \url{https://doi.org/10.1007/BFb0105404}
 \item[\cite{Gay2001}]                     \url{https://doi.org/10.1007/3-540-44755-5_16}
 \item[\cite{Despeyroux2000}]              \url{https://doi.org/10.1007/3-540-44929-9_30}
+  weak HOAS encoding in Coq, no exotic terms. Proof of subject reduction.
 \item[\cite{Gillard2000}]                 \url{https://doi.org/10.1007/10721959_33}
 \item[\cite{Honsell2001}]                 \url{https://doi.org/10.1016/S0304-3975(00)00095-5}
 \item[\cite{Perera2018}]                  \url{https://doi.org/10.1017/S096012951700010X}
-\item[\cite{Watkins2008}]                 \url{https://doi.org/10.1016/j.entcs.2007.11.013}
+% \item[\cite{Watkins2008}]                 \url{https://doi.org/10.1016/j.entcs.2007.11.013}
 \item[\cite{Tiu2010}]                     \url{https://doi.org/10.1145/1656242.1656248}
 \item[\cite{Cervesato2007}]               \url{https://doi.org/10.1184/R1/6587294.v1}
-\item[\cite{Baelde2014}]                  \url{https://doi.org/10.6092/issn.1972-5787/4650}
 \item[\cite{Bengtson2009}]                \url{https://doi.org/10.2168/LMCS-5(2:16)2009}
 \item[\cite{Orchard2016}]                 \url{https://doi.org/10.4204/EPTCS.203.1}
 \item[\cite{Castro2020}]                  \url{https://doi.org/10.1007/978-3-030-45237-7_17}
@@ -38,7 +44,7 @@
 \item[\cite{Parrow2014}]                  \url{https://doi.org/10.1017/S0960129513000170}
 \item[\cite{Bengtson2016}]                \url{https://doi.org/10.1007/s10817-015-9336-2}
 \item[\cite{Kahsai2008}]                  \url{https://doi.org/10.1007/978-3-540-69407-6_33}
-\item[\cite{Bengtson2007}]                \url{https://doi.org/10.1016/j.entcs.2007.08.017}
+% \item[\cite{Bengtson2007}]                \url{https://doi.org/10.1016/j.entcs.2007.08.017}
 \item[\cite{Castro-Perez2021}]            \url{https://doi.org/10.1145/3453483.3454041}
 \item[\cite{Gay2020}]                     \url{https://doi.org/10.4204/EPTCS.314.3}
 \item[\cite{Brady2017}]                   \url{https://doi.org/10.7494/csci.2017.18.3.1413}
@@ -74,24 +80,22 @@ A total of 45 papers that we currently know about.
   \cite{Thiemann2019}                & Agda                   &           &         &             &             \\
   \cite{Goto2016}                    & Coq                    &           &         &             &             \\
   \cite{Affeldt2008}                 & Coq                    &           &         &             &             \\
-  \cite{Scagnetto2002}               & Coq                    &           &         &             &             \\
+  \cite{Honsell2001}               & Coq                    &           &weak HOAS + ToC         &cofix and Park's             & issues with cofix            \\
   \cite{Hirschkoff1997}              & Coq                    &           &         &             &             \\
   \cite{Melham1994}                  & HOL                    &           &         &             &             \\
   \cite{Ait-Mohamed1994}             & HOL                    &           &         &             &             \\
   \cite{Rockl2003}                   & Isabelle               &           &         &             &             \\
   \cite{Rockl2001}                   & Isabelle               &           &         &             &             \\
   \cite{Henry-Greard1999}            & Coq                    &           &         &             &             \\
-  \cite{Miller2023}                  & Abella/$\lambda$Prolog &           &         &             &             \\
+  %\cite{Miller2023}                  & Abella/$\lambda$Prolog &           &         &             &             \\
   \cite{Gordon1996}                  & HOL                    &           &         &             &             \\
   \cite{Gay2001}                     & Isabelle/HOL           &           &         &             &             \\
-  \cite{Despeyroux2000}              & Coq                    &           &         &             &             \\
+  \cite{Despeyroux2000}              & Coq                    &           & weak HOAS         &             &             \\
   \cite{Gillard2000}                 & Coq                    &           &         &             &             \\
-  \cite{Honsell2001}                 & Coq                    &           &         &             &             \\
   \cite{Perera2018}                  & Agda                   &           &         &             &             \\
-  \cite{Watkins2008}                 & CLF                    &           &         &             &             \\
-  \cite{Tiu2010}                     & Bedwyr?                &           &         &             &             \\
-  \cite{Cervesato2007}               & CLF                    &           &         &             &             \\
-  \cite{Baelde2014}                  & Abella                 &           &         &             &             \\
+%  \cite{Watkins2008}                 & CLF                    &           &         &             &             \\
+  \cite{Tiu2010}                     & Abella                &           & HOAS + $\nabla$        & coDefine             &              \\
+  \cite{Cervesato2007}               & CLF                    &           & HOAS + substructural opsem       &             &   no metatheory          \\
   \cite{Bengtson2009}                & Isabelle               &           & Nominal &             &             \\
   \cite{Orchard2016}                 & Agda                   &           &         &             &             \\
   \cite{Castro2020}                  & Coq                    &           &         &             &             \\
@@ -105,7 +109,7 @@ A total of 45 papers that we currently know about.
   \cite{Parrow2014}                  & Isabelle               &           & Nominal &             &             \\
   \cite{Bengtson2016}                & Isabelle               &           & Nominal &             &             \\
   \cite{Kahsai2008}                  & Isabelle               &           & Nominal &             &             \\
-  \cite{Bengtson2007}                & Isabelle               &           & Nominal &             &             \\
+%  \cite{Bengtson2007}                & Isabelle               &           & Nominal &             &             \\
   \cite{Castro-Perez2021}            & Coq                    &           &         &             &             \\
   \cite{Gay2020}                     & Agda                   &           &         &             &             \\
   \cite{Brady2017}                   & Idris                  &           &         &             &             \\
