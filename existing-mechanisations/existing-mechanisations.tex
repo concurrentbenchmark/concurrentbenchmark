@@ -24,7 +24,7 @@
 \item[\cite{Gordon1996}]                  \url{https://doi.org/10.1007/BFb0105404}
 \item[\cite{Gay2001}]                     \url{https://doi.org/10.1007/3-540-44755-5_16}
 \item[\cite{Despeyroux2000}]              \url{https://doi.org/10.1007/3-540-44929-9_30}
-  weak HOAS encoding in Coq, no exotic terms. Proof of subject reduction.
+  weak HOAS encoding in Coq, based on \emph{concretions}, no exotic terms. Proof of subject reduction.
 \item[\cite{Gillard2000}]                 \url{https://doi.org/10.1007/10721959_33}
 \item[\cite{Honsell2001}]                 \url{https://doi.org/10.1016/S0304-3975(00)00095-5}
 \item[\cite{Perera2018}]                  \url{https://doi.org/10.1017/S096012951700010X}
@@ -72,7 +72,7 @@ A total of 45 papers that we currently know about.
 \begin{center}
   \small
 \begin{tabular}{l|c|c|c|c|l}
-  Reference                          & Proof assistant        & Linearity & Binders & Coinduction & Limitations \\\hline
+  Reference                          & Proof assistant        & Linearity & Binders & Coinduction & Notes/Limitations \\\hline
   \cite{Tirore:2023}                 & Coq                    &           &         &             &             \\
   \cite{Cruz-Filipe2021}             & Coq                    &           &         &             &             \\
   \cite{Pohjola2022}                 & HOL4                   &           &         &             &             \\
@@ -95,12 +95,15 @@ A total of 45 papers that we currently know about.
   \cite{Perera2018}                  & Agda                   &           &         &             &             \\
 %  \cite{Watkins2008}                 & CLF                    &           &         &             &             \\
   \cite{Tiu2010}                     & Abella                &           & HOAS + $\nabla$        & coDefine             &              \\
-  \cite{Cervesato2007}               & CLF                    &           & HOAS + substructural opsem       &             &   no metatheory          \\
+    \cite{ChaudhuriCM15}                     & Abella                &           & HOAS + $\nabla$        & bisimulation up to             &              \\
+  \cite{Cervesato2007}               & CLF                    &  substructural op.\ semantics         & HOAS       &             &   \textbf{no metatheory}          \\
   \cite{Bengtson2009}                & Isabelle               &           & Nominal &             &             \\
   \cite{Orchard2016}                 & Agda                   &           &         &             &             \\
+    \cite{CicconeP20}                 & Agda                   & context splitting, labelled types           & well typed DB        &             &             \\
   \cite{Castro2020}                  & Coq                    &           &         &             &             \\
   \cite{Zalakain2019}                & Coq                    &           &         &             &             \\
   \cite{Petz2016}                    & Coq                    &           &         &             &             \\
+    \cite{AmbalLS21}                    & Coq                    &           & DB + nameless         &             &      higher order pi       \\
   \cite{Bock2016}                    & CLF                    &           &         &             &             \\
   \cite{Xi2016}                      & ATS                    &           &         &             &             \\
   \cite{Hirsch2022}                  & Coq                    &           &         &             &             \\
