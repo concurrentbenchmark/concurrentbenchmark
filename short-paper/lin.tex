@@ -1,0 +1,43 @@
+\alb{Just a rough attempt to put some words on paper}
+
+In mechanized meta-theory addressing linearity means choosing an
+appropriate representation of a linear context. The crux of the matter
+is \emph{context splitting} as showcased by the introduction rule of
+the tensor. While a linear context can be seen as a multi-set, most
+proof assistants have a better support for list processing.  Although
+this representation is intuitive, it is overly concrete and requires
+establishing dozens and dozens of intermediate lemmas that are foreign
+to the mathematics of the problem, say proving type preservation. In
+this space, several designs are possible: one can label occurrences of
+resources constraining their usage, e.g.~\cite{CicconeP20}, or
+\alb{something: ask Franscisco} as in \cite{Castro2020}. Some authors
+instead impose a multiset structure over lists,
+see~\cite{ChaudhuriLR19,Danielsson12}: still, the effort in developing
+the infrastructure is significant. A different and interesting
+approach is to bypass the problem of context splitting by adopting
+% to  meta-theoretic properties
+familiar ideas from linear algorithmic  type checking;
+this in known as typing with \emph{leftovers}, as
+exemplified in~\cite{DBLP:conf/forte/ZalakainD21}. Whatever the choice,
+list-based encodings can be refined to be intrinsically-typed, if the proof assistant supports dependent types, see \cite{Thiemann2019,CicconeP20,RouvoetPKV20}.
+
+For something completely different, one could adopt a
+\emph{sub-structural} meta-logical frameworks: here it is the framework
+itself that handles resource distribution and the user just has to map
+her linear operations to the one offered by the framework. In fact,
+the linear function space will handle all context operations
+implicitly, including splitting and substitution. One such a framework
+is \emph{Celf}~\cite{Schack-Nielsen:IJCAR08}, see the encoding of
+session types in~\cite{Bock2016}. Unfortunately, \emph{Clef} does not
+yet support meta-theory. A compromise is the so called
+\emph{two-level} approach, where one encodes a sub-structural
+specification logic in a mainstream proof assistant and then use that
+logic to state and prove linear properties, see for a recent
+example~\cite{Felty:MSCS21}.
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "short-paper"
+%%% End:
