@@ -68,7 +68,7 @@
   %
   For this reason, we propose a new collection of benchmark problems with a
   focus on the challenges and issues that typically arise when mechanising
-  message-passing concurrency using process calculi.  Our benchmark problems
+  message-passing concurrency using process calculi.\luca{wondering whether it would make sense to say ``\dots using formal models of concurrent and distributed programming languages in the form of process calculi'' or something similar to stress that process calculi are not the subject of the challenges, but ``only'' an appropriate tool for this kind of endeavor}  Our benchmark problems
   address three key topics: linearity, scope extrusion, and coinductive
   reasoning.  The goal of this new challenge is to clarify, compare, and advance
   the state of the art, fostering the adoption of proof mechanisation in future
@@ -90,7 +90,7 @@ while their authors called for future investigations into such areas as
 coinduction and linear environments. In this spirit, we propose a 
 new collection of benchmark problems specifically designed to address typical 
 issues that arise when mechanising message-passing concurrency using process 
-calculi.
+calculi.\luca{see comment in abstract}
 
 Several papers in this realm already include mechanised proofs
 (e.g.~\cite{Castro-Perez2021,Castro2020,lmcs:9985,
@@ -113,8 +113,8 @@ and \emph{coinductive reasoning} for infinite behaviours. These are certainly no
 are fundamental to concurrency theory, and emerge in most mechanisations.
 The mechanisation of novel research results often requires addressing more than
 just one of these aspects at once; we see the combination of techniques
-as a next step beyond the scope of this challenge (we discuss this in
-\cref{sec:going-beyond}).
+as a next step beyond the scope of this challenge (we discuss this further in
+\Cref{sec:going-beyond}).
 % Our challenge problems are designed to stimulate progress on answering these questions by providing simple environments in which to demonstrate, evaluate, and compare the many tools and techniques available.
 % While the challenge problems themselves are thus not of scientific interest, we expect that the best practices and mechanisations developed by solving the challenge problems will also be useful for future research.
 
@@ -122,8 +122,8 @@ Like the authors of the POPLMark challenges, we seek to
 answer several questions:
 \begin{enumerate}[label=\textbf{(Q\arabic*)},leftmargin=10mm]
 \item\label{item:rq1} What is the current state of the art in mechanising process calculi?
-\item\label{item:rq2} What techniques and best practices can be recommended when starting formalisation projects within concurrency theory?
-\item\label{item:rq3} What improvements are needed to make mechanisation tools more user-friendly with regards to the issues faced when mechanising process calculi?
+\item\label{item:rq2} Which techniques and best practices can be recommended when starting formalisation projects within concurrency theory?
+\item\label{item:rq3} Which improvements are needed to make mechanisation tools more user-friendly with regards to the issues faced when mechanising process calculi?
 \end{enumerate}
 
 On the whole, this benchmark seeks to advance three main goals:
@@ -155,12 +155,12 @@ We encourage anyone interested to try the challenges using their
 favourite tools and techniques, and to send us their solutions.
 
 \paragraph{Outline of this paper.}
-We discuss our design choices in \cref{sec:design-discussion}, and possible extensions and further topics in \cref{sec:going-beyond}.
-The challenges themselves may be found in \cref{app:challenges}.
+We discuss our design choices in \Cref{sec:design-discussion}, and possible extensions and further topics in \Cref{sec:going-beyond}.
+The challenges themselves may be found in \Cref{app:challenges}.
 
 \section{Motivation}\label{sec:motivation}
 
-\section{Design of the benchmark}\label{sec:design-discussion}
+\section{Design of the Benchmark}\label{sec:design-discussion}
 
 In this section, we outline the factors considered in designing the
 benchmark challenges. We begin with some general remarks, then
@@ -224,7 +224,7 @@ thus simplifying the theory.
 We have chosen not to include delegation in the coinduction challenge since it is orthogonal to our primary aim of exploring coinductive proof techniques.
 
 \subsubsection{Evaluation criteria.}
-The idea behind our benchmark is to obtain evidence towards answering questions \cref{item:rq1,item:rq2,item:rq3}. We are therefore interested in not only the solutions, but alsoin the experience of solving the challenges with the chosen approach.
+The idea behind our benchmark is to obtain evidence towards answering questions \cref{item:rq1,item:rq2,item:rq3}. We are therefore interested in not only the solutions, but also in the experience of solving the challenges with the chosen approach.
 Solutions to our challenges should be compared on three measures:
 \begin{enumerate}
 \item Mechanisation overhead: the amount of manually written infrastructure and setup needed to express the definitions in the mechanisation;
@@ -246,12 +246,25 @@ While the proposed challenges try to minimise the overlap of the techniques
 and aspects they explore (linearity, scope extrusion, coinduction), most
 research on concurrency theory combines some or all of these. A second round of formalisations might
 entail combining the features of the challenges.
-In \cref{tab:extensions} we consider the following three extensions:
+In \Cref{tab:extensions} we consider the following three extensions:
 \emph{(1)} the addition of choice to the type level and the process level,
 \emph{(2)} the addition of recursion and (for typed systems) recursive types,
 and \emph{(3)} the
 addition of channel delegation to those calculi that do not already
-support it.
+support it.%
+%
+\luca{I would argue that support for recursive types and processes may also
+impact the coinduction challenge. Indeed, some type systems with support for
+recursion are more easily expressed \emph{coinductively}, by allowing possibly
+infinite typing derivation. This application of coinduction is different from
+that intended in the challenge, where it's focused on expressing notions of
+process equivalence, and yet it is increasingly popular (see the related work on
+infinitary linear logics) and occasionally seen with skepticism, which would
+make a good case for formalization.}\luca{as a follow up to the previous
+comment, if there is agreement that recursive types impact the coinduction
+challenge then the relevance of Table 1 may be questionable because almost every
+extension impacts almost every challenge. In case of need we may consider
+removing the table in favor of more prose.}
 
 \begin{table}[btp]
   \caption{Possible extensions of the challenges. Each suitable extension is marked ``+''. \label{tab:extensions} \\}
@@ -277,11 +290,10 @@ support it.
 Extending in this direction
 means proposing new challenges covering different features of
 process calculi, or different proof mechanisation features.
-Some interesting aspects of message-passing calculi to explore in
+Some interesting aspects of message-passing calculi to be explored in
 further challenges could be multiparty session types and
-choreographies, as their meta-theory includes aspects
-that we do not cover here (\eg: well-formed global types,
-projection as a partial function). Also, one could easily
+choreographies, as their meta-theory includes aspects -- \eg well-formedness conditions on global types, partiality of end-point projection function, etc. --
+that we do not cover here. Also, one could easily
 design a challenge that goes beyond our coinduction challenge, by
 exploring different notions of bisimilarity (barbed, weak, \etc)
 and trace equivalence.
