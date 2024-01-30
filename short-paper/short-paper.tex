@@ -242,7 +242,7 @@ While the proposed challenges try to minimise the overlap of the techniques
 and aspects they explore (linearity, scope extrusion, coinduction), most
 research on concurrency theory combines some or all of these. A second round of formalisations might
 entail combining the features of the challenges.
-In \Cref{tab:extensions} we consider the following three extensions:
+We consider the following three extensions:
 \emph{(1)} the addition of choice to the type level and the process level,
 \emph{(2)} the addition of recursion and (for typed systems) recursive types,
 and \emph{(3)} the
@@ -256,30 +256,8 @@ infinite typing derivation. This application of coinduction is different from
 that intended in the challenge, where it's focused on expressing notions of
 process equivalence, and yet it is increasingly popular (see the related work on
 infinitary linear logics) and occasionally seen with skepticism, which would
-make a good case for formalization.}\luca{as a follow up to the previous
-comment, if there is agreement that recursive types impact the coinduction
-challenge then the relevance of Table 1 may be questionable because almost every
-extension impacts almost every challenge. In case of need we may consider
-removing the table in favor of more prose.}
+make a good case for formalization.}
 
-\begin{table}[btp]
-  \caption{Possible extensions of the challenges. Each suitable extension is marked ``+''. \label{tab:extensions} \\}
-  \begin{center}\small
-    \vspace{-4mm}%
-    \begin{tabular}{|r|c|c|c|}
-      \hline
-      & Linearity & Scope extrusion & Coinduction \\
-      \hline
-      Choice & $+$ & $+$  & $+$ \\
-      \hline
-      Recursive types & $+$  & $+$ & \\
-      \hline
-      Delegation & $+$ & & $+$ \\
-      \hline
-    \end{tabular}
-    \vspace{-3mm}%
-  \end{center}
-\end{table}
 
 \vspace{-1mm}%
 \paragraph{Addressing new calculi and new features.}
