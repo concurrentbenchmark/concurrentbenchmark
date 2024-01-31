@@ -65,7 +65,7 @@
   mechanisation in programming language research. Both challenges were purposely limited in scope, and their benchmark problems do not address concurrency-related issues.
   %
   For this reason, we propose a new collection of benchmark problems focused on the difficulties that typically arise when mechanising
-  message-passing concurrency using process calculi.\luca{wondering whether it would make sense to say ``\dots using formal models of concurrent and distributed programming languages in the form of process calculi'' or something similar to stress that process calculi are not the subject of the challenges, but ``only'' an appropriate tool for this kind of endeavor} \dz{Maybe something like, ``\ldots that typically arise when mechanising formal models of concurrent and distributed programming languages, such as process calculi.''?} Our benchmark problems
+  message-passing concurrency using process calculi.\luca{I like Daniel's proposal below} \dz{Maybe something like, ``\ldots that typically arise when mechanising formal models of concurrent and distributed programming languages, such as process calculi.''?} Our benchmark problems
   address three key topics: linearity, scope extrusion, and coinductive
   reasoning.  The goal of this new challenge is to clarify, compare, and advance
   the state of the art, fostering the adoption of proof mechanisation in future
@@ -87,7 +87,7 @@ while their authors called for future investigations into such areas as
 coinduction and linear environments. In this spirit, we propose a 
 new collection of benchmark problems specifically designed to address typical 
 issues that arise when mechanising message-passing concurrency using process 
-calculi.\luca{see comment in abstract}
+calculi.
 
 Several papers in this realm already include mechanised proofs
 (\eg~\cite{Castro-Perez2021,Castro2020,lmcs:9985,
@@ -258,16 +258,6 @@ We consider the following three extensions:
 and \emph{(3)} the
 addition of channel delegation to those calculi that do not already
 support it.%
-%
-\luca{I would argue that support for recursive types and processes may also
-impact the coinduction challenge. Indeed, some type systems with support for
-recursion are more easily expressed \emph{coinductively}, by allowing possibly
-infinite typing derivation. This application of coinduction is different from
-that intended in the challenge, where it's focused on expressing notions of
-process equivalence, and yet it is increasingly popular (see the related work on
-infinitary linear logics) and occasionally seen with skepticism, which would
-make a good case for formalization.}
-
 
 \vspace{-1mm}%
 \paragraph{Addressing new calculi and new features.}
@@ -281,6 +271,12 @@ that we do not cover here. Also, one could easily
 design a challenge that goes beyond our coinduction challenge, by
 exploring different notions of bisimilarity (barbed, weak, \etc)
 and trace equivalence.
+%
+\luca{Coinduction may also play a relevant role in supporting recursive
+processes and session types. Indeed, it is often the case that session type
+systems (and logics) with recursive session types (and propositions) are
+naturally expressed in \emph{infinitary form} by interpreting their typing (and
+proof) rules coinductively. I CAN ADD ONE OR TWO REFERENCES IF YOU FEEL IT'S APPROPRIATE}
 
 On the mechanisation side, the present challenge proposes mechanising the
 proofs of theorems. An interesting avenue to explore would be to take advantage
