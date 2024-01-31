@@ -1,20 +1,19 @@
 \alb{Just a rough attempt to put some words on paper}
 
-In mechanized meta-theory addressing linearity means choosing an
+In mechanised meta-theory, addressing linearity means choosing an
 appropriate representation of the linear context. The crux of the matter
-is \emph{context splitting} as showcased by the typing rule for parallel composition.
+is \emph{context splitting}, as showcased by the typing rule for parallel composition.
 % the introduction rule of the tensor.
-While a linear context is best seen as a multi-set, most proof
-assistants have better support for list processing.  Although the
-latter representation is intuitive, it is overly concrete and may
-require establishing dozens and dozens of technical lemmas that are
-foreign to the mathematics of the problem under study, say proving
+While a linear context is perhaps best seen as a multi-set, most proof
+assistants have better support for list processing.  The
+latter representation is intuitive, but may require establishing a 
+large number of technical lemmata that are
+orthogonal to the mathematics of the problem under study, say proving
 type preservation for session types. In this space, several designs
-are possible: one can label occurrences of resources constraining
-their usage, e.g.~\cite{CicconeP20}, or \alb{something --- ask
-  Francisco} as in \cite{Castro2020}. Some authors instead impose a
-multiset structure over lists, see~\cite{ChaudhuriLR19,Danielsson12}:
-still, the effort in developing the infrastructure is significant.
+are possible: one can label occurrences of resources to constrain
+their usage (\eg~\cite{CicconeP20}) or \alb{something --- ask Francisco} as in \cite{Castro2020}. Some authors instead impose a
+multiset structure over lists (\eg~\cite{ChaudhuriLR19,Danielsson12});
+still, the effort required to develop the infrastructure is significant.
 
 A different approach is to bypass the problem of context splitting by
 adopting
@@ -23,21 +22,21 @@ familiar ideas from algorithmic linear type checking: this is known as
  \emph{typing with leftovers}, as exemplified
 in~\cite{DBLP:conf/forte/ZalakainD21}. Whatever the choice, list-based
 encodings can be refined to be intrinsically-typed, if the proof
-assistant does support dependent types, see~\cite{Thiemann2019,CicconeP20,RouvoetPKV20}.
+assistant does support dependent types (see~\cite{Thiemann2019,CicconeP20,RouvoetPKV20}).
 
 For something completely different, one could adopt a
-\emph{sub-structural} meta-logical framework: here it is the framework
-itself that handles resource distribution and the users just have to map
+\emph{sub-structural} meta-logical framework: here the framework
+itself handles resource distribution, and users need only map
 their linear operations to the ones offered by the framework. In fact,
 the linear function space will handle all context operations
-implicitly, including splitting and substitution. One such a framework
-is \emph{Celf}~\cite{Schack-Nielsen:IJCAR08}, see the encoding of
-session types in~\cite{Bock2016}. Unfortunately, \emph{Celf} does not
+implicitly, including splitting and substitution. One such framework
+is \emph{Celf}~\cite{Schack-Nielsen:IJCAR08} (see the encoding of
+session types in~\cite{Bock2016}). Unfortunately, \emph{Celf} does not
 yet fully support the verification of meta-theoretic properties. A compromise is the so called
 \emph{two-level} approach, where one encodes a sub-structural
-specification logic in a mainstream proof assistant and then use that
-logic to state and prove linear properties, see for a recent
-example~\cite{Felty:MSCS21}.
+specification logic in a mainstream proof assistant and then uses that
+logic to state and prove linear properties (for a recent
+example, see~\cite{Felty:MSCS21}).
 
 
 

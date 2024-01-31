@@ -174,7 +174,7 @@ The first of the theorems involves reasoning about scope extrusion more directly
   \( \transition{P}{\Atau}{Q} \) implies \( \reduces{P}{Q} \).
 \end{theorem}
 \begin{proof}[Sketch]
-  The proof is by induction on the inference of \( \transition{P}{\Atau}{Q} \) using the following lemmas:
+  The proof is by induction on the inference of \( \transition{P}{\Atau}{Q} \) using the following lemmata:
   \begin{enumerate}
   \item if \( \transition{Q}{\Aoutf{x}{y}}{Q'} \) then \( \scong{Q}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\Pout{x}{y}{R}}{S})}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x,y \notin \{ w_1, \dots, w_n \} \).
   \item if \( \transition{Q}{\Aoutb{x}{z}}{Q'} \) then \( \scong{Q}{\Pres{z}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{\Pout{x}{z}{R}}{S})}}}} \) and \( \scong{Q'}{\Pres{w_1}{\!\dots \Pres{w_n}{(\Ppar{R}{S})}}} \) where \( x \notin \{ z, w_1, \dots, w_n \} \).

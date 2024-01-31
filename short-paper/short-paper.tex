@@ -60,15 +60,12 @@
 \maketitle
 
 \begin{abstract}
-  The POPLMark challenge and its follow-up POPLMark Re\-loaded sparked a flurry of
+  POPLMark and POPLMark Re\-loaded sparked a flurry of
   work on machine-checked proofs, and fostered the adoption of proof
-  mechanisation in programming language research. However, both POPLMark and
-  POPLMark Reloaded were purposely limited in scope, with benchmark problems
-  that do not address concurrency-related issues.
+  mechanisation in programming language research. Both challenges were purposely limited in scope, and their benchmark problems do not address concurrency-related issues.
   %
-  For this reason, we propose a new collection of benchmark problems with a
-  focus on the challenges and issues that typically arise when mechanising
-  message-passing concurrency using process calculi.\luca{wondering whether it would make sense to say ``\dots using formal models of concurrent and distributed programming languages in the form of process calculi'' or something similar to stress that process calculi are not the subject of the challenges, but ``only'' an appropriate tool for this kind of endeavor}  Our benchmark problems
+  For this reason, we propose a new collection of benchmark problems focused on the difficulties that typically arise when mechanising
+  message-passing concurrency using process calculi.\luca{wondering whether it would make sense to say ``\dots using formal models of concurrent and distributed programming languages in the form of process calculi'' or something similar to stress that process calculi are not the subject of the challenges, but ``only'' an appropriate tool for this kind of endeavor} \dz{Maybe something like, ``\ldots that typically arise when mechanising formal models of concurrent and distributed programming languages, such as process calculi.''?} Our benchmark problems
   address three key topics: linearity, scope extrusion, and coinductive
   reasoning.  The goal of this new challenge is to clarify, compare, and advance
   the state of the art, fostering the adoption of proof mechanisation in future
@@ -93,9 +90,9 @@ issues that arise when mechanising message-passing concurrency using process
 calculi.\luca{see comment in abstract}
 
 Several papers in this realm already include mechanised proofs
-(e.g.~\cite{Castro-Perez2021,Castro2020,lmcs:9985,
+(\eg~\cite{Castro-Perez2021,Castro2020,lmcs:9985,
   DBLP:journals/jar/CruzFilipeMP23, Tirore:2023}), or discuss proof mechanisation techniques
-(e.g.~\cite{Bengtson2016, Gay2001,
+(\eg~\cite{Bengtson2016, Gay2001,
   Thiemann2019, DBLP:conf/forte/ZalakainD21}).  Our
 experience, however, is that choosing the appropriate proof mechanisation techniques and 
 tools remains a significant challenge with a limited understanding of their 
@@ -154,16 +151,6 @@ tutorials and guidelines derived from solutions to our challenges.
 We encourage anyone interested to try the challenges using their
 favourite tools and techniques, and to send us their solutions.
 
-\section{Motivation}\label{sec:motivation}
-
-\alb{Some introductory text to lead to the literature review. We may want to move this after the next Section, if we want to mirror the 3 challnges}
-
-\subsubsection{Linearity.}
-\input{lin}
-
-\subsubsection{Binders.}
-\input{binders}
-
 \section{Design of the Benchmark}\label{sec:design-discussion}
 
 In this section, we outline the factors considered in designing the
@@ -176,7 +163,7 @@ and the evaluation criteria.
 Like the POPLMark and POPLMark Reloaded challenges, our challenge is not meant to be comprehensive:
 applications such as multiparty session types~\cite{10.1145/2827695,10.1145/3290343}, choreographies~\cite{DBLP:journals/jar/CruzFilipeMP23}, conversation types~\cite{DBLP:journals/tcs/CairesV10}, psi-calculi~\cite{lmcs:696}, or encodings between different calculi~\cite{DBLP:journals/iandc/Gorla10,DBLP:conf/forte/CairesP16,DBLP:journals/iandc/DardhaGS17,DBLP:conf/ecoop/ScalasDHY17,DBLP:journals/iandc/KouzapasPY19,10.1145/3479394.3479407} are not directly covered.  Still, these (and other) applications need the basic techniques that our challenge problems emphasize:
 as per design goal \ref{item:goal-reusability},
-our problems are drawn from the basic metatheory of process calculi (without requiring the development of new theory), and focus on well-known theorems
+our problems are drawn from the basic meta-theory of process calculi (without requiring the development of new theory), and focus on well-known theorems
 and results that involve interesting proof techniques that may be reused in further work.
 To achieve design goal \ref{item:goal-comperison-accessibility},
 we have formulated our challenge problems to explore the three aspects (linearity, scope extrusion, coinduction) independently, so that they may be solved individually and in any order;
@@ -215,7 +202,7 @@ This is the challenge most closely related to the POPLMark
 challenge since it concerns the properties of binders in restrictions.
 It is not obvious that the techniques used to solve the original challenges about binders can be easily extended to reasoning about scope extrusion.
 For example, techniques like higher-order abstract syntax, or well-scoped
-De\ Bruijn indices do not have the concept of free variables and thus encoding this challenge with them requires some attention.
+de\ Bruijn indices do not have the concept of free variables and thus encoding this challenge with them requires some attention.
 
 \subsubsection{Coinduction.}
 %\fxerror{
@@ -236,6 +223,20 @@ Solutions to our challenges should be compared on three measures:
 \item Cost of entry for the tools and techniques employed: the difficulty of learning to use the techniques.
 \end{enumerate}
 Solutions to our challenges do not need to strictly follow the definitions and lemmata set out in the problem text, but solutions which deviate from the original challenges must present more elaborate argumentation for their adequacy.
+
+
+\section{Possible approaches}\label{sec:approaches}
+
+\alb{Some introductory text to lead to the literature review. \sout{We may want to move this after the next Section, if we want to mirror the 3 challnges}}
+\dz{Agreed, I moved it for now.} \\
+\dz{Should we not also include a subsection on coinduction?} \\
+\dz{I changed the name of this section to ``Possible approaches'' from ``Motivation''. Thoughts?}
+
+\subsubsection{Linearity.}
+\input{lin}
+
+\subsubsection{Binders.}
+\input{binders}
 
 \section{Going beyond the challenge problems}\label{sec:going-beyond}
 
@@ -274,7 +275,7 @@ means proposing new challenges covering different features of
 process calculi, or different proof mechanisation features.
 Some interesting aspects of message-passing calculi to be explored in
 further challenges could be multiparty session types and
-choreographies, as their meta-theory includes aspects -- \eg well-formedness conditions on global types, partiality of end-point projection function, etc. --
+choreographies, as their meta-theory includes aspects -- \eg, well-formedness conditions on global types, partiality of end-point projection function, etc. --
 that we do not cover here. Also, one could easily
 design a challenge that goes beyond our coinduction challenge, by
 exploring different notions of bisimilarity (barbed, weak, \etc)
