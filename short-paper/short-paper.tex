@@ -60,16 +60,21 @@
 \maketitle
 
 \begin{abstract}
+  %% AM: implemented DZ
+% when mechanising  message-passing concurrency using process calculi.
+  
   POPLMark and POPLMark Re\-loaded sparked a flurry of
   work on machine-checked proofs, and fostered the adoption of proof
   mechanisation in programming language research. Both challenges were purposely limited in scope, and their benchmark problems do not address concurrency-related issues.
   %
-  For this reason, we propose a new collection of benchmark problems focused on the difficulties that typically arise when mechanising
-  message-passing concurrency using process calculi.\luca{I like Daniel's proposal below} \dz{Maybe something like, ``\ldots that typically arise when mechanising formal models of concurrent and distributed programming languages, such as process calculi.''?} Our benchmark problems
-  address three key topics: linearity, scope extrusion, and coinductive
-  reasoning.  The goal of this new challenge is to clarify, compare, and advance
-  the state of the art, fostering the adoption of proof mechanisation in future
-  research on message-passing concurrency.
+  For this reason, we propose a new collection of benchmark problems
+  focused on the difficulties that typically arise when mechanising
+  formal models of concurrent and distributed programming languages,
+  such as process calculi.  Our benchmark problems address three key
+  topics: linearity, scope extrusion, and coinductive reasoning.  The
+  goal of this new challenge is to clarify, compare, and advance the
+  state of the art, fostering the adoption of proof mechanisation in
+  future research on message-passing concurrency.
 
 \keywords{Mechanisation \and Process calculi \and Benchmark \and Coinduction \and Scope extrusion \and Linearity}
 \end{abstract}
@@ -81,7 +86,8 @@ the development of proof assistants, libraries, and best practices. In doing so,
 spearheaded a shift in the programming language research community towards 
 publications that include mechanised proofs. 
 Its follow-up challenge, POPLMark Reloaded~\cite{POPLMarkReloaded}, 
-facilitated the development of best practices and tool support for proofs 
+% facilitated the development of best practices and tool support
+aimed to run the same program for proofs 
 using logical relations. These challenges were deliberately limited in scope, 
 while their authors called for future investigations into such areas as 
 coinduction and linear environments. In this spirit, we propose a 
@@ -89,6 +95,7 @@ new collection of benchmark problems specifically designed to address typical
 issues that arise when mechanising message-passing concurrency using process 
 calculi.
 
+\alb{Is there a sharp difference among those papers?}
 Several papers in this realm already include mechanised proofs
 (\eg~\cite{Castro-Perez2021,Castro2020,lmcs:9985,
   DBLP:journals/jar/CruzFilipeMP23, Tirore:2023}), or discuss proof mechanisation techniques
@@ -96,7 +103,7 @@ Several papers in this realm already include mechanised proofs
   Thiemann2019, DBLP:conf/forte/ZalakainD21}).  Our
 experience, however, is that choosing the appropriate proof mechanisation techniques and 
 tools remains a significant challenge with a limited understanding of their 
-respective tradeoffs.  This often leads researchers toward a trial-and-error approach, 
+respective trade-offs.  This often leads researchers toward a trial-and-error approach, 
 resulting in sub-optimal and ad-hoc solutions. In turn, this increases the overall effort 
 required for proof mechanisation, and hampers the reuse of techniques and results.
 %
@@ -110,13 +117,14 @@ and \emph{coinductive reasoning} for infinite behaviours. These are certainly no
 are fundamental to concurrency theory, and emerge in most mechanisations.
 The mechanisation of novel research results often requires addressing more than
 just one of these aspects at once; we see the combination of techniques
-as a next step beyond the scope of this challenge (we discuss this further in
-\Cref{sec:going-beyond}).
+as a next step beyond the scope of this challenge, as  discussed  further in
+\Cref{sec:going-beyond}.
 % Our challenge problems are designed to stimulate progress on answering these questions by providing simple environments in which to demonstrate, evaluate, and compare the many tools and techniques available.
 % While the challenge problems themselves are thus not of scientific interest, we expect that the best practices and mechanisations developed by solving the challenge problems will also be useful for future research.
 
-Like the authors of the POPLMark challenges, we seek to
+Similarly to the authors of the POPLMark challenges, we seek to
 answer several questions:
+\alb{We oscillate between concurrency in general and process calculi, here and before}
 \begin{enumerate}[label=\textbf{(Q\arabic*)},leftmargin=10mm]
 \item\label{item:rq1} What is the current state of the art in mechanising process calculi?
 \item\label{item:rq2} Which techniques and best practices can be recommended when starting formalisation projects within concurrency theory?
@@ -188,7 +196,7 @@ for a session type system, which allows us to introduce linear
 reasoning with few definitions. Accordingly, we have chosen not to
 include channel delegation and to use a reduction instead of a
 transition system semantics.
-Linearity is of course interesting in many other subfields of programming languages, but we have chosen to base our challenge on a session type system primarily due to the common use of session types in concurrency theory.
+Linearity is of course interesting in many other sub-fields of programming languages, but we have chosen to base our challenge on a session type system primarily due to the common use of session types in concurrency theory.
 Inspired by Vasconcelos~\cite{Vasconcelos2012}, we use a syntax where
 restriction binds two names. This presentation makes the duality
 of the two names obvious in the type system.
@@ -227,7 +235,7 @@ Solutions to our challenges do not need to strictly follow the definitions and l
 
 \section{Existing approaches}\label{sec:approaches}
 
-\alb{Some introductory text to lead to the literature review. \sout{We may want to move this after the next Section, if we want to mirror the 3 challnges}}
+\alb{Some introductory text to lead to the literature review. \sout{We may want to move this after the next Section, if we want to mirror the 3 challenges}}
 \dz{Agreed, I moved it for now.} \\
 \dz{I changed the name of this section to ``Existing approaches'' from ``Motivation''. Thoughts?}
 
