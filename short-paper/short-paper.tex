@@ -80,47 +80,67 @@
 \end{abstract}
 
 \section{Introduction}
-By establishing a common ground for systematically evaluating mechanisation techniques, 
-the POPLMark challenge~\cite{POPLMark} accelerated progress in 
-the development of proof assistants, libraries, and best practices. In doing so, it 
-spearheaded a shift in the programming language research community towards 
-publications that include mechanised proofs. 
-Its follow-up challenge, POPLMark Reloaded~\cite{POPLMarkReloaded}, 
-% facilitated the development of best practices and tool support
-aimed to run the same program for proofs 
-using logical relations. These challenges were deliberately limited in scope, 
-while their authors called for future investigations into such areas as 
-coinduction and linear environments. In this spirit, we propose a 
-new collection of benchmark problems specifically designed to address typical 
-issues that arise when mechanising message-passing concurrency using process 
-calculi.
+The POPLMark challenge~\cite{POPLMark} accelerated progress in the development of proof assistants, libraries, and best practices by establishing a common ground for systematically evaluating mechanisation techniques.
+In doing so, it spearheaded a shift in the programming language research community towards publications that include mechanised proofs.
+POPLMark Reloaded~\cite{POPLMarkReloaded} proposed a similar program for proofs using logical relations.
+These challenges were deliberately limited in scope, while their authors called for future investigations into such areas as coinduction and linear environments.
+In this spirit, we propose a new collection of benchmark problems specifically designed to address typical issues that arise when mechanising message-passing concurrency using process calculi.
 
 \alb{Is there a sharp difference among those papers?}
-Several papers in this realm already include mechanised proofs
-(\eg~\cite{Castro-Perez2021,Castro2020,lmcs:9985,
-  DBLP:journals/jar/CruzFilipeMP23, Tirore:2023}), or discuss proof mechanisation techniques
-(\eg~\cite{Bengtson2016, Gay2001,
-  Thiemann2019, DBLP:conf/forte/ZalakainD21}).  Our
-experience, however, is that choosing the appropriate proof mechanisation techniques and 
+Several papers in this realm already include mechanised proofs (\eg~\cite{Castro-Perez2021, Castro2020, lmcs:9985, DBLP:journals/jar/CruzFilipeMP23, Tirore:2023}), or discuss proof mechanisation techniques (\eg~\cite{Bengtson2016, Gay2001, Thiemann2019, DBLP:conf/forte/ZalakainD21}).
+Our experience, however, is that choosing the appropriate proof mechanisation techniques and 
 tools remains a significant challenge with a limited understanding of their 
 respective trade-offs.  This often leads researchers toward a trial-and-error approach, 
 resulting in sub-optimal and ad-hoc solutions. In turn, this increases the overall effort 
 required for proof mechanisation, and hampers the reuse of techniques and results.
-%
+
 It is therefore our view that the research community in message-passing
 concurrency (and process calculi, more specifically) will benefit from a standardised set
 of challenge problems.
+To this end, our benchmark problems (discussed in detail in \cref{app:challenges}) are designed to focus on three key aspects which typically cause difficulties when mechanising concurrency theory: \emph{linearity}, \emph{scope extrusion}, and \emph{coinductive reasoning} for infinite behaviours.
+These are certainly not the only factors that may cause issues, but they are fundamental to concurrency theory, and emerge in most mechanisations.
 
-To this end, our benchmark problems (discussed in detail in \cref{app:challenges}) are designed to focus on three key aspects which typically cause difficulties 
-when mechanising concurrency theory: \emph{linearity}, \emph{scope extrusion}, 
-and \emph{coinductive reasoning} for infinite behaviours. These are certainly not the only factors that may cause issues, but they
-are fundamental to concurrency theory, and emerge in most mechanisations.
+\todo{Rewrite this section to be more coherent.}
+
+\paragraph{Linearity.}
+In mechanised meta-theory, addressing linearity means choosing an appropriate representation of the linear context.
+The crux of the matter is \emph{context splitting}, as showcased by the typing rule for parallel composition.
+While a linear context is perhaps best seen as a multi-set, most proof assistants have better support for list processing.
+The latter representation is intuitive, but may require establishing a large number of technical lemmata that are orthogonal to the mathematics of the problem under study, say proving type preservation for session types.
+In this space, several designs are possible: one can label occurrences of resources to constrain their usage (\eg~\cite{CicconeP20}) or \alb{something --- ask Francisco} as in \cite{Castro2020}.
+Some authors instead impose a multiset structure over lists (\eg~\cite{ChaudhuriLR19,Danielsson12}); still, the effort required to develop the infrastructure is significant.
+
+A different approach is to bypass the problem of context splitting by adopting familiar ideas from algorithmic linear type checking: this is known as \emph{typing with leftovers}, as exemplified in~\cite{DBLP:conf/forte/ZalakainD21}.
+Whatever the choice, list-based encodings can be refined to be intrinsically-typed, if the proof assistant does support dependent types (see~\cite{Thiemann2019,CicconeP20,RouvoetPKV20}).
+
+For something completely different, one could adopt a \emph{sub-structural} meta-logical framework: here the framework itself handles resource distribution, and users need only map their linear operations to the ones offered by the framework.
+In fact, the linear function space will handle all context operations implicitly, including splitting and substitution.
+One such framework is \emph{Celf}~\cite{Schack-Nielsen:IJCAR08} (see the encoding of session types in~\cite{Bock2016}).
+Unfortunately, \emph{Celf} does not yet fully support the verification of meta-theoretic properties.
+A compromise is the so called \emph{two-level} approach, where one encodes a sub-structural specification logic in a mainstream proof assistant and then uses that logic to state and prove linear properties (for a recent example, see~\cite{Felty:MSCS21}).
+
+\paragraph{Scope extrusion.}
+The encoding of binding constructs has been extensively studied for type systems based on $\lambda$-calculi, but process calculi present unique challenges.
+$\pi$-calculi typically include several different binding constructs: inputs bind a received name or value, recursive processes bind recursion variables, and restrictions bind names.
+The first two act similarly to the binders known from $\lambda$-calculi, but restrictions are more challenging due to scope extrusion.
+
+The case study \cite{AmbalLS21} compares four approaches to encoding binders in Coq as a first step towards developing tools for working with higher-order process calculi.
+They found that working directly with de Bruijn indices was easiest and shortest since the existing approaches developed for $\lambda$-calculus binders do not work well with scope extrusion.
+Specifically, the locally nameless representation~\cite{Chargueraud2012} cannot avoid direct manipulation of de Bruijn indices when defining the semantics of scope extrusion; cofinite quantification provides no benefits when working under binders; nominal approaches~\cite{Pitts2003} require explicitly giving and validating sets of free names during scope extrusion; and higher-order abstract syntax (HOAS)~\cite{Pfenning1988} requires additional axioms to work with contexts.
+
+Additionally, many proof assistants lack support for the proof principles required to easily work with scope extrusion, \ie, induction principles on functions to work with HOAS encodings.
+Some proof assistants such as Abella~\cite{Baelde2014} support HOAS natively, but working with open terms as required to encode scope extrusion in these systems is generally very challenging~\cite{Momigliano2012}.
+
+% Start of related work
+\cite{Maksimovic2015} does not have name restriction, thus dodging the challenge of scope extrusion.
+
+\paragraph{Coinduction.} \todo{}
+
+
+
 The mechanisation of novel research results often requires addressing more than
 just one of these aspects at once; we see the combination of techniques
-as a next step beyond the scope of this challenge, as  discussed  further in
-\Cref{sec:going-beyond}.
-% Our challenge problems are designed to stimulate progress on answering these questions by providing simple environments in which to demonstrate, evaluate, and compare the many tools and techniques available.
-% While the challenge problems themselves are thus not of scientific interest, we expect that the best practices and mechanisations developed by solving the challenge problems will also be useful for future research.
+as a next step beyond the scope of this challenge, as discussed further in \Cref{sec:going-beyond}.
 
 Similarly to the authors of the POPLMark challenges, we seek to
 answer several questions:
@@ -160,6 +180,7 @@ We encourage anyone interested to try the challenges using their
 favourite tools and techniques, and to send us their solutions.
 
 \section{Design of the Benchmark}\label{sec:design-discussion}
+\todo{Add references to support our claims and decisions in this section.}
 
 In this section, we outline the factors considered in designing the
 benchmark challenges. We begin with some general remarks, then
@@ -232,20 +253,6 @@ Solutions to our challenges should be compared on three measures:
 \end{enumerate}
 Solutions to our challenges do not need to strictly follow the definitions and lemmata set out in the problem text, but solutions which deviate from the original challenges must present more elaborate argumentation for their adequacy.
 
-
-\section{Existing approaches}\label{sec:approaches}
-
-\alb{Some introductory text to lead to the literature review. \sout{We may want to move this after the next Section, if we want to mirror the 3 challenges}}
-\dz{Agreed, I moved it for now.} \\
-\dz{I changed the name of this section to ``Existing approaches'' from ``Motivation''. Thoughts?}
-
-\subsubsection{Linearity.}
-\input{lin}
-
-\subsubsection{Binders.}
-\input{binders}
-
-\subsubsection{Coinduction.} \todo{}
 
 \section{Going beyond the challenge problems}\label{sec:going-beyond}
 
