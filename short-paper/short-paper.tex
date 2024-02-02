@@ -89,15 +89,15 @@ In doing so, it spearheaded a shift in the programming language research communi
 POPLMark Reloaded~\cite{POPLMarkReloaded} proposed a similar program for proofs using logical relations.
 These challenges were deliberately limited in scope, while their authors called for future investigations into such areas as coinduction and linear environments.
 
-In this spirit, we propose a new collection of benchmark problems specifically designed to address typical issues that arise when mechanising message-passing concurrency using process calculi. \todo{Why just process calculi and not concurrency in general?}
-While many efforts to mechanise results about process calculi have been completed (as we will discuss further below), our experience is that choosing appropriate proof mechanisation techniques and tools remains a significant challenge with a limited understanding of the trade-offs.
+In this spirit, we propose a new collection of benchmark problems specifically designed to address typical issues that arise when mechanising formal models of concurrent and distributed programming languages in general, and process calculi in particular. 
+While many efforts to mechanise results about such formalisms have been completed (as we will discuss further below), our experience is that choosing appropriate proof mechanisation techniques and tools remains a significant challenge with a limited understanding of their respective trade-offs.
 This often leads researchers toward a trial-and-error approach, resulting in sub-optimal and ad-hoc solutions.
 In turn, this increases the overall effort required for proof mechanisation, and hampers the reuse of techniques and results.
 
 %\alb{Is there a sharp difference among those papers?}
 %Several papers in this realm already include mechanised proofs (\eg~\cite{Castro-Perez2021, Castro2020, lmcs:9985, DBLP:journals/jar/CruzFilipeMP23, Tirore:2023}), or discuss proof mechanisation techniques (\eg~\cite{Bengtson2016, Gay2001, Thiemann2019, DBLP:conf/forte/ZalakainD21}).
 
-It is therefore our view that the research community in message-passing concurrency (and more specifically, process calculi) will benefit from a standardised set of challenge problems.
+It is therefore our view that the research community in concurrency will benefit from a standardised set of challenge problems.
 To this end, our benchmark problems (discussed in detail in \cref{app:challenges}) are designed to focus on three key aspects which typically cause difficulties when mechanising concurrency theory: \emph{linearity}, \emph{scope extrusion}, and \emph{coinductive reasoning} for infinite behaviours.
 The mechanisation of novel research results often requires addressing more than just one of these aspects at once; we see the combination of techniques as a next step beyond the scope of this challenge, as discussed further in \Cref{sec:going-beyond}.
 These are certainly not the only factors that may cause issues, but they are fundamental to concurrency theory, and emerge in most mechanisations, as we will see presently while discussing the issues presented by the three key aspects.
@@ -226,30 +226,27 @@ goal \ref{item:goal-tutorials}.
 
 \subsubsection{Linearity.}
 For our challenge on linear reasoning we have chosen a type preservation theorem
-for a session type system, which allows us to introduce linear
-reasoning with few definitions. Accordingly, we have chosen not to
-include channel delegation and to use a reduction instead of a
+for a system using session types, whose use are common in concurrency theory. This allows us to introduce linear
+reasoning with few definitions. Accordingly, we omit channel delegation and use a reduction instead of a
 transition system semantics.
-Linearity is of course interesting in many other sub-fields of programming languages, but we have chosen to base our challenge on a session type system primarily due to the common use of session types in concurrency theory.\alb{This is weak and somewhat tautological, as a motivation}
-Inspired by Vasconcelos~\cite{Vasconcelos2012}, we use a syntax where
-restriction binds two names. This presentation makes the duality
-of the two names obvious in the type system.
-We have chosen a simple notion of well-formedness for our challenge,
+Inspired by Vasconcelos~\cite{Vasconcelos2012}, we define a syntax where
+restriction binds two names, which highlights their duality within the type system.
+We have chosen a simple notion of well-formedness,
 and do not, for instance, consider deadlocks. While more
 sophisticated notions of well-formedness are interesting, the
-proofs of these properties would complicate the challenge, distracting from the linear aspects.
+proofs of these properties would distract from the core linear aspects of the challenge.
 
 \subsubsection{Scope extrusion.}
 This is the challenge most closely related to the POPLMark
-challenge since it concerns the properties of binders in restrictions.\alb{I would argue also wrt input}
-It is not obvious that the techniques used to solve the original challenges about binders can be easily extended to reasoning about scope extrusion.\alb{I would say not obvious what the pros and cons are, since in fact those techniques (DB, locally nameless, HOAS, nominal) have been used.}
-For example, techniques like higher-order abstract syntax, or well-scoped
-de\ Bruijn indices do not have the concept of free variables and thus encoding this challenge with them requires some attention.
+challenge since it concerns the properties of binders in restrictions and input. 
+It is not obvious what the limitations and advantages are in leveraging the techniques used to solve the original challenges to reason about scope extrusion. 
+For example, techniques like higher-order abstract syntax or well-scoped
+de\ Bruijn indices lack the concept of free variables and thus encoding this challenge with them requires attention.
 
 \subsubsection{Coinduction.}
 Our coinduction challenge concerns strong barbed bisimulation and congruence.\alb{we motivate why strong vs weak, but not why barbed}
 Though weak barbed congruence is a more common behavioural equivalence for \(\pi\)-terms,\alb{? why terms?} here we prefer strong equivalences to avoid the need to abstract over the number of internal transitions, thus simplifying the theory.
-We have chosen not to include delegation in the coinduction challenge since it is orthogonal to our primary aim of exploring coinductive proof techniques.
+We exclude delegation from the coinduction challenge since it is orthogonal to our primary aim of exploring coinductive proof techniques.
 
 \subsubsection{Evaluation criteria.}
 The idea behind our benchmark is to obtain evidence towards answering questions \cref{item:rq1,item:rq2,item:rq3}. We are therefore interested in not only the solutions, but also in the experience of solving the challenges with the chosen approach.

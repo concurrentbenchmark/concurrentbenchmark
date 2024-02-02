@@ -90,7 +90,7 @@ rules out ill-formed processes.
 
 \subsubsection{Syntax.}
 Our type system does not type processes directly, but instead focuses on the channels used in the process.
-The syntax of \emph{session types} \( S, T \), unrestricted type contexts \( \Gamma \) and linear type contexts \( \Delta \) is as follows:
+The syntax of \emph{session types} \( S, T \), unrestricted typing contexts \( \Gamma \) and linear typing contexts \( \Delta \) is as follows:
 \[
   \begin{array}{r@{\qquad}c@{\qquad}l}
   S,T & \Coloneqq & \Tend \quad\mid\quad \Tbase \quad\mid\quad \Tin{S} \quad\mid\quad \Tout{S} \\
@@ -98,7 +98,7 @@ The syntax of \emph{session types} \( S, T \), unrestricted type contexts \( \Ga
                     \Delta &::= & \Cempty \quad\mid\quad \Cadd{\Delta}{\hastype{x}{S}}
   \end{array}
 \]
-The \emph{end type} \( \Tend \) describes an endpoint on which no further interaction is possible.
+The \emph{end type} \( \Tend \) describes an endpoint over which no further interaction is possible.
 The \emph{base type} \( \Tbase \) describes base values.
 The \emph{input type} \( \Tin{S} \) describes endpoints used for receiving a value and then according to \( S \).
 The \emph{output type} \( \Tout{S} \) describes endpoints used for sending a value and then according to \( S \).
@@ -107,7 +107,7 @@ Typing contexts gather type information about names and variables.
 \emph{Unrestricted} contexts are simply sets of names since we only have one
 base type. \emph{Linear contexts} associate a type to endpoints. We use
 the comma as split/union, overloaded to singletons, and \( \Cempty \) as the
-empty context. We extend the Barendregt convention to contexts, so that all
+empty context. We extend the Barendregt convention \todo{Source?} to contexts, so that all
 entries are distinct.  Note that the order in which information is added to a
 type context does not matter.
 
