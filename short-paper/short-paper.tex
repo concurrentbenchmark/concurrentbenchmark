@@ -141,7 +141,7 @@ Some proof assistants such as Abella~\cite{Baelde2014} support HOAS natively, bu
 \subsection{Goals and how to contribute}
 Similarly to the authors of the POPLMark challenges, we seek to
 answer several questions:
-\alb{We oscillate between concurrency in general and process calculi, here and before}
+%\alb{We oscillate between concurrency in general and process calculi, here and before}
 \begin{enumerate}[label=\textbf{(Q\arabic*)},leftmargin=10mm]
 \item\label{item:rq1} What is the current state of the art in mechanising process calculi?
 \item\label{item:rq2} Which techniques and best practices can be recommended when starting formalisation projects involving process calculi?
@@ -213,7 +213,7 @@ We begin with some general remarks, then describe the individual design consider
 
 \subsubsection{General design remarks.}
 Like the POPLMark and POPLMark Reloaded challenges, our challenge is not meant to be comprehensive:
-applications such as multiparty session types~\cite{10.1145/2827695,10.1145/3290343}, choreographies~\cite{DBLP:journals/jar/CruzFilipeMP23}, conversation types~\cite{DBLP:journals/tcs/CairesV10}, psi-calculi~\cite{lmcs:696}, or encodings between different calculi~\cite{DBLP:journals/iandc/Gorla10,DBLP:conf/forte/CairesP16,DBLP:journals/iandc/DardhaGS17,DBLP:conf/ecoop/ScalasDHY17,DBLP:journals/iandc/KouzapasPY19,10.1145/3479394.3479407} are not directly covered.\alb{Do we need all those citations?}
+applications such as multiparty session types~\cite{10.1145/2827695,10.1145/3290343}, choreographies~\cite{DBLP:journals/jar/CruzFilipeMP23}, conversation types~\cite{DBLP:journals/tcs/CairesV10}, psi-calculi~\cite{lmcs:696}, or encodings between different calculi~\cite{DBLP:journals/iandc/Gorla10,DBLP:conf/forte/CairesP16,DBLP:journals/iandc/DardhaGS17,DBLP:conf/ecoop/ScalasDHY17,DBLP:journals/iandc/KouzapasPY19,10.1145/3479394.3479407} are not directly covered.\alb{Do we need all those citations about encodings?}
 Still, these (and other) applications need the basic techniques that our challenge problems emphasize: as per design goal \ref{item:goal-reusability}, our problems are drawn from the basic meta-theory of process calculi (without requiring the development of new theory), and focus on well-known theorems and results that involve interesting proof techniques that may be reused in further work.
 To achieve design goal \ref{item:goal-comperison-accessibility},
 we have formulated our challenge problems to explore the three aspects (linearity, scope extrusion, coinduction) independently, so that they may be solved individually and in any order;
@@ -226,27 +226,38 @@ goal \ref{item:goal-tutorials}.
 
 \subsubsection{Linearity.}
 For our challenge on linear reasoning we have chosen a type preservation theorem
-for a system using session types, whose use are common in concurrency theory. This allows us to introduce linear
-reasoning with few definitions. Accordingly, we omit channel delegation and use a reduction instead of a
-transition system semantics.
-Inspired by Vasconcelos~\cite{Vasconcelos2012}, we define a syntax where
-restriction binds two names, which highlights their duality within the type system.
-We have chosen a simple notion of well-formedness,
-and do not, for instance, consider deadlocks. While more
-sophisticated notions of well-formedness are interesting, the
-proofs of these properties would distract from the core linear aspects of the challenge.
+for a system using session types.
+% , whose use are common in concurrency theory.
+This allows us to introduce linear reasoning with few definitions.
+With our objective focused on linearity, we forego channel delegation
+and opt for a reduction approach rather than employing a transition
+system semantics.  Inspired by Vasconcelos~\cite{Vasconcelos2012}, we
+define a syntax where restriction binds two names,n highlighting
+their duality within the type system.  We have chosen a simple notion
+of well-formedness, and do not  consider
+deadlocks. While more sophisticated notions of well-formedness are
+interesting, the proofs of these properties would distract from the
+core linear aspects of the challenge.
 
 \subsubsection{Scope extrusion.}
-This is the challenge most closely related to the POPLMark
-challenge since it concerns the properties of binders in restrictions and input. 
-It is not obvious what the limitations and advantages are in leveraging the techniques used to solve the original challenges to reason about scope extrusion. 
-For example, techniques like higher-order abstract syntax or well-scoped
-de\ Bruijn indices lack the concept of free variables and thus encoding this challenge with them requires attention.
+This is the challenge most closely related to the POPLMark challenge
+since it concerns the properties of binders in restrictions and input.
+It is not obvious what the limitations and advantages are in
+leveraging the techniques used to solve the original challenges to
+reason about scope extrusion.  For example, techniques like
+higher-order abstract syntax or well-scoped de\ Bruijn indices lack
+the concept of free variables and thus encoding this challenge with
+them requires attention.
 
 \subsubsection{Coinduction.}
-Our coinduction challenge concerns strong barbed bisimulation and congruence.\alb{we motivate why strong vs weak, but not why barbed}
-Though weak barbed congruence is a more common behavioural equivalence for \(\pi\)-terms,\alb{? why terms?} here we prefer strong equivalences to avoid the need to abstract over the number of internal transitions, thus simplifying the theory.
-We exclude delegation from the coinduction challenge since it is orthogonal to our primary aim of exploring coinductive proof techniques.
+Our coinduction challenge concerns strong barbed bisimulation and
+congruence.\alb{we motivate why strong vs weak, but not why barbed}
+Though weak barbed congruence is a more common behavioural equivalence
+w.r.t.\ the \(\pi\)-calculus, here we prefer strong equivalences to avoid the
+need to abstract over the number of internal transitions, thus
+simplifying the theory.  We exclude delegation from the coinduction
+challenge since it is orthogonal to our primary aim of exploring
+coinductive proof techniques.
 
 \subsubsection{Evaluation criteria.}
 The idea behind our benchmark is to obtain evidence towards answering questions \cref{item:rq1,item:rq2,item:rq3}. We are therefore interested in not only the solutions, but also in the experience of solving the challenges with the chosen approach.
@@ -270,16 +281,26 @@ Our benchmark is extendable in two aspects: one can further amalgamate and broad
 All of these extensions will still need to handle at least one of the key aspects of our challenges.
 
 \paragraph{Extending and combining the current challenges.}
-\todo{This paragraph is very long for how relatively little it says. Maybe remove/cut down?}
-While we have tried to minimise the overlap of the techniques and aspects our challenges explore (linearity, scope extrusion, coinduction), most research on concurrency theory combines some or all of these.
-A second round of formalisations might entail combining the features of the challenges.
-We consider the following three extensions to be obvious places to start:
-\emph{(1)} the addition of choice to the type level and the process level,
-\emph{(2)} the addition of recursion and (for typed systems) recursive types,
-and \emph{(3)} the addition of channel delegation to those calculi that do not already support it.%
+% thanks, copilot
+
+We have aimed to reduce the overlap of the techniques and aspects that
+our challenges (linearity, scope extrusion, coinduction), despite
+their common use in concurrency theory research. A subsequent round
+could merge these features. We suggest starting with three extensions:
+\emph{(1)} adding choice to both type and process levels, \emph{(2)}
+introducing recursion and recursive types for typed systems, and
+\emph{(3)} incorporating channel delegation in calculi lacking it.
+%\todo{This paragraph is very long for how relatively little it says. Maybe remove/cut down?}
+
+% While we have tried to minimise the overlap of the techniques and aspects our challenges explore (linearity, scope extrusion, coinduction), most research on concurrency theory combines some or all of these.
+% A second round of formalisations might entail combining the features of the challenges.
+% We consider the following three extensions to be obvious places to start:
+% \emph{(1)} the addition of choice to the type level and the process level,
+% \emph{(2)} the addition of recursion and (for typed systems) recursive types,
+% and \emph{(3)} the addition of channel delegation to those calculi that do not already support it.%
 
 \paragraph{Addressing new calculi and new features.}
-\todo{Maybe cite some references in this section?}
+\todo{Maybe cite some references in this section? Mention the higher-order pi calculus?}
 Extending in this direction means proposing new challenges covering different features of process calculi, or different proof mechanisation features.
 Some interesting aspects of message-passing calculi to be explored in further challenges could be multiparty session types and choreographies, as their meta-theory includes aspects -- \eg, well-formedness conditions on global types, partiality of end-point projection function, etc. -- that we do not address here.
 Also, one could easily design a challenge that goes beyond our coinduction challenge, by exploring different notions of bisimilarity (barbed, weak, \etc) and trace equivalence.
