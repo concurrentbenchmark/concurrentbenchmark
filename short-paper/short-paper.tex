@@ -84,23 +84,19 @@
 %     - Others also mention them as problems: cite and explain references briefly for each challenge topic
 %   - Our goals are to determine the state of the art, develop best practices and tutorials, and identify improvements to proof assistant technology that would materially help the situation
 \section{Introduction}
-The POPLMark challenge~\cite{POPLMark} accelerated progress in the development of proof assistants, libraries, and best practices by establishing a common ground for systematically evaluating mechanisation techniques.
+The POPLMark challenge~\cite{POPLMark} accelerated the development of proof assistants, libraries, and best practices for programming language mechanisation by establishing a common ground for systematically evaluating mechanisation techniques.
 In doing so, it spearheaded a shift in the programming language research community towards publications that include mechanised proofs.
-POPLMark Reloaded~\cite{POPLMarkReloaded} proposed a similar program for proofs using logical relations.
-These challenges were deliberately limited in scope, while their authors called for future investigations into such areas as coinduction and linear environments.
+POPLMark Reloaded~\cite{POPLMarkReloaded} proposed a similar program for proofs involving logical relations.
+These challenges, and therefore the developments they spurred, were deliberately limited in scope, but their authors noted they need for future benchmarks to tackle such areas as coinduction and linear environments.
 
 In this spirit, we propose a new collection of benchmark problems specifically designed to address typical issues that arise when mechanising formal models of concurrent and distributed programming languages in general, and process calculi in particular. 
-While many efforts to mechanise results about such formalisms have been completed (as we will discuss further below), our experience is that choosing appropriate proof mechanisation techniques and tools remains a significant challenge with a limited understanding of their respective trade-offs.
-This often leads researchers toward a trial-and-error approach, resulting in sub-optimal and ad-hoc solutions.
-In turn, this increases the overall effort required for proof mechanisation, and hampers the reuse of techniques and results.
+While results about such formalisms have already been mechanised (as we will discuss further below), our experience is that choosing appropriate mechanisation techniques and tools remains a significant challenge and that the trade-offs are not well understood.
+This often leads researchers toward a trial-and-error approach, resulting in sub-optimal solutions, wasted mechanisation effort, and techniques and results that are hard to reuse.
 
-%\alb{Is there a sharp difference among those papers?}
-%Several papers in this realm already include mechanised proofs (\eg~\cite{Castro-Perez2021, Castro2020, lmcs:9985, DBLP:journals/jar/CruzFilipeMP23, Tirore:2023}), or discuss proof mechanisation techniques (\eg~\cite{Bengtson2016, Gay2001, Thiemann2019, DBLP:conf/forte/ZalakainD21}).
-
-It is therefore our view that the research community in concurrency will benefit from a standardised set of challenge problems.
-To this end, our benchmark problems (discussed in detail in \cref{app:challenges}) are designed to focus on three key aspects which typically cause difficulties when mechanising concurrency theory: \emph{linearity}, \emph{scope extrusion}, and \emph{coinductive reasoning} for infinite behaviours.
+Our benchmark problems (explained in detail in \cref{app:challenges}) are designed to focus on three key aspects which typically cause difficulties when mechanising concurrency theory: \emph{linearity}, \emph{scope extrusion}, and \emph{coinductive reasoning}.
 The mechanisation of novel research results often requires addressing more than just one of these aspects at once; we see the combination of techniques as a next step beyond the scope of this challenge, as discussed further in \Cref{sec:going-beyond}.
-These are certainly not the only factors that may cause issues, but they are fundamental to concurrency theory, and emerge in most mechanisations, as we will see presently while discussing the issues presented by the three key aspects.
+Our benchmark challenges are based on process calculi, as these provide a simple but realistic exhibit of the issues typically encountered when mechanising the three key aspects.
+These three aspects are certainly not the only causes of difficulties, but they are fundamental to concurrency theory, and emerge in most mechanisations, as we will see presently while discussing the issues presented by them.
 
 \todo{These paragraphs are still quite messy and unfocused.}
 \paragraph{Linearity.}
