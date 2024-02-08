@@ -131,25 +131,20 @@ Some proof assistants such as Abella~\cite{Baelde2014} support HOAS natively, bu
 % Start of related work
 \cite{Maksimovic2015} does not have name restriction, thus dodging the challenge of scope extrusion.
 
-\paragraph{Coinduction.} \todo{add citations and explain more what the challenge does.}
-
+\paragraph{Coinduction.} \todo{explain more what the challenge does.}
 Coinduction is fundamental to establish properties of processes that
-may never terminate, a typical situation. We base our challenge around
-bisimulation a coinductively established property for equating the
+may never terminate, which is a typical situation. We base our challenge around
+bisimulation: a coinductively established property for equating the
 observed behaviour of potentially infinite processes.
 
-Coinduction is widely supported in proof assistants, Isabelle, Coq,
-and Abella seamlessly support coinductive definitions and reasoning.
-Agda and Beluga support it through the convenient abstraction
-of co-patterns. And newer entrants to the field like the Lean proof
-assistant, while not currently available, are working on adding a
-notion of coinduction to their system.
+Coinduction is widely supported in proof assistants.
+Isabelle, Coq, and Abella seamlessly support coinductive definitions and reasoning.
+Agda and Beluga support it through the convenient abstraction of co-patterns~\cite{Abel2013}.
+Newer entrants to the field like the Lean proof assistant are working on adding a notion of coinduction to their system~\cite{Avigad2019,Keizer2023}.
 
-As with most features, proof assistants support subtly different
-formalisms that enable different techniques and motivate this
-challenge. Some systems provide more than one abstraction to use
-coinduction. A good example of this are the PACO and interaction tree
-libraries for Coq.\todo{Francisco: add citations}.
+As with most features, proof assistants support subtly different formalisms that enable different techniques and motivate this challenge.
+Some systems provide more than one abstraction to use coinduction.
+A good example of this are the parameterized coinduction~\cite{Hur2013} and interaction tree~\cite{Xia2019} libraries for Coq.
 
 Common uses for coinduction are to define strong and weak versions of
 bisimulation, barbed notions of bisimulation, prove trace equivalence,
