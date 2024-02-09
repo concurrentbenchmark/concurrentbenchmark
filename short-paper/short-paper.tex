@@ -80,14 +80,14 @@
 %     - Our experience says there is, and we will cite other experiences below
 %   - We have noticed three key issues
 %     - They are not covered by POPLMark
-%     - There are fewer techniques than for binders
+%     - Techniques are less settled than for binders
 %     - Others also mention them as problems: cite and explain references briefly for each challenge topic
 %   - Our goals are to determine the state of the art, develop best practices and tutorials, and identify improvements to proof assistant technology that would materially help the situation
 \section{Introduction}
 The POPLMark challenge~\cite{POPLMark} accelerated the development of proof assistants, libraries, and best practices for programming language mechanisation by establishing a common ground for systematically evaluating mechanisation techniques.
 In doing so, it spearheaded a shift in the programming language research community towards publications that include mechanised proofs.
 POPLMark Reloaded~\cite{POPLMarkReloaded} proposed a similar program for proofs involving logical relations.
-These challenges, and therefore the developments they spurred, were deliberately limited in scope, but their authors noted they need for future benchmarks to tackle such areas as coinduction and linear environments.
+These challenges, and therefore the developments they spurred, were deliberately limited in scope, but their authors noted the need for future benchmarks to tackle such areas as coinduction and linear environments.
 
 In this spirit, we propose a new collection of benchmark problems specifically designed to address typical issues that arise when mechanising formal models of concurrent and distributed programming languages in general, and process calculi in particular. 
 While results about such formalisms have already been mechanised (as we will discuss further below), our experience is that choosing appropriate mechanisation techniques and tools remains a significant challenge and that the trade-offs are not well understood.
@@ -98,37 +98,20 @@ The mechanisation of novel research results often requires addressing more than 
 Our benchmark challenges are based on process calculi, as these provide a simple but realistic exhibit of the issues typically encountered when mechanising the three key aspects.
 These three aspects are certainly not the only causes of difficulties, but they are fundamental to concurrency theory, and emerge in most mechanisations, as we will see presently while discussing the issues presented by them.
 
-\todo{These paragraphs are still quite messy and unfocused.}
+\todo{These paragraphs are still quite messy and unfocused. They should focus on the motivation, i.e.\ mention what others have perceived as problems.}
 \paragraph{Linearity.}
 In mechanised meta-theory, addressing linearity means choosing an appropriate representation of the linear context.
 The crux of the matter is \emph{context splitting}, as showcased by the typing rule for parallel composition.
-While a linear context is perhaps best seen as a multi-set, most proof assistants have better support for list processing.
-The latter representation is intuitive, but may require establishing a large number of technical lemmata that are orthogonal to the mathematics of the problem under study, say proving type preservation for session types.
-In this space, several designs are possible: one can label occurrences of resources to constrain their usage (\eg~\cite{CicconeP20}) or \alb{something --- ask Francisco} as in \cite{Castro2020}.
-Some authors instead impose a multiset structure over lists (\eg~\cite{ChaudhuriLR19,Danielsson12}); still, the effort required to develop the infrastructure is significant.
 
-A different approach is to bypass the problem of context splitting by adopting familiar ideas from algorithmic linear type checking: this is known as \emph{typing with leftovers}, as exemplified in~\cite{DBLP:conf/forte/ZalakainD21}.
-Whatever the choice, list-based encodings can be refined to be intrinsically-typed, if the proof assistant does support dependent types (see~\cite{Thiemann2019,CicconeP20,RouvoetPKV20}).
-
-For something completely different, one could adopt a \emph{sub-structural} meta-logical framework: here the framework itself handles resource distribution, and users need only map their linear operations to the ones offered by the framework.
-In fact, the linear function space will handle all context operations implicitly, including splitting and substitution.
-One such framework is \emph{Celf}~\cite{Schack-Nielsen:IJCAR08} (see the encoding of session types in~\cite{Bock2016}).
-Unfortunately, \emph{Celf} does not yet fully support the verification of meta-theoretic properties.
-A compromise is the so called \emph{two-level} approach, where one encodes a sub-structural specification logic in a mainstream proof assistant and then uses that logic to state and prove linear properties (for a recent example, see~\cite{Felty:MSCS21}).
+\todo{Insert related work focusing on noted issues with mechanising linearity.}
 
 \paragraph{Scope extrusion.}
 The encoding of binding constructs has been extensively studied for type systems based on $\lambda$-calculi, but process calculi present unique challenges.
 $\pi$-calculi typically include several different binding constructs: inputs bind a received name or value, recursive processes bind recursion variables, and restrictions bind names.
 The first two act similarly to the binders known from $\lambda$-calculi, but restrictions are more challenging due to scope extrusion.
 
-The case study \cite{AmbalLS21} compares four approaches to encoding binders in Coq as a first step towards developing tools for working with higher-order process calculi.
-They found that working directly with de Bruijn indices was easiest and shortest since the existing approaches developed for $\lambda$-calculus binders do not work well with scope extrusion.
-Specifically, the locally nameless representation~\cite{Chargueraud2012} cannot avoid direct manipulation of de Bruijn indices when defining the semantics of scope extrusion; cofinite quantification provides no benefits when working under binders; nominal approaches~\cite{Pitts2003} require explicitly giving and validating sets of free names during scope extrusion; and higher-order abstract syntax (HOAS)~\cite{Pfenning1988} requires additional axioms to work with contexts.
+\todo{Insert related work focusing on noted issues when mechanising scope extrusion.}
 
-Additionally, many proof assistants lack support for the proof principles required to easily work with scope extrusion, \ie, induction principles on functions to work with HOAS encodings.
-Some proof assistants such as Abella~\cite{Baelde2014} support HOAS natively, but working with open terms as required to encode scope extrusion in these systems is generally very challenging~\cite{Momigliano2012}.
-
-% Start of related work
 \cite{Maksimovic2015} does not have name restriction, thus dodging the challenge of scope extrusion.
 
 \paragraph{Coinduction.} \todo{explain more what the challenge does.}
@@ -137,15 +120,6 @@ may never terminate, which is a typical situation. We base our challenge around
 bisimulation: a coinductively established property for equating the
 observed behaviour of potentially infinite processes.
 
-Coinduction is widely supported in proof assistants.
-Isabelle, Coq, and Abella seamlessly support coinductive definitions and reasoning.
-Agda and Beluga support it through the convenient abstraction of co-patterns~\cite{Abel2013}.
-Newer entrants to the field like the Lean proof assistant are working on adding a notion of coinduction to their system~\cite{Avigad2019,Keizer2023}.
-
-As with most features, proof assistants support subtly different formalisms that enable different techniques and motivate this challenge.
-Some systems provide more than one abstraction to use coinduction.
-A good example of this are the parameterized coinduction~\cite{Hur2013} and interaction tree~\cite{Xia2019} libraries for Coq.
-
 Common uses for coinduction are to define strong and weak versions of
 bisimulation, barbed notions of bisimulation, prove trace equivalence,
 etc.
@@ -153,6 +127,7 @@ etc.
 In this challenge we study the notion of strong barbed bisimulation
 over a fragment of the $\pi$-calculus.
 
+\todo{Insert related work focusing on noted issues when mechanising coinduction.}
 
 \subsection{Goals and how to contribute}
 Similarly to the authors of the POPLMark challenges, we seek to
@@ -222,7 +197,7 @@ We encourage anyone interested to try the challenges using their favourite tools
 %     - Cost of entry for tools and techniques
 %     - Slight changes are OK if they are justified and adequate
 \section{Design of the Benchmark}\label{sec:design-discussion}
-\todo{Add references to support our claims and decisions in this whole section.}
+\todo{Add references to support our claims and decisions in this whole section. Here is where we should mention existing approaches.}
 
 In this section, we outline the factors considered in designing the benchmark challenges.
 We begin with some general remarks, then describe the individual design considerations for each challenge problem, and the evaluation criteria for solutions.
@@ -241,6 +216,22 @@ The minimality and uniformity of the calculi also allows us to target design
 goal \ref{item:goal-tutorials}.
 
 \subsubsection{Linearity.}
+While a linear context is perhaps best seen as a multi-set, most proof assistants have better support for list processing.
+The latter representation is intuitive, but may require establishing a large number of technical lemmata that are orthogonal to the mathematics of the problem under study, say proving type preservation for session types.
+In this space, several designs are possible: one can label occurrences of resources to constrain their usage (\eg~\cite{CicconeP20}) or \alb{something --- ask Francisco} as in \cite{Castro2020}.
+Some authors instead impose a multiset structure over lists (\eg~\cite{ChaudhuriLR19,Danielsson12}); still, the effort required to develop the infrastructure is significant.
+
+A different approach is to bypass the problem of context splitting by adopting familiar ideas from algorithmic linear type checking: this is known as \emph{typing with leftovers}, as exemplified in~\cite{DBLP:conf/forte/ZalakainD21}.
+Whatever the choice, list-based encodings can be refined to be intrinsically-typed, if the proof assistant does support dependent types (see~\cite{Thiemann2019,CicconeP20,RouvoetPKV20}).
+
+For something completely different, one could adopt a \emph{sub-structural} meta-logical framework: here the framework itself handles resource distribution, and users need only map their linear operations to the ones offered by the framework.
+In fact, the linear function space will handle all context operations implicitly, including splitting and substitution.
+One such framework is \emph{Celf}~\cite{Schack-Nielsen:IJCAR08} (see the encoding of session types in~\cite{Bock2016}).
+Unfortunately, \emph{Celf} does not yet fully support the verification of meta-theoretic properties.
+A compromise is the so called \emph{two-level} approach, where one encodes a sub-structural specification logic in a mainstream proof assistant and then uses that logic to state and prove linear properties (for a recent example, see~\cite{Felty:MSCS21}).
+
+\todo{Insert discussion/related work focusing on existing techniques and how our benchmark design makes it possible to compare them.}
+
 For our challenge on linear reasoning we have chosen a type preservation theorem
 for a system using session types.
 % , whose use are common in concurrency theory.
@@ -258,14 +249,28 @@ core linear aspects of the challenge.
 \subsubsection{Scope extrusion.}
 This is the challenge most closely related to the POPLMark challenge
 since it concerns the properties of binders in restrictions and input.
-It is not obvious what the limitations and advantages are in
-leveraging the techniques used to solve the original challenges to
-reason about scope extrusion.  For example, techniques like
-higher-order abstract syntax or well-scoped de\ Bruijn indices lack
-the concept of free variables and thus encoding this challenge with
-them requires attention.
+
+The case study \cite{AmbalLS21} compares four approaches to encoding binders in Coq as a first step towards developing tools for working with higher-order process calculi.
+They found that working directly with de Bruijn indices was easiest and shortest since the existing approaches developed for $\lambda$-calculus binders do not work well with scope extrusion.
+Specifically, the locally nameless representation~\cite{Chargueraud2012} cannot avoid direct manipulation of de Bruijn indices when defining the semantics of scope extrusion; cofinite quantification provides no benefits when working under binders; nominal approaches~\cite{Pitts2003} require explicitly giving and validating sets of free names during scope extrusion; and higher-order abstract syntax (HOAS)~\cite{Pfenning1988} requires additional axioms to work with contexts.
+
+\todo{Insert discussion/related work focusing on existing techniques and how our benchmark design makes it possible to compare them.}
+
+Additionally, many proof assistants lack support for the proof principles required to easily work with scope extrusion, \ie, induction principles on functions to work with HOAS encodings.
+Some proof assistants such as Abella~\cite{Baelde2014} support HOAS natively, but working with open terms as required to encode scope extrusion in these systems is generally very challenging~\cite{Momigliano2012}.
 
 \subsubsection{Coinduction.}
+Coinduction is widely supported in proof assistants.
+Isabelle, Coq, and Abella seamlessly support coinductive definitions and reasoning.
+Agda and Beluga support it through the convenient abstraction of co-patterns~\cite{Abel2013}.
+Newer entrants to the field like the Lean proof assistant are working on adding a notion of coinduction to their system~\cite{Avigad2019,Keizer2023}.
+
+As with most features, proof assistants support subtly different formalisms that enable different techniques and motivate this challenge.
+Some systems provide more than one abstraction to use coinduction.
+A good example of this are the parameterized coinduction~\cite{Hur2013} and interaction tree~\cite{Xia2019} libraries for Coq.
+
+\todo{Insert discussion/related work focusing on existing techniques and how our benchmark design makes it possible to compare them.}
+
 Our coinduction challenge concerns strong barbed bisimulation and
 congruence.\alb{we motivate why strong vs weak, but not why barbed}
 Though weak barbed congruence is a more common behavioural equivalence
