@@ -298,32 +298,22 @@ Solutions to our challenges do not need to strictly follow the definitions and l
 %   - Our aim is to see a future where ``the basics'' are as trivial in mechanisations as they are on paper
 \section{Going beyond the challenge problems}\label{sec:going-beyond}
 Similarly to POPLMark and its Reloaded counterpart, our challenges do not encompass all issues in the field.
-Our benchmark is extendable in two aspects: one can further amalgamate and broaden the existing challenges, and tackle aspects not covered by the benchmark at all.
-All of these extensions will still need to handle at least one of the key aspects of our challenges.
+Our benchmark is extendable in two aspects: one can further amalgamate and broaden the existing challenges, or tackle aspects not covered by the benchmark at all.
+Any of these extensions will still need to handle at least one of the key aspects of our challenges.
+\todo{Frederik: Does splitting this section up into these two categories still make sense? We could save some space by not doing so, and it is not obvious to me what exactly should be on each side of the split.}
 
 \paragraph{Extending and combining the current challenges.}
-% thanks, copilot
-
-We have aimed to reduce the overlap of the techniques and aspects that
-our challenges (linearity, scope extrusion, coinduction), despite
-their common use in concurrency theory research. A subsequent round
-could merge these features. We suggest starting with three extensions:
-\emph{(1)} adding choice to both type and process levels, \emph{(2)}
-introducing recursion and recursive types for typed systems, and
+We have aimed to reduce the overlap of the aspects (linearity, scope extrusion, coinduction) that our challenges involve.
+Most concurrency theory research needs several of the aspects and often also other constructs that we have chosen not to cover for simplicity.
+We suggest three extensions that would be useful for many applications:
+\emph{(1)} adding choice constructs to both type and process levels,
+\emph{(2)} introducing recursion and recursive types for typed systems, and
 \emph{(3)} incorporating channel delegation in calculi lacking it.
-%\todo{This paragraph is very long for how relatively little it says. Maybe remove/cut down?}
-
-% While we have tried to minimise the overlap of the techniques and aspects our challenges explore (linearity, scope extrusion, coinduction), most research on concurrency theory combines some or all of these.
-% A second round of formalisations might entail combining the features of the challenges.
-% We consider the following three extensions to be obvious places to start:
-% \emph{(1)} the addition of choice to the type level and the process level,
-% \emph{(2)} the addition of recursion and (for typed systems) recursive types,
-% and \emph{(3)} the addition of channel delegation to those calculi that do not already support it.%
 
 \paragraph{Addressing new calculi and new features.}
-\todo{Maybe cite some references in this section? Mention the higher-order pi calculus?}
+\todo{Mention the higher-order pi calculus?}
 Extending in this direction means proposing new challenges covering different features of process calculi, or different proof mechanisation features.
-Some interesting aspects of message-passing calculi to be explored in further challenges could be multiparty session types and choreographies, as their meta-theory includes aspects -- \eg, well-formedness conditions on global types, partiality of end-point projection function, etc. -- that we do not address here.
+Some interesting aspects of message-passing calculi to be explored in further challenges could be multiparty session types~\cite{10.1145/2827695} and choreographies~\cite{Carbone2013}, as their meta-theory includes aspects -- \eg well-formedness conditions on global types, partiality of end-point projection function, \etc -- that we do not address here.
 Also, one could easily design a challenge that goes beyond our coinduction challenge, by exploring different notions of bisimilarity (barbed, weak, \etc) and trace equivalence.
 %
 Coinduction may also play a relevant role in supporting recursive processes and
@@ -333,8 +323,7 @@ in \emph{infinitary form} by interpreting their typing (and proof) rules
 coinductively~\cite{BaeldeDoumaneSaurin16,DerakhshanPfenning22,HornePadovani23}.
 
 On the mechanisation side, the present challenge proposes mechanising the proofs of theorems.
-An interesting avenue to explore would be to take advantage of other proof assistant features.
-For example, proof assistants can often produce certified code (via code extraction, or compiling and running their definitions).
+An interesting avenue to explore would be to take advantage of other proof assistant features like extracting certified implementations.
 Additionally, while our current challenge is agnostic about proof automation, a more specific challenge could be designed with the objective of automating aspects of the proofs.
 Finally, a challenge could propose the integration with other formal reasoning tools, such as model checkers.
 These tools are in common use in the field; combining automated proofs with proof assistants offers the potential to ease the path towards larger proofs.
