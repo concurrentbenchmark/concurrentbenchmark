@@ -116,16 +116,42 @@ The first two act similarly to the binders known from $\lambda$-calculi, but res
 
 \paragraph{Coinduction.} \todo{explain more what the challenge does.}
 Coinduction is fundamental to establish properties of processes that
-may never terminate, which is a typical situation. We base our challenge around
-bisimulation: a coinductively established property for equating the
-observed behaviour of potentially infinite processes.
-
+may never terminate, which is a typical situation.
 Common uses for coinduction are to define strong and weak versions of
 bisimulation, barbed notions of bisimulation, prove trace equivalence,
 etc.
 
-In this challenge we study the notion of strong barbed bisimulation
-over a fragment of the $\pi$-calculus.
+We base our challenge around
+bisimulation: a fundamental coinductively established property for equating the
+observed behaviour of potentially infinite processes. 
+In this challenge, we study the notion of strong barbed bisimulation
+(and bisimilarity)
+over a fragment of the $\pi$-calculus and,
+in particular, we focus on obtaining,
+from strong barbed bisimilarity,
+a congruence with respect to
+parallel composition and substitution.
+
+The introduction of bisimulation
+is one of the first steps, when studying the
+semantics of process calculi, both
+in classical textbooks (e.g., \cite{})
+and in almost all existent 
+mechanisations \cite{}
+(where we see a variety
+of different choices).
+
+
+
+
+
+
+%Common uses for coinduction are to define strong and weak versions of
+%bisimulation, barbed notions of bisimulation, prove trace equivalence,
+%etc.
+
+%In this challenge we study the notion of strong barbed bisimulation
+%over a fragment of the $\pi$-calculus.
 
 \todo{Insert related work focusing on noted issues when mechanising coinduction.}
 
@@ -279,6 +305,20 @@ need to abstract over the number of internal transitions, thus
 simplifying the theory.  We exclude delegation from the coinduction
 challenge since it is orthogonal to our primary aim of exploring
 coinductive proof techniques.
+
+\lore{Need to integrate the following with the above.}
+Different process-calculi
+mechanisations
+implement different techinques;
+most of the time these 
+are ad-hoc efforts to achieve a specific result.
+\lore{cite and substantiate.}
+In parallel, although most proof assistants
+offer support for coinduction in their standard libraries,
+research has mainly focused on the foundations
+of the specific system, more than on
+applicability.
+\lore{cite and substantiate.}
 
 \subsubsection{Evaluation criteria.}
 The idea behind our benchmark is to obtain evidence towards answering questions \cref{item:rq1,item:rq2,item:rq3}. We are therefore interested in not only the solutions, but also in the experience of solving the challenges with the chosen approach.
