@@ -91,9 +91,10 @@ These challenges, and the developments they spurred, were limited in scope, but 
 
 In this spirit, we propose a new collection of benchmark problems specifically designed to address typical issues that arise when mechanising formal models of concurrent and distributed programming languages in general, and process calculi in particular.
 Concurrent calculi are notably subtle: for instance it took nine years before the incorrect proof of type safety in~\cite{Honda1998} was fixed in~\cite{Yoshida2007}.
-Similarly, many results on duality, recursion, subject reduction and expressiveness in session types have turned out to be false later on~\cite{Gay2020,10.1145/3290343}, illustrating the value of machine-checkable proofs.
+Similarly, many key results in peer-reviewed papers on session types have turned out to be false later on~\cite{Gay2020,10.1145/3290343}, illustrating the value of machine-checkable proofs.
 While results about concurrent formalisms have already been mechanised (as we will discuss further below), our experience is that choosing appropriate mechanisation techniques and tools remains a significant challenge and that the trade-offs are not well understood.
 This often leads researchers toward a trial-and-error approach, resulting in sub-optimal solutions, wasted mechanisation effort, and techniques and results that are hard to reuse.
+\cite{Cruz-Filipe2021b} notes that the high-level parts of mechanised proofs closely resemble the informal versions, and that the main challenge lies in getting the foundations right.
 
 Our benchmark problems (explained in detail in \cref{app:challenges}) focus on three key aspects which often cause difficulties when mechanising concurrency theory: \emph{linearity}, \emph{scope extrusion}, and \emph{coinductive reasoning}.
 Mechanisations must often address several of these aspects, but we see the combination of techniques as a next step beyond the scope of this challenge, as discussed further in \Cref{sec:going-beyond}.
@@ -104,6 +105,8 @@ The three aspects are certainly not the only causes of difficulties, but as we w
 \paragraph{Linearity.}
 In mechanised meta-theory, addressing linearity means choosing an appropriate representation of the linear context.
 The crux of the matter is \emph{context splitting}, as showcased by the typing rule for parallel composition.
+
+\cite{Brady2017} notes that using algebraic effects is unwieldy when there are many communication channels and suggests an experimental approach using dependent uniqueness types.
 
 \todo{Insert related work focusing on noted issues with mechanising linearity.}
 
@@ -144,7 +147,7 @@ mechanisations \cite{}
 of different choices).
 
 
-
+\cite{Castro-Perez2021} note that the most challenging part of their mechanisation was the convoluted definition of infinite behaviours.
 
 
 
@@ -352,8 +355,10 @@ We suggest three extensions that would be useful for many applications:
 \emph{(2)} introducing recursion and recursive types for typed systems, and
 \emph{(3)} incorporating channel delegation in calculi lacking it.
 
+\cite{DBLP:conf/forte/ZalakainD21} notes that the combination of linearity and infinite behaviour is difficult since it requires uniquely determining the resources consumed by a process.
+
 \paragraph{Addressing new calculi and new features.}
-\todo{Mention the higher-order pi calculus?}
+\todo{Mention the higher-order pi calculus? If so, also mention~\cite{Hirsch2022}}
 Extending in this direction means proposing new challenges covering different features of process calculi, or different proof mechanisation features.
 Some interesting aspects of message-passing calculi to be explored in further challenges could be multiparty session types~\cite{10.1145/2827695} and choreographies~\cite{Carbone2013}, as their meta-theory includes aspects -- \eg well-formedness conditions on global types, partiality of end-point projection function, \etc -- that we do not address here.
 Also, one could easily design a challenge that goes beyond our coinduction challenge, by exploring different notions of bisimilarity (barbed, weak, \etc) and trace equivalence.
