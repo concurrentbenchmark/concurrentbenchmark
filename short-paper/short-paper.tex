@@ -89,8 +89,10 @@ In doing so, it spearheaded a shift in the programming language research communi
 POPLMark Reloaded~\cite{POPLMarkReloaded} proposed a similar program for proofs involving logical relations.
 These challenges, and the developments they spurred, were limited in scope, but their authors noted the need to tackle topics such as coinduction and linearity in the future.
 
-In this spirit, we propose a new collection of benchmark problems specifically designed to address typical issues that arise when mechanising formal models of concurrent and distributed programming languages in general, and process calculi in particular. 
-While results about such formalisms have already been mechanised (as we will discuss further below), our experience is that choosing appropriate mechanisation techniques and tools remains a significant challenge and that the trade-offs are not well understood.
+In this spirit, we propose a new collection of benchmark problems specifically designed to address typical issues that arise when mechanising formal models of concurrent and distributed programming languages in general, and process calculi in particular.
+Concurrent calculi are notably subtle: for instance it took nine years before the incorrect proof of type safety in~\cite{Honda1998} was fixed in~\cite{Yoshida2007}.
+Similarly, many results on duality, recursion, subject reduction and expressiveness in session types have turned out to be false later on~\cite{Gay2020,10.1145/3290343}, illustrating the value of machine-checkable proofs.
+While results about concurrent formalisms have already been mechanised (as we will discuss further below), our experience is that choosing appropriate mechanisation techniques and tools remains a significant challenge and that the trade-offs are not well understood.
 This often leads researchers toward a trial-and-error approach, resulting in sub-optimal solutions, wasted mechanisation effort, and techniques and results that are hard to reuse.
 
 Our benchmark problems (explained in detail in \cref{app:challenges}) focus on three key aspects which often cause difficulties when mechanising concurrency theory: \emph{linearity}, \emph{scope extrusion}, and \emph{coinductive reasoning}.
