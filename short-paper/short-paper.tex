@@ -90,7 +90,7 @@ POPLMark Reloaded~\cite{POPLMarkReloaded} proposed a similar program for proofs 
 These challenges, and the developments they spurred, were limited in scope, but their authors noted the need to tackle topics such as coinduction and linearity in the future.
 
 In this spirit, we propose a new collection of benchmark problems specifically designed to address typical issues that arise when mechanising formal models of concurrent and distributed programming languages in general, and process calculi in particular.
-Concurrent calculi are notably subtle: for instance it took nine years before the incorrect proof of type safety in~\cite{Honda1998} was fixed in~\cite{Yoshida2007}.
+Concurrent calculi are notably subtle: for instance it took nine years before the incorrect proof of type safety in the seminal paper~\cite{Honda1998} was fixed in~\cite{Yoshida2007}.
 Similarly, many key results in peer-reviewed papers on session types have turned out to be false later on~\cite{Gay2020,10.1145/3290343}, illustrating the value of machine-checkable proofs.
 While results about concurrent formalisms have already been mechanised (as we will discuss further below), our experience is that choosing appropriate mechanisation techniques and tools remains a significant challenge and that the trade-offs are not well understood.
 This often leads researchers toward a trial-and-error approach, resulting in sub-optimal solutions, wasted mechanisation effort, and techniques and results that are hard to reuse.
@@ -107,6 +107,8 @@ In mechanised meta-theory, addressing linearity means choosing an appropriate re
 The crux of the matter is \emph{context splitting}, as showcased by the typing rule for parallel composition.
 
 \cite{Brady2017} notes that using algebraic effects is unwieldy when there are many communication channels and suggests an experimental approach using dependent uniqueness types.
+\cite{Zalakain2019} notes that systems lacking linear types must simulate linearity, and that using a linearity predicate complicates congruences.
+They had to limit themselves to an asymmetric structural precongruence to be able to prove subject reduction.
 
 \todo{Insert related work focusing on noted issues with mechanising linearity.}
 
@@ -118,6 +120,8 @@ The first two act similarly to the binders known from $\lambda$-calculi, but res
 \todo{Insert related work focusing on noted issues when mechanising scope extrusion.}
 
 \cite{Maksimovic2015} does not have name restriction, thus dodging the challenge of scope extrusion.
+\cite{Castro-Perez2021,Castro2020} note that popular presentations of session type systems are impossible to directly encode using intrinsically \(\alpha\)-convertible terms.
+\cite{Castro2020} suggests using several binder constructs to solve this, but notes that this requires proving many variants of the same theorems.
 
 \paragraph{Coinduction.} \todo{explain more what the challenge does.}
 Coinduction is fundamental to establish properties of processes that
@@ -148,7 +152,6 @@ of different choices).
 
 
 \cite{Castro-Perez2021} note that the most challenging part of their mechanisation was the convoluted definition of infinite behaviours.
-
 
 
 %Common uses for coinduction are to define strong and weak versions of
@@ -356,6 +359,7 @@ We suggest three extensions that would be useful for many applications:
 \emph{(3)} incorporating channel delegation in calculi lacking it.
 
 \cite{DBLP:conf/forte/ZalakainD21} notes that the combination of linearity and infinite behaviour is difficult since it requires uniquely determining the resources consumed by a process.
+\cite{Zalakain2019} notes that mixing replication and linearity seems to be very difficult without using explicit type contexts.
 
 \paragraph{Addressing new calculi and new features.}
 \todo{Mention the higher-order pi calculus? If so, also mention~\cite{Hirsch2022}}
