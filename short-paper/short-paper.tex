@@ -209,7 +209,7 @@ of different choices).
 
 \todo{Insert related work focusing on noted issues when mechanising coinduction.}
 
-\subsection{Goals and how to contribute}
+\subsection{Goals}% and how to contribute}
 Similarly to the authors of the POPLMark challenges, we seek to
 answer several questions:
 %\alb{We oscillate between concurrency in general and process calculi, here and before}
@@ -317,6 +317,22 @@ calculi also allows us to target design goal
 \ref{item:goal-tutorials}.
 
 \subsubsection{Linearity.}
+
+\alb{I would put the challenge before the literature}
+For our challenge on linear reasoning we have chosen a type safety theorem
+for a system using session types, combining as usual type preservation with absence of errors.
+% , whose use are common in concurrency theory.
+This allows us to introduce linear reasoning with few definitions.
+With our objective focused on linearity, we forego channel delegation
+and opt for a reduction approach rather than employing a transition
+system semantics.  Inspired by Vasconcelos~\cite{Vasconcelos2012}, we
+define a syntax where restriction binds two names, highlighting
+their duality within the type system.  We have chosen a simple notion
+of well-formedness, and do not  consider
+deadlocks. While more sophisticated notions of well-formedness are
+interesting, the proofs of these properties would distract from the
+core linear aspects of the challenge.
+
 While a linear context is perhaps best seen as a multi-set, most proof assistants have better support for list processing.
 The latter representation is intuitive, but may require establishing a large number of technical lemmata that are orthogonal to the mathematics of the problem under study, say proving type preservation for session types.
 In this space, several designs are possible: one can label occurrences of resources to constrain their usage (\eg~\cite{CicconeP20}) or \alb{something --- ask Francisco} as in \cite{Castro2020}.
@@ -332,20 +348,6 @@ Unfortunately, \emph{Celf} does not yet fully support the verification of meta-t
 A compromise is the so called \emph{two-level} approach, where one encodes a sub-structural specification logic in a mainstream proof assistant and then uses that logic to state and prove linear properties (for a recent example, see~\cite{Felty:MSCS21}).
 
 \todo{Insert discussion/related work focusing on existing techniques and how our benchmark design makes it possible to compare them.}
-
-For our challenge on linear reasoning we have chosen a type preservation theorem
-for a system using session types.
-% , whose use are common in concurrency theory.
-This allows us to introduce linear reasoning with few definitions.
-With our objective focused on linearity, we forego channel delegation
-and opt for a reduction approach rather than employing a transition
-system semantics.  Inspired by Vasconcelos~\cite{Vasconcelos2012}, we
-define a syntax where restriction binds two names,n highlighting
-their duality within the type system.  We have chosen a simple notion
-of well-formedness, and do not  consider
-deadlocks. While more sophisticated notions of well-formedness are
-interesting, the proofs of these properties would distract from the
-core linear aspects of the challenge.
 
 \subsubsection{Scope extrusion.}
 This is the challenge most closely related to the POPLMark challenge
