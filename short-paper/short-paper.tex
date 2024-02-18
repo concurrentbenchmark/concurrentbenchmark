@@ -170,34 +170,61 @@ The first two act similarly to the binders known from $\lambda$-calculi, but res
 \cite{Castro2020} suggests using several binder constructs to solve this, but notes that this requires proving many variants of the same theorems.
 
 \paragraph{Coinduction.} \todo{explain more what the challenge does.}
+\lore{I have tried this:
+  the first paragraph motivates (``why is this difficult?''), while
+  the second talks about the challenge.}
 Coinduction is fundamental to establish properties of processes that
 may never terminate, which is a typical situation.
 Common uses for coinduction are to define strong and weak versions of
-bisimulation, barbed notions of bisimulation, prove trace equivalence,
-etc.
+bisimulation, barbed notions of bisimulation, and prove trace equivalence. %,
+%etc.
+On the other hand, coinduction in proof assistants
+is notoriously difficult and its representation
+is non-uniform across development.
+E.g., \cite{Castro-Perez2021} notes that the most challenging
+part of their mechanisation of multiparty session types
+was the convoluted definition of infinite behaviours;
+\cite{Pohjola2022} points out that the main difficulty
+of the proofs concerning bisimulation lies
+in dealing with existential quantifiers; and
+\cite{Bengtson2016} wonders whether parametrised
+coinduction as developed in Coq \cite{Hur2013} would
+have helped their Isabelle mechanisation.
 
-We base our challenge around
-bisimulation: a fundamental coinductively established property for equating the
+
+We base our challenge around bisimulation: a fundamental coinductively
+established property for equating the
 observed behaviour of potentially infinite processes. 
 In this challenge, we study the notion of strong barbed bisimulation
-(and bisimilarity)
+(and bisimilarity, as in \cite{picalcbook})
 over a fragment of the $\pi$-calculus and,
 in particular, we focus on obtaining,
 from strong barbed bisimilarity,
 a congruence with respect to
 parallel composition and substitution.
+%
+%% The introduction of bisimulation
+%% is one of the first steps, when studying the
+%% (observable) behaviour of process calculi, both
+%% in classical textbooks (e.g., \cite{picalcbook})
+%% and in existing 
+%% mechanisations
+%% \cite{Thiemann2019,Honsell2001,Bengtson2016,Kahsai2008,Gay2020,
+%% Hirschkoff1997,Bengtson2009,Maksimovic2015}.
 
-The introduction of bisimulation
-is one of the first steps, when studying the
-semantics of process calculi, both
-in classical textbooks (e.g., \cite{})
-and in almost all existent 
-mechanisations \cite{}
-(where we see a variety
-of different choices).
+%% , where we see a variety of
+%% different formalisation choices.
+%% As a significant example, we observe that,
+%% while many authors rely
+%% on the native support for coinduction offered by
+%% proof assistants
+%% \cite{Thiemann2019,Honsell2001,Bengtson2016,Kahsai2008,Gay2020},
+%% many others prefer a more ``set-theoretic''
+%% approach
+%% \cite{Hirschkoff1997,Bengtson2009,Maksimovic2015}.
 
 
-\cite{Castro-Perez2021} note that the most challenging part of their mechanisation was the convoluted definition of infinite behaviours.
+
 
 
 %Common uses for coinduction are to define strong and weak versions of
@@ -366,16 +393,24 @@ Some proof assistants such as Abella~\cite{Baelde2014} support HOAS natively, bu
 Coinduction is widely supported in proof assistants.
 Isabelle, Coq, and Abella seamlessly support coinductive definitions and reasoning.
 Agda and Beluga support it through the convenient abstraction of co-patterns~\cite{Abel2013}.
-Newer entrants to the field like the Lean proof assistant are working on adding a notion of coinduction to their system~\cite{Avigad2019,Keizer2023}.
+Newer entrants to the field like the Lean proof assistant
+are working on adding a notion of coinduction to their system~\cite{Avigad2019,Keizer2023}.
 
-As with most features, proof assistants support subtly different formalisms that enable different techniques and motivate this challenge.
+As with most features, proof assistants support
+subtly different formalisms that enable different techniques and motivate this challenge.
 Some systems provide more than one abstraction to use coinduction.
-A good example of this are the parameterized coinduction~\cite{Hur2013} and interaction tree~\cite{Xia2019} libraries for Coq.
+A good example of this are the parameterized coinduction~\cite{Hur2013}
+and interaction tree~\cite{Xia2019} libraries for Coq.
 
+\lore{Should we mention that Isabelle offers
+  the command \texttt{coinduction\_upto}? Is it related?}
 \todo{Insert discussion/related work focusing on existing techniques and how our benchmark design makes it possible to compare them.}
+\lore{I have added something below... Any advice on what more we need?}
 
 Our coinduction challenge concerns strong barbed bisimulation and
 congruence.\alb{we motivate why strong vs weak, but not why barbed}
+\lore{Is it not enough to quote the Sangiorgi/Walker book
+and go by authority? :) }
 Though weak barbed congruence is a more common behavioural equivalence
 w.r.t.\ the \(\pi\)-calculus, here we prefer strong equivalences to avoid the
 need to abstract over the number of internal transitions, thus
@@ -383,19 +418,38 @@ simplifying the theory.  We exclude delegation from the coinduction
 challenge since it is orthogonal to our primary aim of exploring
 coinductive proof techniques.
 
-\lore{Need to integrate the following with the above.}
-Different process-calculi
-mechanisations
-implement different techniques;
-most of the time these 
-are ad-hoc efforts to achieve a specific result.
-\lore{cite and substantiate.}
-In parallel, although most proof assistants
-offer support for coinduction in their standard libraries,
-research has mainly focused on the foundations
-of the specific system, more than on
-applicability.
-\lore{cite and substantiate.}
+The introduction of strong barbed bisimulation
+is one of the first steps, when studying the
+(observable) behaviour of process calculi, both
+in classical textbooks (e.g., \cite{picalcbook})
+and in existing 
+mechanisations, where we see a variety of
+different formalisation choices,
+sometimes ad-hoc for the specific
+result or development.
+As a significant example, we observe that,
+while many authors rely
+on the native support for coinduction offered by
+proof assistants
+\cite{Honsell2001,Bengtson2016,Kahsai2008,Thiemann2019,Gay2020},
+many others prefer a more ``set-theoretic''
+approach
+\cite{Hirschkoff1997,Bengtson2009,Maksimovic2015,Pohjola2022}.
+
+
+%% \lore{Need to integrate the following with the above.}
+%% Different process-calculi
+%% mechanisations
+%% implement different techniques;
+%% most of the time these 
+%% are ad-hoc efforts to achieve a specific result.
+%% \lore{cite and substantiate.}
+%% In parallel, although most proof assistants
+%% offer support for coinduction in their standard libraries,
+%% research has mainly focused on the foundations
+%% of the specific system, more than on
+%% applicability.
+%% \lore{cite and substantiate.}
 
 \subsubsection{Evaluation criteria.}
 The idea behind our benchmark is to obtain evidence towards answering questions \cref{item:rq1,item:rq2,item:rq3}. We are therefore interested in not only the solutions, but also in the experience of solving the challenges with the chosen approach.
