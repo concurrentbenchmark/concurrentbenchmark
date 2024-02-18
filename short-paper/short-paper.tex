@@ -105,13 +105,24 @@ to logical relations. While these initiatives had a narrow focus,
 their authors recognized the importance of addressing broader topics
 in the future, including coinduction and linearity.
 
-In this spirit, we propose a new collection of benchmark problems
-specifically designed to address typical issues that arise when
-mechanising formal models of concurrent and distributed programming
-languages in general, and process calculi in particular.  Concurrent
-calculi are notably subtle: for instance it took nine years before the
-incorrect proof of type safety in the seminal paper by Honda et
-al.~\cite{Honda1998} was fixed in~\cite{Yoshida2007}.  Similarly, many
+In this spirit, we introduce a novel collection of benchmark problems
+specifically crafted to tackle common challenges encountered during
+the mechanization of formal models for concurrent and distributed
+programming languages. Our focus extends particularly to process
+calculi.
+%
+% In this spirit, we propose a new collection of benchmark problems
+% specifically designed to address typical issues that arise when
+% mechanising formal models of concurrent and distributed programming
+% languages in general, and process calculi in particular. 
+Concurrent calculi are notably subtle: For instance, it took nine
+years before the incorrect proof of type safety in the seminal paper
+by Honda et al.~.~\cite{Honda1998} was rectified in Yoshida \&
+Vasconcelos’s subsequent work\cite{Yoshida2007}.
+% for instance it took nine years before the incorrect proof of type
+% safety in the seminal paper by Honda et al was fixed
+% in~\cite{Yoshida2007}.
+Similarly, many
 key results in peer-reviewed papers on session types have turned out
 to be false later on~\cite{Gay2020,10.1145/3290343}, illustrating the
 value of machine-checkable proofs.
@@ -147,7 +158,7 @@ consistently manifest in most mechanizations of concurrency theory.
 
 \alb{I really do not like the duplication of the discussion of the
   three issues here and in Sec 2. I understand the desire to highlight
-  noted issues, but it does not work. The citations are unconvincing, furthermore}
+  noted issues, but it does not work. Some citations are unconvincing. Mostly, we are anticipating the description of the challenges. Let's unify this}
 \paragraph{Linearity.}
 In mechanised meta-theory, addressing linearity means choosing an appropriate representation of the linear context.
 The crux of the matter is \emph{context splitting}, as showcased by the typing rule for parallel composition.
@@ -159,9 +170,13 @@ They had to limit themselves to an asymmetric structural precongruence to be abl
 \todo{Insert related work focusing on noted issues with mechanising linearity.}
 
 \paragraph{Scope extrusion.}
-The encoding of binding constructs has been extensively studied for type systems based on $\lambda$-calculi, but process calculi present unique challenges.
-$\pi$-calculi typically include several different binding constructs: inputs bind a received name or value, recursive processes bind recursion variables, and restrictions bind names.
-The first two act similarly to the binders known from $\lambda$-calculi, but restrictions are more challenging due to scope extrusion.
+The encoding of binding constructs has been extensively studied
+w.r.t.\ the $\lambda$-calculi, but process calculi present additional
+challenges.  $\pi$-calculi typically include several different binding
+constructs: inputs bind a received name or value, recursive processes
+bind recursion variables, and restrictions bind names.  The first two
+act similarly to the binders known from $\lambda$-calculi, but
+restrictions may be more challenging due to scope extrusion.
 
 \todo{Insert related work focusing on noted issues when mechanising scope extrusion.}
 
@@ -236,10 +251,11 @@ parallel composition and substitution.
 
 \todo{Insert related work focusing on noted issues when mechanising coinduction.}
 
+\alb{This subsection does not make a lot of sense here -- introductions do not have subsections. Let's move it in ``Design'' }
 \subsection{Goals}% and how to contribute}
 Similarly to the authors of the POPLMark challenges, we seek to
 answer several questions:
-%\alb{We oscillate between concurrency in general and process calculi, here and before}
+\alb{Should we stress we are interested in the \textbf{meta-theory} of process calculi, not}
 \begin{enumerate}[label=\textbf{(Q\arabic*)},leftmargin=10mm]
 \item\label{item:rq1} What is the current state of the art in mechanising process calculi?
 \item\label{item:rq2} Which techniques and best practices can be recommended when starting formalisation projects involving process calculi?
@@ -325,16 +341,19 @@ are not directly covered.
   encodings. Is it a good idea to start the section describing what we \textbf{do not do}?}
 
 Still, these (and other) applications need the basic
-techniques that our challenge problems emphasize: as per design goal
-\ref{item:goal-reusability}, our problems are drawn from the basic
-meta-theory of process calculi (without requiring the development of
-new theory), and focus on well-known theorems and results that involve
-interesting proof techniques that may be reused in further work.  To
+techniques that our challenge problems emphasize:
+Aligned with design goal~\ref{item:goal-reusability}, our problems are rooted in the fundamental meta-theory of process calculi, without necessitating the creation of novel theory. These problems center around well-established theorems and results, showcasing intriguing proof techniques that can be leveraged in future endeavors.
+% as per design goal
+% \ref{item:goal-reusability}, our problems are drawn from the basic
+% meta-theory of process calculi (without requiring the development of
+% new theory), and focus on well-known theorems and results that involve
+% interesting proof techniques that may be reused in further work. 
+To
 achieve design goal \ref{item:goal-comperison-accessibility}, we have
 formulated our challenge problems to explore the three aspects
 (linearity, scope extrusion, coinduction) independently, so that they
-may be solved individually and in any order; each problem should be
-reasonably small and easily understood with basic knowledge of
+may be solved individually and in any order; each problem is %should be
+reasonably small and easily understandable with basic knowledge of
 textbook concurrency theory, process calculi, and type theory.  The
 process calculus used in each challenge focuses on the features that
 we want to emphasize, and omits all constructs (such as choices) that
@@ -376,6 +395,7 @@ A compromise is the so called \emph{two-level} approach, where one encodes a sub
 
 \todo{Insert discussion/related work focusing on existing techniques and how our benchmark design makes it possible to compare them.}
 
+\alb{This needs some work: we do not describe the challenge at all and the citations are not the one I had in mind}
 \subsubsection{Scope extrusion.}
 This is the challenge most closely related to the POPLMark challenge
 since it concerns the properties of binders in restrictions and input.
@@ -390,12 +410,31 @@ Additionally, many proof assistants lack support for the proof principles requir
 Some proof assistants such as Abella~\cite{Baelde2014} support HOAS natively, but working with open terms as required to encode scope extrusion in these systems is generally very challenging~\cite{Momigliano2012}.
 
 \subsubsection{Coinduction.}
-Coinduction is widely supported in proof assistants.
+\alb{I kinda object to ``seamlessly''. In Coq it's a mess, in Abella very very limited, sized types in Agda are shaky. I guess Isabelle is better}
+
+Our coinduction challenge concerns strong barbed bisimulation and
+congruence.% \alb{we motivate why strong vs weak, but not why barbed}
+% \lore{Is it not enough to quote the Sangiorgi/Walker book
+% and go by authority? :)}
+Though weak barbed congruence is a more common behavioural equivalence
+w.r.t.\ the \(\pi\)-calculus, here we prefer strong equivalences to avoid the
+need to abstract over the number of internal transitions, thus
+simplifying the theory.  We exclude delegation from the coinduction
+challenge since it is orthogonal to our primary aim of exploring
+coinductive proof techniques.
+
+The introduction of strong barbed bisimulation is one of the first
+steps when studying the (observable) behaviour of process calculi,
+both in classical textbooks (e.g., \cite{picalcbook}) and in existing
+mechanisations, where we see a variety of different formalisation
+choices, sometimes ad-hoc for the specific result or development.
+
+In fact, coinduction is widely supported in proof assistants.
 Isabelle, Coq, and Abella seamlessly support coinductive definitions and reasoning.
 Agda and Beluga support it through the convenient abstraction of co-patterns~\cite{Abel2013}.
 Newer entrants to the field like the Lean proof assistant
-are working on adding a notion of coinduction to their system~\cite{Avigad2019,Keizer2023}.
-
+are working on adding a notion of coinduction to their system~\cite{Avigad2019}%,Keizer2023}.
+%
 As with most features, proof assistants support
 subtly different formalisms that enable different techniques and motivate this challenge.
 Some systems provide more than one abstraction to use coinduction.
@@ -407,35 +446,15 @@ and interaction tree~\cite{Xia2019} libraries for Coq.
 \todo{Insert discussion/related work focusing on existing techniques and how our benchmark design makes it possible to compare them.}
 \lore{I have added something below... Any advice on what more we need?}
 
-Our coinduction challenge concerns strong barbed bisimulation and
-congruence.\alb{we motivate why strong vs weak, but not why barbed}
-\lore{Is it not enough to quote the Sangiorgi/Walker book
-and go by authority? :) }
-Though weak barbed congruence is a more common behavioural equivalence
-w.r.t.\ the \(\pi\)-calculus, here we prefer strong equivalences to avoid the
-need to abstract over the number of internal transitions, thus
-simplifying the theory.  We exclude delegation from the coinduction
-challenge since it is orthogonal to our primary aim of exploring
-coinductive proof techniques.
 
-The introduction of strong barbed bisimulation
-is one of the first steps, when studying the
-(observable) behaviour of process calculi, both
-in classical textbooks (e.g., \cite{picalcbook})
-and in existing 
-mechanisations, where we see a variety of
-different formalisation choices,
-sometimes ad-hoc for the specific
-result or development.
-As a significant example, we observe that,
-while many authors rely
-on the native support for coinduction offered by
-proof assistants
-\cite{Honsell2001,Bengtson2016,Kahsai2008,Thiemann2019,Gay2020},
-many others prefer a more ``set-theoretic''
-approach
+
+%As a significant example, we observe that,
+While many authors rely on the native support for coinduction offered
+by proof assistants
+\cite{Honsell2001,Bengtson2016,Kahsai2008,Thiemann2019,Gay2020}, many
+others prefer a more ``set-theoretic'' approach
 \cite{Hirschkoff1997,Bengtson2009,Maksimovic2015,Pohjola2022}.
-
+\alb{Actually, Honsell gives up with guarded coinduction and switches to Park's half way}
 
 %% \lore{Need to integrate the following with the above.}
 %% Different process-calculi
@@ -451,9 +470,13 @@ approach
 %% applicability.
 %% \lore{cite and substantiate.}
 
+\alb{This should not be a subsubsection at the same level of coinduction etc}
 \subsubsection{Evaluation criteria.}
-The idea behind our benchmark is to obtain evidence towards answering questions \cref{item:rq1,item:rq2,item:rq3}. We are therefore interested in not only the solutions, but also in the experience of solving the challenges with the chosen approach.
-Solutions to our challenges should be compared on three measures:
+The idea behind our benchmark is to obtain evidence towards answering
+questions \cref{item:rq1,item:rq2,item:rq3}. We are therefore
+interested not only in the solutions, but also in the experience of
+solving the challenges with the chosen approach.  Solutions to our
+challenges should be compared on three axis:
 \begin{enumerate}
 \item Mechanisation overhead: the amount of manually written infrastructure and setup needed to express the definitions in the mechanisation;
 \item Adequacy of the formal statements in the mechanisation: whether the proven theorems are easily recognisable as the theorems from the challenge; and
