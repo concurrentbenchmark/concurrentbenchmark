@@ -148,18 +148,23 @@ challenges.  We encourage anyone interested to try the challenges
 using their favourite tools and techniques, and to send us their
 solutions.
 
-\section{Design of the Benchmark}\label{sec:design-discussion}
+\section{The Benchmark and its Design}\label{sec:design-discussion}
+\alb{Next paragraph needs rewriting}
 In this section, we outline the factors considered in designing the benchmark challenges.
 We begin with some general remarks, then describe the individual design considerations for each challenge problem, and the evaluation criteria for solutions.
 
 Similarly to the authors of the POPLMark challenges, we seek to
 answer several questions:
-\alb{Should we stress we are interested in the \textbf{meta-theory} of process calculi, not}
+% \alb{Should we stress we are interested in the \textbf{meta-theory} of process calculi, not}
 \begin{enumerate}[label=\textbf{(Q\arabic*)},leftmargin=10mm]
 \item\label{item:rq1} What is the current state of the art in mechanising process calculi?
 \item\label{item:rq2} Which techniques and best practices can be recommended when starting formalisation projects involving process calculi?
 \item\label{item:rq3} Which improvements are needed to make mechanisation tools more user-friendly with regards to the issues faced when mechanising process calculi?
 \end{enumerate}
+%
+Note that the challenges revolve around the mechanization of the
+\emph{meta-theory} of process calculi, rather than interpreters or
+type checkers for the latter.
 
 To provide a framework in which to answer these questions, our benchmark is designed to satisfy three main goals:
 \begin{enumerate}[label=\textbf{(G\arabic*)},leftmargin=10mm]
@@ -355,21 +360,47 @@ Any of these extensions will still need to handle at least one of the key aspect
 \todo{Frederik: Does splitting this section up into these two categories still make sense? We could save some space by not doing so, and it is not obvious to me what exactly should be on each side of the split.}
 
 \paragraph{Extending and combining the current challenges.}
-We have aimed to reduce the overlap of the aspects (linearity, scope extrusion, coinduction) that our challenges involve.
-Most concurrency theory research needs several of the aspects and often also other constructs that we have chosen not to cover for simplicity.
-We suggest three extensions that would be useful for many applications:
+We have aimed to reduce the overlap of the aspects (linearity, scope
+extrusion, coinduction) that our challenges involve.  Most concurrency
+theory research needs several of those aspects and in fact there is
+anedoctical evidence of the difficulties that such a combination may induce
+in a mechanization,
+e.g.~\cite{DBLP:conf/forte/ZalakainD21}. Furthermore, one can consider
+other constructs that we have chosen not to cover for simplicity.  We
+suggest three extensions that would be useful for many applications:
 \emph{(1)} adding choice constructs to both type and process levels,
-\emph{(2)} introducing recursion and recursive types for typed systems, and
-\emph{(3)} incorporating channel delegation in calculi lacking it.
+\emph{(2)} introducing recursion and recursive types for typed
+systems, and \emph{(3)} incorporating channel delegation in calculi
+lacking it.
 
-\cite{DBLP:conf/forte/ZalakainD21} notes that the combination of linearity and infinite behaviour is difficult since it requires uniquely determining the resources consumed by a process.
-\cite{Zalakain2019} notes that mixing replication and linearity seems to be very difficult without using explicit type contexts.
+% \cite{DBLP:conf/forte/ZalakainD21} notes that the combination of linearity and infinite behaviour is difficult since it requires uniquely determining the resources consumed by a process.
+% \cite{Zalakain2019} notes that mixing replication and linearity seems to be very difficult without using explicit type contexts.
 
 \paragraph{Addressing new calculi and new features.}
-\todo{Mention the higher-order pi calculus? If so, also mention~\cite{Hirsch2022}}
-Extending in this direction means proposing new challenges covering different features of process calculi, or different proof mechanisation features.
-Some interesting aspects of message-passing calculi to be explored in further challenges could be multiparty session types~\cite{10.1145/2827695} and choreographies~\cite{Carbone2013}, as their meta-theory includes aspects -- \eg well-formedness conditions on global types, partiality of end-point projection function, \etc -- that we do not address here.
-Also, one could easily design a challenge that goes beyond our coinduction challenge, by exploring different notions of bisimilarity (barbed, weak, \etc) and trace equivalence.
+% \todo{Mention the higher-order pi calculus? If so, also
+%   mention}
+
+
+Like the POPLMark and POPLMark Reloaded challenges, our % challenge
+is
+not meant to be comprehensive: Extending it means proposing new
+challenges covering different features of process calculi, or
+different proof mechanisation features.  Some interesting aspects of
+message-passing calculi %to be explored in further challenges could be
+include
+multiparty session types~\cite{10.1145/2827695} and
+choreographies~\cite{Carbone2013}, as their meta-theory includes
+aspects -- \eg well-formedness conditions on global types, partiality
+of end-point projection function, \etc -- that we do not address
+here. Other revolve around higher-order calculi~\cite{Hirsch2022},
+conversation types~\cite{DBLP:journals/tcs/CairesV10},
+psi-calculi~\cite{lmcs:696}, or encodings between different
+calculi~\cite{DBLP:journals/iandc/Gorla10,
+  DBLP:conf/ecoop/ScalasDHY17}.\todo{Should we cite other/different
+  encoding papers? Which ones are the ``standard'' citations?}
+
+Also, one could easily design a challenge that goes beyond our
+coinduction challenge, by exploring different notions of process  equivalence.
 %
 Coinduction may also play a relevant role in supporting recursive processes and
 session types. Indeed, it is often the case that session type systems (and
@@ -377,21 +408,20 @@ logics) with recursive session types (and propositions) are naturally expressed
 in \emph{infinitary form} by interpreting their typing (and proof) rules
 coinductively~\cite{BaeldeDoumaneSaurin16,DerakhshanPfenning22,HornePadovani23}.
 
-Like the POPLMark and POPLMark Reloaded challenges, our challenge is
-not meant to be comprehensive: applications such as multiparty session
-types~\cite{10.1145/2827695,10.1145/3290343},
-choreographies~\cite{DBLP:journals/jar/CruzFilipeMP23}, conversation
-types~\cite{DBLP:journals/tcs/CairesV10}, psi-calculi~\cite{lmcs:696},
-or encodings between different
-calculi~\cite{DBLP:journals/iandc/Gorla10, DBLP:conf/ecoop/ScalasDHY17} are not directly covered.\todo{Should we cite other/different encoding papers? Which ones are the ``standard'' citations?}
-
-\todo{This is a list of interesting research problems, but they are not challenges per se. Trim down.}
-On the mechanisation side, the present challenge proposes mechanising the proofs of theorems.
-An interesting avenue to explore would be to take advantage of other proof assistant features like extracting certified implementations.
-Additionally, while our current challenge is agnostic about proof automation, a more specific challenge could be designed with the objective of automating aspects of the proofs.
+% \todo{This is a list of interesting research problems, but they are
+%   not challenges per se. Trim down.}  On the mechanisation side, the
+% present challenge proposes mechanising the proofs of theorems.
+Finally, another interesting avenue to explore would be to take
+advantage of certain proof assistant features: for example, extracting
+certified implementations (\cite{Castro-Perez2021}) or exploiting
+proof automation, such as the one offered by the \emph{Hammer}
+protocol.
+% a more specific
+% challenge could be designed with the objective of automating aspects
+% of the proofs.
 
 Ultimately, the current challenges can be extended in several worthwhile directions, and we look forward to a future when they indeed are.
-We see the current challenge as setting the foundation for those future extensions.
+% We see the current challenge as setting the foundation for those future extensions.
 It is our hope and aim that our challenges will move us closer to a future where the key basic proof techniques are as easy to mechanise as they are to write on paper.
 
 \bibliographystyle{splncs04}
