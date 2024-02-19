@@ -125,7 +125,7 @@ when mechanising concurrency theory: \emph{linearity}, \emph{scope
 often address several of these aspects at the same time; however, we
 see the combination of techniques as a next
 step%beyond the scope of this challenge
-, as discussed further in \Cref{sec:going-beyond}.  Our benchmark
+, as discussed further in \cref{sec:going-beyond}.  Our benchmark
 challenges are based on process calculi, as these provide a simple but
 realistic showcase of common issues encountered during mechanisation
 efforts.
@@ -141,22 +141,21 @@ In the future, we expect to use the website to promote best practices and tutori
 We encourage everyone to try the challenges using their favourite techniques, and to send us their solutions.
 
 \section{Design of the Benchmark}\label{sec:design-discussion}
-In this section, we outline the factors considered in designing the benchmark challenges.
-We begin with some general remarks, then describe the individual design considerations for each challenge problem, and the evaluation criteria for solutions.
+In this section, we outline our considerations in designing the benchmark challenges.
+We will begin with our design goals, then describe design considerations for each challenge problem, and finally suggest some evaluation criteria for solutions.
 
 Similarly to the authors of the POPLMark challenges, we seek to
-answer several questions:
-\alb{Should we stress we are interested in the \textbf{meta-theory} of process calculi, not}
+answer several questions about mechanising the meta-theory of process calculi:
 \begin{enumerate}[label=\textbf{(Q\arabic*)},leftmargin=10mm]
-\item\label{item:rq1} What is the current state of the art in mechanising process calculi?
-\item\label{item:rq2} Which techniques and best practices can be recommended when starting formalisation projects involving process calculi?
+\item\label{item:rq1} What is the current state of the art in tools for mechanising the meta-theory of process calculi?
+\item\label{item:rq2} Which techniques and best practices can be recommended when starting new mechanisation projects involving process calculi?
 \item\label{item:rq3} Which improvements are needed to make mechanisation tools more user-friendly with regards to the issues faced when mechanising process calculi?
 \end{enumerate}
 
-To provide a framework in which to answer these questions, our benchmark is designed to satisfy three main goals:
+To provide a framework in which to answer these questions, our benchmark is designed to satisfy three main design goals:
 \begin{enumerate}[label=\textbf{(G\arabic*)},leftmargin=10mm]
 \item\label{item:goal-comperison-accessibility} To enable the comparison of
-  proof mechanisation approaches, making the challenges accessible to
+  proof mechanisation approaches by making the challenges accessible to
   mechanisation experts who may be unfamiliar with concurrency theory;
 
 \item\label{item:goal-tutorials} To encourage the development of guidelines and
@@ -168,10 +167,6 @@ To provide a framework in which to answer these questions, our benchmark is desi
 \end{enumerate}
 We also aim at strengthening the culture of mechanisation, by rallying the community to collaborate on exploring and developing new tools and techniques.
 
-\todo{Refer to the future benchmark section about other things one could do, but they still all need the basics}
-Still, these (and other) applications need the basic
-techniques that our challenge problems emphasise:
-Aligned with design goal~\ref{item:goal-reusability}, our problems are rooted in the fundamental meta-theory of process calculi, without necessitating the creation of novel theory. These problems centre around well-established theorems and results, showcasing interesting proof techniques that can be leveraged in future endeavours.
 To achieve design goal \ref{item:goal-comperison-accessibility}, we have
 formulated our challenge problems to explore the three aspects
 (linearity, scope extrusion, coinduction) independently, so that they
@@ -181,9 +176,11 @@ textbook concurrency theory, process calculi, and type theory.  The
 process calculus used in each challenge focuses on the features that
 we want to emphasise, and omits all constructs (such as choices) that
 would complicate the mechanisation without bringing additional
-tangible benefits and insights.  The minimality and uniformity of the
+tangible insights.  The minimality and uniformity of the
 calculi also allows us to target design goal
 \ref{item:goal-tutorials}.
+Aligned with design goal~\ref{item:goal-reusability}, our problems are rooted in the fundamental meta-theory of process calculi, without necessitating the creation of novel theory.
+Our challenges centre around well-established theorems and results, showcasing interesting proof techniques that can be leveraged in many applications (as we will further discuss in \cref{sec:going-beyond}).
 
 \subsubsection{Linearity.}
 In mechanised meta-theory, addressing linearity means choosing an appropriate representation of the linear context.
