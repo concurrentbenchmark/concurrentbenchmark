@@ -88,16 +88,9 @@
 The POPLMark challenge~\cite{POPLMark}
 played a pivotal role in advancing the field of proof assistants,
 libraries, and best practices for programming language
-mechanization. By providing a shared framework for systematically
-evaluating mechanization techniques, it catalyzed a significant
-shift within the programming language research community. As a
-result, scholarly publications increasingly incorporate
-mechanized proofs.
-%
-% The POPLMark challenge~\cite{POPLMark} accelerated the development of proof assistants, libraries, and best practices for programming language mechanisation by establishing a common ground for systematically evaluating mechanisation techniques.
-% In doing so, it spearheaded a shift in the programming language research community towards publications that include mechanised proofs.
-% POPLMark Reloaded~\cite{POPLMarkReloaded} proposed a similar program for proofs involving logical relations.
-% These challenges, and the developments they spurred, were limited in scope, but their authors noted the need to tackle topics such as coinduction and linearity in the future.
+mechanisation. By providing a shared framework for systematically
+evaluating mechanisation techniques, it catalyzed a significant
+shift towards publications that include mechanised proofs within the programming language research community.
 
 POPLMark Reloaded~\cite{POPLMarkReloaded} introduced a program akin to
 the original POPLMark challenge, specifically targeting proofs related
@@ -105,25 +98,17 @@ to logical relations. While these initiatives had a narrow focus,
 their authors recognized the importance of addressing broader topics
 in the future, including coinduction and linearity.
 
-In this spirit, we introduce a novel collection of benchmark problems
+In this spirit, we introduce a new collection of benchmark problems
 specifically crafted to tackle common challenges encountered during
-the mechanization of formal models for concurrent and distributed
+the mechanisation of formal models for concurrent and distributed
 programming languages. Our focus extends particularly to process
 calculi.
-%
-% In this spirit, we propose a new collection of benchmark problems
-% specifically designed to address typical issues that arise when
-% mechanising formal models of concurrent and distributed programming
-% languages in general, and process calculi in particular. 
 Concurrent calculi are notably subtle: For instance, it took nine
 years before the incorrect proof of type safety in the seminal paper
-by Honda et al.~.~\cite{Honda1998} was rectified in Yoshida \&
+by Honda et al.~\cite{Honda1998} was rectified in Yoshida \&
 Vasconcelos’s subsequent work\cite{Yoshida2007}.
-% for instance it took nine years before the incorrect proof of type
-% safety in the seminal paper by Honda et al was fixed
-% in~\cite{Yoshida2007}.
 Similarly, many
-key results in peer-reviewed papers on session types have turned out
+key results in papers on session types have turned out
 to be false later on~\cite{Gay2020,10.1145/3290343}, illustrating the
 value of machine-checkable proofs.
 
@@ -134,25 +119,18 @@ techniques and tools remains a significant challenge and that the
 trade-offs are not well understood.  This often leads researchers
 toward a trial-and-error approach, resulting in sub-optimal solutions,
 wasted mechanisation effort, and techniques and results that are hard
-to reuse.  For example, the authors in~\cite{Cruz-Filipe2021b} note that the high-level parts of
-mechanised proofs closely resemble the informal versions, and that the
+to reuse. For example, the authors in~\cite{Cruz-Filipe2021b} note that the high-level parts of
+mechanised proofs closely resemble the informal ones, and that the
 main challenge lies in getting the foundations right.
 
-Our benchmark problems (explained in detail in \cref{app:challenges}) center around three critical aspects that frequently pose challenges in mechanizing concurrency theory:
-% focus on three key aspects which often cause difficulties when mechanising concurrency theory:
-\emph{linearity}, \emph{scope extrusion}, and \emph{coinductive
-  reasoning}.  Mechanisations must often address several of these
+Our benchmark problems (detailed in \cref{app:challenges}) center around three key aspects that frequently pose challenges when mechanising concurrency theory: \emph{linearity}, \emph{scope extrusion}, and \emph{coinductive reasoning}.
+Mechanisations must often address several of these
 aspects at the same time; however, we see the combination of
 techniques as a next step beyond the scope of this challenge, as
-discussed further in \Cref{sec:going-beyond}.  Our benchmark
-challenges are based on process calculi, as these provide a simple but
-realistic showcase of common issues encountered during mechanization endeavors
-% exhibit of typical issues encountered in mechanisation work.
-While the three highlighted aspects are not the sole sources of difficulties, they
-consistently manifest in most mechanizations of concurrency theory.
-% The three aspects are certainly not the only causes of difficulties,
-% but as we will discuss presently, they emerge in most mechanisations
-% of concurrency theory.
+discussed further in \Cref{sec:going-beyond}.
+Our benchmark challenges are based on process calculi, as these provide a simple but
+realistic showcase of common issues encountered during mechanisation efforts.
+While the three highlighted aspects are not the sole sources of difficulties, they emerge in most mechanisations of concurrency theory.
 
 \todo{These paragraphs are still quite messy and unfocused. They should focus on the motivation, i.e.\ mention what others have perceived as problems.}
 
@@ -191,11 +169,10 @@ restrictions may be more challenging due to scope extrusion.
 Coinduction is fundamental to establish properties of processes that
 may never terminate, which is a typical situation.
 Common uses for coinduction are to define strong and weak versions of
-bisimulation, barbed notions of bisimulation, and prove trace equivalence. %,
-%etc.
+bisimulation, barbed notions of bisimulation, and prove trace equivalence.
 On the other hand, coinduction in proof assistants
 is notoriously difficult and its representation
-is non-uniform across development.
+is non-uniform across developments.
 E.g., \cite{Castro-Perez2021} notes that the most challenging
 part of their mechanisation of multiparty session types
 was the convoluted definition of infinite behaviours;
@@ -342,7 +319,7 @@ are not directly covered.
 
 Still, these (and other) applications need the basic
 techniques that our challenge problems emphasize:
-Aligned with design goal~\ref{item:goal-reusability}, our problems are rooted in the fundamental meta-theory of process calculi, without necessitating the creation of novel theory. These problems center around well-established theorems and results, showcasing intriguing proof techniques that can be leveraged in future endeavors.
+Aligned with design goal~\ref{item:goal-reusability}, our problems are rooted in the fundamental meta-theory of process calculi, without necessitating the creation of novel theory. These problems center around well-established theorems and results, showcasing interesting proof techniques that can be leveraged in future endeavors.
 % as per design goal
 % \ref{item:goal-reusability}, our problems are drawn from the basic
 % meta-theory of process calculi (without requiring the development of
@@ -476,7 +453,7 @@ The idea behind our benchmark is to obtain evidence towards answering
 questions \cref{item:rq1,item:rq2,item:rq3}. We are therefore
 interested not only in the solutions, but also in the experience of
 solving the challenges with the chosen approach.  Solutions to our
-challenges should be compared on three axis:
+challenges should be compared on three axes:
 \begin{enumerate}
 \item Mechanisation overhead: the amount of manually written infrastructure and setup needed to express the definitions in the mechanisation;
 \item Adequacy of the formal statements in the mechanisation: whether the proven theorems are easily recognisable as the theorems from the challenge; and
