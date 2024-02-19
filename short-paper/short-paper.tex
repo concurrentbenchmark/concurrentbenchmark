@@ -91,26 +91,21 @@ libraries, and best practices for programming language
 mechanisation. By providing a shared framework for systematically
 evaluating mechanisation techniques, it catalysed a significant
 shift towards publications that include mechanised proofs within the programming language research community.
-
-POPLMark Reloaded~\cite{POPLMarkReloaded} introduced a program akin to
-the original POPLMark challenge, specifically targeting proofs related
-to logical relations. While these initiatives had a narrow focus,
-their authors recognized the importance of addressing broader topics
-in the future, including coinduction and linearity.
+POPLMark Reloaded~\cite{POPLMarkReloaded} introduced a similar programme targeting proofs using logical relations.
+These initiatives had a narrow focus, but their authors recognised the importance of addressing topics such as coinduction and linearity in the future.
 
 In this spirit, we introduce a new collection of benchmark problems
 specifically crafted to tackle common challenges encountered during
 the mechanisation of formal models for concurrent and distributed
-programming languages. Our focus extends particularly to process
-calculi.
+programming languages.
+We particularly focus on process calculi.
 Concurrent calculi are notably subtle: For instance, it took nine
 years before the incorrect proof of type safety in the seminal paper
 by Honda et al.~\cite{Honda1998} was rectified in Yoshida \&
 Vasconcelos’s subsequent work\cite{Yoshida2007}.
-Similarly, many
-key results in papers on session types have turned out
-to be false later on~\cite{Gay2020,10.1145/3290343}, illustrating the
-value of machine-checkable proofs.
+Similarly, several key results in papers on session types have turned out
+to be false later on, illustrating the
+value of machine-checked proofs~\cite{Gay2020,10.1145/3290343}.
 
 While results about concurrent
 formalisms have already been mechanised (as we will discuss further
@@ -142,11 +137,8 @@ We have begun collecting solutions to our challenges on our website:
   \url{https://concurrentbenchmark.github.io/}
 \end{center}
 %
-In the longer term, we expect to use the website for promoting best
-practices, tutorials and guidelines derived from solutions to our
-challenges.  We encourage anyone interested to try the challenges
-using their favourite tools and techniques, and to send us their
-solutions.
+In the future, we expect to use the website to promote best practices and tutorials derived from solutions to our challenges.
+We encourage everyone to try the challenges using their favourite techniques, and to send us their solutions.
 
 \section{Design of the Benchmark}\label{sec:design-discussion}
 In this section, we outline the factors considered in designing the benchmark challenges.
