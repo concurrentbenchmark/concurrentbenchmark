@@ -118,7 +118,7 @@ to reuse. For example, the authors in~\cite{Cruz-Filipe2021b} note that the high
 mechanised proofs closely resemble the informal ones, while the
 main challenge lies in getting the foundations right.
 
-Our benchmark problems (detailed in \cref{app:challenges}) consider
+Our benchmark problems (detailed in \cref{app:challenges} and on the website) consider
 \emph{in isolation} three key aspects that frequently pose challenges
 when mechanising concurrency theory: \emph{linearity}, \emph{scope
   extrusion}, and \emph{coinductive reasoning}.  Mechanisations must
@@ -140,8 +140,7 @@ We have begun collecting solutions to our challenges on our website:
 In the future, we expect to use the website to promote best practices and tutorials derived from solutions to our challenges.
 We encourage everyone to try the challenges using their favourite techniques, and to send us their solutions.
 
-<<<<<<< HEAD
-\section{The Benchmark and its Design}\label{sec:design-discussion}
+\section{The Benchmark and its design}\label{sec:design-discussion}
 \alb{Next paragraph needs rewriting}
 In this section, we outline the factors considered in designing the benchmark challenges.
 We begin with some general remarks, then describe the individual design considerations for each challenge problem, and the evaluation criteria for solutions.
@@ -190,32 +189,55 @@ Aligned with design goal~\ref{item:goal-reusability}, our problems are rooted in
 Our challenges centre around well-established theorems and results, showcasing interesting proof techniques that can be leveraged in many applications (as we will further discuss in \cref{sec:going-beyond}).
 
 \subsubsection{Linearity.}
-In mechanised meta-theory, addressing linearity means choosing an appropriate representation of the linear context.
-The crux of the matter is \emph{context splitting}, as showcased by the typing rule for parallel composition.
 
-\cite{Brady2017} notes that using algebraic effects is unwieldy when there are many communication channels and suggests an experimental approach using dependent uniqueness types.
-\cite{Zalakain2019} notes that systems lacking linear types must simulate linearity, and that using a linearity predicate complicates congruences.
-They had to limit themselves to an asymmetric structural precongruence to be able to prove subject reduction.
+% \cite{Brady2017} notes that using algebraic effects is unwieldy when there are many communication channels and suggests an experimental approach using dependent uniqueness types.
+% \cite{Zalakain2019} notes that systems lacking linear types must simulate linearity, and that using a linearity predicate complicates congruences.
+% They had to limit themselves to an asymmetric structural precongruence to be able to prove subject reduction.
 
 
-\alb{We need more details about what the challenge is}
-For our challenge on linear reasoning we have chosen a type safety theorem
-for a system using session types, combining as usual type preservation with absence of errors.
-This allows us to introduce linear reasoning with few definitions.
-With our objective focused on linearity, we forego channel delegation
-and opt for a reduction approach rather than employing a transition
-system semantics.  Inspired by Vasconcelos~\cite{Vasconcelos2012}, we
-define a syntax where restriction binds two names, highlighting
-their duality within the type system.  We have chosen a simple notion
-of well-formedness, and do not  consider
-deadlocks. While more sophisticated notions of well-formedness are
-interesting, the proofs of these properties would distract from the
-core linear aspects of the challenge.
 
-While a linear context is perhaps best seen as a multi-set, most proof assistants have better support for list processing.
-The latter representation is intuitive, but may require establishing a large number of technical lemmata that are orthogonal to the mathematics of the problem under study, say proving type preservation for session types.
-In this space, several designs are possible: one can label occurrences of resources to constrain their usage (\eg~\cite{CicconeP20}) or \alb{something --- ask Francisco} as in \cite{Castro2020}.
-Some authors instead impose a multiset structure over lists (\eg~\cite{ChaudhuriLR19,Danielsson12}); still, the effort required to develop the infrastructure is significant.
+For our challenge on linear reasoning we have chosen a type safety
+theorem for a system using session types, combining as usual subject reduction with absence of errors.  This allows us to introduce
+linear reasoning with few definitions.  With this focus, we forego
+channel delegation: input and output receives/sends only values, which
+do not include channels, hence the topology of the communication
+network described by a process cannot change.  We do not allow
+recursion or replication in the syntax, hence no infinite behaviours
+can be expressed. In particular, we only model linear (as opposed to
+shared) channels. Inspired by Vasconcelos~\cite{Vasconcelos2012}, we
+define a syntax where restriction binds two names, highlighting their
+duality within the type system. The latter enforces
+ two invariants, namely no endpoint is used simultaneously by parallel processes and
+ the two endpoints of the same session have dual types.
+The operational semantics is formulated in term of reductions rather
+than via a transition system, allowing implementors to explore
+alternative ways to encode structural congruence\footnote{\alb{Should we mention this in challenge 2?}}.
+
+The statement of subject reduction is the usual one, encompassing type
+preservation for structural congruence. W.r.t.\ type safety, we have
+chosen a simple notion of what an error is: well-typed processes are a
+well-formed in the sense that they do not use endpoints in a non-dual
+way.  While more sophisticated notions of well-formedness that
+prevents deadlocks are interesting, the proofs of these properties
+would distract from the core linear aspects of the challenge.
+
+
+In mechanised meta-theory, addressing linearity means choosing an
+appropriate representation of the linear context.  The crux of the
+matter is \emph{context splitting}, as showcased by the typing rule
+for parallel composition.  While a linear context is perhaps best seen
+as a multi-set, most proof assistants have better support for list
+processing.  The latter representation is intuitive, but may require
+establishing a large number of technical lemmata that are orthogonal
+to the mathematics of the problem under study, in our case proving
+type safety for session types.  In this space, several designs are
+possible: one can label occurrences of resources to constrain their
+usage (\eg~\cite{CicconeP20}); some authors instead impose a multiset
+structure over lists
+(\eg~\cite{Danielsson12,ChaudhuriLR19}). Alternatively, contexts can
+be implemented as finite maps (\cite{Castro2020}), whose operations
+are sensitive to a linear discipline. In all these cases, the effort
+required to develop the infrastructure is significant.
 
 A different approach is to bypass the problem of context splitting by adopting familiar ideas from algorithmic linear type checking: this is known as \emph{typing with leftovers}, as exemplified in~\cite{DBLP:conf/forte/ZalakainD21}.
 Whatever the choice, list-based encodings can be refined to be intrinsically-typed, if the proof assistant does support dependent types (see~\cite{Thiemann2019,CicconeP20,RouvoetPKV20}).
@@ -226,8 +248,9 @@ One such framework is \emph{Celf}~\cite{Schack-Nielsen:IJCAR08} (see the encodin
 Unfortunately, \emph{Celf} does not yet fully support the verification of meta-theoretic properties.
 A compromise is the so called \emph{two-level} approach, where one encodes a sub-structural specification logic in a mainstream proof assistant and then uses that logic to state and prove linear properties (for a recent example, see~\cite{Felty:MSCS21}).
 
-\alb{This needs some work: we do not describe the challenge at all and the citations are not the one I had in mind}
 \subsubsection{Scope extrusion.}
+\alb{This needs some work: we do not describe the challenge at all and the citations are not the one I had in mind}
+
 The encoding of binding constructs has been extensively studied
 w.r.t.\ the $\lambda$-calculi, but process calculi present additional
 challenges.  $\pi$-calculi typically include several different binding
