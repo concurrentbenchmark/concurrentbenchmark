@@ -120,17 +120,21 @@ trade-offs are not well understood.  This often leads researchers
 toward a trial-and-error approach, resulting in sub-optimal solutions,
 wasted mechanisation effort, and techniques and results that are hard
 to reuse. For example, the authors in~\cite{Cruz-Filipe2021b} note that the high-level parts of
-mechanised proofs closely resemble the informal ones, and that the
+mechanised proofs closely resemble the informal ones, while the
 main challenge lies in getting the foundations right.
 
-Our benchmark problems (detailed in \cref{app:challenges}) centre around three key aspects that frequently pose challenges when mechanising concurrency theory: \emph{linearity}, \emph{scope extrusion}, and \emph{coinductive reasoning}.
-Mechanisations must often address several of these
-aspects at the same time; however, we see the combination of
-techniques as a next step beyond the scope of this challenge, as
-discussed further in \Cref{sec:going-beyond}.
-Our benchmark challenges are based on process calculi, as these provide a simple but
-realistic showcase of common issues encountered during mechanisation efforts.
-While the three highlighted aspects are not the sole sources of difficulties, they emerge in most mechanisations of concurrency theory.
+Our benchmark problems (detailed in \cref{app:challenges}) consider
+\emph{in isolation} three key aspects that frequently pose challenges
+when mechanising concurrency theory: \emph{linearity}, \emph{scope
+  extrusion}, and \emph{coinductive reasoning}.  Mechanisations must
+often address several of these aspects at the same time; however, we
+see the combination of techniques as a next
+step%beyond the scope of this challenge
+, as discussed further in \Cref{sec:going-beyond}.  Our benchmark
+challenges are based on process calculi, as these provide a simple but
+realistic showcase of common issues encountered during mechanisation
+efforts.
+% While the three highlighted aspects are not the sole sources of difficulties, they emerge in most mechanisations of concurrency theory.
 
 We have begun collecting solutions to our challenges on our website:
 %
@@ -138,8 +142,11 @@ We have begun collecting solutions to our challenges on our website:
   \url{https://concurrentbenchmark.github.io/}
 \end{center}
 %
-In the longer term, we expect to use the website for promoting best practices, tutorials and guidelines derived from solutions to our challenges.
-We encourage anyone interested to try the challenges using their favourite tools and techniques, and to send us their solutions.
+In the longer term, we expect to use the website for promoting best
+practices, tutorials and guidelines derived from solutions to our
+challenges.  We encourage anyone interested to try the challenges
+using their favourite tools and techniques, and to send us their
+solutions.
 
 \section{Design of the Benchmark}\label{sec:design-discussion}
 In this section, we outline the factors considered in designing the benchmark challenges.
