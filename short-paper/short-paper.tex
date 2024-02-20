@@ -186,7 +186,7 @@ calculi also allows us to target design goal
 Aligned with design goal~\ref{item:goal-reusability}, our problems are rooted in the fundamental meta-theory of process calculi, without necessitating the creation of novel theory.
 Our challenges centre around well-established theorems and results, showcasing interesting proof techniques that can be leveraged in many applications (as we will further discuss in \cref{sec:going-beyond}).
 
-\subsubsection{Linearity.}
+\subsection{Linearity}
 
 % \cite{Brady2017} notes that using algebraic effects is unwieldy when there are many communication channels and suggests an experimental approach using dependent uniqueness types.
 % \cite{Zalakain2019} notes that systems lacking linear types must simulate linearity, and that using a linearity predicate complicates congruences.
@@ -207,11 +207,7 @@ define a syntax where restriction binds two names, highlighting their
 duality within the type system. The latter enforces
  two invariants, namely that no endpoint is used simultaneously by parallel processes and
  that the two endpoints of the same session have dual types.
-The operational semantics is formulated in term of reductions rather
-than via a transition system, allowing implementors to explore
-alternative ways to encode structural congruence\footnote{\alb{Should we mention this in challenge 2?}}.
-
-The statement of subject reduction is the usual one, encompassing type
+The operational semantics is formulated as a standard reduction relation to factor the subject reduction proof,  encompassing type
 preservation for structural congruence. W.r.t.\ type safety, we have
 chosen a simple notion of what an error is: well-typed processes are a
 well-formed in the sense that they do not use endpoints in a non-dual
@@ -245,34 +241,91 @@ One such framework is \emph{Celf}~\cite{Schack-Nielsen:IJCAR08} (see the encodin
 Unfortunately, \emph{Celf} does not yet fully support the verification of meta-theoretic properties.
 A compromise is the so called \emph{two-level} approach, where one encodes a sub-structural specification logic in a mainstream proof assistant and then uses that logic to state and prove linear properties (for a recent example, see~\cite{Felty:MSCS21}).
 
-\subsubsection{Scope extrusion.}
-\alb{This needs some work: we do not describe the challenge at all and the citations are not the one I had in mind}
+\subsection{Scope extrusion}
 
-The encoding of binding constructs has been extensively studied
-w.r.t.\ the $\lambda$-calculi, but process calculi present additional
-challenges.  $\pi$-calculi typically include several different binding
-constructs: inputs bind a received name or value, recursive processes
-bind recursion variables, and restrictions bind names.  The first two
-act similarly to the binders known from $\lambda$-calculi, but
-restrictions may be more challenging due to scope extrusion.
+This challenge revolves around the formalization explicit scope
+extrusion, by which a process can send restricted names to another
+process, as long as the restriction can safely be ``extruded'' (\ie,
+expanded) to include the receiving process.  
+The setting for this challenge is a ``classic'' untyped
+\( \pi \)-calculus, where (unlike the calculi in the other challenges)
+names can be sent and received, and bound by input constructs.  We define two
+different semantics for our system:
+\begin{enumerate}
+\item A reduction system: this avoids explicit reasoning
+about scope extrusion via structural congruence, allowing implementors to explore
+alternative ways to encode the latter (\eg via context or via congruent refinements)
+\item A (early) labelled transition system
+\end{enumerate}
+The objective of this
+challenge is to prove that the two semantics are equivalent up to
+structural congruence.
 
-\cite{Maksimovic2015} does not have name restriction, thus dodging the challenge of scope extrusion.
-\cite{Castro-Perez2021,Castro2020} note that popular presentations of session type systems are impossible to directly encode using intrinsically \(\alpha\)-convertible terms.
-\cite{Castro2020} suggests using several binder constructs to solve this, but notes that this requires proving many variants of the same theorems.
 
-
-\alb{We need more details about what the challenge is}
 This is the challenge most closely related to the POPLMark challenge
-since it concerns the properties of binders in restrictions and input.
+since it concerns the properties of binders, whose encoding has been
+extensively studied w.r.t.\ the $\lambda$-calculi. Process calculi
+present additional challenges: $\pi$-calculi typically include several
+different binding constructs: inputs bind a received name or value,
+recursive processes bind recursion variables, and restrictions bind
+names.  The first two act similarly to the binders known from
+$\lambda$-calculi, but restrictions may be more challenging due to
+scope extrusion.
 
-The case study \cite{AmbalLS21} compares four approaches to encoding binders in Coq as a first step towards developing tools for working with higher-order process calculi.
-They found that working directly with de Bruijn indices was easiest and shortest since the existing approaches developed for $\lambda$-calculus binders do not work well with scope extrusion.
-Specifically, the locally nameless representation~\cite{Chargueraud2012} cannot avoid direct manipulation of de Bruijn indices when defining the semantics of scope extrusion; cofinite quantification provides no benefits when working under binders; nominal approaches~\cite{Pitts2003} require explicitly giving and validating sets of free names during scope extrusion; and higher-order abstract syntax (HOAS)~\cite{Pfenning1988} requires additional axioms to work with contexts.
+Given those peculiarities, the syntax and semantics has been
+mechanized from a an early age (see~\cite{Melham94}) with many proof
+assistants and so many encoding styles that it would take too long to
+review.  They range from concrete encodings based on named syntax
+(Melham's op.cit.) to basic de Bruijn (cite) and locally nameless
+representation~\cite{Chargueraud2012} (\eg~\cite{Castro2020}).
+Nominal approaches are also common, see~\cite{Bengtson2009}, but they
+may be problematic w.r.t.~proof assistants based on dependent types.
 
-Additionally, many proof assistants lack support for the proof principles required to easily work with scope extrusion, \ie, induction principles on functions to work with HOAS encodings.
-Some proof assistants such as Abella  support HOAS natively, but working with open terms as required to encode scope extrusion in these systems is generally very challenging.
+\todo{Sum up some of those issues}
+% \cite{Maksimovic2015} does not have
+% name restriction, thus dodging the challenge of scope extrusion.
+\begin{quotation}
+\cite{Castro-Perez2021,Castro2020} note that popular presentations of
+session type systems are impossible to directly encode using
+intrinsically \(\alpha\)-convertible terms.  \cite{Castro2020}
+suggests using several binder constructs to solve this, but notes that
+this requires proving many variants of the same theorems.
+The case study \cite{AmbalLS21} compares four approaches to encoding
+binders in Coq as a first step towards developing tools for working
+with higher-order process calculi.  They found that working directly
+with de Bruijn indices was easiest and shortest since the existing
+approaches developed for $\lambda$-calculus binders do not work well
+with scope extrusion.  Specifically, the locally nameless
+representation~\cite{Chargueraud2012} cannot avoid direct manipulation
+of de Bruijn indices when defining the semantics of scope extrusion;
+cofinite quantification provides no benefits when working under
+binders; nominal approaches require explicitly giving
+and validating sets of free names during scope extrusion;
+\end{quotation}
 
-\subsubsection{Coinduction.}
+
+Higher-order abstract syntax (HOAS) has seen extensive and successful
+use in formal reasoning~\cite{Despeyroux2000,Honsell2001,Tiu2010}. Its
+weak form aligns well with mainstream inductive proof assistants,
+simplifying the encoding of typing systems and operational
+semantics. However, when addressing more intricate concepts like
+bisimulation, HOAS necessitates extensions. These extensions may take
+the form of additional axioms~\cite{Honsell2001} or require specialized proof assistants
+like Abella, which introduces a dedicated quantifier for handling
+properties related to names~\cite{GacekMN11}.
+
+% Higher-order abstract syntax (HOAS) has been extensively and
+% successfully used~\cite{Despeyroux2000,Honsell2001,Tiu2010}, since in
+% its weak form it is compatible with mainstream inductive proof
+% assistants. While this approach disposes of most of the technicalities
+% when encoding typing systems or operational semantics, it requires
+% extensions when dealing with notions such as bisimulation, either in the
+% form of additional axioms~\cite{Honsell2001}, or of dedicated proofs
+% assistants such as Abella, which features a specific
+% quantifier~\cite{GacekMN11} to handle properties of names.
+
+
+\subsection{Coinduction}
 Coinduction is fundamental to establish properties of processes that
 may never terminate, which is a typical situation.
 Common uses for coinduction are to define strong and weak versions of
