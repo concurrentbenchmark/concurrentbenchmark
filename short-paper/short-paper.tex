@@ -196,7 +196,7 @@ Our challenges centre around well-established theorems and results, showcasing i
 
 For our challenge on linear reasoning we have chosen a type safety
 theorem for a system using session types, combining as usual subject reduction with absence of errors.  This allows us to introduce
-linear reasoning with few definitions.  With this focus, we forego
+linear reasoning with few definitions.  With this focus, we forgo
 channel delegation: input and output receives/sends only values, which
 do not include channels, hence the topology of the communication
 network described by a process cannot change.  We do not allow
@@ -205,8 +205,8 @@ can be expressed. In particular, we only model linear (as opposed to
 shared) channels. Inspired by Vasconcelos~\cite{Vasconcelos2012}, we
 define a syntax where restriction binds two names, highlighting their
 duality within the type system. The latter enforces
- two invariants, namely no endpoint is used simultaneously by parallel processes and
- the two endpoints of the same session have dual types.
+ two invariants, namely that no endpoint is used simultaneously by parallel processes and
+ that the two endpoints of the same session have dual types.
 The operational semantics is formulated in term of reductions rather
 than via a transition system, allowing implementors to explore
 alternative ways to encode structural congruence\footnote{\alb{Should we mention this in challenge 2?}}.
@@ -216,9 +216,8 @@ preservation for structural congruence. W.r.t.\ type safety, we have
 chosen a simple notion of what an error is: well-typed processes are a
 well-formed in the sense that they do not use endpoints in a non-dual
 way.  While more sophisticated notions of well-formedness that
-prevents deadlocks are interesting, the proofs of these properties
+prevent \eg deadlocks are interesting, the proofs of those properties
 would distract from the core linear aspects of the challenge.
-
 
 In mechanised meta-theory, addressing linearity means choosing an
 appropriate representation of the linear context.  The crux of the
@@ -233,15 +232,15 @@ possible: one can label occurrences of resources to constrain their
 usage (\eg~\cite{CicconeP20}); some authors instead impose a multiset
 structure over lists
 (\eg~\cite{Danielsson12,ChaudhuriLR19}). Alternatively, contexts can
-be implemented as finite maps (\cite{Castro2020}), whose operations
+be implemented as finite maps (as in \cite{Castro2020}), whose operations
 are sensitive to a linear discipline. In all these cases, the effort
 required to develop the infrastructure is significant.
 
 A different approach is to bypass the problem of context splitting by adopting familiar ideas from algorithmic linear type checking: this is known as \emph{typing with leftovers}, as exemplified in~\cite{DBLP:conf/forte/ZalakainD21}.
-Whatever the choice, list-based encodings can be refined to be intrinsically-typed, if the proof assistant does support dependent types (see~\cite{Thiemann2019,CicconeP20,RouvoetPKV20}).
+Whatever the choice, list-based encodings can be refined to be intrinsically-typed, if the proof assistant supports dependent types (see~\cite{Thiemann2019,CicconeP20,RouvoetPKV20}).
 
-For something completely different, one could adopt a \emph{sub-structural} meta-logical framework: here the framework itself handles resource distribution, and users need only map their linear operations to the ones offered by the framework.
-In fact, the linear function space will handle all context operations implicitly, including splitting and substitution.
+A completely different approach is to adopt a \emph{sub-structural} meta-logical framework: here the framework itself handles resource distribution, and users need only map their linear operations to the ones offered by the framework.
+The linear function space will then handle all context operations implicitly, including splitting and substitution.
 One such framework is \emph{Celf}~\cite{Schack-Nielsen:IJCAR08} (see the encoding of session types in~\cite{Bock2016}).
 Unfortunately, \emph{Celf} does not yet fully support the verification of meta-theoretic properties.
 A compromise is the so called \emph{two-level} approach, where one encodes a sub-structural specification logic in a mainstream proof assistant and then uses that logic to state and prove linear properties (for a recent example, see~\cite{Felty:MSCS21}).
