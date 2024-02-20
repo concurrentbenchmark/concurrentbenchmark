@@ -128,7 +128,6 @@ step, as discussed in \cref{sec:going-beyond}.
 Our benchmark challenges are based on process calculi, as these provide a simple but
 realistic showcase of common issues encountered during mechanisation
 efforts.
-% While the three highlighted aspects are not the sole sources of difficulties, they emerge in most mechanisations of concurrency theory.
 
 We have begun collecting solutions to our challenges on our website:
 %
@@ -417,55 +416,24 @@ Solutions to our challenges do not need to strictly follow the definitions and l
 %   - Our challenges are independent, but they can also be combined
 %   - Our challenges are basic textbook theory, so they can form the basis for many extensions
 %   - Our aim is to see a future where ``the basics'' are as trivial in mechanisations as they are on paper
-\section{Going beyond the challenge problems}\label{sec:going-beyond}
-Similarly to POPLMark and its Reloaded counterpart, our challenges do not encompass all issues in the field.
-Our benchmark is extendable in two aspects: one can further amalgamate and broaden the existing challenges, or tackle aspects not covered by the benchmark at all.
-Any of these extensions will still need to handle at least one of the key aspects of our challenges.
-\todo{Frederik: Does splitting this section up into these two categories still make sense? We could save some space by not doing so, and it is not obvious to me what exactly should be on each side of the split.}
 
-\paragraph{Extending and combining the current challenges.}
-We have aimed to reduce the overlap of the aspects (linearity, scope
-extrusion, coinduction) that our challenges involve.  Most concurrency
-theory research needs several of these aspects and in fact there is
-anedoctal evidence of the difficulties that such a combination may induce
-in a mechanisation,
-e.g.~\cite{DBLP:conf/forte/ZalakainD21}. Furthermore, one can consider
-other constructs that we have chosen not to cover for simplicity.  We
-suggest three extensions that would be useful for many applications:
-\emph{(1)} adding choice constructs to both type and process levels,
-\emph{(2)} introducing recursion and recursive types for typed
-systems, and \emph{(3)} incorporating channel delegation in calculi
-lacking it.
+% We previously promise to discuss combinations of techniques and applications to more elaborate schemes
+\section{Going Beyond the Challenge Problems}\label{sec:going-beyond}
+Our benchmark challenges do not cover all issues in the field, but focus on the fundamental textbook aspects of linearity, scope extrusion, and coinduction.
+Many mechanisations need to combine techniques to handle several of these aspects, and some may also need to handle aspects that are not covered by our benchmark challenges at all.
 
-% \cite{DBLP:conf/forte/ZalakainD21} notes that the combination of linearity and infinite behaviour is difficult since it requires uniquely determining the resources consumed by a process.
-% \cite{Zalakain2019} notes that mixing replication and linearity seems to be very difficult without using explicit type contexts.
+Some authors have already described the difficulties that combining techniques may induce in a mechanisation, e.g.~\cite{DBLP:conf/forte/ZalakainD21}.
 
-\paragraph{Addressing new calculi and new features.}
-Like the POPLMark and POPLMark Reloaded challenges, ours
-is not meant to be comprehensive: Extending it means proposing new
-challenges covering different features of process calculi, or
-different proof mechanisation features.  Some interesting aspects of
-message-passing calculi include
-multiparty session types~\cite{10.1145/2827695} and
-choreographies~\cite{Carbone2013}, as their meta-theory includes
-aspects -- \eg well-formedness conditions on global types, partiality
-of end-point projection function, \etc -- that we do not address
-here. Other revolve around higher-order calculi~\cite{Hirsch2022},
-conversation types~\cite{DBLP:journals/tcs/CairesV10},
-psi-calculi~\cite{lmcs:696}, or encodings between different
-calculi~\cite{DBLP:journals/iandc/Gorla10,
-  DBLP:conf/ecoop/ScalasDHY17}.
+Features that are in wide use, but not covered by our benchmark, include choice constructs and recursion.
+Some interesting aspects of message-passing calculi include multiparty session types~\cite{10.1145/2827695} and choreographies~\cite{Carbone2013}, as their meta-theory includes aspects -- \eg well-formedness conditions on global types, partiality of end-point projection function, \etc -- that we do not address.
+Other areas of interest include higher-order calculi~\cite{Hirsch2022}, conversation types~\cite{DBLP:journals/tcs/CairesV10}, psi-calculi~\cite{lmcs:696}, or encodings between different calculi~\cite{DBLP:journals/iandc/Gorla10, DBLP:conf/ecoop/ScalasDHY17}.
 \todo{Should we cite other/different encoding papers? Which ones are the ``standard'' citations?}
 
-Also, one could easily design a challenge that goes beyond our
-coinduction challenge, by exploring different notions of process equivalence.
-%
-Coinduction may also play a relevant role in supporting recursive processes and
-session types. Indeed, it is often the case that session type systems (and
-logics) with recursive session types (and propositions) are naturally expressed
-in \emph{infinitary form} by interpreting their typing (and proof) rules
-coinductively~\cite{%BaeldeDoumaneSaurin16,
-DerakhshanPfenning22,HornePadovani23}.
+For coinduction, one could explore different notions of process equivalence.
+
+Coinduction may also play a relevant role in supporting recursive processes and session types.
+Indeed, it is often the case that session type systems with recursive session types are naturally expressed in \emph{infinitary form} by interpreting their typing rules
+coinductively~\cite{DerakhshanPfenning22,HornePadovani23}.
 
 Finally, another interesting avenue to explore would be to take
 advantage of certain proof assistant features: for example, extracting
@@ -473,8 +441,8 @@ certified implementations (as in \cite{Castro-Perez2021}) or exploiting
 proof automation, such as the one offered by the \emph{Hammer}
 protocol~\cite{BohmeN10,CzajkaK18}.
 
-Ultimately, the current challenges can be extended in several worthwhile directions, and we look forward to a future when they indeed are.
-It is our hope and aim that our challenges will move us closer to a future where the key basic proof techniques are as easy to mechanise as they are to write on paper.
+Ultimately, our challenges can be extended in several worthwhile directions, and we look forward to a future where they indeed are.
+It is our hope and aim that our challenges will move us closer to a future where the key basic proof techniques for concurrent calculi are as easy to mechanise as they are to write on paper.
 
 \bibliographystyle{splncs04}
 \bibliography{../references}
