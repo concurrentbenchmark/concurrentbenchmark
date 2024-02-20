@@ -271,7 +271,7 @@ They found that working directly with de Bruijn indices was easiest and shortest
 Specifically, the locally nameless representation~\cite{Chargueraud2012} cannot avoid direct manipulation of de Bruijn indices when defining the semantics of scope extrusion; cofinite quantification provides no benefits when working under binders; nominal approaches~\cite{Pitts2003} require explicitly giving and validating sets of free names during scope extrusion; and higher-order abstract syntax (HOAS)~\cite{Pfenning1988} requires additional axioms to work with contexts.
 
 Additionally, many proof assistants lack support for the proof principles required to easily work with scope extrusion, \ie, induction principles on functions to work with HOAS encodings.
-Some proof assistants such as Abella~\cite{Baelde2014} support HOAS natively, but working with open terms as required to encode scope extrusion in these systems is generally very challenging~\cite{Momigliano2012}.
+Some proof assistants such as Abella  support HOAS natively, but working with open terms as required to encode scope extrusion in these systems is generally very challenging.
 
 \subsubsection{Coinduction.}
 Coinduction is fundamental to establish properties of processes that
@@ -412,13 +412,14 @@ Coinduction may also play a relevant role in supporting recursive processes and
 session types. Indeed, it is often the case that session type systems (and
 logics) with recursive session types (and propositions) are naturally expressed
 in \emph{infinitary form} by interpreting their typing (and proof) rules
-coinductively~\cite{BaeldeDoumaneSaurin16,DerakhshanPfenning22,HornePadovani23}.
+coinductively~\cite{%BaeldeDoumaneSaurin16,
+DerakhshanPfenning22,HornePadovani23}.
 
 Finally, another interesting avenue to explore would be to take
 advantage of certain proof assistant features: for example, extracting
 certified implementations (as in \cite{Castro-Perez2021}) or exploiting
 proof automation, such as the one offered by the \emph{Hammer}
-approach.\todo{citation here?}
+protocol~\cite{BohmeN10,CzajkaK18}.
 
 Ultimately, the current challenges can be extended in several worthwhile directions, and we look forward to a future when they indeed are.
 It is our hope and aim that our challenges will move us closer to a future where the key basic proof techniques are as easy to mechanise as they are to write on paper.
