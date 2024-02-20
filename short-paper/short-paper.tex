@@ -138,7 +138,6 @@ In the future, we expect to use the website to promote best practices and tutori
 We encourage everyone to try the challenges using their favourite techniques, and to send us their solutions.
 
 \section{The Benchmark and its Design}\label{sec:design-discussion}
-\alb{Next paragraph needs rewriting}
 In this section, we outline the factors considered in designing the benchmark challenges.
 We begin with some general remarks, then describe the individual design considerations for each challenge problem, and the evaluation criteria for solutions.
 
@@ -148,11 +147,6 @@ Similarly to the authors of the POPLMark challenges, we seek to answer several q
 \item\label{item:rq2} Which techniques and best practices can be recommended when starting new mechanisation projects involving process calculi?
 \item\label{item:rq3} Which improvements are needed to make mechanisation tools more user-friendly with regards to the issues faced when mechanising process calculi?
 \end{enumerate}
-%
-\todo{Frederik: I'm not sure this note is necessary}
-Note that the challenges revolve around the mechanisation of the
-\emph{meta-theory} of process calculi, rather than interpreters or
-type checkers for the latter.
 
 To provide a framework in which to answer these questions, our benchmark is designed to satisfy three main design goals:
 \begin{enumerate}[label=\textbf{(G\arabic*)},leftmargin=10mm]
@@ -240,8 +234,7 @@ Unfortunately, \emph{Celf} does not yet fully support the verification of meta-t
 A compromise is the so called \emph{two-level} approach, where one encodes a sub-structural specification logic in a mainstream proof assistant and then uses that logic to state and prove linear properties (for a recent example, see~\cite{Felty:MSCS21}).
 
 \subsection{Scope extrusion}
-
-This challenge revolves around the formalization explicit scope
+This challenge revolves around the mechanisation of explicit scope
 extrusion, by which a process can send restricted names to another
 process, as long as the restriction can safely be ``extruded'' (\ie,
 expanded) to include the receiving process.  
@@ -259,7 +252,6 @@ The objective of this
 challenge is to prove that the two semantics are equivalent up to
 structural congruence.
 
-
 This is the challenge most closely related to the POPLMark challenge
 since it concerns the properties of binders, whose encoding has been
 extensively studied w.r.t.\ the $\lambda$-calculi. Process calculi
@@ -271,7 +263,7 @@ $\lambda$-calculi, but restrictions may be more challenging due to
 scope extrusion.
 
 Given those peculiarities, the syntax and semantics has been
-mechanized from a an early age (see~\cite{Melham94}) with many proof
+mechanised from an early age (see~\cite{Melham1994}) with many proof
 assistants and so many encoding styles that it would take too long to
 review.  They range from concrete encodings based on named syntax
 (Melham's op.cit.) to basic de Bruijn (cite) and locally nameless
@@ -308,7 +300,7 @@ weak form aligns well with mainstream inductive proof assistants,
 simplifying the encoding of typing systems and operational
 semantics. However, when addressing more intricate concepts like
 bisimulation, HOAS necessitates extensions. These extensions may take
-the form of additional axioms~\cite{Honsell2001} or require specialized proof assistants
+the form of additional axioms~\cite{Honsell2001} or require specialised proof assistants
 like Abella, which introduces a dedicated quantifier for handling
 properties related to names~\cite{GacekMN11}.
 
