@@ -84,7 +84,6 @@
 %     - Others also mention them as problems: cite and explain references briefly for each challenge topic
 %   - Our goals are to determine the state of the art, develop best practices and tutorials, and identify improvements to proof assistant technology that would materially help the situation
 \section{Introduction}
-
 The POPLMark challenge~\cite{POPLMark}
 played a pivotal role in advancing the field of proof assistants,
 libraries, and best practices for programming language
@@ -98,7 +97,7 @@ In this spirit, we introduce a new collection of benchmark problems
 specifically crafted to tackle common challenges encountered during
 the mechanisation of formal models for concurrent and distributed
 programming languages.
-We particularly focus on process calculi.
+We particularly focus on process calculi.\todo{Why? - they are PL-like but also formal models in themselves}
 Concurrent calculi are notably subtle: For instance, it took nine
 years before the incorrect proof of type safety in the seminal paper
 by Honda et al.~\cite{Honda1998} was rectified in Yoshida \&
@@ -191,7 +190,7 @@ Our challenges centre around well-established theorems and results, showcasing i
 % \cite{Zalakain2019} notes that systems lacking linear types must simulate linearity, and that using a linearity predicate complicates congruences.
 % They had to limit themselves to an asymmetric structural precongruence to be able to prove subject reduction.
 
-
+\todo{Add an informal description of why we care about linearity here}
 
 For our challenge on linear reasoning we have chosen a type safety
 theorem for a system using session types, combining as usual subject reduction with absence of errors.  This allows us to introduce
@@ -426,8 +425,7 @@ Some authors have already described the difficulties that combining techniques m
 
 Features that are in wide use, but not covered by our benchmark, include choice constructs and recursion.
 Some interesting aspects of message-passing calculi include multiparty session types~\cite{10.1145/2827695} and choreographies~\cite{Carbone2013}, as their meta-theory includes aspects -- \eg well-formedness conditions on global types, partiality of end-point projection function, \etc -- that we do not address.
-Other areas of interest include higher-order calculi~\cite{Hirsch2022}, conversation types~\cite{DBLP:journals/tcs/CairesV10}, psi-calculi~\cite{lmcs:696}, or encodings between different calculi~\cite{DBLP:journals/iandc/Gorla10, DBLP:conf/ecoop/ScalasDHY17}.
-\todo{Should we cite other/different encoding papers? Which ones are the ``standard'' citations?}
+Other areas of interest include higher-order calculi~\cite{Hirsch2022}, conversation types~\cite{DBLP:journals/tcs/CairesV10}, psi-calculi~\cite{lmcs:696}, or encodings between different calculi~\cite{DBLP:journals/iandc/Gorla10,DBLP:journals/iandc/DardhaGS17}.
 
 For coinduction, one could explore different notions of process equivalence.
 
