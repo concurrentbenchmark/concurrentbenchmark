@@ -45,9 +45,9 @@
 
 \institute{
      IT University of Copenhagen, Copenhagen, Denmark \email{maca@itu.dk}, \email{dati@itu.dk}
-\and University of Kent, Canterbury, United Kingdom \email{D.Castro-Perez@kent.ac.uk}
-\and Royal Holloway, University of London, Egham, United Kingdom \email{Francisco.FerreiraRuiz@rhul.ac.uk}
-\and University of Liverpool, Liverpool, United Kingdom \email{Lorenzo.Gheri@liverpool.ac.uk}
+\and University of Kent, Canterbury, United Kingdom \email{d.castro-perez@kent.ac.uk}
+\and Royal Holloway, University of London, Egham, United Kingdom \email{francisco.ferreiraruiz@rhul.ac.uk}
+\and University of Liverpool, Liverpool, United Kingdom \email{lorenzo.gheri@liverpool.ac.uk}
 \and Technical University of Denmark, Kgs. Lyngby, Denmark \email{fkjac@dtu.dk}, \email{alcsc@dtu.dk}
 \and Università degli Studi di Milano, Milan, Italy \email{momigliano@di.unimi.it}
 \and Università di Camerino, Camerino, Italy \email{luca.padovani@unicam.it}
@@ -65,7 +65,7 @@
   %
   We propose a new collection of benchmark problems focused on the difficulties that typically arise when mechanising formal models of concurrent and distributed programming languages, such as process calculi.
   Our benchmark problems address three key topics: linearity, scope extrusion, and coinductive reasoning.
-  The goal of this new challenge is to clarify, compare, and advance the state of the art, fostering the adoption of proof mechanisation in future research on message-passing concurrency.
+  The goal of this new challenge is to clarify, compare, and advance the state of the art, fostering the adoption of proof mechanisation in future research on message-passing concurrency. \todo{Broaden `message-passing concurrency' to `concurrency'?}
 
 \keywords{Mechanisation \and Process calculi \and Benchmark \and Coinduction \and Scope extrusion \and Linearity}
 \end{abstract}
@@ -100,7 +100,7 @@ programming languages.
 We particularly focus on process calculi.\todo{Why? - they are PL-like but also formal models in themselves}
 Concurrent calculi are notably subtle: for instance, it took nine
 years before the incorrect proof of type safety in the seminal paper
-by Honda et al.~\cite{Honda1998} was rectified in Yoshida \&
+by Honda et al.~\cite{Honda1998} was rectified in Yoshida and
 Vasconcelos’s subsequent work\cite{Yoshida2007}.
 Similarly, several key results in papers on session types have turned out
 to be false later on, illustrating the
@@ -135,7 +135,7 @@ We have begun collecting solutions to our challenges on our website:
 \end{center}
 %
 In the future, we expect to use the website to promote best practices and tutorials derived from solutions to our challenges.
-We encourage everyone to try the challenges using their favourite techniques, and to send us their solutions.
+We encourage readers to try the challenges using their favourite techniques, and to send us their solutions.
 
 \section{The Benchmark and its Design}\label{sec:design-discussion}
 In this section, we outline the factors considered in designing the benchmark challenges.
@@ -190,21 +190,21 @@ The goal of our challenge on linear reasoning is proving a type safety theorem
 for a process calculus with session types, by combining as usual subject
 reduction with absence of errors.  We have chosen  only to model linear (as
 opposed to shared) channels. Inspired by Vasconcelos~\cite{Vasconcelos2012}, we
-define a syntax where a restriction $(\nu ab)\ldots$ binds two dual names $a$
-and $b$ as opposite endpoints of a same channel --- and their duality is
+define a syntax where a restriction $(\nu ab)$ binds two dual names $a$
+and $b$ as opposite endpoints of the same channel; their duality is
 reflected in the type system. We model a simple notion of error: a well-typed
 processes must never use dual channel endpoints in a non-dual way (\eg by
-performing concurrent send/receive operations on a same endpoint, or two
+performing concurrent send/receive operations on the same endpoint, or two
 concurrent send operations on both endpoints).
-The operational semantics is formulated as a standard reduction relation; hence,
+The operational semantics is formulated as a standard reduction relation. Thus,
 proving subject reduction requires proving type preservation for structural
 congruence.
 
 We designed this challenge to focus on linear reasoning while minimising
-definitions and other concerns.  Therefore, we forgo channel delegation:
-send/receive operations only support values which do not include channels, hence
+definitions and other concerns.  We therefore forgo channel delegation:
+send/receive operations only support values that do not include channels, so
 the topology of the communication network described by a process cannot change.
-We do not allow recursion or replication, hence no infinite behaviours can be
+We do not allow recursion or replication, so infinite behaviours cannot be
 expressed. We also forgo more sophisticated notions of error-freedom (\eg
 deadlock freedom) because proving them would distract from the core linear
 aspects of the challenge.
@@ -225,7 +225,7 @@ develop the infrastructure is significant.
 %
 One alternative strategy is to bypass the problem of context splitting
 by adopting familiar ideas from algorithmic linear type checking. This
-approach, referred to as ``typing with leftovers'', is exemplified
+approach, referred to as ``typing with leftovers,'' is exemplified
 in~\cite{DBLP:conf/forte/ZalakainD21}.  Whatever the choice,
 list-based encodings can be refined to be intrinsically-typed, if the
 proof assistant supports dependent types
@@ -258,7 +258,7 @@ input constructs.  We define two different semantics for our system:
   extrusion by using instead structural congruence, allowing
   implementors to explore alternative ways to encode the latter (\eg
   via process contexts or via compatible refinement);
-\item A (early) labelled transition system.
+\item An (early) labelled transition system.
 \end{enumerate}
 The objective of this
 challenge is to prove that the two semantics are equivalent up to
@@ -266,7 +266,7 @@ structural congruence.
 
 This is the challenge most closely related to  POPLMark, 
 since it concerns the properties of binders, whose encoding has been
-extensively studied w.r.t.\ the $\lambda$-calculi. Process calculi
+extensively studied with respect to the $\lambda$-calculi. Process calculi
 present additional challenges,  typically including several
 different binding constructs: inputs bind a received name or value,
 recursive processes bind recursion variables, and restrictions bind
@@ -279,10 +279,10 @@ mechanised from an early age (see~\cite{Melham1994}) with many proof
 assistants and in so many encoding styles that it would take too long to
 review.  They range from concrete encodings based on named syntax
 \cite{Melham1994} to basic de Bruijn \todo{cite} and locally nameless
-representation%~\cite{Chargueraud2012}
+representation %~\cite{Chargueraud2012}
 (\eg~\cite{Castro2020}).
-Nominal approaches are also common, see~\cite{Bengtson2009}, but they
-may be problematic w.r.t.~proof assistants based on dependent types.
+Nominal approaches are also common (see~\cite{Bengtson2009}), but they
+may be problematic in proof assistants based on dependent types.
 
 \todo{Sum up some of those issues}
 % \cite{Maksimovic2015} does not have
@@ -329,6 +329,7 @@ properties related to names~\cite{GacekMN11}.
 
 
 \subsection{Coinduction}
+
 Process calculi typically include constructs that allow processes to
 have infinite behaviours.  Coinduction serves as a fundamental method
 for the definition and analysis of infinite objects, enabling the
@@ -436,10 +437,10 @@ Many mechanisations need to combine techniques to handle several of these aspect
 % \cite{Brady2017} notes that using algebraic effects is unwieldy when there are many communication channels and suggests an experimental approach using dependent uniqueness types.
 % \cite{Zalakain2019} notes that systems lacking linear types must simulate linearity, and that using a linearity predicate complicates congruences.
 % They had to limit themselves to an asymmetric structural precongruence to be able to prove subject reduction.
-Some authors have already described the difficulties that combining techniques may induce in a mechanisation, e.g.~\cite{DBLP:conf/forte/ZalakainD21}.
+Some authors have already described the difficulties that combining techniques may induce in a mechanisation, \eg~\cite{DBLP:conf/forte/ZalakainD21}.
 
 Features that are in wide use, but not covered by our benchmark, include choice constructs and recursion.
-Some interesting aspects of message-passing calculi include multiparty session types~\cite{10.1145/2827695} and choreographies~\cite{Carbone2013}, as their meta-theory includes aspects -- \eg well-formedness conditions on global types, partiality of end-point projection function, \etc -- that we do not address.
+Some interesting aspects of message-passing calculi include multiparty session types~\cite{10.1145/2827695} and choreographies~\cite{Carbone2013}, as their meta-theory includes aspects---\eg well-formedness conditions on global types, partiality of end-point projection function, \etc---that we do not address.
 Other areas of interest include higher-order calculi~\cite{Hirsch2022}, conversation types~\cite{DBLP:journals/tcs/CairesV10}, psi-calculi~\cite{lmcs:696}, or encodings between different calculi~\cite{DBLP:journals/iandc/Gorla10,DBLP:journals/iandc/DardhaGS17}.
 
 For coinduction, one could explore different notions of process equivalence.
