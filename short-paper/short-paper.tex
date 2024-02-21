@@ -329,13 +329,31 @@ properties related to names~\cite{GacekMN11}.
 
 
 \subsection{Coinduction}
-Coinduction is fundamental to establish properties of processes that
-may never terminate, which is a typical situation.
-Common uses for coinduction are to define strong and weak versions of
-bisimulation, barbed notions of bisimulation, and prove trace equivalence.
-On the other hand, coinduction in proof assistants
-is notoriously difficult and its representation
-is non-uniform across developments.
+Process calculi often include constructs that allow processes to have infinite behaviours.
+Coinduction is a fundamental technique for defining and reasoning about infinite objects, and it can thus be used to reason about these behaviours.
+While many proof assistants support coinductive techniques, using them is notoriously difficult, and representations and proof techniques vary widely.
+The crux of our challenge is the effective use of coinductive up-to techniques.
+The intention is that it should be easy to use the bisimulation relation and its properties, but this may be difficult with some mechanisation approaches.
+
+The goal of our challenge on coinductive reasoning is proving that strong barbed bisimilarity can be turned into a congruence by making it sensitive to substitution and parallel composition.
+The setting for our challenge is an untyped \(\pi\)-calculus with replication of processes enabling infinite behaviours.
+We do not include delegation in the calculus since it is orthogonal to our primary aim of exploring coinductive proof techniques.
+We base our definition of bisimilarity on a labelled transition system semantics and an observability predicate describing the communication steps available to a process.
+The introduction of strong barbed bisimulation is one of the first steps when studying the observable behaviour of process calculi, both in classical textbooks (e.g., \cite{picalcbook}) and in existing mechanisations.
+Though weak barbed congruence is a more common behavioural equivalence, we prefer strong equivalences to simplify the theory by avoiding the need to abstract over the number of internal transitions in a trace.
+
+Coinduction is widely supported in proof assistants, but they support subtly different formalisms that enable different techniques, and some systems provide more than one abstraction to use coinduction.
+We thus see a variety of different formalisation choices for bisimulations, sometimes ad-hoc for the specific result.
+
+\todo{Reorganize the rest of this section to be more coherent}
+Isabelle, Coq, and Abella seamlessly support coinductive definitions and reasoning.
+Agda and Beluga support it through the convenient abstraction of co-patterns~\cite{Abel2013}.
+Newer entrants to the field like the Lean proof assistant
+are working on adding a notion of coinduction to their system~\cite{Avigad2019}.\alb{I kinda object to ``seamlessly''. In Coq it's a mess, in Abella very very limited, sized types in Agda are shaky. I guess Isabelle is better}
+%
+A good example of this are the parameterised coinduction~\cite{Hur2013}
+and interaction tree~\cite{Xia2019} libraries for Coq.
+
 E.g., \cite{Castro-Perez2021} notes that the most challenging
 part of their mechanisation of multiparty session types
 was the convoluted definition of infinite behaviours;
@@ -346,53 +364,8 @@ in dealing with existential quantifiers; and
 coinduction as developed in Coq \cite{Hur2013} would
 have helped their Isabelle mechanisation.
 
-
-We base our challenge around bisimulation: a fundamental coinductively
-established property for equating the
-observed behaviour of potentially infinite processes. 
-In this challenge, we study the notion of strong barbed bisimulation
-(and bisimilarity, as in \cite{picalcbook})
-over a fragment of the $\pi$-calculus and,
-in particular, we focus on obtaining,
-from strong barbed bisimilarity,
-a congruence with respect to
-parallel composition and substitution.
-
-\alb{We need more details about what the challenge is}
-\alb{I kinda object to ``seamlessly''. In Coq it's a mess, in Abella very very limited, sized types in Agda are shaky. I guess Isabelle is better}
-
-Our coinduction challenge concerns strong barbed bisimulation and
-congruence.% \alb{we motivate why strong vs weak, but not why barbed}
-% \lore{Is it not enough to quote the Sangiorgi/Walker book
-% and go by authority? :)}
-Though weak barbed congruence is a more common behavioural equivalence
-w.r.t.\ the \(\pi\)-calculus, here we prefer strong equivalences to avoid the
-need to abstract over the number of internal transitions, thus
-simplifying the theory.  We exclude delegation from the coinduction
-challenge since it is orthogonal to our primary aim of exploring
-coinductive proof techniques.
-
-The introduction of strong barbed bisimulation is one of the first
-steps when studying the (observable) behaviour of process calculi,
-both in classical textbooks (e.g., \cite{picalcbook}) and in existing
-mechanisations, where we see a variety of different formalisation
-choices, sometimes ad-hoc for the specific result or development.
-
-In fact, coinduction is widely supported in proof assistants.
-Isabelle, Coq, and Abella seamlessly support coinductive definitions and reasoning.
-Agda and Beluga support it through the convenient abstraction of co-patterns~\cite{Abel2013}.
-Newer entrants to the field like the Lean proof assistant
-are working on adding a notion of coinduction to their system~\cite{Avigad2019}%,Keizer2023}.
-%
-As with most features, proof assistants support
-subtly different formalisms that enable different techniques and motivate this challenge.
-Some systems provide more than one abstraction to use coinduction.
-A good example of this are the parameterised coinduction~\cite{Hur2013}
-and interaction tree~\cite{Xia2019} libraries for Coq.
-
 \lore{Should we mention that Isabelle offers
   the command \texttt{coinduction\_upto}? Is it related?}
-\todo{Explain the the point of the congruence theorem is that it should be ``easy'' once you have the other one}
 
 While many authors rely on the native support for coinduction offered
 by proof assistants
