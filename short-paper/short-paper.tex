@@ -98,7 +98,7 @@ specifically crafted to tackle common challenges encountered during
 the mechanisation of formal models for concurrent and distributed
 programming languages.
 We particularly focus on process calculi.\todo{Why? - they are PL-like but also formal models in themselves}
-Concurrent calculi are notably subtle: For instance, it took nine
+Concurrent calculi are notably subtle: for instance, it took nine
 years before the incorrect proof of type safety in the seminal paper
 by Honda et al.~\cite{Honda1998} was rectified in Yoshida \&
 Vasconcelos’s subsequent work\cite{Yoshida2007}.
@@ -115,13 +115,13 @@ toward a trial-and-error approach, resulting in sub-optimal solutions,
 wasted mechanisation effort, and techniques and results that are hard
 to reuse. For example, the authors in~\cite{Cruz-Filipe2021b} note that the high-level parts of
 mechanised proofs closely resemble the informal ones, while the
-main challenge lies in getting the foundations right.
+main challenge lies in getting the infra-structure right.
 
 Our benchmark problems (detailed in \cref{app:challenges} and on our website) consider
 \emph{in isolation} three key aspects that frequently pose challenges
 when mechanising concurrency theory: \emph{linearity}, \emph{scope
   extrusion}, and \emph{coinductive reasoning}.  Mechanisations must
-often address several of these aspects; however, we
+often address several of these aspects at the same time; however, we
 see the combination of techniques as a next
 step, as discussed in \cref{sec:going-beyond}.
 Our benchmark challenges are based on process calculi, as these provide a simple but
