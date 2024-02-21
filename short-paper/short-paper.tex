@@ -115,7 +115,7 @@ toward a trial-and-error approach, resulting in sub-optimal solutions,
 wasted mechanisation effort, and techniques and results that are hard
 to reuse. For example, the authors in~\cite{Cruz-Filipe2021b} note that the high-level parts of
 mechanised proofs closely resemble the informal ones, while the
-main challenge lies in getting the infra-structure right.
+main challenge lies in getting the infrastructure right.
 
 Our benchmark problems (detailed in \cref{app:challenges} and on our website) consider
 \emph{in isolation} three key aspects that frequently pose challenges
@@ -179,11 +179,6 @@ Aligned with design goal~\ref{item:goal-reusability}, our problems are rooted in
 Our challenges centre around well-established theorems and results, showcasing interesting proof techniques that can be leveraged in many applications (as we will further discuss in \cref{sec:going-beyond}).
 
 \subsection{Linearity}
-
-% \cite{Brady2017} notes that using algebraic effects is unwieldy when there are many communication channels and suggests an experimental approach using dependent uniqueness types.
-% \cite{Zalakain2019} notes that systems lacking linear types must simulate linearity, and that using a linearity predicate complicates congruences.
-% They had to limit themselves to an asymmetric structural precongruence to be able to prove subject reduction.
-
 Linear typing systems allow  tracking the use of resources in a program. In
 the case of typed process calculi (in particular, session types), linearity is
 widely used for checking if and how a channel is used to send or receive values.
@@ -201,9 +196,6 @@ reflected in the type system. We model a simple notion of error: a well-typed
 processes must never use dual channel endpoints in a non-dual way (\eg by
 performing concurrent send/receive operations on a same endpoint, or two
 concurrent send operations on both endpoints).
-% The latter enforces two invariants, namely that no endpoint is
-% used simultaneously by parallel processes and that the two endpoints of the same
-% session have dual types.
 The operational semantics is formulated as a standard reduction relation; hence,
 proving subject reduction requires proving type preservation for structural
 congruence.
@@ -286,7 +278,7 @@ Given those peculiarities, the syntax and semantics of $\pi$-calculi have been
 mechanised from an early age (see~\cite{Melham1994}) with many proof
 assistants and in so many encoding styles that it would take too long to
 review.  They range from concrete encodings based on named syntax
-(Melham's op.cit.) to basic de Bruijn (cite) and locally nameless
+\cite{Melham1994} to basic de Bruijn \todo{cite} and locally nameless
 representation%~\cite{Chargueraud2012}
 (\eg~\cite{Castro2020}).
 Nominal approaches are also common, see~\cite{Bengtson2009}, but they
@@ -434,6 +426,9 @@ Solutions to our challenges do not need to strictly follow the definitions and l
 Our benchmark challenges do not cover all issues in the field, but focus on the fundamental textbook aspects of linearity, scope extrusion, and coinduction.
 Many mechanisations need to combine techniques to handle several of these aspects, and some may also need to handle aspects that are not covered by our benchmark challenges at all.
 
+% \cite{Brady2017} notes that using algebraic effects is unwieldy when there are many communication channels and suggests an experimental approach using dependent uniqueness types.
+% \cite{Zalakain2019} notes that systems lacking linear types must simulate linearity, and that using a linearity predicate complicates congruences.
+% They had to limit themselves to an asymmetric structural precongruence to be able to prove subject reduction.
 Some authors have already described the difficulties that combining techniques may induce in a mechanisation, e.g.~\cite{DBLP:conf/forte/ZalakainD21}.
 
 Features that are in wide use, but not covered by our benchmark, include choice constructs and recursion.
