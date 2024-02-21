@@ -253,7 +253,8 @@ then using that logic to state and prove linear properties (for a
 recent example, see~\cite{Felty:MSCS21}).
 
 \subsection{Scope extrusion}
-This challenge revolves around the mechanisation of explicit scope
+This challenge revolves around the mechanisation of % explicit
+scope
 extrusion, by which a process can send restricted names to another
 process, as long as the restriction can safely be extruded to include
 the receiving process.  The setting for this challenge is a
@@ -261,31 +262,33 @@ the receiving process.  The setting for this challenge is a
 the other challenges) names can be sent and received, and bound by
 input constructs.  We define two different semantics for our system:
 \begin{enumerate}
-\item A reduction system: this avoids explicit reasoning
-about scope extrusion via structural congruence, allowing implementors to explore
-alternative ways to encode the latter (\eg via context or via congruent refinements)
-\item A (early) labelled transition system
+\item A reduction system: this avoids explicit reasoning about scope
+  extrusion by using instead structural congruence, allowing
+  implementors to explore alternative ways to encode the latter (\eg
+  via process contexts or via compatible refinement);
+\item A (early) labelled transition system.
 \end{enumerate}
 The objective of this
 challenge is to prove that the two semantics are equivalent up to
 structural congruence.
 
-This is the challenge most closely related to the POPLMark challenge
+This is the challenge most closely related to  POPLMark, 
 since it concerns the properties of binders, whose encoding has been
 extensively studied w.r.t.\ the $\lambda$-calculi. Process calculi
-present additional challenges: $\pi$-calculi typically include several
+present additional challenges,  typically including several
 different binding constructs: inputs bind a received name or value,
 recursive processes bind recursion variables, and restrictions bind
 names.  The first two act similarly to the binders known from
 $\lambda$-calculi, but restrictions may be more challenging due to
 scope extrusion.
 
-Given those peculiarities, the syntax and semantics has been
+Given those peculiarities, the syntax and semantics of $\pi$-calculi have been
 mechanised from an early age (see~\cite{Melham1994}) with many proof
-assistants and so many encoding styles that it would take too long to
+assistants and in so many encoding styles that it would take too long to
 review.  They range from concrete encodings based on named syntax
 (Melham's op.cit.) to basic de Bruijn (cite) and locally nameless
-representation~\cite{Chargueraud2012} (\eg~\cite{Castro2020}).
+representation%~\cite{Chargueraud2012}
+(\eg~\cite{Castro2020}).
 Nominal approaches are also common, see~\cite{Bengtson2009}, but they
 may be problematic w.r.t.~proof assistants based on dependent types.
 
@@ -313,9 +316,9 @@ and validating sets of free names during scope extrusion;
 
 
 Higher-order abstract syntax (HOAS) has seen extensive and successful
-use in formal reasoning~\cite{Despeyroux2000,Honsell2001,Tiu2010}. Its
+use in formal reasoning in this area~\cite{Despeyroux2000,Honsell2001,Tiu2010}. Its
 weak form aligns well with mainstream inductive proof assistants,
-simplifying the encoding of typing systems and operational
+significantly simplifying the encoding of typing systems and operational
 semantics. However, when addressing more intricate concepts like
 bisimulation, HOAS necessitates extensions. These extensions may take
 the form of additional axioms~\cite{Honsell2001} or require specialised proof assistants
@@ -406,7 +409,7 @@ others prefer a more ``set-theoretic'' approach
 \cite{Hirschkoff1997,Bengtson2009,Maksimovic2015,Pohjola2022}.
 \alb{Actually, Honsell gives up with guarded coinduction and switches to Park's half way}
 
-\subsubsection{Evaluation criteria.}
+\subsection{Evaluation criteria.}
 The idea behind our benchmark is to obtain evidence towards answering
 questions \cref{item:rq1,item:rq2,item:rq3}. We are therefore
 interested not only in the solutions, but also in the experience of
