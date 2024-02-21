@@ -308,7 +308,7 @@ and validating sets of free names during scope extrusion;
 
 
 Higher-order abstract syntax (HOAS) has seen extensive and successful
-use in formal reasoning in this area~\cite{Despeyroux2000,Honsell2001,Tiu2010}. Its
+use in formal reasoning in this area~\cite{Despeyroux2000,Honsell2001,Tiu2010,ChaudhuriCM15}. Its
 weak form aligns well with mainstream inductive proof assistants,
 significantly simplifying the encoding of typing systems and operational
 semantics. However, when addressing more intricate concepts like
@@ -329,50 +329,83 @@ properties related to names~\cite{GacekMN11}.
 
 
 \subsection{Coinduction}
-Process calculi often include constructs that allow processes to have infinite behaviours.
-Coinduction is a fundamental technique for defining and reasoning about infinite objects, and it can thus be used to reason about these behaviours.
-While many proof assistants support coinductive techniques, using them is notoriously difficult, and representations and proof techniques vary widely.
-The crux of our challenge is the effective use of coinductive up-to techniques.
-The intention is that it should be easy to use the bisimulation relation and its properties, but this may be difficult with some mechanisation approaches.
+Process calculi typically include constructs that allow processes to
+have infinite behaviours.  Coinduction serves as a fundamental method
+for the definition and analysis of infinite objects, enabling the
+examination of their behaviours.
+% Coinduction is a fundamental technique for
+% defining and reasoning about infinite objects, and it can thus be used
+% to reason about these behaviours. 
 
-The goal of our challenge on coinductive reasoning is proving that strong barbed bisimilarity can be turned into a congruence by making it sensitive to substitution and parallel composition.
-The setting for our challenge is an untyped \(\pi\)-calculus with replication of processes enabling infinite behaviours.
-We do not include delegation in the calculus since it is orthogonal to our primary aim of exploring coinductive proof techniques.
-We base our definition of bisimilarity on a labelled transition system semantics and an observability predicate describing the communication steps available to a process.
-The introduction of strong barbed bisimulation is one of the first steps when studying the observable behaviour of process calculi, both in classical textbooks (e.g., \cite{picalcbook}) and in existing mechanisations.
-Though weak barbed congruence is a more common behavioural equivalence, we prefer strong equivalences to simplify the theory by avoiding the need to abstract over the number of internal transitions in a trace.
+The goal of our challenge on coinductive reasoning is proving that
+\emph{strong barbed bisimilarity} can be turned into a congruence by making
+it sensitive to substitution and parallel composition. The crux of our
+challenge is the effective use of coinductive up-to techniques.  The
+intention is that it should be easy to use the bisimulation relation
+and its properties, but this may be difficult with some mechanisation
+approaches.
 
-Coinduction is widely supported in proof assistants, but they support subtly different formalisms that enable different techniques, and some systems provide more than one abstraction to use coinduction.
-We thus see a variety of different formalisation choices for bisimulations, sometimes ad-hoc for the specific result.
+The setting for our challenge is an untyped \(\pi\)-calculus augmented with
+replication of processes in order to enable infinite behaviours.  We do not
+include delegation since it is orthogonal to our
+primary aim of exploring coinductive proof techniques.  We base our
+definition of bisimilarity on a labelled transition system semantics
+and an observability predicate describing the communication steps
+available to a process.  The introduction of strong barbed
+bisimulation is one of the first steps when studying the observable
+behaviour of process calculi, both in classical textbooks (e.g.,
+\cite{picalcbook}) and in existing mechanisations.  Though weak barbed
+congruence is a more common behavioural equivalence, we prefer strong
+equivalences to simplify the theory by avoiding the need to abstract
+over the number of internal transitions in a trace.
 
-\todo{Reorganize the rest of this section to be more coherent}
-Isabelle, Coq, and Abella seamlessly support coinductive definitions and reasoning.
-Agda and Beluga support it through the convenient abstraction of co-patterns~\cite{Abel2013}.
-Newer entrants to the field like the Lean proof assistant
-are working on adding a notion of coinduction to their system~\cite{Avigad2019}.\alb{I kinda object to ``seamlessly''. In Coq it's a mess, in Abella very very limited, sized types in Agda are shaky. I guess Isabelle is better}
+While many proof assistants support coinductive techniques, they do so
+through subtly different formalisms, enabling various
+approaches. Additionally, some systems offer multiple abstractions for
+utilizing coinduction. Examples are Agda's musical notation versus  co-patterns and sized types~\cite{Abel2013}. In Coq, guarded recursion versus a refined fixed point approach as supported by the parameterised coinduction~\cite{Hur2013}
+and interaction tree~\cite{Xia2019} libraries.
+
+When reasoning over bisimilarity many authors rely on the native
+ coinduction offered by the chosen proof assistants
+\cite{Bengtson2016,Kahsai2008,Thiemann2019,Gay2020}, others prefer a
+more ``set-theoretic'' approach
+\cite{Hirschkoff1997,Bengtson2009,Maksimovic2015,Pohjola2022}. Some
+use both and establish an internal adequacy~\cite{Honsell2001}. Few
+extend the proof assistant foundations to allow \eg reasoning about
+bisimilarity up-to~\cite{ChaudhuriCM15}.
+% While many proof assistants support
+% coinductive techniques,   but they support subtly different formalisms that enable different techniques, and some systems provide more than one abstraction to use coinduction.
+% We thus see a variety of different formalisation choices for
+% bisimulations, sometimes ad-hoc for the specific result.
+
+% \todo{Reorganize the rest of this section to be more coherent}
+% Isabelle, Coq, and Abella seamlessly support coinductive definitions and reasoning.
+% Agda and Beluga support it through the convenient abstraction of co-patterns~\cite{Abel2013}.
+% Newer entrants to the field like the Lean proof assistant
+% are working on adding a notion of coinduction to their system~\cite{Avigad2019}.\alb{I kinda object to ``seamlessly''. In Coq it's a mess, in Abella very very limited, sized types in Agda are shaky. I guess Isabelle is better}
 %
-A good example of this are the parameterised coinduction~\cite{Hur2013}
-and interaction tree~\cite{Xia2019} libraries for Coq.
+% A good example of this are the parameterised coinduction~\cite{Hur2013}
+% and interaction tree~\cite{Xia2019} libraries for Coq.
 
-E.g., \cite{Castro-Perez2021} notes that the most challenging
-part of their mechanisation of multiparty session types
-was the convoluted definition of infinite behaviours;
-\cite{Pohjola2022} points out that the main difficulty
-of the proofs concerning bisimulation lies
-in dealing with existential quantifiers; and
-\cite{Bengtson2016} wonders whether parametrised
-coinduction as developed in Coq \cite{Hur2013} would
-have helped their Isabelle mechanisation.
+% E.g., \cite{Castro-Perez2021} notes that the most challenging
+% part of their mechanisation of multiparty session types
+% was the convoluted definition of infinite behaviours;
+% \cite{Pohjola2022} points out that the main difficulty
+% of the proofs concerning bisimulation lies
+% in dealing with existential quantifiers; and
+% \cite{Bengtson2016} wonders whether parametrised
+% coinduction as developed in Coq \cite{Hur2013} would
+% have helped their Isabelle mechanisation.
 
-\lore{Should we mention that Isabelle offers
-  the command \texttt{coinduction\_upto}? Is it related?}
+% \lore{Should we mention that Isabelle offers
+%   the command \texttt{coinduction\_upto}? Is it related?}
 
-While many authors rely on the native support for coinduction offered
-by proof assistants
-\cite{Honsell2001,Bengtson2016,Kahsai2008,Thiemann2019,Gay2020}, many
-others prefer a more ``set-theoretic'' approach
-\cite{Hirschkoff1997,Bengtson2009,Maksimovic2015,Pohjola2022}.
-\alb{Actually, Honsell gives up with guarded coinduction and switches to Park's half way}
+% While many authors rely on the native support for coinduction offered
+% by proof assistants
+% \cite{Honsell2001,Bengtson2016,Kahsai2008,Thiemann2019,Gay2020}, many
+% others prefer a more ``set-theoretic'' approach
+% \cite{Hirschkoff1997,Bengtson2009,Maksimovic2015,Pohjola2022}.
+%\alb{Actually, Honsell gives up with guarded coinduction and switches to Park's half way}
 
 \subsection{Evaluation criteria.}
 The idea behind our benchmark is to obtain evidence towards answering
