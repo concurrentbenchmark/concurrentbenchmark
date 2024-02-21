@@ -143,7 +143,7 @@ We begin with some general remarks, then describe the individual design consider
 
 Similarly to the authors of the POPLMark challenges, we seek to answer several questions:
 \begin{enumerate}[label=\textbf{(Q\arabic*)},leftmargin=10mm]
-\item\label{item:rq1} What is the current state of the art in tools for mechanising the meta-theory of process calculi?
+\item\label{item:rq1} What is the current state of the art in the mechanisation of  the meta-theory of process calculi?
 \item\label{item:rq2} Which techniques and best practices can be recommended when starting new mechanisation projects involving process calculi?
 \item\label{item:rq3} Which improvements are needed to make mechanisation tools more user-friendly with regards to the issues faced when mechanising process calculi?
 \end{enumerate}
@@ -219,7 +219,7 @@ aspects of the challenge.
 
 In mechanised meta-theory, addressing linearity means choosing an appropriate
 representation of the linear typing context.  While a linear context is perhaps
-best seen as a multi-set, most proof assistants have better support for list
+best seen as a multiset, most proof assistants have better support for list
 processing.  The latter representation is intuitive, but may require
 establishing a large number of technical lemmata that are orthogonal to the
 problem under study (in our case, proving type safety for
@@ -240,11 +240,10 @@ proof assistant supports dependent types
 (see~\cite{Thiemann2019,CicconeP20,RouvoetPKV20}).
 %
 A radically different approach is to adopt a \emph{substructural}
-meta-logical framework: the framework itself handles resource
-distribution, and users need only map their linear operations to the
-ones offered by the framework.  The linear function space will then
-handle all context operations implicitly, including splitting and
-substitution.  The only such framework is
+meta-logical framework, which handles resource
+distribution implicitly, including splitting and
+substitution: users need only map their linear operations to the
+ones offered by the framework.  The only such framework is
 \emph{Celf}~\cite{Schack-Nielsen:IJCAR08} (see the encoding of session
 types in~\cite{Bock2016}); unfortunately, \emph{Celf} does not yet
 fully support the verification of meta-theoretic properties.  A
