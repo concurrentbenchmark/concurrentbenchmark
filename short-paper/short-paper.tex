@@ -65,7 +65,7 @@
   %
   We propose a new collection of benchmark problems focused on the difficulties that typically arise when mechanising formal models of concurrent and distributed programming languages, such as process calculi.
   Our benchmark problems address three key topics: linearity, scope extrusion, and coinductive reasoning.
-  The goal of this new challenge is to clarify, compare, and advance the state of the art, fostering the adoption of proof mechanisation in future research on message-passing concurrency. \todo{Broaden `message-passing concurrency' to `concurrency'?}
+  The goal of this new challenge is to clarify, compare, and advance the state of the art, fostering the adoption of proof mechanisation in future research on concurrency.
 
 \keywords{Mechanisation \and Process calculi \and Benchmark \and Coinduction \and Scope extrusion \and Linearity}
 \end{abstract}
@@ -84,7 +84,9 @@ In this spirit, we introduce a new collection of benchmark problems
 specifically crafted to tackle common challenges encountered during
 the mechanisation of formal models for concurrent and distributed
 programming languages.
-We particularly focus on process calculi.\todo{Why? - they are PL-like but also formal models in themselves}
+We particularly focus on process calculi as these provide a simple but
+realistic showcase of common issues encountered during mechanisation
+efforts.
 Concurrent calculi are notably subtle: for instance, it took nine
 years before the incorrect proof of type safety in the seminal paper
 by Honda et al.~\cite{Honda1998} was rectified in Yoshida and
@@ -111,9 +113,6 @@ when mechanising concurrency theory: \emph{linearity}, \emph{scope
 often address several of these aspects at the same time; however, we
 see the combination of techniques as a next
 step, as discussed in \cref{sec:going-beyond}.
-Our benchmark challenges are based on process calculi, as these provide a simple but
-realistic showcase of common issues encountered during mechanisation
-efforts.
 
 We have begun collecting solutions to our challenges on our website:
 %
