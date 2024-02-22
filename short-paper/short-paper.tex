@@ -249,15 +249,16 @@ The objective of this
 challenge is to prove that the two semantics are equivalent up to
 structural congruence.
 
-This is the challenge most closely related to  POPLMark,
+This is the challenge most closely related to POPLMark,
 since it concerns the properties of binders, whose encoding has been
-extensively studied with respect to the $\lambda$-calculi. Process calculi
-present additional challenges,  typically including several
+extensively studied with respect to $\lambda$-calculi. Process calculi
+present additional challenges, typically including several
 different binding constructs: inputs bind a received name or value,
 recursive processes bind recursion variables, and restrictions bind
-names.  The first two act similarly to the binders known from
+names. The first two act similarly to the binders known from
 $\lambda$-calculi, but restrictions may be more challenging due to
 scope extrusion.
+Scope extrusion requires reasoning about free variables, so approaches that identify \(\alpha\)-equivalent processes cannot be directly applied.
 
 Given those peculiarities, the syntax and semantics of $\pi$-calculi have been
 mechanised from an early age (see~\cite{Melham1994}) with many proof
@@ -268,29 +269,13 @@ representation %~\cite{Chargueraud2012}
 (\eg~\cite{Castro2020}).
 Nominal approaches are also common (see~\cite{Bengtson2009}), but they
 may be problematic in proof assistants based on dependent types.
-
-\todo{Sum up some of those issues}
-% \cite{Maksimovic2015} does not have
-% name restriction, thus dodging the challenge of scope extrusion.
-\begin{quotation}
-\cite{Castro-Perez2021,Castro2020} note that popular presentations of
-session type systems are impossible to directly encode using
-intrinsically \(\alpha\)-convertible terms.  \cite{Castro2020}
-suggests using several binder constructs to solve this, but notes that
-this requires proving many variants of the same theorems.
+Another approach is shallow embeddings~\cite{Castro-Perez2021}, which avoids the need to explicitly represent names.
 The case study \cite{AmbalLS21} compares four approaches to encoding
 binders in Coq as a first step towards developing tools for working
 with higher-order process calculi.  They found that working directly
 with de Bruijn indices was easiest and shortest since the existing
 approaches developed for $\lambda$-calculus binders do not work well
-with scope extrusion.  Specifically, the locally nameless
-representation~\cite{Chargueraud2012} cannot avoid direct manipulation
-of de Bruijn indices when defining the semantics of scope extrusion;
-cofinite quantification provides no benefits when working under
-binders; nominal approaches require explicitly giving
-and validating sets of free names during scope extrusion;
-\end{quotation}
-
+with scope extrusion.
 
 Higher-order abstract syntax (HOAS) has seen extensive and successful
 use in formal reasoning in this area~\cite{Despeyroux2000,Honsell2001,Tiu2010,ChaudhuriCM15}. Its
