@@ -83,17 +83,22 @@ These initiatives had a narrow focus, but their authors recognised the importanc
 In this spirit, we introduce a new collection of benchmark problems
 specifically crafted to tackle common challenges encountered during
 the mechanisation of formal models for concurrent and distributed
-programming languages.
-We particularly focus on process calculi as these provide a simple but
-realistic showcase of common issues encountered during mechanisation
-efforts.
-Concurrent calculi are notably subtle: for instance, it took nine
-years before the incorrect proof of type safety in the seminal paper
-by Honda et al.~\cite{Honda1998} was rectified in Yoshida and
-Vasconcelos’s subsequent work\cite{Yoshida2007}.\todo{Marco: rewrite this to be correct}
-Similarly, several key results in papers on session types have turned out
-to be false later on~\cite{Gay2020,10.1145/3290343}, illustrating the
-value of machine-checked proofs.\todo{Rephrase this sentence to be more clear on the references}
+programming languages.  We particularly focus on process calculi as
+these provide a simple but realistic showcase of common issues
+encountered during mechanisation efforts.  Concurrent calculi are
+notably subtle: for instance, it took some years before the incorrect
+subject reduction proof in the original paper on session
+subtyping~\cite{GH99} was rectified in the journal extended
+version~\cite{GH05} with the use of polarities. % , and generally
+% addressed by Vasconcelos and Yoshida~\cite{Yoshida2007}.
+% it took nine years before the incorrect proof of type safety in the
+% seminal paper by Honda et al.~\cite{Honda1998} was rectified in
+% Yoshida and Vasconcelos’s subsequent
+% work\cite{Yoshida2007}.\todo{Marco: rewrite this to be correct}
+Similarly, other key results in session types papers have subsequently
+been proven incorrect~\cite{Gay2020,10.1145/3290343}, advocating the
+need for machine-checked proofs.
+% \todo{Rephrase this sentence to be more clear on the references}
 
 While results about concurrent
 formalisms have already been mechanised (as we will discuss further
