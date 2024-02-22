@@ -187,13 +187,28 @@ To this end, we define the \emph{observability predicate}
   \observable{P}{\obsout{x}} &\quad \textrm{if \( P \) can perform an output action via \( x \).}
 \end{align*}
 
-\emph{Strong barbed bisimilarity}, written \( \sbbisim{}{} \), is the largest symmetric relation such that, whenever \( \sbbisim{P}{Q} \):
+A symmetric relation $\mathcal R$ is a {\em strong barbed
+  bisimulation} if $(P,Q)\in\mathcal R$ implies
 \begin{gather}
   \observable{P}{\mu}~\textrm{implies}~\observable{Q}{\mu}\label{eq:bisim1} \\
-  \transition{P}{\Atau}{P'}~\textrm{implies}~\transition{Q}{\Atau}{\sbbisim{}{} P'}\label{eq:bisim2}
+  \transition{P}{\Atau}{P'}~\textrm{implies}~\transition{Q}{\Atau}{Q'}~\textrm{and}~
+  (P',Q')\in\mathcal R\label{eq:bisim2}
 \end{gather}
-We say that a relation is a \emph{strong barbed bisimulation} if it satisfies the conditions given above, but is not necessarily the largest such relation, and that \( P \) and \( Q \) are \emph{strong barbed bisimilar} if \( \sbbisim{P}{Q} \).
-Note that, since our systems have potentially infinite behaviours, and strong barbed bisimilarity is defined as the largest relation that satisfies the conditions, bisimulation cannot be defined inductively.
+%
+Two processes are said to be \emph{strong barbed bisimilar}, written
+\( P\sbbisim{}{}Q \), if there exist a strong barbed bisimulation
+$\mathcal R$ such that $(P,Q)\in\mathcal R$. Note that {\em strong
+  barbed bisimilarity} \( \sbbisim{}{} \) is the largest strong barbed
+bisimulation.
+% symmetric relation such that, whenever \( \sbbisim{P}{Q} \):
+% \begin{gather}
+%   \observable{P}{\mu}~\textrm{implies}~\observable{Q}{\mu}\label{eq:bisim1} \\
+%   \transition{P}{\Atau}{P'}~\textrm{implies}~\transition{Q}{\Atau}{\sbbisim{}{} P'}\label{eq:bisim2}
+% \end{gather}
+% We say that a relation is a \emph{strong barbed bisimulation} if it satisfies the conditions given above, but is not necessarily the largest such relation, and that \( P \) and \( Q \) are \emph{strong barbed bisimilar} if \( \sbbisim{P}{Q} \).
+Also, since our systems have potentially infinite behaviours,
+bisimilarity cannot be defined inductively since it is the largest
+strong barbed bisimulation.
 
 \begin{theorem}
   \( \sbbisim{}{} \) is an equivalence relation. %that is, the relation is reflexive, symmetric, and transitive.
@@ -204,7 +219,11 @@ Note that, since our systems have potentially infinite behaviours, and strong ba
   We prove the three properties separately: 
   \begin{itemize}
   \item Reflexivity is straightforward: for any $P$, we need to show
-    that $P\sbbisim{}{} P$. Both conditions~\ref{eq:bisim1} and~\ref{eq:bisim2} follow trivially.
+    that $P\sbbisim{}{} P$. In order to do so, we choose the identity
+    relation and prove that it is a strong barbed
+    bisimulation. Condition~\ref{eq:bisim1} follows trivially by
+    definition. Condition~\ref{eq:bisim2} follows coinductively since
+    we must always reach identical pairs.
   \item Symmetry follows immediately by definition.
 %    since bisimilarity is defined as a {\em symmetric} relation.
   \item For transitivity, we need to prove that if $P\sbbisim{}{} Q$
