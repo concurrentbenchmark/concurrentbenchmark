@@ -90,10 +90,10 @@ efforts.
 Concurrent calculi are notably subtle: for instance, it took nine
 years before the incorrect proof of type safety in the seminal paper
 by Honda et al.~\cite{Honda1998} was rectified in Yoshida and
-Vasconcelos’s subsequent work\cite{Yoshida2007}.
+Vasconcelos’s subsequent work\cite{Yoshida2007}.\todo{Marco: rewrite this to be correct}
 Similarly, several key results in papers on session types have turned out
-to be false later on, illustrating the
-value of machine-checked proofs~\cite{Gay2020,10.1145/3290343}.
+to be false later on~\cite{Gay2020,10.1145/3290343}, illustrating the
+value of machine-checked proofs.\todo{Rephrase this sentence to be more clear on the references}
 
 While results about concurrent
 formalisms have already been mechanised (as we will discuss further
@@ -108,9 +108,9 @@ main challenge lies in getting the infrastructure right.
 
 Our benchmark problems (detailed in \cref{app:challenges} and on our website) consider
 \emph{in isolation} three key aspects that frequently pose challenges
-when mechanising concurrency theory: \emph{linearity}, \emph{scope
-  extrusion}, and \emph{coinductive reasoning}.  Mechanisations must
-often address several of these aspects at the same time; however, we
+when mechanising concurrency theory, as we will discuss in the next section: \emph{linearity}, \emph{scope
+  extrusion}, and \emph{coinductive reasoning}.
+Mechanisations must often address several of these aspects at the same time; however, we
 see the combination of techniques as a next
 step, as discussed in \cref{sec:going-beyond}.
 
@@ -187,8 +187,8 @@ proving subject reduction requires proving type preservation for structural
 congruence.
 
 We designed this challenge to focus on linear reasoning while minimising
-definitions and other concerns.  We therefore forgo channel delegation:
-send/receive operations only support values that do not include channels, so
+definitions and other concerns.  We therefore forgo name passing:
+send/receive operations only support values that do not include channel names, so
 the topology of the communication network described by a process cannot change.
 We do not allow recursion or replication, so infinite behaviours cannot be
 expressed. We also forgo more sophisticated notions of error-freedom (\eg
@@ -208,6 +208,7 @@ authors instead impose a multiset structure over lists
 implemented as finite maps (as in \cite{Castro2020}), whose operations are
 sensitive to a linear discipline. In all these cases, the effort required to
 develop the infrastructure is significant.
+\todo{Consider adding material on linearity predicates}
 %
 One alternative strategy is to bypass the problem of context splitting
 by adopting familiar ideas from algorithmic linear type checking. This
@@ -263,7 +264,9 @@ Scope extrusion requires reasoning about free variables, so approaches that iden
 Given those peculiarities, the syntax and semantics of $\pi$-calculi have been
 mechanised from an early age (see~\cite{Melham1994}) with many proof
 assistants and in so many encoding styles that it would take too long to
-review.  They range from concrete encodings based on named syntax
+review.
+\todo{However, there is no standard/consensus on what to do... elaborate}
+They range from concrete encodings based on named syntax
 \cite{Melham1994} to basic de Bruijn~\cite{Hirschkoff1997, Perera2018} and locally nameless
 representation %~\cite{Chargueraud2012}
 (\eg~\cite{Castro2020}).
@@ -304,7 +307,7 @@ approaches.
 
 The setting for our challenge is an untyped \(\pi\)-calculus augmented with
 replication of processes in order to enable infinite behaviours.  We do not
-include delegation since it is orthogonal to our
+include name passing since it is orthogonal to our
 primary aim of exploring coinductive proof techniques.  We base our
 definition of bisimilarity on a labelled transition system semantics
 and an observability predicate describing the communication steps
