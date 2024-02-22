@@ -92,8 +92,8 @@ years before the incorrect proof of type safety in the seminal paper
 by Honda et al.~\cite{Honda1998} was rectified in Yoshida and
 Vasconcelos’s subsequent work\cite{Yoshida2007}.\todo{Marco: rewrite this to be correct}
 Similarly, several key results in papers on session types have turned out
-to be false later on~\cite{Gay2020,10.1145/3290343}, illustrating the
-value of machine-checked proofs.\todo{Rephrase this sentence to be more clear on the references}
+to be false later on (as described in \eg \cite{Gay2020,10.1145/3290343}), illustrating the potential
+value of machine-checked proofs.
 
 While results about concurrent
 formalisms have already been mechanised (as we will discuss further
@@ -265,19 +265,19 @@ Given those peculiarities, the syntax and semantics of $\pi$-calculi have been
 mechanised from an early age (see~\cite{Melham1994}) with many proof
 assistants and in so many encoding styles that it would take too long to
 review.
-\todo{However, there is no standard/consensus on what to do... elaborate}
+Despite this, almost all of these mechanisations still rely on ad-hoc solutions to accommodate scope extrusion.
 They range from concrete encodings based on named syntax
 \cite{Melham1994} to basic de Bruijn~\cite{Hirschkoff1997, Perera2018} and locally nameless
 representation %~\cite{Chargueraud2012}
 (\eg~\cite{Castro2020}).
 Nominal approaches are also common (see~\cite{Bengtson2009}), but they
 may be problematic in proof assistants based on dependent types.
-Another approach is shallow embeddings~\cite{Castro-Perez2021}, which avoids the need to explicitly represent names.
+Another approach is shallow embeddings~\cite{Castro-Perez2021}, which avoids the need to explicitly represent names.\todo{Merge the previous sentence into the HOAS section?}
 The case study \cite{AmbalLS21} compares four approaches to encoding
 binders in Coq as a first step towards developing tools for working
 with higher-order process calculi.  They found that working directly
 with de Bruijn indices was easiest and shortest since the existing
-approaches developed for $\lambda$-calculus binders do not work well
+approaches developed for $\lambda$-calculus binders did not work well
 with scope extrusion.
 
 Higher-order abstract syntax (HOAS) has seen extensive and successful
