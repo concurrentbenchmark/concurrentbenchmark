@@ -163,9 +163,9 @@ The objective of this challenge is to prove subject reduction and type safety fo
 \begin{lemma}[Weakening]\mbox{}
   \label{lemma:weak}
   \begin{enumerate}
-  \item If \( \types{\Gamma; \Delta}{P} \) then
+  \item If \( \types{\Gamma; \Delta}{P} \), then
     \( \types{(\Cadd{\Gamma}{l});\Delta}{P} \).
-  \item If \( \types{\Gamma; \Delta}{P} \) % and \( \tend{\Delta} \)
+  \item If \( \types{\Gamma; \Delta}{P} \), % and \( \tend{\Delta} \)
     then
     \( \types{\Gamma;(\Cadd{\Delta}{\hastype{x}{\Tend}})}{P} \).
   \end{enumerate}
@@ -175,8 +175,8 @@ The objective of this challenge is to prove subject reduction and type safety fo
 \end{proof}
 \begin{lemma}[Strengthening]\mbox{}
   \label{lemma:strenD}
-  If \( \types{\Gamma; (\Cadd{\Delta}{\hastype{x}{T}})}{P} \) and
-  $x\not\in \freenames{P}$, then \( \types{\Gamma; \Delta}{P} \).
+  If \(\types{\Gamma; (\Cadd{\Delta}{\hastype{x}{T}})}{P}\) and
+  $x\not\in \freenames{P}$, then \(\types{\Gamma; \Delta}{P}\).
 \end{lemma}
 \begin{proof}
   By induction on the derivation of
@@ -247,7 +247,7 @@ To prove that congruence preserves typing we need to spell out in more detail th
 
 \begin{lemma}[Preservation for $\stackrel{a}{\equiv}$]
   \label{le:presequiva}
-  If \( \sconga{P}{Q} \) then \( \types{\Gamma;\Delta}{P} \)  iff \( \types{\Gamma;\Delta}{Q} \).
+  If \( \sconga{P}{Q} \), then \( \types{\Gamma;\Delta}{P} \)  iff \( \types{\Gamma;\Delta}{Q} \).
 \end{lemma}
 \begin{proof}
   By case analysis on the \TirName{Sc} rule applied:
@@ -273,7 +273,7 @@ transitivity the following condition:
 
 \begin{lemma}[Preservation for $\equiv$]
   \label{le:presequiv}
-    If \( \scong{P}{Q} \) then \( \types{\Gamma;\Delta}{P} \)  iff \( \types{\Gamma;\Delta}{Q} \).
+    If \( \scong{P}{Q} \), then \( \types{\Gamma;\Delta}{P} \)  iff \( \types{\Gamma;\Delta}{Q} \).
 \end{lemma}
 \begin{proof}
   By induction on the structure of the derivation of \( \scong{P}{Q} \), with an inner induction of the structure of a process context.
@@ -293,7 +293,7 @@ transitivity the following condition:
 \end{proof}
 
 \begin{theorem}[Subject reduction]
-  If \( \types{\Gamma;\Delta}{P} \) and \( \reduces{P}{Q} \) then \( \types{\Gamma;\Delta}{Q} \).
+  If \( \types{\Gamma;\Delta}{P} \) and \( \reduces{P}{Q} \), then \( \types{\Gamma;\Delta}{Q} \).
 \end{theorem}
 \begin{proof}
   By induction on the derivation of $\reduces{P}{Q}$. The cases \TirName{R-Par} and \TirName{R-Res} follow immediately by IH. Case \TirName{R-Struct} appeals twice to
@@ -356,5 +356,5 @@ is well formed but also irreducible.
 \end{proof}
 
 \begin{corollary}
-  If \( \types{\Gamma;\Cempty}{P} \) and \( \reduces{P}{Q} \) then \( Q \) is well formed.
+  If \( \types{\Gamma;\Cempty}{P} \) and \( \reduces{P}{Q} \), then \( Q \) is well formed.
 \end{corollary}
