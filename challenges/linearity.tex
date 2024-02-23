@@ -139,7 +139,7 @@ The typing rules for processes are as follows:
   \inferrule[T-Par]{\types{\Gamma;\Delta_1}{P} \\ \types{\Gamma;\Delta_2}{Q}}
   {\types{\Gamma; \Csplit{\Delta_1}{\Delta_2}}{\Ppar{P}{Q}}}
   \and
-  \inferrule[T-Res]{\types{\Gamma; (\Cadd{\Cadd{\Delta}{\hastype{x}{T}}}{\hastype{y}{\dual{T}}}}{P})}{\types{\Gamma;\Delta}{\Presd{x}{y}{P}}}
+  \inferrule[T-Res]{\types{\Gamma; (\Cadd{\Cadd{\Delta}{\hastype{x}{T}}}{\hastype{y}{\dual{T}}})}{P}}{\types{\Gamma;\Delta}{\Presd{x}{y}{P}}}
   \and
     \inferrule[T-Out]{
       \typev{\Gamma}{\hastype{v}{\Tbase}} \\ \types{\Gamma; \Cupdate{\Delta}{\hastype{x}{T}}}{P}}{\types{\Gamma; (\Csplit{\Delta}{\hastype{x}{\Tout{T}}})}{\Pout{x}{v}{P}}}
