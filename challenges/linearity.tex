@@ -228,13 +228,13 @@ To prove that congruence preserves typing we need to spell out in more detail th
   By case analysis on the \TirName{Sc} rule applied:
   \begin{description}
   \item[\TirName {Par-Comm/Assoc}] By rearranging sub-derivations noting that
-    order does not matter for linear contexts
+    order does not matter for linear contexts.
   \item[\TirName{Par-Inact}]
-   Right-to-left by strengthening~\ref{lemma:strenD}. Vice-versa,
-    by picking $T$ to be $\Tend$ and weakening~\ref{lemma:weak} part 2.
+   Right-to-left by Lemma~\ref{lemma:strenD}. Vice-versa,
+    by picking $T$ to be $\Tend$ and applying Lemma~\ref{lemma:weak}, part 2.
   \item[\TirName{Res-Par}] By case analysis on $x : T$ being linear or $\Tend$ and applying weakening and strengthening accordingly.
-  \item[\TirName{Res-Inact:}] Use weakening
-  \item[\TirName{Res}] Noting that order does not matter
+  \item[\TirName{Res-Inact:}] By Lemma~\ref{lemma:weak}.
+  \item[\TirName{Res}] Noting that order does not matter.
   \end{description}
 \end{proof}
 
@@ -255,7 +255,7 @@ transitivity the following condition:
   \begin{description}
   \item[\TirName {Refl}] Immediate
       \item[\TirName {Sym}] By IH.
-      \item[\TirName {Trans}]  By two appeal to the IH
+      \item[\TirName {Trans}]  By two appeals to the IH.
       \item[\TirName {Cong}] By induction on the structure of $C$. If
         the context is a hole, apply Lemma~\ref{le:presequiva}. In the
         step case, apply the IH: for example if $C$ has the form
