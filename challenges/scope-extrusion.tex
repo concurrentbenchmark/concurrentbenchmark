@@ -1,4 +1,4 @@
-\subsection{Challenge: Name passing and scope extrusion}
+\subsection{Challenge: Name Passing and Scope Extrusion}
 \label{sec:challenge:name-passing-scope-extrusion}
 
 This challenge formalises a proof that requires explicit scope extrusion.
@@ -46,7 +46,7 @@ This simplifies the theory and is orthogonal to the concept of scope extrusion.
 % As a convention, we assume that the bound names occurring in any collection of processes are chosen to be different from the free names occurring in those processes and from the names occurring in any substitutions applied to the processes.
 % This is justified because any overlapping names may be \( \alpha \)-converted such that the assumption is satisfied.
 
-\subsubsection{Reduction semantics.}
+\subsubsection{Reduction Semantics.}
 The first semantics is an operational reduction semantics, which avoids reasoning explicitly about scope extrusion by way of a structural congruence rule.
 \emph{Structural congruence} is the smallest congruence relation that satisfies the following axioms:
 
@@ -79,7 +79,7 @@ Note also that due to rule \TirName{R-Com}, the process \( \Pin{x}{z}{P} \) can 
 Finally, note that rule \TirName{R-Struct} allows for applying the structural congruence both before and after the reduction:
 this makes the reduction relation closed under structural congruence.
 
-\subsubsection{Transition system semantics.}
+\subsubsection{Transition System Semantics.}
 The second semantics of the system describe the actions that the system can perform by defining a labelled transition relation on processes.
 The transitions are labelled by \emph{actions}, the syntax of which is:
 \[

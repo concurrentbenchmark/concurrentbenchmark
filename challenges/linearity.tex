@@ -1,4 +1,4 @@
-\subsection{Challenge: Linearity and behavioural type systems}
+\subsection{Challenge: Linearity and Behavioural Type Systems}
 \label{sec:challenge:linearity-beh-types}
 This challenge formalises a proof that requires reasoning about the linearity of channels.
 Linearity is the notion that a channel must be used exactly once by a process.
@@ -71,7 +71,7 @@ Note that reductions are allowed only for restricted pairs of session endpoints.
 Note also that due to rule \TirName{R-Com}, the process \( \Pin{y}{l}{P} \) can receive \emph{any} base value.
 Since the rule \TirName{R-Com} only applies to sending base values, there is no way to send a variable or a name.
 
-\subsubsection{Session types.}
+\subsubsection{Session Types.}
 Our process syntax allows us to write processes that are ill formed in
 the sense that they either use the endpoints bound by a restriction to
 communicate in a way that does not follow the intended duality, or
@@ -121,7 +121,7 @@ Since we need to determine whether endpoints are used in complementary ways to d
 \end{mathpar}
 Note that the dual function is partial since it is undefined for the base type.
 
-\subsubsection{Typing rules.}
+\subsubsection{Typing Rules.}
 Our type system is aimed at maintaining two invariants:
 \begin{enumerate}
 \item No endpoint is used simultaneously by parallel processes;
