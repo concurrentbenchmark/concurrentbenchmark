@@ -73,9 +73,9 @@ POPLMark Reloaded~\cite{POPLMarkReloaded} introduced a similar programme, target
 These initiatives had a narrow focus, but their authors recognised the importance of addressing topics such as coinduction and linearity in the future.
 
 In this spirit, we introduce a new collection of benchmark challenges
-specifically crafted to tackle common challenges encountered during
+crafted to tackle common challenges encountered during
 the mechanisation of formal models of concurrent and distributed
-programming languages.  We particularly focus on process calculi, as
+programming languages.  We focus on process calculi, as
 they provide a simple but realistic showcase of these challenges.  Concurrent calculi are
 notably subtle: for instance, it took some years before an incorrect
 subject reduction proof in the original paper on session
@@ -108,14 +108,14 @@ We have begun collecting solutions to our challenges on our website:
 \begin{center}
   \url{https://concurrentbenchmark.github.io/}
 \end{center}
-In the future, we intend to use the website to promote best practices and tutorials derived from solutions to our challenges.
+We intend to use the website to promote best practices and tutorials derived from solutions to our challenges.
 We encourage readers to try the challenges using their favourite techniques, and to send us their solutions.
 
 \section{Overview and Design Considerations}\label{sec:design-discussion}
 In this section, we outline the factors considered when designing the benchmark challenges.
-We begin with some general remarks, then describe the individual design considerations for each challenge, and the criteria for evaluating solutions thereof.
+We begin with some general remarks, then describe the individual design considerations for each challenge, and the criteria for evaluating solutions.
 
-Similarly to the authors of the POPLMark challenges, we seek to answer several questions:
+Similarly to the authors of POPLMark, we seek to answer several questions:
 \begin{enumerate}[label=\textbf{(Q\arabic*)},leftmargin=10mm]
 \item\label{item:rq1} What is the current state of the art in the mechanisation of  the meta-theory of process calculi?
 \item\label{item:rq2} Which techniques and best practices can be recommended when starting new mechanisation projects involving process calculi?
@@ -137,8 +137,7 @@ To provide a framework in which to answer these questions, our benchmark is desi
 \end{enumerate}
 We also aim at strengthening the culture of mechanisation, by rallying the community to collaborate on exploring and developing new tools and techniques.
 
-To achieve design goal \ref{item:goal-comperison-accessibility}, we have
-formulated our challenges to explore the three aspects
+To achieve design goal \ref{item:goal-comperison-accessibility}, our challenges explore the three aspects
 (linearity, scope extrusion, coinduction) independently, so that they
 may be solved individually and in any order; each challenge is
 reasonably small and easily understandable with basic knowledge of
@@ -146,9 +145,9 @@ textbook concurrency theory, process calculi, and type theory.  The
 process calculi used in the challenges focus on the features that
 we want to emphasise, and omit all constructs that would complicate the mechanisation without bringing additional
 tangible insights.  The minimality and uniformity of the
-calculi also allows us to target design goal
+calculi allows us to target design goal
 \ref{item:goal-tutorials}.
-Aligned with design goal~\ref{item:goal-reusability}, our challenges are rooted in the fundamental meta-theory of process calculi, without necessitating the creation of novel theory.
+Aligned with design goal~\ref{item:goal-reusability}, our challenges concern the fundamental meta-theory of process calculi.
 Our challenges centre around well-established theorems and results, showcasing interesting proof techniques that can be leveraged in many applications (as we will further discuss in \cref{sec:going-beyond}).
 
 \subsection{Linearity}
@@ -168,9 +167,7 @@ reflected in the type system. We model a simple notion of error: a well-typed
 processes must never use dual channel endpoints in a non-dual way (\eg by
 performing concurrent send/receive operations on the same endpoint, or two
 concurrent send operations on both endpoints).
-The operational semantics is formulated as a standard reduction relation. Thus,
-proving subject reduction requires proving type preservation for structural
-congruence.
+The operational semantics is a standard reduction relation. Proving subject reduction thus requires proving type preservation for structural congruence.
 
 We designed this challenge to focus on linear reasoning while minimising
 definitions and other concerns.  We therefore forgo name passing:
@@ -186,21 +183,21 @@ representation of the linear typing context.  While a linear context is perhaps
 best seen as a multiset, most proof assistants have better support for list
 processing.  The latter representation is intuitive, but may require
 establishing a large number of technical lemmata that are orthogonal to the
-problem under study (in our case, proving type safety for
-session types).  In this space, several designs are possible: one can label
+problem under study (in our case, proving type safety for session types).
+Several designs are possible: one can label
 occurrences of resources to constrain their usage (\eg~\cite{CicconeP20}), or impose a multiset structure over lists
 (\eg~\cite{Danielsson12,ChaudhuriLR19}). Alternatively, contexts can be
 implemented as finite maps (as in \cite{Castro2020}), whose operations are
 sensitive to a linear discipline. In all these cases, the effort required to
 develop the infrastructure is significant.
 One alternative strategy is to bypass the problem of context splitting
-by adopting familiar ideas from algorithmic linear type checking. This
-approach, referred to as ``typing with leftovers,'' is exemplified
-in~\cite{DBLP:conf/forte/ZalakainD21}.    Similarly, one
-could eliminate context splitting by delegating linearity checks to a
-\emph{linear predicate} defined on the process structure (\eg~\cite{BP23}). These checks 
-serve as additional conditions within the typing rule. Whatever the choice,
-list-based encodings can be refined to be intrinsically-typed, if the
+by adopting ideas from algorithmic linear type checking. This
+approach, known as ``typing with leftovers,'' is exemplified
+in~\cite{DBLP:conf/forte/ZalakainD21}.
+Similarly, context splitting can be eliminated by delegating linearity checks to a
+\emph{linear predicate} defined on the process structure (\eg~\cite{BP23}).
+These checks serve as additional conditions within the typing rule.
+Whatever the choice, list-based encodings can be refined to be intrinsically-typed if the
 proof assistant supports dependent types
 (see~\cite{Thiemann2019,CicconeP20,RouvoetPKV20}).
 
@@ -242,16 +239,15 @@ extensively studied with respect to $\lambda$-calculi. Process calculi
 present additional challenges, typically including several
 different binding constructs: inputs bind a received name or value,
 recursive processes bind recursion variables, and restrictions bind
-names. The first two act similarly to the binders known from
+names. The first two act similarly to the binders in
 $\lambda$-calculi, but restrictions may be more challenging due to
 scope extrusion.
 Scope extrusion requires reasoning about free variables, so approaches that identify \(\alpha\)-equivalent processes cannot be directly applied.
 
 Given those peculiarities, the syntax and semantics of $\pi$-calculi have been 
 mechanised from an early age (see~\cite{Melham1994}) with many proof
-assistants and in so many encoding styles that it would take too long to
-review.
-Despite this, almost all of these mechanisations still rely on ad-hoc solutions to accommodate scope extrusion.
+assistants and in many encoding styles.
+Despite this, almost all of these mechanisations rely on ad-hoc solutions to encode scope extrusion.
 They range from concrete encodings based on named syntax
 \cite{Melham1994} to basic de Bruijn~\cite{Hirschkoff1997, Perera2018} and locally-nameless
 representation (\eg~\cite{Castro2020}).
@@ -264,14 +260,14 @@ with de~Bruijn indices was easiest since the existing
 approaches developed for $\lambda$-calculus binders worked poorly 
 with scope extrusion.
 
-Higher-order abstract syntax (HOAS) has seen extensive and successful
+Higher-order abstract syntax (HOAS) has seen extensive
 use in formal reasoning in this area~\cite{Despeyroux2000,Honsell2001,Tiu2010,ChaudhuriCM15,Castro-Perez2021}. Its
 weak form aligns well with mainstream inductive proof assistants,
 significantly simplifying the encoding of typing systems and operational
 semantics. However, when addressing more intricate concepts like
 bisimulation, extensions to HOAS are needed. These extensions may take
 the form of additional axioms~\cite{Honsell2001} or require specialised proof assistants
-like Abella, which introduces a dedicated quantifier for handling
+like Abella, which uses a special quantifier for handling
 properties related to names~\cite{GacekMN11}.
 
 \subsection{Coinduction}
@@ -281,7 +277,7 @@ adopt infinite behaviours.  Coinduction serves as a fundamental method
 for the definition and analysis of infinite objects, enabling the
 examination of their behaviours.
 
-The goal of our challenge on coinductive reasoning is proving that
+The goal of our challenge on coinductive reasoning is to prove that
 \emph{strong barbed bisimilarity} can be turned into a congruence by making
 it sensitive to substitution and parallel composition. The crux of our
 challenge is the effective use of coinductive up-to techniques.  The
@@ -291,13 +287,12 @@ approaches.
 
 The setting for our challenge is an untyped \(\pi\)-calculus augmented with
 process replication in order to enable infinite behaviours.  We do not
-include name passing since it is orthogonal to our
-primary aim of exploring coinductive proof techniques.  We base our
-definition of bisimilarity on a labelled transition system semantics
+include name passing since it is orthogonal to our  aim of exploring coinductive proof techniques.
+We base our definition of bisimilarity on a labelled transition system semantics
 and an observability predicate describing the communication steps
 available to a process.  The introduction of strong barbed
-bisimulation is one of the first steps when studying the observable
-behaviour of process calculi, both in classical textbooks (e.g.,
+bisimulation is one of the first steps when studying the
+behaviour of process calculi, both in textbooks (e.g.,
 \cite{picalcbook}) and in existing mechanisations.  Though weak barbed
 congruence is a more common behavioural equivalence, we prefer strong
 equivalences to simplify the theory by avoiding the need to abstract
@@ -334,7 +329,7 @@ Solutions to our challenges need not strictly follow the definitions and lemmata
 
 \section{Future Work and Conclusions}\label{sec:going-beyond}
 Our benchmark challenges do not cover all issues in the field, but focus on the fundamental aspects of linearity, scope extrusion, and coinduction.
-Many mechanisations need to combine techniques to handle several of these aspects at once, and some may also need to handle aspects that are not covered by our benchmark challenges at all.
+Many mechanisations need to combine techniques to handle several of these aspects, and some may also need to handle aspects that are not covered by our benchmark.
 
 Combining techniques for mechanising the fundamental aspects covered in our benchmark is often not trivial.
 While we have chosen to focus on the aspects individually to simplify the challenges, we are of course also interested in exploring how techniques interact.
