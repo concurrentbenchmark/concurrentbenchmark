@@ -1,37 +1,19 @@
 \subsection{Challenge: Coinduction and Infinite Processes}
-% and reasoning about infinite processes}
 \label{sec:challenge:coinduction}
 
-% \marco{Why reasoning is only about infinite processes? Would it be
-%   unreasonable to shorten the title to {\em Coinduction and infinite
-%     processes}?}
-
 This challenge is  about the mechanisation of proofs concerning processes wih infinite behaviours.
-% formalises a proof
-%that require coinduction.
-% coinductive techniques.
-%
-% Coinduction is a proof technique for infinite structures,
 This is usually connected to \emph{coinductive} definitions where an infinite
 structure is defined as the greatest fixed point of a recursive
 definition.
 %
 Coinduction is a technique for defining and proving properties of
 such infinite structures.
-%
-% \marco{Should we be more specific here and give a deeper explanation
-%   of what coinduction is? If not, then why do we even say that it's
-%   the dual of induction?}
-%
 
 For this challenge, we adopt a fragment of the untyped $\pi$-calculus
 that includes process replication.
-% The setting for this challenge is an untyped calculus of
-% communicating systems with replication of processes, the syntax and
-% semantics of which are presented below.
-The objective of this challenge is to % prove % a context theorem for
+The objective of this challenge is to
 draw a formal connection between strong barbed congruence and strong
-barbed bisimilarity.  % I.e., The context lemma
+barbed bisimilarity.
 The result establishes that two processes are strong barbed congruent
 if the processes obtained by applying a finite number of substitutions to
 them and composing them in parallel with an arbitrary process are
@@ -39,13 +21,7 @@ strongly barbed bisimilar.
 The key issue of this challenge is the coinductive reasoning about the infinite behaviours of the replication operator.
 
 \subsubsection{Syntax.}
-% We assume the existence of some type of \emph{base values}, values
-% of which we will denote by \( a, b, \dots \), the existence of some
-% type of \emph{variables}, values of which we will denote by
-% \( l, m, \dots \), and the existence of some type of \emph{names},
-% values of which we will denote by \( x, y, \dots \).
 The syntax of values and processes is given by:
-% for including replication and having unary restriction:
 \begin{displaymath}
   \begin{array}{r@{\qquad}c@{\qquad}l}
     v,w & \Coloneqq & a \quad\mid\quad l \\
@@ -63,74 +39,12 @@ The input process \( \Pin{x}{l}{P} \) waits for a base value from channel \( x \
 Since replication allows for infinite copies of the process $P$, processes can dynamically
 create an infinite number of names during execution.
 
-%
-% \begin{align*}
-%   v,w :=&&& a \\
-%   |&&& l \\
-%   P,Q :=&&& \Pend \\
-%   |&&& \Pout{x}{v}{P} \\
-%   |&&& \Pin{x}{l}{P} \\
-%   |&&& \Ppar{P}{Q} \\
-%   |&&& \Pres{x}{P} \\
-%   |&&& \Preplicate{P}
-% \end{align*}
-% A \emph{value} \( v, w, \dots \) is either a base value \( a \) or a
-% variable \( l \).  The process \( \Pend \) is \emph{inaction}:
-% a process which can do nothing.  The process \( \Pout{x}{a}{P} \) is
-% an \emph{output}, which can send the value \( v \) via \( x \), then
-% continue as \( P \).  The intention is that the value \( v \) must
-% be a base value when it is actually sent, and this will be enforced
-% in the semantics later on.  The process \( \Pin{x}{l}{P} \) is an
-% \emph{input}, which can receive a base value via \( x \), then
-% continue as \( P \) with the received value substituted for the
-% variable \( l \).  The input operator thus binds the variable
-% \( l \) in \( P \).  The process \( \Ppar{P}{Q} \) is the
-% \emph{composition} of process \( P \) and process \( Q \).  The two
-% components can proceed independently of each other, or they can
-% interact via shared names.  The process \( \Pres{x}{P} \) is the
-% \emph{restriction} of the name \( x \) to \( P \).  Components in
-% \( P \) can use the name \( x \) to interact with each other, but
-% not with processes outside of the restriction.  The restriction
-% operator thus binds the name \( x \) in \( P \).  Note that the
-% scope of a restriction may not change when processes interact, since
-% it is only possible to send and receive values, and not names.  The
-% process \( \Preplicate{P} \) is the \emph{replication} of the
-% process \( P \).  It can be thought of as the infinite composition
-% \( \Ppar{P}{\Ppar{P}{\cdots}} \).  Replication makes it possible to
-% express infinite behaviours.
-
-% We will use the notation \( \subst{P}{v}{l} \) to denote the process
-% \( P \) with value \( v \) substituted for variable \( l \).
-
-% % We will use the notation \( \subst{P}{v}{w} \) to denote the process \( P \) with value \( v \) substituted for value \( w \).
-% Two processes \( P \) and \( Q \) are \( \alpha \)-convertible,
-% written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from
-% \( P \) by a finite number of substitutions of bound variables.
-% As a convention, we will identify \( \alpha \)-convertible
-% processes.
-
-% Also as a convention, we assume that the bound names and bound
-% variables occurring in any collection of processes are chosen
-% to be different from the free names and free variables
-% occurring in those processes and from the names and variables
-% occurring in any substitutions applied to the processes.  This is
-% justified because any overlapping names and variables may be
-% \( \alpha \)-converted such that the assumption is satisfied.
 
 \subsubsection{Semantics.} We choose to give an LTS semantics for this
-challenge. %As an alternative, it is also possible to adopt a reduction
-%semantics which features fewer rules but needs a structural
-%congruence. %  The semantics of the system describes the actions that the
-% system can perform by defining a labelled transition relation on
-% processes.
+challenge.
 
 The transitions are labelled by \emph{actions}, the syntax
 of which is as follows:
-% \begin{align*}
-%   \alpha := &&& \Aoutf{x}{a} \\
-%   |&&& \Ain{x}{a} \\
-%   |&&& \Atau
-% \end{align*}
 \begin{align*}
   \alpha\ \Coloneqq\ \ \Aoutf{x}{a} \ \mid\ \Ain{x}{a} \ \mid\ \Atau
 \end{align*}
@@ -164,11 +78,8 @@ Note that there is no rule for inferring transitions from \( \Pend \), and that 
 Note also that due to rule \TirName{In}, the process \( \Pin{x}{l}{P} \) can receive \emph{any} base value.
 Since the rule \TirName{Out} only applies to base values, there is no way to send a variable.
 
-% As a convention, we assume that bound names and bound variables of any processes or actions are chosen to be different from the names and variables that occur free in any other entities under consideration, such as processes, actions, substitutions, and sets of names or variables.
-
 \subsubsection{Strong Barbed Bisimilarity.}
 Bisimilarity is a notion of equivalence for processes and
-% .  Our notion of process equivalence relations
 builds on a notion of \emph{observables}, i.e., what we can externally
 observe from the semantics of a process. If we allowed ourselves only to observe
 internal transitions (i.e., observe that a process is internally
@@ -200,22 +111,14 @@ Two processes are said to be \emph{strong barbed bisimilar}, written
 $\mathcal R$ such that $(P,Q)\in\mathcal R$. Note that {\em strong
   barbed bisimilarity} \( \sbbisim{}{} \) is the largest strong barbed
 bisimulation.
-% symmetric relation such that, whenever \( \sbbisim{P}{Q} \):
-% \begin{gather}
-%   \observable{P}{\mu}~\textrm{implies}~\observable{Q}{\mu}\label{eq:bisim1} \\
-%   \transition{P}{\Atau}{P'}~\textrm{implies}~\transition{Q}{\Atau}{\sbbisim{}{} P'}\label{eq:bisim2}
-% \end{gather}
-% We say that a relation is a \emph{strong barbed bisimulation} if it satisfies the conditions given above, but is not necessarily the largest such relation, and that \( P \) and \( Q \) are \emph{strong barbed bisimilar} if \( \sbbisim{P}{Q} \).
 Also, since our processes have potentially infinite behaviours,
 bisimilarity cannot be defined inductively since it is the largest
 strong barbed bisimulation.
 
 \begin{theorem}
-  \( \sbbisim{}{} \) is an equivalence relation. %that is, the relation is reflexive, symmetric, and transitive.
+  \( \sbbisim{}{} \) is an equivalence relation.
 \end{theorem}
 \begin{proof}
-  % We need to prove that $\sbbisim{}{}$ is reflexive, symmetric, and
-  % commutative.
   We prove the three properties separately: 
   \begin{itemize}
   \item Reflexivity is straightforward: for any $P$, we need to show
@@ -225,7 +128,6 @@ strong barbed bisimulation.
     definition. Condition~\ref{eq:bisim2} follows coinductively since
     we must always reach identical pairs.
   \item Symmetry follows immediately by definition.
-%    since bisimilarity is defined as a {\em symmetric} relation.
   \item For transitivity, we need to prove that if $P\sbbisim{}{} Q$
     and $Q\sbbisim{}{} R$ then $P\sbbisim{}{} R$. In order to do so,
     we prove that the relation
@@ -247,8 +149,6 @@ strong barbed bisimulation.
 Unfortunately, strong barbed bisimilarity is not a good process
 equivalence since it is not a congruence, hence it does not allow for
 substituting a process with an equivalent one in any context.
-% equivalent processes to be since it does not consider the
-% environment of processes.
 For instance, the processes $\Pout{x}{a}{\Pout{y}{b}{\Pend}}$ and
 $\Pout{x}{a}{\Pend}$ are strong barbed bisimilar, i.e.,
 $\sbbisim{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pout{x}{a}{\Pend}}$. This
@@ -261,34 +161,11 @@ $\nsbbisim{\Ppar{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pin{x}{l}{\Pend}}}{\Pout{x}{a
 because the left process can perform a \( \Atau \)-action such that
 \( \obsout{y} \) becomes observable, whereas the right process cannot.
 
-% For instance,
-% \( \sbbisim{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pout{x}{a}{\Pend}} \)
-% since \( \obsout{x} \) is the only observable in both processes and
-% they cannot perform a \( \Atau \)-action, but
-% \(
-% \nsbbisim{\Ppar{\Pout{x}{a}{\Pout{y}{b}{\Pend}}}{\Pin{x}{l}{\Pend}}}{\Pout{x}{a}{\Pend}}
-% \) since the left process can perform a \( \Atau \)-action such that
-% \( \obsout{y} \) becomes observable, whereas the right process cannot.
-
-% \subsubsection{Contexts and congruences}
-% Before we can fix the issue with strong barbed bisimilarity, we need few more definitions.
-
-% A \emph{context} is obtained by taking a process and replacing a single occurrence of \( \Pend \) in it with the special \emph{hole} symbol \( \ctxhole \).
-% As a convention, we do \emph{not} identify \( \alpha \)-convertible contexts.
-
-% We can think of contexts as functions between processes.
-% A context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
-% The replacement should be literal, so names and variables that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
-
-% We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).
-
 \subsubsection{Strong Barbed Congruence.}
 In order to detect cases like the one above, we need to restrict strong barbed bisimilarity so that it becomes a congruence,
-i.e., % we need to make strong barbed bisimilarity consider
+i.e.,
 we have to consider the environment in which processes may be placed.
-% (i.e.\ the context) of processes.
 
-% We define \emph{strong barbed congruence}, written \( \sbcong{}{} \), by saying
 We say that two processes \( P \) and \( Q \) are \emph{strong barbed congruent}, written \( \sbcong{P}{Q} \), if \( \sbbisim{\applyctx{C}{P}}{\applyctx{C}{Q}} \) for every context \( C \).
 
 \begin{lemma}

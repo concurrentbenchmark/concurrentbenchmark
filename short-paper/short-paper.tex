@@ -55,7 +55,6 @@
 \begin{abstract}
   POPLMark and POPLMark Reloaded sparked a flurry of work on machine-checked proofs, and fostered the adoption of proof mechanisation in programming language research.
   Both challenges were purposely limited in scope, and their benchmark challenges do not address concurrency-related issues.
-  %
   We propose a new collection of benchmark challenges focused on the difficulties that typically arise when mechanising formal models of concurrent and distributed programming languages, such as process calculi.
   Our benchmark challenges address three key topics: linearity, scope extrusion, and coinductive reasoning.
   The goal of this new challenge is to clarify, compare, and advance the state of the art, fostering the adoption of proof mechanisation in future research on concurrency.
@@ -106,11 +105,9 @@ see the combination of techniques as a next
 step, as discussed in \cref{sec:going-beyond}.
 
 We have begun collecting solutions to our challenges on our website:
-%
 \begin{center}
   \url{https://concurrentbenchmark.github.io/}
 \end{center}
-%
 In the future, we intend to use the website to promote best practices and tutorials derived from solutions to our challenges.
 We encourage readers to try the challenges using their favourite techniques, and to send us their solutions.
 
@@ -196,8 +193,6 @@ occurrences of resources to constrain their usage (\eg~\cite{CicconeP20}), or im
 implemented as finite maps (as in \cite{Castro2020}), whose operations are
 sensitive to a linear discipline. In all these cases, the effort required to
 develop the infrastructure is significant.
-%\todo{Consider adding material on linearity predicates}
-%
 One alternative strategy is to bypass the problem of context splitting
 by adopting familiar ideas from algorithmic linear type checking. This
 approach, referred to as ``typing with leftovers,'' is exemplified
@@ -208,7 +203,6 @@ serve as additional conditions within the typing rule. Whatever the choice,
 list-based encodings can be refined to be intrinsically-typed, if the
 proof assistant supports dependent types
 (see~\cite{Thiemann2019,CicconeP20,RouvoetPKV20}).
-%
 
 A radically different approach is to adopt a \emph{substructural}
 meta-logical framework, which handles resource
@@ -260,8 +254,7 @@ review.
 Despite this, almost all of these mechanisations still rely on ad-hoc solutions to accommodate scope extrusion.
 They range from concrete encodings based on named syntax
 \cite{Melham1994} to basic de Bruijn~\cite{Hirschkoff1997, Perera2018} and locally-nameless
-representation %~\cite{Chargueraud2012}
-(\eg~\cite{Castro2020}).
+representation (\eg~\cite{Castro2020}).
 Nominal approaches are also common (see~\cite{Bengtson2009}), but they
 may be problematic in proof assistants based on dependent types.
 The case study \cite{AmbalLS21} compares four approaches to encoding
@@ -325,38 +318,6 @@ more ``set-theoretic'' approach
 use both and establish an internal adequacy~\cite{Honsell2001}. Few
 extend the proof assistant foundations to allow, \eg, reasoning about
 bisimilarity up-to~\cite{ChaudhuriCM15}.
-% While many proof assistants support
-% coinductive techniques,   but they support subtly different formalisms that enable different techniques, and some systems provide more than one abstraction to use coinduction.
-% We thus see a variety of different formalisation choices for
-% bisimulations, sometimes ad-hoc for the specific result.
-
-% \todo{Reorganize the rest of this section to be more coherent}
-% Isabelle, Coq, and Abella seamlessly support coinductive definitions and reasoning.
-% Agda and Beluga support it through the convenient abstraction of co-patterns~\cite{Abel2013}.
-% Newer entrants to the field like the Lean proof assistant
-% are working on adding a notion of coinduction to their system~\cite{Avigad2019}.\alb{I kinda object to ``seamlessly''. In Coq it's a mess, in Abella very very limited, sized types in Agda are shaky. I guess Isabelle is better}
-% =======
-% Process calculi often include constructs that allow processes to have infinite behaviours.
-% Coinduction is a fundamental technique for defining and reasoning about infinite objects, and it can thus be used to reason about these behaviours.
-% While many proof assistants support coinductive techniques, using them is notoriously difficult, and representations and proof techniques vary widely.
-% The crux of our challenge is the effective use of coinductive up-to techniques.
-% The intention is that it should be easy to use the bisimulation relation and its properties, but this may be difficult with some mechanisation approaches.
-
-% The goal of our challenge on coinductive reasoning is proving that strong barbed bisimilarity can be turned into a congruence by making it sensitive to substitution and parallel composition.
-% The setting for our challenge is an untyped \(\pi\)-calculus with replication of processes enabling infinite behaviours.
-% We do not include delegation in the calculus since it is orthogonal to our primary aim of exploring coinductive proof techniques.
-% We base our definition of bisimilarity on a labelled transition system semantics and an observability predicate describing the communication steps available to a process.
-% The introduction of strong barbed bisimulation is one of the first steps when studying the observable behaviour of process calculi, both in classical textbooks (\eg \cite{picalcbook}) and in existing mechanisations.
-% Though weak barbed congruence is a more common behavioural equivalence, we prefer strong equivalences to simplify the theory by avoiding the need to abstract over the number of internal transitions in a trace.
-
-% Coinduction is widely supported in proof assistants, but they support subtly different formalisms that enable different techniques, and some systems provide more than one abstraction to use coinduction.
-% We thus see a variety of different formalisation choices for bisimulations, sometimes ad-hoc for the specific result.
-
-% \todo{Reorganize the rest of this section to be more coherent}
-% Isabelle, Coq, and Abella seamlessly support coinductive definitions and reasoning.
-% Agda and Beluga support it through the convenient abstraction of co-patterns~\cite{Abel2013}.
-% Newer entrants to the field like the Lean proof assistant
-% are working on adding a notion of coinduction to their system~\cite{Avigad2019}.\alb{I kinda object to ``seamlessly''. In Coq it's a mess, in Abella very very limited, sized types in Agda are shaky. I guess Isabelle is better}
 
 \subsection{Evaluation Criteria.}
 The motivation behind our benchmark is to obtain evidence towards answering
@@ -371,25 +332,14 @@ challenges should be compared on three axes:
 \end{enumerate}
 Solutions to our challenges need not strictly follow the definitions and lemmata set out in the challenge text, but solutions which deviate from the original challenges must present more elaborate argumentation for their adequacy.
 
-
-% - Going beyond the challenge problems
-%   - We do not aim to be comprehensive, but the techniques should also be useful for other things
-%   - Our challenges are independent, but they can also be combined
-%   - Our challenges are basic textbook theory, so they can form the basis for many extensions
-%   - Our aim is to see a future where ``the basics'' are as trivial in mechanisations as they are on paper
-
-% We previously promise to discuss combinations of techniques and applications to more elaborate schemes
-%\section{Going Beyond the Challenge Problems}\label{sec:going-beyond}
 \section{Future Work and Conclusions}\label{sec:going-beyond}
 Our benchmark challenges do not cover all issues in the field, but focus on the fundamental aspects of linearity, scope extrusion, and coinduction.
 Many mechanisations need to combine techniques to handle several of these aspects at once, and some may also need to handle aspects that are not covered by our benchmark challenges at all.
 
-%%% Combinations
 Combining techniques for mechanising the fundamental aspects covered in our benchmark is often not trivial.
 While we have chosen to focus on the aspects individually to simplify the challenges, we are of course also interested in exploring how techniques interact.
 Some authors have already described the difficulties that combining techniques may induce in a mechanisation, \eg~\cite{DBLP:conf/forte/ZalakainD21}.\todo{Add more references here?}
 
-%%% Other aspects
 Much current research on concurrent calculi includes aspects that are not covered by our benchmark challenges.
 Features that are in wide use, but not covered by our benchmark, include choice constructs and recursion.
 Some interesting research topics that build on the fundamental aspects in our benchmark include multiparty session types~\cite{10.1145/2827695}, choreographies~\cite{Carbone2013}, higher-order calculi~\cite{Hirsch2022}, conversation types~\cite{DBLP:journals/tcs/CairesV10}, psi-calculi~\cite{lmcs:696}, and encodings between different calculi~\cite{DBLP:journals/iandc/Gorla10,DBLP:journals/iandc/DardhaGS17}.
@@ -401,7 +351,6 @@ Coinduction may also play a role in recursive processes and session types: recur
 Unlike POPLMark, we consider \emph{animation} of calculi (as in \cite{Castro-Perez2021}) out of scope for our benchmark.
 Finally, our challenges encourage, but do not require, exploring proof automation, as offered by \eg the \emph{Hammer} protocol~\cite{BohmeN10,CzajkaK18}.
 
-%%% Conclusion
 Ultimately, the fundamental aspects covered by our benchmark serve as the building blocks for most current research on concurrenct calculi.
 It is our hope and aim that exploring solutions to our challenges will move the community closer to a future where the key basic proof techniques for concurrent calculi are as easy to mechanise as they are to write on paper.
 

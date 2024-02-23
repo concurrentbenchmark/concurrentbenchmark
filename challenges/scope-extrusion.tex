@@ -22,29 +22,12 @@ The syntax of processes is given by:
 \]
 
 
-%The process \( \Pend \) is \emph{inaction}: a process which can do nothing.
 The process \( \Pout{x}{y}{P} \) is an \emph{output}, which can send the name \( y \) via \( x \), then continue as \( P \).
 The process \( \Pin{x}{y}{P} \) is an \emph{input}, which can receive a name via \( x \), then continue as \( P \) with the received name substituted for \( y \).
 The input operator thus binds the name \( y \) in \( P \).
-% The process \( \Ppar{P}{Q} \) is the \emph{composition} of process \( P \) and process \( Q \).
-% The two components can proceed independently of each other, or they can interact via shared names.
-% The process \( \Pres{x}{P} \) is the \emph{restriction} of the name \( x \) to \( P \).
-% Components in \( P \) can use the name \( x \) to interact with each other, but not with processes outside of the restriction.
-% The restriction operator thus binds the name \( x \) in \( P \).
 Note that the scope of a restriction may change when processes interact. Namely, a restricted name may be sent \emph{outside} of its scope.
-% The process \( \Pchoice{P}{Q} \) is a non-deterministic \emph{choice} between continuing as the process \( P \) or as the process \( Q \).
 Note that there is no recursion or replication in the syntax, and thus no infinite behaviours can be expressed.
 This simplifies the theory and is orthogonal to the concept of scope extrusion.
-
-% We will use the notation \( \freenames{P} \) to denote the set of names that occur free (i.e.\ not bound by a restriction or an input) in \( P \).
-% We will use the notation \( \boundnames{P} \) to denote the set of names that occur bound (by a restriction or an input) in \( P \).
-% We will use the notation \( \subst{P}{x}{y} \) to denote the process \( P \) with \( x \) substituted for \( y \).
-
-% Two processes \( P \) and \( Q \) are \( \alpha \)-convertible, written \( \alphacon{P}{Q} \), if \( Q \) can be obtained from \( P \) by a finite number of substitutions of bound names.
-% As a convention, we will identify \( \alpha \)-convertible processes.
-
-% As a convention, we assume that the bound names occurring in any collection of processes are chosen to be different from the free names occurring in those processes and from the names occurring in any substitutions applied to the processes.
-% This is justified because any overlapping names may be \( \alpha \)-converted such that the assumption is satisfied.
 
 \subsubsection{Reduction Semantics.}
 The first semantics is an operational reduction semantics, which avoids reasoning explicitly about scope extrusion by way of a structural congruence rule.

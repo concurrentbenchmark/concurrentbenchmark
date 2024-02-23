@@ -20,7 +20,6 @@ We assume that all of these sets are infinite and that their elements can be com
 The syntax of processes includes:
 the process \( \Pend \) or \emph{inaction}, a process which can do nothing. The process \( \Ppar{P}{Q} \) is the \emph{parallel composition} of process \( P \) and process \( Q \).
 The two components can proceed independently of each other, or they can interact via shared names.
-%The process \( \Pchoice{P}{Q} \) is a non-deterministic \emph{choice} between continuing as the process \( P \) or as the process \( Q \).
 
 For communication, processes include \emph{input} and \emph{output}, whose
 signature signature depends on the calculus being value-passing or name-passing.
@@ -28,9 +27,7 @@ We use here the metavariables $c,k$ to abstract over this choice
 --- i.e.~$c$ may be either a value or a variable or a name, whereas $k$ may
 be a variable or a name.
 The process \( \Pout{x}{c}{P} \) is an \emph{output}, which can send
-\( c \) via \( x \), then continue as \( P \).  % The intention is that
-% the value \( v \) must be a base value when it is actually sent, and
-% this will be enforced in the semantics later on
+\( c \) via \( x \), then continue as \( P \).
 The process \( \Pin{x}{k}{P} \) is an \emph{input}, which can receive a $c$
 via \( x \), then continue as \( P \) with the received element
 substituted for \( k \).  The input operator thus
@@ -46,15 +43,11 @@ Replication makes it possible to express infinite behaviours.
 
 We use the notation \( \freenames{P} \) to denote the set of
 names that occur free,
-% (i.e.\ not bound by a restriction) in \( P \),
 \( \boundnames{P} \) to denote the set of names that occur bound
-% (by a restriction)
 in \( P \) and  \( \freevars{P} \)
 to denote the set of variables that occur free
-% (i.e.\ not bound by an input)
 in \( P \).  We use the notation \( \boundvars{P} \)
 for the set of variables that occur bound
-% (by an input)
 in \( P \).  We use the notation \( \subst{P}{a}{l} \) to denote
 the process \( P \) with base value \( a \) substituted for variable
 \( l \). Similarly, \( \subst{P}{x}{y} \) denotes the process
@@ -75,7 +68,6 @@ because any overlapping names and variables may be
 
 A \emph{context} is obtained by taking a process and replacing a single occurrence of \( \Pend \) in it with the special \emph{hole} symbol \( \ctxhole \).
 As a convention, we do \emph{not} identify \( \alpha \)-convertible contexts.
-%
 A context acts as a function between processes:
 a context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
 The replacement is literal, so names and variables that are free in \( P \) can become bound in \( \applyctx{C}{P} \).

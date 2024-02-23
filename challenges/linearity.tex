@@ -30,11 +30,7 @@ where a \emph{value} \( v, w, \dots \) is either a base value \( a \) or a varia
 The output process \( \Pout{x}{v}{P} \) sends the value \( v \) via \( x \) and then continues as \( P \).
 The intention is that the value \( v \) must be a base value when it is actually sent, and this is enforced in the semantics later on.
 The input process \( \Pin{x}{l}{P} \) waits for a base value from \( x \) and then continues as \( P \) with the received value substituted for the variable \( l \).
-%
 The process \( \Presd{x}{y}{P} \) represents a \emph{session} with endpoints named \( x \) and \( y \) which are bound in \( P \). In \( P \), the names \( x \) and \( y \) can be used to exchange messages over the session (sending on \( x \) and receiving on \( y \) or vice versa).
-%
-%Finally, the process $\PBpar{P}{Q}$ represents the parallel composition of $P$ and $Q$.
-%
 Note that in this calculus channels cannot be sent in messages, therefore the topology of the communication network described by a process cannot change.
 Also, there is no recursion or replication in the syntax, hence no infinite behaviours can be expressed. In particular, we only model linear (as opposed to shared) channels.
 
@@ -135,10 +131,6 @@ The typing rules for values are:
   \inferrule[T-Base]{ }{\typev{\Gamma}{\hastype{a}{\Tbase}}} \and
   \inferrule[T-Var]{ }{\typev{\Cadd{\Gamma}l }{\hastype{l}{\Tbase}}}
 \end{mathpar}
-% In the typing rule for names, $\tend \Phi$ denotes that all types in the range of $\Phi$ are $\Tend$:
-% \begin{mathpar}
-%   \inferrule[T-Name]{{\tend\Delta }}{\types{{\Gamma; (\Delta,\hastype{x}{T})}}{\hastype{x}{T}}}
-% \end{mathpar}
 The typing rules for processes are as follows:
 \begin{mathpar}
 
@@ -165,7 +157,7 @@ The objective of this challenge is to prove subject reduction and type safety fo
   \begin{enumerate}
   \item If \( \types{\Gamma; \Delta}{P} \), then
     \( \types{(\Cadd{\Gamma}{l});\Delta}{P} \).
-  \item If \( \types{\Gamma; \Delta}{P} \), % and \( \tend{\Delta} \)
+  \item If \( \types{\Gamma; \Delta}{P} \),
     then
     \( \types{\Gamma;(\Cadd{\Delta}{\hastype{x}{\Tend}})}{P} \).
   \end{enumerate}
@@ -180,23 +172,15 @@ The objective of this challenge is to prove subject reduction and type safety fo
 \end{lemma}
 \begin{proof}
   By induction on the derivation of
-%%  last applied rule of the proof of --AM changed for uniformity
   $\types{\Gamma; (\Cadd{\Delta}{\hastype{x}{T}})}{P}$.
-  % , for each case inverting $\types{\Gamma; (\Delta, x : T)}{P}$ to
-  % the uniquely applicable rule.
   \begin{description}
   \item[\TirName{T-End}] Since $\tend{\Delta}$, we can just reapply
     the rule without $\hastype{x}{T}$.
-    % [$P = \Pend$] we Apply \TirName{T-Inact}.
 
   \item[\TirName{T-Par}] In this case, we have that
     $\Cadd{\Delta}{\hastype{x}{T}} = \Csplit{\Delta_0}{\Delta_1}$.  By cases on which
     context $x$ is in, we just apply the induction hypothesis on
     that context.
-    %
-    %
-    % [$P = \Ppar{P_0}{P_1}$] By inversion on the typing we have  $ \Delta, x : T = \Delta_0 , \Delta_1$.
-    %   By cases on which environment $x$ is in, apply IH on that environment.
   \item[\TirName{T-Res}] Without loss of generality, we assume that
     $x \notin \{y,z\}$, for $P=\Presd{y}{z}{P'}$. Since
     $\types{\Gamma;(\Cadd{\Cadd{\Cadd{\Delta}{\hastype{y}{T_0}}}{\hastype{z}{\dual{T_0}}}}{\hastype{x}{T}})}{P'}$, by
@@ -204,14 +188,6 @@ The objective of this challenge is to prove subject reduction and type safety fo
     $\types{\Gamma;(\Cadd{\Cadd{\Delta}{\hastype{y}{T_0}}}{\hastype{z}{\dual{T_0}}})}{P'}$. Applying
     again \TirName{T-Res}, we have
     $\types{\Gamma;\Delta}{\Presd{y}{z}{P'}}$.
-    % inversion,
-    % $\Delta, x : T = \Delta', y : T_0, z : \dual{T_1}, x : T $. From
-    % the assumptions present we can apply IH.
-    %
-    % [$P = \Presd{y}{z}{P}$] We may assume $x \notin \{y,z\}$. By
-    % inversion,
-    % $\Delta, x : T = \Delta', y : T_0, z : \dual{T_1}, x : T $. From
-    % the assumptions present we can apply IH.
   \end{description}
   The remaining cases are analogous.
 \end{proof}
@@ -237,7 +213,6 @@ The objective of this challenge is to prove subject reduction and type safety fo
     $\typev{\Gamma}{\hastype{v}{\Tbase}}$ to build the conclusion with
     the induction hypothesis and \TirName{T-Out}. We proceed by cases
     on the structure of $\typev{(\Cadd{\Gamma}{l})}{\hastype{v}{\Tbase}}$.
-    % \item[$P = \Pin{x}{v}{P}$] Immediate after inverting typing.
   \end{description}
   The remaining cases are analogous.
 
@@ -258,7 +233,7 @@ To prove that congruence preserves typing we need to spell out in more detail th
    Right-to-left by strengthening~\ref{lemma:strenD}. Vice-versa,
     by picking $T$ to be $\Tend$ and weakening~\ref{lemma:weak} part 2.
   \item[\TirName{Res-Par}] By case analysis on $x : T$ being linear or $\Tend$ and applying weakening and strengthening accordingly.
-  \item[\TirName{Res-Inact:}] Use weakening %~\ref{lemma:weak} part 2
+  \item[\TirName{Res-Inact:}] Use weakening
   \item[\TirName{Res}] Noting that order does not matter
   \end{description}
 \end{proof}
@@ -346,13 +321,6 @@ is well formed but also irreducible.
   contradiction. In fact, if $\scong{P_2}{\Pout{y_1}{v}{P_2'}}$ then
   the typing rule for restriction would be violated since the type of
   $x_1$ and $y_1$ cannot be dual.
-  %
-  % We proceed by induction on the definition of $\types{}{}$. The key
-  % cases are that for parallel composition and that for name
-  % restriction. In the case of parallel composition, linearity (and
-  % context splitting) ensure that every process in parallel will have
-  % different channel names. Then, the restriction rule enforces
-  % duality, therefore an output will be matched by an input.
 \end{proof}
 
 \begin{corollary}
