@@ -75,7 +75,7 @@ played a pivotal role in advancing the field of proof assistants,
 libraries, and best practices for the mechanisation of programming language research. By providing a shared framework for systematically
 evaluating mechanisation techniques, it catalysed a significant
 shift towards publications that include mechanised proofs within the programming language research community.
-POPLMark Reloaded~\cite{POPLMarkReloaded} introduced a similar programme, targeting proofs using logical relations.
+POPLMark Reloaded~\cite{POPLMarkReloaded} introduced a similar programme for proofs using logical relations.
 These initiatives had a narrow focus, and their authors recognised the importance of addressing topics such as coinduction and linearity in the future.
 
 In this spirit, we introduce a new collection of benchmarks 
@@ -259,10 +259,9 @@ syntax~\cite{Melham1994} to basic de Bruijn~\cite{Hirschkoff1997,
 Nominal approaches are also common (see~\cite{Bengtson2009}), but they
 may be problematic in proof assistants based on constructive type
 theories.  An overall comparison is still lacking, but the case
-study~\cite{AmbalLS21} develops four approaches to encoding binders in
-Coq % as a first step towards developing tools for working with
-in the context of higher-order process calculi.  The authors report that working directly
-with de~Bruijn indices was easiest since the existing approaches
+study~\cite{AmbalLS21} explores four approaches to encoding binders in
+Coq in the context of higher-order process calculi.  The authors report that working directly
+with de~Bruijn indices was easiest since the approaches
 developed for $\lambda$-calculus binders worked poorly with scope
 extrusion.
 
@@ -300,7 +299,7 @@ bisimilarity on a labelled transition system semantics and an
 observability predicate describing the communication steps available
 to a process.  The description of strong barbed bisimulation is one of
 the first steps when studying the behaviour of process calculi, both
-in textbooks (e.g.,~\cite{picalcbook}) and in existing mechanisations.
+in textbooks (\eg~\cite{picalcbook}) and in existing mechanisations.
 Though weak barbed congruence is a more common behavioural
 equivalence, we prefer strong equivalences to simplify the theory by
 avoiding the need to abstract over the number of internal transitions
@@ -340,7 +339,7 @@ Many mechanisations need to combine techniques to handle several of these aspect
 
 Combining techniques for mechanising the fundamental aspects covered in our benchmark is often not trivial.
 While we have chosen to focus on the aspects individually to simplify the challenges, we are of course also interested in exploring how techniques interact.
-Some authors have already described the difficulties that combining techniques may induce in a mechanisation, \eg~\cite{DBLP:conf/forte/ZalakainD21}.\todo{Add more references here?}
+%Some authors have already described the difficulties that combining techniques may induce in a mechanisation, \eg~\cite{DBLP:conf/forte/ZalakainD21}.\todo{Add more references here?}
 
 Much current research on concurrent calculi includes aspects that are
 not covered by our benchmark challenges, for example constructs such as
