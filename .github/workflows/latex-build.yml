@@ -10,7 +10,7 @@ jobs:
         uses: dante-ev/latex-action@latest
         with:
           root_file: main.tex
-          working_directory: technical-report
+          working_directory: challenges
       - name: Copy resulting file
         run: |
           mkdir public
