@@ -145,15 +145,14 @@ We also aim at strengthening the culture of mechanisation, by rallying the commu
 
 To achieve design goal~\ref{item:goal-comperison-accessibility}, our challenges explore the three aspects
 (linearity, scope extrusion, coinduction) independently, so that they
-may be solved individually and in any order; each challenge is
-reasonably small and easily understandable with basic knowledge of
+may be solved individually and in any order; each challenge is small and easily understandable with basic knowledge of
 textbook concurrency theory, process calculi, and type theory.  The
 process calculi used in the challenges focus on the features that
-we want to emphasise, and omit all constructs that would complicate the mechanisation without bringing additional
+we want to emphasise, and omit all constructs that would complicate the mechanisation without bringing
 tangible insights.  The minimality and uniformity of the
 calculi allows us to target design goal~\ref{item:goal-tutorials}.
 Aligned with design goal~\ref{item:goal-reusability}, our challenges concern the fundamental meta-theory of process calculi.
-Our challenges centre around well-established theorems and results, showcasing interesting proof techniques that can be leveraged in many applications (as we will further discuss in \cref{sec:going-beyond}).
+Our challenges centre around well-established results, showcasing proof techniques that can be leveraged in many applications (as we will further discuss in \cref{sec:going-beyond}).
 
 \subsection{Linearity}
 Linear typing systems allow for the tracking of resource usage in a program. In
@@ -229,9 +228,9 @@ the other challenges) names can be sent and received, and bound by
 input constructs.  We define two different semantics for our system:
 \begin{enumerate}
 \item A reduction system: this avoids explicit reasoning about scope
-  extrusion by using instead structural congruence, allowing
+  extrusion by using structural congruence, allowing
   implementors to explore different ways to encode the latter (\eg
-  via process contexts or via compatible refinement);
+  via process contexts or compatible refinement);
 \item An (early) labelled transition system.
 \end{enumerate}
 The objective of this
@@ -306,10 +305,10 @@ avoiding the need to abstract over the number of internal transitions
 in a trace.
 
 While many proof assistants support coinductive techniques, they do so
-through different foundations and formalisms. %, enabling various approaches.
-Additionally, some systems offer multiple abstractions for utilising coinduction.
+through different formalisms.
+Some systems even offer multiple abstractions for utilising coinduction.
 For instance, Agda offers musical notation, co-patterns and sized types~\cite{Abel2013};
-Coq features guarded recursion and refined fixed point approaches as supported by the parameterised coinduction~\cite{Hur2013}
+Coq features guarded recursion and refined fixed point approaches via the parameterised coinduction~\cite{Hur2013}
 and interaction tree~\cite{Xia2019} libraries.
 
 When reasoning over bisimilarity many authors rely on the native
