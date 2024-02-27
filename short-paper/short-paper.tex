@@ -17,6 +17,8 @@
 
 \input{../macros.tex}
 
+\crefname{question}{question}{questions}
+
 \begin{document}
 
 \title{The Concurrent Calculi Formalisation Benchmark}
@@ -87,7 +89,7 @@ notably subtle: for instance, it took some years before an incorrect
 subject reduction proof in the original paper on session
 subtyping~\cite{GH99} was discovered and then rectified in the extended journal version~\cite{GH05} with the use of
 polarities.
-Similarly, other key results in session types papers have subsequently
+Similarly, other key results in papers on session types have subsequently
 been proven incorrect~\cite{Gay2020,10.1145/3290343}, demonstrating the
 need for machine-checked proofs.
 
@@ -115,7 +117,7 @@ We have begun collecting solutions to our challenges on our website:
   \url{https://concurrentbenchmark.github.io/}
 \end{center}
 We intend to use the website to promote best practices and tutorials derived from solutions to our challenges.
-We encourage readers to try the challenges using their favourite techniques, and to send us their solutions.
+We encourage readers to try the challenges using their favourite techniques, and to send us their solutions and experience reports.
 
 \section{Overview and Design Considerations}\label{sec:design-discussion}
 In this section, we outline the factors considered when designing the benchmark challenges.
@@ -123,9 +125,9 @@ We begin with some general remarks, then describe the individual design consider
 
 Similarly to the authors of POPLMark, we seek to answer several questions:
 \begin{enumerate}[label=\textbf{(Q\arabic*)},leftmargin=10mm]
-\item\label{item:rq1} What is the current state of the art in the mechanisation of  the meta-theory of process calculi?
-\item\label{item:rq2} Which techniques and best practices can be recommended when starting new mechanisation projects involving process calculi?
-\item\label{item:rq3} What improvements are needed to make mechanisation tools more user-friendly with regard to the issues faced when mechanising process calculi?
+\item\label[question]{item:rq1} What is the current state of the art in the mechanisation of  the meta-theory of process calculi?
+\item\label[question]{item:rq2} Which techniques and best practices can be recommended when starting new mechanisation projects involving process calculi?
+\item\label[question]{item:rq3} What improvements are needed to make mechanisation tools more user-friendly with regard to the issues faced when mechanising process calculi?
 \end{enumerate}
 
 To provide a framework in which to answer these questions, our benchmark is designed to satisfy three main design goals:
@@ -150,7 +152,7 @@ textbook concurrency theory, process calculi, and type theory.  The
 process calculi used in the challenges focus on the features that
 we want to emphasise, and omit all constructs that would complicate the mechanisation without bringing
 tangible insights.  The minimality and uniformity of the
-calculi allows us to target design goal~\ref{item:goal-tutorials}.
+calculi also allows us to target design goal~\ref{item:goal-tutorials}.
 Aligned with design goal~\ref{item:goal-reusability}, our challenges concern the fundamental meta-theory of process calculi.
 Our challenges centre around well-established results, showcasing proof techniques that can be leveraged in many applications (as we will further discuss in \cref{sec:going-beyond}).
 
@@ -165,12 +167,12 @@ The goal of our challenge on linear reasoning is to prove a type safety theorem
 for a process calculus with session types, by combining subject
 reduction with the absence of errors.  For simplicity we model only linear (as
 opposed to shared) channels. Inspired by Vasconcelos~\cite{Vasconcelos2012}, we
-define a syntax where a restriction $(\nu ab)$ binds two dual names $a$
+define a syntax where a restriction $(\bm{\nu} ab)$ binds two dual names $a$
 and $b$ as opposite endpoints of the same channel; their duality is
-reflected in the type system. We model a simple notion of error: a well-typed
+reflected in the type system. We model a simple notion of error: well-typed
 processes must never use dual channel endpoints in a non-dual way (\eg by
 performing concurrent send/receive operations on the same endpoint, or two
-concurrent send operations on both endpoints).
+concurrent send operations on dual endpoints).
 The operational semantics is a standard reduction relation. Proving subject reduction thus requires proving type preservation for structural congruence.
 
 We designed this challenge to focus on linear reasoning while minimising
@@ -184,8 +186,8 @@ aspects of the challenge.
 
 In mechanised meta-theory, addressing linearity means choosing an appropriate
 representation of a linear context.  While the latter  is perhaps
-best seen as a multiset, most proof assistants have better support for list
-processing.  This representation is intuitive, but may require
+best seen as a multiset, most proof assistants have better support for lists.
+This representation is intuitive, but may require
 establishing a large number of technical lemmata that are orthogonal to the
 problem under study (in our case, proving type safety for session types).
 Several designs are possible: one can label
@@ -233,9 +235,8 @@ input constructs.  We define two different semantics for our system:
   via process contexts or compatible refinement);
 \item An (early) labelled transition system.
 \end{enumerate}
-The objective of this
-challenge is to prove that the two semantics are equivalent up to
-structural congruence.
+The goal of our challenge on scope extrusion is to prove that the two semantics are
+equivalent up to structural congruence.
 
 This is the challenge most closely related to POPLMark,
 as it concerns the properties of binders, whose encoding has been
@@ -321,7 +322,7 @@ bisimilarity up-to~\cite{ChaudhuriCM15}.
 
 \subsection{Evaluation Criteria}
 The motivation behind our benchmark is to obtain evidence towards answering
-questions \cref{item:rq1,item:rq2,item:rq3}. We are therefore
+\cref{item:rq1,item:rq2,item:rq3}. We are therefore
 interested not only in the solutions, but also in the experience of
 solving the challenges with the chosen approach.  Solutions to our
 challenges should be compared on three axes:
@@ -330,14 +331,14 @@ challenges should be compared on three axes:
 \item Adequacy of the formal statements in the mechanisation: whether the proven theorems are easily recognisable as the theorems from the challenge; and
 \item Cost of entry for the tools and techniques employed: the difficulty of learning to use the techniques.
 \end{enumerate}
-Solutions to our challenges need not strictly follow the definitions and lemmata set out in the challenge text, but solutions which deviate from the original challenges must present more elaborate argumentation for their adequacy.
+Solutions to our challenges need not strictly follow the definitions and lemmata set out in the challenge text, but solutions which deviate from the original challenges should present more elaborate argumentation for their adequacy.
 
 \section{Future Work and Conclusions}\label{sec:going-beyond}
 Our benchmark challenges do not cover all issues in the field, but focus on the fundamental aspects of linearity, scope extrusion, and coinduction.
 Many mechanisations need to combine techniques to handle several of these aspects, and some may also need to handle aspects that are not covered by our benchmark.
 
-Combining techniques for mechanising the fundamental aspects covered in our benchmark is often not trivial.
-While we have chosen to focus on the aspects individually to simplify the challenges, we are of course also interested in exploring how techniques interact.
+Combining techniques for mechanising the fundamental aspects covered in our benchmark is non-trivial.
+While we focus on the aspects individually to simplify the challenges, we are also interested in exploring how techniques interact.
 %Some authors have already described the difficulties that combining techniques may induce in a mechanisation, \eg~\cite{DBLP:conf/forte/ZalakainD21}.\todo{Add more references here?}
 
 Much current research on concurrent calculi includes aspects that are
@@ -353,7 +354,7 @@ higher-order calculi~\cite{Hirsch2022}, conversation
 types~\cite{DBLP:journals/tcs/CairesV10}, psi-calculi~\cite{lmcs:696},
 and encodings between different
 calculi~\cite{DBLP:journals/iandc/Gorla10,DBLP:journals/iandc/DardhaGS17}.
-Their meta-theory includes aspects---\eg well-formedness conditions on
+The meta-theory of these topics includes aspects---\eg well-formedness conditions on
 global types, partiality of end-point projection functions,
 \etc---that we do not address.
 
