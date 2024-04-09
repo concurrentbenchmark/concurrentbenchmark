@@ -1,0 +1,49 @@
+
+The paper introduces and describes a benchmark designed to inform (future) users of proof assistants about techniques applicable to the mechanization of the metatheory process calculi and related systems.
+The benchmark is supposed to (Q1) document the state of the art, (Q2) recommend best practices, and (Q3) suggest improvements to proof assistants.
+To this end, three design goals are stated (G1) tasks accessible to non-experts, (G2) development of tutorials and comparision of techniques, and (G3) exploration of reusable techniques.
+Three key aspects, each corresponding to a benchmark task, occuring in the metatheory of (most) process calculi are identified and discussed: linearity, scope extrusion, and coinduction.
+A measure of comparison between solution is proposed. 
+An appendix provides the definitions of the benchmark tasks. Each task defines a small process calculus and states some theorem to be proved along with supporting lemmas.
+
+
+This effort is important, it should be supported by the community, and it should be widely publicized.
+But as it stands, I'm not sure if the paper will gain visibility outside of this community.
+
+IMHO, the weakest part of the paper is the first part of section 2, which states the questions and the design goals. This part is fuzzy and should be carefully reworked.
+1. There is no clear distinction between the questions and the goals - do we need both? Isn't it sufficient to have goals? And then explain later how they are addressed by the proposed tasks?
+2. The questions are not crisp (they can be summarized in one sentence, see above).
+3. The goals are not crisp (again, see above summary).
+4. The goals are not formulated with a specific target audience in mind.
+
+Here is an example for item 4: (G1) claims accessibility to non-experts. 
+The explanation for (G1) lists fairly specific topics, in particular scope extrusion. 
+That seems somewhat contradictory.
+
+Please clarify your audience. Is it
+* researchers in concurrency, who want to venture into mechanization? Maybe, because the benchmark has some simple tasks.
+* researchers in concurrency, who are versed in mechanization: it sort of works for this audience; but it's too limiting for such an important effort.
+* experts in mechanization, but not concurrency: the paper should be better tailored towards their previous knowledge.
+
+DETAILS
+
+p4, 10: linear context as a multiset - I was confused by that statement. It is appropriate in a logic setting (i.e., in the cited work at that point), where you are working with a multiset of assumptions, but it doesn't happen in a calculus with proof terms and named assumptions (i.e., variables or names). So I'm also wondering if references [17] and [21] are really relevant to the benchmark. 
+[AM: we're talking about linearity in general, so I would keep those cites]
+
+p6, 7: sized types - that's a general mechanism offered by Agda to help its termination checker. It's not tied to coinduction (though it can be used to prove productivity), so this sentence is misleading. [DONE]
+
+p11, 8: We assume ... [sentence duplicated] [DONE]
+
+p15, lemma 2: I miss the assumption T=end; alternatively, it could be a second conclusion.
+
+[AM; in fact, end(∆) is undefined ...]
+p15, lemma 3: the proof is a bit sloppy. T-Res does not follow from a premise, but from the IH.
+
+[AM:DONE]
+
+T-Out is also a bit fuzzy (...cases on the structure..). (I'm complaining because e.g. the POPLmark Reloaded paper sets a very high standard in this respect.)
+[AM: yes, there is a strengthening missing, DONE]
+
+p15, lemma 4: six axioms - they should be referenced precisely (DONE);
+and why does the relation get renamed here?
+[AM: good point -- we should be uniform between  \sconga and \scong and do the same in the scope extrusion section; Lemma 6 should use the same technique, namely induction over contexts]

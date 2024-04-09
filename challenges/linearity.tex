@@ -167,11 +167,18 @@ The objective of this challenge is to prove subject reduction and type safety fo
 \end{proof}
 \begin{lemma}[Strengthening]\mbox{}
   \label{lemma:strenD}
-  If \(\types{\Gamma; (\Cadd{\Delta}{\hastype{x}{T}})}{P}\) and
-  $x\not\in \freenames{P}$, then \(\types{\Gamma; \Delta}{P}\).
+  \begin{enumerate}
+  \item If $\typev{(\Cadd{\Gamma}{l})}{\hastype{v}{\Tbase}}$, then
+    $\typev{\Gamma}{\hastype{v}{\Tbase}}$.
+  \item   If \(\types{\Gamma; (\Cadd{\Delta}{\hastype{x}{T}})}{P}\) and
+  $x\not\in \freenames{P}$, then \(\types{\Gamma; \Delta}{P}\)
+\end{enumerate}
 \end{lemma}
 \begin{proof}
-  By induction on the derivation of
+  \mbox{}
+  \begin{enumerate}
+  \item By immediate case analysis on the given derivation.
+  \item By induction on the derivation of
   $\types{\Gamma; (\Cadd{\Delta}{\hastype{x}{T}})}{P}$.
   \begin{description}
   \item[\TirName{T-End}] Since $\tend{\Delta}$, we can just reapply
@@ -190,6 +197,7 @@ The objective of this challenge is to prove subject reduction and type safety fo
     $\types{\Gamma;\Delta}{\Presd{y}{z}{P'}}$.
   \end{description}
   The remaining cases are analogous.
+\end{enumerate}
 \end{proof}
 
 \begin{lemma}[Substitution]\mbox{}
@@ -206,19 +214,19 @@ The objective of this challenge is to prove subject reduction and type safety fo
   \item[\TirName{T-Par}] For $P = \Ppar{P_0}{P_1}$, we apply the
     induction hypothesis on the derivations for $P_0$ and $P_1$.
 
-  \item[\TirName{T-Res}] Immediate on the premise of the rule.
+  \item[\TirName{T-Res}] Immediate by the induction hypothesis.
 
   \item[\TirName{T-Out}] Let $P = \Pout{x}{v}{P'}$. We have that
-    $\typev{(\Cadd{\Gamma}{l})}{\hastype{v}{\Tbase}}$.  We must show
-    $\typev{\Gamma}{\hastype{v}{\Tbase}}$ to build the conclusion with
-    the induction hypothesis and \TirName{T-Out}. We proceed by cases
-    on the structure of $\typev{(\Cadd{\Gamma}{l})}{\hastype{v}{\Tbase}}$.
+    $\typev{(\Cadd{\Gamma}{l})}{\hastype{v}{\Tbase}}$.  We have 
+    $\typev{\Gamma}{\hastype{v}{\Tbase}}$ bu streghmening, so we  build the conclusion with
+    the induction hypothesis and \TirName{T-Out}.
+%    on the structure of $\typev{(\Cadd{\Gamma}{l})}{\hastype{v}{\Tbase}}$.
   \end{description}
   The remaining cases are analogous.
 
 \end{proof}
 
-To prove that congruence preserves typing we need to spell out in more detail the former. First, we denote with $\sconga\cdot\cdot$ the relation induced by the six axioms.
+To prove that congruence preserves typing we need to spell out in more detail the former. First, we denote with $\sconga\cdot\cdot$ the relation induced by the six axioms of structural congruence.
 
 \begin{lemma}[Preservation for $\stackrel{a}{\equiv}$]
   \label{le:presequiva}
