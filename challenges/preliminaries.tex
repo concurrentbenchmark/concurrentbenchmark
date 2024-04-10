@@ -71,4 +71,4 @@ A context acts as a function between processes:
 a context \( C \) can be \emph{applied} to a process \( P \), written \( \applyctx{C}{P} \), by replacing the hole in C by \( P \), thus obtaining another process.
 The replacement is literal, so names and variables that are free in \( P \) can become bound in \( \applyctx{C}{P} \).
 
-We say that an equivalence relation \( \mathcal{S} \) is a \emph{congruence} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).
+We say that an equivalence relation \( \mathcal{S} \) is  \emph{compatible} if \( (P,Q) \in \mathcal{S} \) implies that for any context \( C \), \( (\applyctx{C}{P}, \applyctx{C}{Q}) \in \mathcal{S} \).

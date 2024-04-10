@@ -36,7 +36,7 @@ p11, 8: We assume ... [sentence duplicated] [DONE]
 
 p15, lemma 2: I miss the assumption T=end; alternatively, it could be a second conclusion.
 
-[AM; in fact, end(∆) is undefined ...]
+[AM; added definition of end(∆)]
 p15, lemma 3: the proof is a bit sloppy. T-Res does not follow from a premise, but from the IH.
 
 [AM:DONE]

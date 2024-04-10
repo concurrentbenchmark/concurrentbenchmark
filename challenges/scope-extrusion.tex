@@ -40,7 +40,8 @@ The first semantics is an operational reduction semantics, which avoids reasonin
   \and
   \inferrule[Sc-Par-Inact]{ }{\scong{\Ppar{P}{\Pend}}{P}}
   \and
-  \inferrule[Sc-Res-Par]{x \notin \freenames{Q}}{\scong{\Ppar{\Pres{x}{P}}{Q}}{\Pres{x}{(\Ppar{P}{Q})}}}
+  \inferrule[Sc-Res-Par]{ }{\scong{\Ppar{\Pres{x}{P}}{Q}}{\Pres{x}{(\Ppar{P}{Q})}}}
+  % x \notin \freenames{Q}}
   \and
   \inferrule[Sc-Res-Inact]{ }{\scong{\Pres{x}{\Pend}}{\Pend}}
   \and
@@ -123,13 +124,29 @@ the name \( z \) (which occurs bound in \( P \) and the action
 it would be impossible to express scope extrusion.
 
 \subsubsection{Challenge.}
+As in the linearity challence,  we first consider 
+ the smalleset relation closed under the six axioms of
+ structural congruence, denoted by $\sconga\cdot\cdot$:
+\begin{lemma}\label{se-lemma-harmony-facta}
+  If \( \sconga{P}{Q} \) and \( \transition{P}{\alpha}{P'} \), then for some \( Q' \) we have \( \transition{Q}{\alpha}{Q'} \) and \( \sconga{P'}{Q'} \).
+\end{lemma}
+\begin{proof}[Sketch]
+By case analysis on the first derivation.
+\end{proof}
 \begin{lemma}\label{se-lemma-harmony-fact}
   If \( \scong{P}{Q} \) and \( \transition{P}{\alpha}{P'} \), then for some \( Q' \) we have \( \transition{Q}{\alpha}{Q'} \) and \( \scong{P'}{Q'} \).
 \end{lemma}
 \begin{proof}[Sketch]
-  First, show the special case when \( P \) can be rewritten to \( Q \) with a single application of an axiom of the structural congruence to some subterm of P.
-  The proof is then by induction on the number of such steps.
+    By induction on the structure of the derivation of \( \scong{P}{Q} \), with an inner induction of the structure of a process context and an appeal to Lemma~\ref{se-lemma-harmony-facta}.
 \end{proof}
+
+% \begin{lemma}\label{se-lemma-harmony-fact}
+%   If \( \scong{P}{Q} \) and \( \transition{P}{\alpha}{P'} \), then for some \( Q' \) we have \( \transition{Q}{\alpha}{Q'} \) and \( \scong{P'}{Q'} \).
+% \end{lemma}
+% \begin{proof}[Sketch]
+%   First, show the special case when \( P \) can be rewritten to \( Q \) with a single application of an axiom of the structural congruence to some subterm of P.
+%   The proof is then by induction on the number of such steps.
+% \end{proof}
 For the proof of the challenge theorem, we introduce the notion of a \emph{normalized derivation} of a reduction \( \reduces{P}{Q} \), which is of the following form.
 The first rule applied is \TirName{R-Com}. The derivation continues with an application of \TirName{R-Par}, followed by zero or more applications of \TirName{R-Res}.
 The last rule is an application of \TirName{R-Struct}.

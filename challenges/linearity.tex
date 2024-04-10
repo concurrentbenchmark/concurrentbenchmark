@@ -36,7 +36,7 @@ Also, there is no recursion or replication in the syntax, hence no infinite beha
 
 \subsubsection{Semantics.}
 We describe the actions that the system can perform through a small step operational semantics.
-As usual, we use  a \emph{structural congruence} relation that equates processes that we deem to be indistinguishable. Structural congruence is the smallest congruence relation that satisfies the following axioms:
+As usual, we use  a \emph{structural congruence} relation that equates processes that we deem to be indistinguishable. Structural congruence is the smallest compatible equivalence relation that satisfies the following axioms:
 \begin{mathpar}
   \inferrule[Sc-Par-Comm]{ }{\scong{\Ppar{P}{Q}}{\Ppar{Q}{P}}}
   \and
@@ -44,7 +44,8 @@ As usual, we use  a \emph{structural congruence} relation that equates processes
   \and
   \inferrule[Sc-Par-Inact]{ }{\scong{\Ppar{P}{\Pend}}{P}}
   \and
-  \inferrule[Sc-Res-Par]{\{x,y\} \cap \freenames{Q} = \emptyset}{\scong{\Ppar{\Presd{x}{y}{P}}{Q}}{\Presd{x}{y}{(\Ppar{P}{Q})}}}
+  \inferrule[Sc-Res-Par]{ }%\{x,y\} \cap \freenames{Q} = \emptyset
+  {\scong{\Ppar{\Presd{x}{y}{P}}{Q}}{\Presd{x}{y}{(\Ppar{P}{Q})}}}
   \and
   \inferrule[Sc-Res-Inact]{ }{\scong{\Presd{x}{y}{\Pend}}{\Pend}}
   \and
@@ -100,12 +101,14 @@ The \emph{input type} \( \Tin{S} \) describes endpoints used for receiving a val
 The \emph{output type} \( \Tout{S} \) describes endpoints used for sending a value and then according to \( S \).
 
 Typing contexts gather type information about names and variables.
-\emph{Unrestricted} contexts are simply sets of names since we only have one
-base type. \emph{Linear contexts} associate a type to endpoints. We use
-the comma as split/union, overloaded to singletons, and \( \Cempty \) as the
-empty context. We extend the Barendregt convention~\cite{Barendregt1984} to contexts, so that all
-entries are distinct.  Note that the order in which information is added to a
-type context does not matter.
+\emph{Unrestricted} contexts are simply sets of names since we only
+have one base type. \emph{Linear contexts} associate a type to
+endpoints. We use the comma as split/union, overloaded to singletons,
+and \( \Cempty \) as the empty context. We extend the Barendregt
+convention~\cite{Barendregt1984} to contexts, so that all entries are
+distinct.  Note that the order in which information is added to a type
+context does not matter. We denote with $\tend\Delta$ a (linear)
+context whose names have all type $\Tend$.
 
 Since we need to determine whether endpoints are used in complementary ways to determine whether processes are well formed, we need to formally define the dual of a type as follows:
 \begin{mathpar}
@@ -224,8 +227,10 @@ The objective of this challenge is to prove subject reduction and type safety fo
   The remaining cases are analogous.
 \end{proof}
 
-To prove that congruence preserves typing we need to spell out in more detail the former. First, we denote with $\sconga\cdot\cdot$ the relation induced by the six axioms of structural congruence.
-
+To prove that process equivalence preserves typing, it is convenient to first consider 
+ the smalleset relation closed under the six axioms of
+ structural congruence, denoted by $\sconga\cdot\cdot$:
+ 
 \begin{lemma}[Preservation for $\stackrel{a}{\equiv}$]
   \label{le:presequiva}
   If \( \sconga{P}{Q} \), then \( \types{\Gamma;\Delta}{P} \)  iff \( \types{\Gamma;\Delta}{Q} \).
@@ -244,10 +249,10 @@ To prove that congruence preserves typing we need to spell out in more detail th
   \end{description}
 \end{proof}
 
-Now, following Sangiorgi and Walker~\cite{picalcbook}, we give rules for the compatible
+Now, following Sangiorgi and Walker~\cite{picalcbook}, we  formalize the compatible
 equivalence relation induced by $\sconga\cdot\cdot$, which we still
-write as $\scong\cdot\cdot$: namely, add to reflexivity, symmetry and
-transitivity the following condition:
+write as $\scong\cdot\cdot$ as the smallest relation closed under reflexivity, symmetry, 
+transitivity and the following condition:
  \begin{mathpar}
    \inferrule[Cong]{\sconga P Q}{\scong {C[P]}{C[Q]}}
  \end{mathpar}
