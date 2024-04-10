@@ -218,12 +218,10 @@ The objective of this challenge is to prove subject reduction and type safety fo
 
   \item[\TirName{T-Out}] Let $P = \Pout{x}{v}{P'}$. We have that
     $\typev{(\Cadd{\Gamma}{l})}{\hastype{v}{\Tbase}}$.  We have 
-    $\typev{\Gamma}{\hastype{v}{\Tbase}}$ bu streghmening, so we  build the conclusion with
+    $\typev{\Gamma}{\hastype{v}{\Tbase}}$ by strengthening, so we build the conclusion with
     the induction hypothesis and \TirName{T-Out}.
-%    on the structure of $\typev{(\Cadd{\Gamma}{l})}{\hastype{v}{\Tbase}}$.
   \end{description}
   The remaining cases are analogous.
-
 \end{proof}
 
 To prove that congruence preserves typing we need to spell out in more detail the former. First, we denote with $\sconga\cdot\cdot$ the relation induced by the six axioms of structural congruence.
