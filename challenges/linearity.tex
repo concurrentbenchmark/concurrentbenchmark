@@ -184,7 +184,7 @@ The objective of this challenge is to prove subject reduction and type safety fo
   \item By induction on the derivation of
   $\types{\Gamma; (\Cadd{\Delta}{\hastype{x}{T}})}{P}$.
   \begin{description}
-  \item[\TirName{T-End}] Since $\tend{\Delta}$, we can just reapply
+  \item[\TirName{T-Inact}] Since $\tend{\Delta}$, we can just reapply
     the rule without $\hastype{x}{T}$.
 
   \item[\TirName{T-Par}] In this case, we have that
@@ -212,7 +212,7 @@ The objective of this challenge is to prove subject reduction and type safety fo
 \begin{proof}
   By induction on the derivation of $\types{(\Cadd{\Gamma}{l});\Delta}{P}$.
   \begin{description}
-  \item[\TirName{T-End}] Immediate since $\tend{\Delta}$.
+  \item[\TirName{T-Inact}] Immediate since $\tend{\Delta}$.
 
   \item[\TirName{T-Par}] For $P = \Ppar{P_0}{P_1}$, we apply the
     induction hypothesis on the derivations for $P_0$ and $P_1$.
