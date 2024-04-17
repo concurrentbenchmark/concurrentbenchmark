@@ -104,13 +104,14 @@ to reuse. For example, Cruz-Filipe et al.~\cite{Cruz-Filipe2021b} note that the 
 mechanised proofs closely resemble the informal ones, while the
 main challenge lies in getting the infrastructure right.
 
-Our benchmark challenges (detailed on our website linked below) consider
-\emph{in isolation} three key aspects that frequently pose difficulties
-when mechanising concurrency theory, which we will discuss in more detail in the next section: \emph{linearity}, \emph{scope
-  extrusion}, and \emph{coinductive reasoning}.
-Mechanisations must often address several of these aspects at the same time; however, we
-see the combination of techniques as a next
-step, as discussed in \cref{sec:going-beyond}.
+Our benchmark challenges (detailed on our website linked below)
+consider \emph{in isolation} three key aspects that frequently pose
+difficulties when mechanising concurrency theory: \emph{linearity},
+\emph{scope extrusion}, and \emph{coinductive reasoning}, as we will
+discuss in more detail in the next section.  Mechanisations must often
+address several of these aspects at the same time; however, we see the
+combination of techniques as a next step, as argued in
+\cref{sec:going-beyond}.
 
 We have begun collecting solutions to our challenges on our website:
 \begin{center}
@@ -157,7 +158,7 @@ Aligned with design goal~\ref{item:goal-reusability}, our challenges concern the
 Our challenges centre around well-established results, showcasing proof techniques that can be leveraged in many applications (as we will further discuss in \cref{sec:going-beyond}).
 
 \subsection{Linearity}
-Linear typing systems allow for the tracking of resource usage in a program. In
+Linear typing systems enables the tracking of resource usage in a program. In
 the case of typed (in particular, session-typed) process calculi, linearity is
 widely used for checking if and how a channel is used to send or receive values.
 This substructurality~\cite[Ch. 1]{Pierce2004-oq} gives rise to mechanisation difficulties: \eg deciding how to \emph{split the
@@ -267,7 +268,7 @@ extrusion.
 
 Higher-order abstract syntax (HOAS) has seen extensive
 use in formal reasoning in this area~\cite{Despeyroux2000,Honsell2001,Tiu2010,ChaudhuriCM15,Castro-Perez2021}. Its
-weak form aligns well with mainstream inductive proof assistants,
+weak form aligns reasonably well with mainstream inductive proof assistants,
 significantly simplifying the encoding of typing systems and operational
 semantics. However, when addressing more intricate concepts like
 bisimulation, extensions to HOAS are needed. These extensions may take
@@ -358,7 +359,7 @@ The meta-theory of these topics includes aspects---\eg well-formedness condition
 global types, partiality of end-point projection functions,
 \etc---that we do not address.
 
-Our coinduction challenge only addresses two notions of process equivalence, but many more exist in the literature.
+Our coinduction challenge only treats two notions of process equivalence, but many more exist in the literature.
 Coinduction may also play a role in recursive processes and session types: recursive session types can be expressed in \emph{infinitary form} by interpreting their typing rules coinductively~\cite{DerakhshanPfenning22,HornePadovani23}.
 
 Unlike POPLMark, we consider \emph{animation} of calculi (as in~\cite{Castro-Perez2021}) out of scope for our benchmark.
