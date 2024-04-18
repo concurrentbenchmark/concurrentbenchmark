@@ -80,7 +80,7 @@ shift towards publications that include mechanised proofs within the programming
 POPLMark Reloaded~\cite{POPLMarkReloaded} introduced a similar programme for proofs using logical relations.
 These initiatives had a narrow focus, and their authors recognised the importance of addressing topics such as coinduction and linearity in the future.
 
-In this spirit, we introduce a new collection of benchmarks 
+In this spirit, we introduce a new collection of benchmarks
 crafted to tackle common challenges encountered during
 the mechanisation of formal models of concurrent and distributed
 programming languages.  We focus on process calculi, as
@@ -158,7 +158,7 @@ Aligned with design goal~\ref{item:goal-reusability}, our challenges concern the
 Our challenges centre around well-established results, showcasing proof techniques that can be leveraged in many applications (as we will further discuss in \cref{sec:going-beyond}).
 
 \subsection{Linearity}
-Linear typing systems enables the tracking of resource usage in a program. In
+Linear typing systems enable the tracking of resource usage in a program. In
 the case of typed (in particular, session-typed) process calculi, linearity is
 widely used for checking if and how a channel is used to send or receive values.
 This substructurality~\cite[Ch. 1]{Pierce2004-oq} gives rise to mechanisation difficulties: \eg deciding how to \emph{split the
@@ -219,7 +219,7 @@ fully support the verification of meta-theoretic properties.  A
 compromise is the \emph{two-level} approach, \ie encoding a
 substructural specification logic in a mainstream proof assistant and
 then using that logic to state and prove linear properties (for a
-recent example, see~\cite{Felty:MSCS21}). 
+recent example, see~\cite{Felty:MSCS21}).
 
 \subsection{Scope Extrusion}
 This challenge revolves around the mechanisation of scope
@@ -347,7 +347,7 @@ not covered by our benchmark challenges, for example constructs such as
 choice and recursion.
 %  Features that are in wide
 % use, but not covered by our benchmark, include choice constructs and
-% recursion. 
+% recursion.
 Some interesting research topics that build on the
 fundamental aspects in our benchmark include multiparty session
 types~\cite{10.1145/2827695}, choreographies~\cite{Carbone2013},
