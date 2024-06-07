@@ -14,7 +14,7 @@ jobs:
       - name: Copy resulting file
         run: |
           mkdir public
-          cp challenges/main.pdf public/POPLMarkGoesConcurrent.pdf
+          cp challenges/main.pdf public/Concurrent-Calculi-Formalisation-Benchmark.pdf
       - name: Deploy to Github Pages
         if: success()
         uses: crazy-max/ghaction-github-pages@v3
