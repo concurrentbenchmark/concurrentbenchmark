@@ -1,0 +1,38 @@
+\usepackage{helvet}
+\usepackage[english]{babel}
+\usepackage{pgfplots}
+\usepackage{pgf}
+\pgfplotsset{compat=newest}
+\usepackage{booktabs}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lipsum}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage[nopatch=footnote]{microtype}
+\usepackage{float}
+\usepackage{siunitx}
+\usepackage{multicol}
+\usepackage{hyperref}
+\usepackage{dsfont}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\input{template/settings}
+
+\newcommand{\setcolor}[1]{\def\chosencolor{#1}}
+\newcommand{\setevent}[1]{\def\event{#1}}
+
+\usetheme{DTU}
+\setbeamersize{text margin left=17mm}
+\def\insertframetitle{}
+
+\newcommand{\inserttitlepage}{
+    \begin{frame}[plain]{}
+        \color{white}\maketitle
+    \end{frame}
+
+    \setbeamercolor{background canvas}{bg = white}
+}
+
