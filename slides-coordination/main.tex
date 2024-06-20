@@ -243,7 +243,7 @@
         \inferrule{\transition{\Pout{x}{y}{P}}{\Aoutf{x}{y}}{P} \\ x\neq y}
                   {\hr{\transition{\Pres{y}{\Pout{x}{y}{P}}}{\Aoutb{x}{y}}{P}}}
              \\
-                \transition{\Pin{x}{z}{Q}}{\Ain{x}{y}}{\subst{Q}{y}{z}} \\ z \notin \freenames{Q}
+                \transition{\Pin{x}{z}{Q}}{\Ain{x}{y}}{\subst{Q}{y}{z}} \\ y \notin \freenames{Q}
       }{
             \hg{\transition{\Ppar{(\Pres{y}{\Pout{x}{y}{P}})}{(\Pin{x}{z}{Q})}}{\tau}{\Pres{y}{(\Ppar{P}{\subst{Q}{y}{z}})}}}
   }
