@@ -1,0 +1,22 @@
+Current plan
+
+-> more detailed description of the challenges (TBD the level of
+  details in proofs)
+
+-> solutions to the linear one.
+
+-- Emphasis on techniques (tags, splitting, etc. rather than actual
+   implementations in each system). Give a mathematical description not code (when possible)
+
+-- Downplay the binder issue, unless it significantly interacts with linearity
+
+----------------------
+Solutions
+
+1. Tagged lists (Daniel/Alberto)
+
+2. Linear predicate DB (Marco). Mention Linear predicate HOAS
+
+3. Intrinsic ? (Luca?)
+
+4. Dictionaries (Francisco?)
