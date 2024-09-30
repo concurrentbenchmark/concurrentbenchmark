@@ -1,9 +1,16 @@
-Current plan
+Current plan(s)
 
--> more detailed description of the challenges (TBD the level of
+1.  more detailed description of ALL the challenges (TBD the level of
   details in proofs)
 
 -> solutions to the linear one.
+
+2. Just exposition of the first challenge and then the 4 (?)
+solutions. Reverse engeener the level of details of the expository part from the solutions.
+
+  NOTE: if we do 2., we could generalize the challenge to include delegation, which (by using the reduxtion semantics) is easier
+
+In any case:
 
 -- Emphasis on techniques (tags, splitting, etc. rather than actual
    implementations in each system). Give a mathematical description not code (when possible)
@@ -11,12 +18,16 @@ Current plan
 -- Downplay the binder issue, unless it significantly interacts with linearity
 
 ----------------------
-Solutions
+Solutions to subject reduction
 
 1. Tagged lists (Daniel/Alberto)
 
 2. Linear predicate DB (Marco). Mention Linear predicate HOAS
 
-3. Intrinsic ? (Luca?)
+3. Intrinsic typing in Agda (Luca)
 
 4. Dictionaries (Francisco?)
+
+-----------------
+
+Solution to safety ???
