@@ -6,16 +6,25 @@ Current plan(s)
 -> solutions to the linear one.
 
 2. Just exposition of the first challenge and then the 4 (?)
-solutions. Reverse engeener the level of details of the expository part from the solutions.
+solutions. Reverse engineer the level of details of the expository part from the solutions.
 
-  NOTE: if we do 2., we could generalize the challenge to include delegation, which (by using the reduxtion semantics) is easier
+  NOTE: if we do 2., we could generalize the challenge to include
+  delegation, which (by using the reduction semantics) is
+  easier. Further, we can reformulate the challenge following the
+  calculus in Vasco and Gay's book, chapter 2: the calculus is nicer
+  (dual end type) and informal proofs are very detailed (better
+  treatment of type safety than our C paper). On the flip side, it begs the question of why formulating the challenge if we follow S & G.
 
 In any case:
 
 -- Emphasis on techniques (tags, splitting, etc. rather than actual
-   implementations in each system). Give a mathematical description not code (when possible)
+   implementations in each system). Give a mathematical description
+   not code (when possible)
 
--- Downplay the binder issue, unless it significantly interacts with linearity
+-- Put effort in the comparison if the various techniques
+
+-- Downplay the binder issue, unless it significantly interacts with linearity (example: splitting and de Brujin).
+
 
 ----------------------
 Solutions to subject reduction
@@ -31,3 +40,7 @@ Solutions to subject reduction
 -----------------
 
 Solution to safety ???
+
+1. To be generalized
+
+3. Kinda trivial (explain?)
