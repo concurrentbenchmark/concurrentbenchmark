@@ -13,7 +13,7 @@ solutions. Reverse engineer the level of details of the expository part from the
   easier. Further, we can reformulate the challenge following the
   calculus in Vasco and Gay's book, chapter 2: the calculus is nicer
   (dual end type) and informal proofs are very detailed (better
-  treatment of type safety than our C paper). On the flip side, it begs the question of why formulating the challenge if we follow S & G.
+  treatment of type safety than our COORD paper). On the flip side, it begs the question of why formulating the challenge if we follow S & G.
 
 In any case:
 
@@ -35,7 +35,7 @@ Solutions to subject reduction
 
 3. Intrinsic typing in Agda (Luca)
 
-4. Dictionaries (Francisco?)
+4. EMST (Francisco?)
 
 -----------------
 
@@ -44,3 +44,13 @@ Solution to safety ???
 1. To be generalized
 
 3. Kinda trivial (explain?)
+
+-----------------
+
+Other partecipants
+
+Frederik (prompter)
+
+Alceste (general theory supervision)
+
+Lorenzo (some mechanization TBA)
