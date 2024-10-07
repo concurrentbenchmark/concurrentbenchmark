@@ -1,0 +1,69 @@
+Oct 15: Decide content of the paper
+
+Nov 15: First complete version of all the mechanizations
+
+Dec 15: write-up starts
+
+Jan 15: submission
+---------------------------------------
+
+Content:
+
+0. (just for completeness)  detailed description of ALL challenges, full stop
+
+   PROS: natural extension of conference paper
+
+   CONS: boring, not worth a journal paper
+
+
+1. detailed description of ALL challenges, at least ONE solution to each challenge
+
+   PROS: natural extension of conference paper
+
+   CONS: we do **not **have a solution for C3 and nobody's volunteering to do it in time
+
+
+2. detailed description of ALL challenges, discussion of solutions to the **linear** one
+
+   PROS: extension of conference paper and we do have  some solutions to C1
+
+   CONS: will sound too incremental to reviewers, who will righteously complain of the missing ones.
+
+3. Restrict to the content of the first challenge (possibly
+reformulated to be more general) and discuss some (4?) solutions in
+depth
+
+   PROS:  we have some solutions to C1 and they are interesting and instructive
+
+   CONS: it is more loosely connected to the conference paper. In
+   fact, if we end up encoding the calculus in Vasco and Gay's book,
+   chapter 2, we're not even proposing a challenge, we are doing a
+   comparison of mechanizations.
+
+
+For the fun of it, you can vote at
+
+
+https://45zsojj76f0.typeform.com/to/c2lRLYD0
+
+---------
+
+I suggest the following when discussing the mechanizations:
+
+-- Emphasis on techniques (tags, splitting, intrinsic representations etc.) over actual
+   implementations in each system. Give mathematical descriptions
+   not code (when possible)
+
+-- Downplay the binder issue, unless it significantly interacts with
+   linearity (example: splitting is painful for  de Bruijn)
+
+
+-- Put significant effort in the comparison of the various techniques
+
+   --> We could assign to each solution a "red-team" who will try to deeply understand
+       and criticize the mechanization
+
+   --> Develop some lightweight tools to analyze the infrastructure that each approach requires, e.g. a dependency graph of lemmas, a classification of lemmas among categories TBD, such as algebraic properties, lemmas about the chosen data types , lemmas peculiar to a given proof assistant (eg. classical vs constructive, total vs partial specs)
+
+
+

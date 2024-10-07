@@ -1,4 +1,4 @@
-Current plan(s)
+Current plan(s). One of:
 
 1.  more detailed description of ALL the challenges (TBD the level of
   details in proofs)
@@ -23,7 +23,9 @@ In any case:
 
 -- Put effort in the comparison if the various techniques
 
--- Downplay the binder issue, unless it significantly interacts with linearity (example: splitting and de Brujin).
+   --> We could assign to each solution a "mate", one of the co-authors who will try to deeply understand and criticize the mechanization 
+
+-- Downplay the binder issue, unless it significantly interacts with linearity (example: splitting and de Bruijn).
 
 
 ----------------------
@@ -47,10 +49,24 @@ Solution to safety ???
 
 -----------------
 
-Other partecipants
+Other participants
 
 Frederik (prompter)
 
 Alceste (general theory supervision)
 
-Lorenzo (some mechanization TBA)
+Lorenzo? I'll check
+
+--------------
+
+To be agreed at implementers meeting
+
+1. How hard do we strive to mechanize the **same** benchmark? Assuming
+we keep the one in COORD., do we "accept" more general solutions? With
+delegation? Or with more general types as in Vasco's original FST
+paper? Namely !S.T etc Or even as in Vasco & Simon's book.
+
+I would argue that being overly liberal confuses the comparison and
+hence the message of the paper, especially if the differences are
+minor. I would make an exception for Luca, if the "logical" view is a
+significant improvement and other faithful solution exists.

@@ -1,0 +1,37 @@
+On the linear predicate (Marco/Coq)
+
+-- can we formulate it for a notion of process w/o continuations? In
+   Beluga we must use cont. because the typing info is kept in the
+   intuitionistic monotonic meta context via assumptions of the form
+   "hyp x T", which cannot be retracted/updated. Hence X will keep its
+   type T!U and  new channel x' is created with type U to type P
+
+wtp/outn: {X:name} hyp X (sendn T U)
+        → {Y:name} hyp Y T
+        → ({x':name} hyp x' U → wtp (P x'))
+        → wtp (outn X Y P).
+
+-- can we simplify the dB encoding by using well-scoped terms and
+   typing ctx as a simple list, where the dB var is the index in the
+   list? By using 1 and shift, we exploit the order of the ctx. If we
+   instead use a number, it probably has to be typed by Fin n, to
+   avoid dangling indexes
+
+-- in the process, also rethink the delegation issue vs the val
+   thing. In the benchmark, we distinguish among x (names) and l
+   (variables) and values. The latter are either base or variables, so
+   unless val is a sum, we need two form of  outputs, since there will be two
+   form of subsitutions name/name, name/base in the reduction rule
+
+| outv : name → base → proc → proc %x!a.P 
+| outn : name → name → name → proc %x!l.P 
+
+=========================================
+
+Tags (Daniel/Beluga)
+
+- Port the existing proof to the current CARVe infrastructore
+
+  -->  consider removing continuations and updating types
+
+- Generalize the statement (and proof) of type safety
