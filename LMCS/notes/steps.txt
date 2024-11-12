@@ -1,4 +1,4 @@
-Oct 15: Decide content of the paper
+Oct 15: Decide content of the paper and task assigments to authors
 
 Nov 15: First complete version of all the mechanizations
 
