@@ -1,0 +1,61 @@
+%======================================================%
+% Processes for the session-typed calculus
+%======================================================%
+
+% Processes
+
+LF proc : type =
+| null : proc
+| wait : obj → proc → proc
+| close : obj → proc → proc
+| inp  : obj → (obj → proc) → proc
+| out : obj → obj → proc → proc
+| par : proc → proc → proc
+| res  : (obj → obj → proc) → proc;
+
+% Structural congruence
+
+LF ≡ : proc → proc → type =
+| ≡par/comm  : ≡ (par P Q) (par Q P)
+| ≡par/assoc : ≡ (par (par P Q) R) (par P (par Q R))
+| ≡par/inact : {P:proc} ≡ (par P null) P
+| ≡res/par   : ≡ (par (res P) Q) (res \x.\y.par (P x y) Q)
+| ≡res       : ≡ (res \w.\x.res \y.\z.P w x y z) (res \y.\z.res \w.\x.P w x y z);
+--infix ≡ 11 left.
+
+% Process P is prefixed at variable x
+
+LF pref : (obj → proc) → type =
+| pref/wait : pref \x. wait x (P x)
+| pref/close : pref \x. close x (P x)
+| pref/inp  : pref \x. inp x (P x)
+| pref/out  : pref \x. out x _ (P x);
+
+%------------------------------------------------------%
+% Canonical form
+%------------------------------------------------------%
+
+% P is neither a variable restriction, parallel composition, nor terminated process,
+% and P's subprocesses are in canonical form under prefixes
+
+LF can_pref : proc → type =
+| can/wait : can_form P → can_pref (wait _ P)
+| can/close : can_form P → can_pref (close _ P)
+| can/inp : ({x:obj} can_form (P x)) → can_pref (inp _ P)
+| can/out : can_form P → can_pref (out _ _ P)
+
+% P = (P₁ (P₂ | ( ⋯ | Pₘ))) for some m ≥ 1,
+% where no Pᵢ is a variable restriction nor (unless m = 1) a terminated process
+
+and LF can_par : proc → type = % P is a parallel composition of canonical prefixed processes
+| can/pref : can_pref P → can_par P
+| can/par : can_pref P → can_par Q → can_par (par P Q)
+
+% P = (νx₁y₁)…(νxₙyₙ)(P₁ (P₂ | ( ⋯ | Pₘ))) for some n ≥ 0, m ≥ 1,
+% where no Pᵢ is a variable restriction nor (unless m = 1) a terminated process
+% and the same holds under every prefix
+
+and LF can_form : proc → type =
+| can/null : can_form null
+| can/other : can_par P → can_form P
+| can/res : ({x:obj} {y:obj} can_form (P x y)) → can_form (res P);

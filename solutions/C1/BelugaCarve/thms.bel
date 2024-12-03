@@ -1,0 +1,66 @@
+%======================================================%
+% Theorems
+%======================================================%
+
+%------------------------------------------------------%
+% Subject reduction
+%------------------------------------------------------%
+
+rec tp_pres : (Ψ:ctx) (Δ:[Ψ ⊢ lctx K[]]) [Ψ ⊢ P ⇛ Q] → [Ψ ⊢ oft Δ P] → [Ψ ⊢ oft Δ Q] =
+  / total 1 /
+  fn r, d ⇒ case r of
+  | [_ ⊢ ⇛close] ⇒
+    let [_ ⊢ oft/res _ \x.\y.oft/par (oft/wait (upd/n U1) D1) (oft/close U2 D2) (mg/c (mg/c M T1[]) T2[])] = d in
+    let Prune-Merge [_,x:obj ⊢ M1'] [_,x:obj,y:obj ⊢ _] = prune_merge [_,x:obj,y:obj ⊢ M] in
+    let Prune-Merge [_ ⊢ M1] [_,x:obj ⊢ _] = prune_merge [_,x:obj ⊢ M1'] in
+    let [_,x:obj,y:obj ⊢ upd-istop _] = upd_var_istop [_,x:obj,y:obj ⊢ U1[..,y,x]] in
+    let [_,x:obj,y:obj ⊢ upd-istop _] = upd_var_istop [_,x:obj,y:obj ⊢ U2] in
+    let [ ⊢ •/10] = [ ⊢ T1] in
+    let [ ⊢ •/01] = [ ⊢ T2] in
+    let Str-Top [_,x:obj ⊢ D1''] [_,x:obj,y:obj ⊢ _] = oft_str [_,x:obj,y:obj ⊢ D1] in
+    let Str-Top [_,x:obj ⊢ D2''] [_,x:obj,y:obj ⊢ _] = oft_str [_,x:obj,y:obj ⊢ D2] in
+    let Str-Top [_ ⊢ D1'] [_,x:obj ⊢ _] = oft_str [_,x:obj ⊢ D1''] in
+    let Str-Top [_ ⊢ D2'] [_,x:obj ⊢ _] = oft_str [_,x:obj ⊢ D2''] in
+    [_ ⊢ oft/par D1' D2' M1]
+  | [_ ⊢ ⇛com] ⇒
+    let [_ ⊢ oft/res DU[] \x.\y.oft/par (oft/inp (upd/n U1) \z.D1) (oft/out (upd/n (upd/n U2)) U3 D2) (mg/c (mg/c M T1[]) T2[])] = d in
+    let Prune-Merge [_,x:obj ⊢ M1'] [_,x:obj,y:obj ⊢ _] = prune_merge [_,x:obj,y:obj ⊢ M] in
+    let Prune-Merge [_ ⊢ M1] [_,x:obj ⊢ _] = prune_merge [_,x:obj ⊢ M1'] in
+    let [_,x:obj,y:obj ⊢ upd-istop _] = upd_var_istop [_,x:obj,y:obj ⊢ U1[..,y,x]] in
+    let Prune-Upd [_,x:obj ⊢ U2''] [_,x:obj,y:obj ⊢ _] = prune_upd [_,x:obj,y:obj ⊢ U2] in
+    let Prune-Upd [_ ⊢ U2'] [_,x:obj ⊢ _] = prune_upd [_,x:obj ⊢ U2''] in
+    let [_,x:obj,y:obj ⊢ upd-istop _] = upd_var_istop [_,x:obj,y:obj ⊢ U3] in
+    let [ ⊢ •/10] = [ ⊢ T1] in
+    let [ ⊢ •/01] = [ ⊢ T2] in
+    let [ ⊢ du/r DU1]:[ ⊢ dual (recv T U) (send T U')] = [ ⊢ DU] in
+    let [_ ⊢ M1c] = merge_comm [_ ⊢ M1] in
+    let [_ ⊢ merge-upd2 U4 U0 •/10 M2c _ _ _] = merge_upd_cor2 [_ ⊢ U2'] [_ ⊢ M1c] [ ⊢ •/01] in
+    let [_ ⊢ M2]:[_ ⊢ merge Δ₁' Δ₂' _] = merge_comm [_ ⊢ M2c] in
+    let [_ ⊢ cx/refl] = upd_refl2 [_ ⊢ U0] in
+    let [_,x:obj ⊢ U5] = upd_top [_,x:obj ⊢ Δ₂'[..]] [_,x:obj ⊢ x] [_,x:obj ⊢ x] [ ⊢ recv T U] [ ⊢ U] [ ⊢ 𝟘] [ ⊢ 𝟘] in
+    let [_,x:obj,y:obj ⊢ D1'] = oft_upd (oft_rename [_,x:obj,y:obj,z:obj ⊢ D1] [_,x:obj,y:obj ⊢ upd/n (upd/n U4[..])])
+      (upd_top [_,x:obj,y:obj ⊢ _] [_,x:obj,y:obj ⊢ y] [_,x:obj,y:obj ⊢ y] [ ⊢ _] [ ⊢ U'] [ ⊢ _] [ ⊢ _]) in
+    let [_,x:obj,y:obj ⊢ D2'] = oft_upd [_,x:obj,y:obj ⊢ D2] [_,x:obj,y:obj ⊢ upd/n U5[..,x]] in
+    [_ ⊢ oft/res DU1[] \x.\y.oft/par D1' D2' (mg/c (mg/c M2[..] •/10) •/01)]
+  | [_ ⊢ ⇛par R1] ⇒
+    let [_ ⊢ oft/par D1 D2 M] = d in
+    let [_ ⊢ D1'] = tp_pres [_ ⊢ R1] [_ ⊢ D1] in
+    [_ ⊢ oft/par D1' D2 M]
+  | [_ ⊢ ⇛res \x.\y.R1] ⇒
+    let [_ ⊢ oft/res DU[] \x.\y.D1] = d in
+    let [_,x:obj,y:obj ⊢ D2] = tp_pres [_,x:obj,y:obj ⊢ R1] [_,x:obj,y:obj ⊢ D1] in
+    [_ ⊢ oft/res DU[] \x.\y.D2]
+  | [_ ⊢ ⇛struc C1 R1 C2] ⇒ oft_cong [_ ⊢ C2] (tp_pres [_ ⊢ R1] (oft_cong [_ ⊢ C1] d))
+  ;
+
+%------------------------------------------------------%
+% Canonical forms lemma
+%------------------------------------------------------%
+
+% @TODO
+
+%------------------------------------------------------%
+% Type safety
+%------------------------------------------------------%
+
+% @TODO

@@ -1,0 +1,23 @@
+%======================================================%
+% Dynamics of the session-typed calculus
+%======================================================%
+
+% Operational semantics
+
+LF ⇛ : proc → proc → type =
+
+| ⇛close : ⇛
+  (res \x.\y.par (wait x P) (close y Q))
+  (par P Q)
+
+| ⇛com : ⇛
+  (res \x.\y.par (inp x (P x)) (out y Z (Q y)))
+  (res \x.\y.par (P x Z) (Q y))
+
+| ⇛par : ⇛ P P' → ⇛ (par P Q) (par P' Q)
+
+| ⇛res : ({x:obj} {y:obj} ⇛ (P x y) (Q x y)) → ⇛ (res P) (res Q)
+
+| ⇛struc : P ≡ P' → ⇛ P' Q' → Q' ≡ Q → ⇛ P Q;
+
+--infix ⇛ 10 left.

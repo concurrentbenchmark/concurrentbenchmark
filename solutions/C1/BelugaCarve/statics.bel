@@ -1,0 +1,32 @@
+%======================================================%
+% Statics of the session-typed calculus
+%======================================================%
+
+%------------------------------------------------------%
+% Typing rules for processes
+%------------------------------------------------------%
+
+LF oft : lctx _ → proc → type =
+
+| oft/null : exh Δ → oft Δ null
+
+| oft/wait : upd Δ _ X X end? end? 𝟙 𝟘 Δ' → oft Δ' P
+        → oft Δ (wait X P)
+
+| oft/close : upd Δ _ X X end! end! 𝟙 𝟘 Δ' → oft Δ' P
+        → oft Δ (close X P)
+
+| oft/inp : upd Δ _ X X (recv T U) U 𝟙 𝟙 Δ'
+        → ({y:obj} oft (cons Δ' y T 𝟙) (P y))
+        → oft Δ (inp X P)
+
+| oft/out : upd Δ _ Y Y T T 𝟙 𝟘 Δ' → upd Δ' _ X X (send T U) U 𝟙 𝟙 Δ''
+        → oft Δ'' P
+        → oft Δ (out X Y P)
+
+| oft/par : oft Δ₁ P → oft Δ₂ Q → merge Δ₁ Δ₂ Δ → oft Δ (par P Q)
+
+| oft/res : dual T T'
+        → ({x:obj} {y:obj} oft (cons (cons Δ x T 𝟙) y T' 𝟙) (P x y))
+        → oft Δ (res P)
+;
