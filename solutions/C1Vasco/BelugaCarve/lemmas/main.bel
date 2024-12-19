@@ -292,6 +292,7 @@ rec oft_rename : (Ψ:ctx) (Δ:[Ψ ⊢ lctx K[]]) [Ψ,x:obj ⊢ oft (cons Δ[..] 
 rec oft_cong : (Ψ:ctx) (Δ:[Ψ ⊢ lctx K[]]) [Ψ ⊢ P ≡ Q] → [Ψ ⊢ oft Δ P] → [Ψ ⊢ oft Δ Q] =
   / total 1 /
   fn c, d ⇒ case c of
+  % axioms
   | [_ ⊢ ≡par/comm] ⇒
     let [_ ⊢ oft/par D1 D2 M] = d in
     let [_ ⊢ M'] = merge_comm [_ ⊢ M] in
@@ -300,7 +301,7 @@ rec oft_cong : (Ψ:ctx) (Δ:[Ψ ⊢ lctx K[]]) [Ψ ⊢ P ≡ Q] → [Ψ ⊢ oft 
     let [_ ⊢ oft/par (oft/par D1 D2 M1) D3 M2] = d in
     let [_ ⊢ mg-assoc M3 M4 _ _] = merge_assoc [_ ⊢ M2] [_ ⊢ M1] in
     [_ ⊢ oft/par D1 (oft/par D2 D3 M3) M4]
-  | [_ ⊢ ≡par/inact _] ⇒
+  | [_ ⊢ ≡par/null _] ⇒
     let [_ ⊢ oft/par D1 (oft/null E) M] = d in
     let [_ ⊢ cx/refl] = merge_id (merge_comm [_ ⊢ M]) [_ ⊢ E] in
     [_ ⊢ D1]
@@ -317,9 +318,38 @@ rec oft_cong : (Ψ:ctx) (Δ:[Ψ ⊢ lctx K[]]) [Ψ ⊢ P ≡ Q] → [Ψ ⊢ oft 
     let [_,w:obj,x:obj,y:obj,z:obj ⊢ D2'[..,y,z,w,x]] = oft_exch_top (oft_exch_top2 (oft_exch (oft_exch_top2 [_,w:obj,x:obj,y:obj,z:obj ⊢ D1])
       [_,w:obj,x:obj,y:obj,z:obj ⊢ exch/u NEQ[] (upd/n (upd/n EX1[..,w,y])) (upd/n (upd/n EX2[..,w,y]))])) in
     [_ ⊢ oft/res DU2[] \w.\x.oft/res DU1[] \y.\z.D2']
-  ;
+  % congruence rules
+  | [_ ⊢ ≡c/null] ⇒ d
+  | [_ ⊢ ≡c/wait C1] ⇒
+    let [_ ⊢ oft/wait U1 D1] = d in
+    let [_ ⊢ D1'] = oft_cong [_ ⊢ C1] [_ ⊢ D1] in
+    [_ ⊢ oft/wait U1 D1']
+  | [_ ⊢ ≡c/close C1] ⇒
+    let [_ ⊢ oft/close U1 D1] = d in
+    let [_ ⊢ D1'] = oft_cong [_ ⊢ C1] [_ ⊢ D1] in
+    [_ ⊢ oft/close U1 D1']
+  | [_ ⊢ ≡c/inp \x.C1] ⇒
+    let [_ ⊢ oft/inp U1 \x.D1] = d in
+    let [_,x:obj ⊢ D1'] = oft_cong [_,x:obj ⊢ C1] [_,x:obj ⊢ D1] in
+    [_ ⊢ oft/inp U1 \x.D1']
+  | [_ ⊢ ≡c/out C1] ⇒
+    let [_ ⊢ oft/out U1 U2 D1] = d in
+    let [_ ⊢ D1'] = oft_cong [_ ⊢ C1] [_ ⊢ D1] in
+    [_ ⊢ oft/out U1 U2 D1']
+  | [_ ⊢ ≡c/par C1] ⇒ % C2
+    let [_ ⊢ oft/par D1 D2 M] = d in
+    let [_ ⊢ D1'] = oft_cong [_ ⊢ C1] [_ ⊢ D1] in
+    %let [_ ⊢ D2'] = oft_cong [_ ⊢ C2] [_ ⊢ D2] in
+    [_ ⊢ oft/par D1' D2 M]
+  | [_ ⊢ ≡c/res \x.\y.C1] ⇒
+    let [_ ⊢ oft/res DU[] \x.\y.D1] = d in
+    let [_,x:obj,y:obj ⊢ D1'] = oft_cong [_,x:obj,y:obj ⊢ C1] [_,x:obj,y:obj ⊢ D1] in
+    [_ ⊢ oft/res DU[] \x.\y.D1']
+  % symmetry, transitivity
+  | [_ ⊢ ≡sym C1] ⇒ oft_cong_symm [_ ⊢ C1] d
+  | [_ ⊢ ≡trans C1 C2] ⇒ oft_cong [_ ⊢ C2] (oft_cong [_ ⊢ C1] d)
 
-rec oft_cong_symm : (Ψ:ctx) (Δ:[Ψ ⊢ lctx K[]]) [Ψ ⊢ P ≡ Q] → [Ψ ⊢ oft Δ Q] → [Ψ ⊢ oft Δ P] =
+and rec oft_cong_symm : (Ψ:ctx) (Δ:[Ψ ⊢ lctx K[]]) [Ψ ⊢ P ≡ Q] → [Ψ ⊢ oft Δ Q] → [Ψ ⊢ oft Δ P] =
   / total 1 /
   fn c, d ⇒ case c of
   | [_ ⊢ ≡par/comm] ⇒
@@ -332,7 +362,7 @@ rec oft_cong_symm : (Ψ:ctx) (Δ:[Ψ ⊢ lctx K[]]) [Ψ ⊢ P ≡ Q] → [Ψ ⊢
     let [_ ⊢ mg-assoc2 M3' M4 _ _] = merge_assoc_2 [_ ⊢ M2'] [_ ⊢ M1] in
     let [_ ⊢ M3] = merge_comm [_ ⊢ M3'] in
     [_ ⊢ oft/par (oft/par D1 D2 M3) D3 M4]
-  | [_ ⊢ ≡par/inact _] ⇒
+  | [_ ⊢ ≡par/null _] ⇒
     let [_ ⊢ D1]:[_ ⊢ oft Δ _] = d in
     let [_ ⊢ merge-getid M E1] = merge_getid [_ ⊢ Δ] in
     [_ ⊢ oft/par D1 (oft/null E1) M]
@@ -353,4 +383,34 @@ rec oft_cong_symm : (Ψ:ctx) (Δ:[Ψ ⊢ lctx K[]]) [Ψ ⊢ P ≡ Q] → [Ψ ⊢
     let [_,w:obj,x:obj,y:obj,z:obj ⊢ D2'[..,y,z,w,x]] = oft_exch_top (oft_exch_top2 (oft_exch (oft_exch_top2 [_,w:obj,x:obj,y:obj,z:obj ⊢ D1])
       [_,w:obj,x:obj,y:obj,z:obj ⊢ exch/u NEQ[] (upd/n (upd/n EX1[..,w,y])) (upd/n (upd/n EX2[..,w,y]))])) in
     [_ ⊢ oft/res DU2[] \w.\x.oft/res DU1[] \y.\z.D2']
+  % congruence rules
+  | [_ ⊢ ≡c/null] ⇒ d
+  | [_ ⊢ ≡c/wait C1] ⇒
+    let [_ ⊢ oft/wait U1 D1] = d in
+    let [_ ⊢ D1'] = oft_cong_symm [_ ⊢ C1] [_ ⊢ D1] in
+    [_ ⊢ oft/wait U1 D1']
+  | [_ ⊢ ≡c/close C1] ⇒
+    let [_ ⊢ oft/close U1 D1] = d in
+    let [_ ⊢ D1'] = oft_cong_symm [_ ⊢ C1] [_ ⊢ D1] in
+    [_ ⊢ oft/close U1 D1']
+  | [_ ⊢ ≡c/inp \x.C1] ⇒
+    let [_ ⊢ oft/inp U1 \x.D1] = d in
+    let [_,x:obj ⊢ D1'] = oft_cong_symm [_,x:obj ⊢ C1] [_,x:obj ⊢ D1] in
+    [_ ⊢ oft/inp U1 \x.D1']
+  | [_ ⊢ ≡c/out C1] ⇒
+    let [_ ⊢ oft/out U1 U2 D1] = d in
+    let [_ ⊢ D1'] = oft_cong_symm [_ ⊢ C1] [_ ⊢ D1] in
+    [_ ⊢ oft/out U1 U2 D1']
+  | [_ ⊢ ≡c/par C1] ⇒ % C2
+    let [_ ⊢ oft/par D1 D2 M] = d in
+    let [_ ⊢ D1'] = oft_cong_symm [_ ⊢ C1] [_ ⊢ D1] in
+    %let [_ ⊢ D2'] = oft_cong_symm [_ ⊢ C2] [_ ⊢ D2] in
+    [_ ⊢ oft/par D1' D2 M]
+  | [_ ⊢ ≡c/res \x.\y.C1] ⇒
+    let [_ ⊢ oft/res DU[] \x.\y.D1] = d in
+    let [_,x:obj,y:obj ⊢ D1'] = oft_cong_symm [_,x:obj,y:obj ⊢ C1] [_,x:obj,y:obj ⊢ D1] in
+    [_ ⊢ oft/res DU[] \x.\y.D1']
+  % symmetry, transitivity
+  | [_ ⊢ ≡sym C1] ⇒ oft_cong [_ ⊢ C1] d
+  | [_ ⊢ ≡trans C1 C2] ⇒ oft_cong_symm [_ ⊢ C1] (oft_cong_symm [_ ⊢ C2] d)
   ;

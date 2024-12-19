@@ -16,13 +16,28 @@ LF proc : type =
 % Structural congruence
 
 LF ≡ : proc → proc → type =
+% axioms
+% N.B.: no need for C-SwapC rule
 | ≡par/comm  : ≡ (par P Q) (par Q P)
 | ≡par/assoc : ≡ (par (par P Q) R) (par P (par Q R))
-| ≡par/inact : {P:proc} ≡ (par P null) P
+| ≡par/null  : {P:proc} ≡ (par P null) P
 | ≡res/par   : ≡ (par (res P) Q) (res \x.\y.par (P x y) Q)
-| ≡res       : ≡ (res \w.\x.res \y.\z.P w x y z) (res \y.\z.res \w.\x.P w x y z);
+| ≡res       : ≡ (res \w.\x.res \y.\z.P w x y z) (res \y.\z.res \w.\x.P w x y z)
+% congruence rules
+| ≡c/null  : ≡ null null
+| ≡c/wait  : ≡ P P' → ≡ (wait X P) (wait X P')
+| ≡c/close : ≡ P P' → ≡ (close X P) (close X P')
+| ≡c/inp   : ({x:obj} ≡ (P x) (P' x)) → ≡ (inp X P) (inp X P')
+| ≡c/out   : ≡ P P' → ≡ (out X Y P) (out X Y P')
+| ≡c/par   : ≡ P P' → ≡ (par P Q) (par P' Q) % ≡ Q Q' → 
+| ≡c/res   : ({x:obj} {y:obj} ≡ (P x y) (P' x y)) → ≡ (res P) (res P')
+% symmetry, transitivity
+| ≡sym   : ≡ P Q → ≡ Q P
+| ≡trans : ≡ P Q → ≡ Q R → ≡ P R
+;
 --infix ≡ 11 left.
 
+%{
 % Process P is prefixed at variable x
 
 LF pref : (obj → proc) → type =
@@ -30,14 +45,25 @@ LF pref : (obj → proc) → type =
 | pref/close : pref \x. close x (P x)
 | pref/inp  : pref \x. inp x (P x)
 | pref/out  : pref \x. out x _ (P x);
+}%
+
+% P is a prefixed process
+
+LF is_pref : proc → type =
+| pref/wait : is_pref (wait _ _)
+| pref/close : is_pref (close _ _)
+| pref/inp  : is_pref (inp _ _)
+| pref/out  : is_pref (out _ _ _);
 
 %------------------------------------------------------%
-% Canonical form
+% Canonical form (stronger than book)
 %------------------------------------------------------%
 
+%{
 % P is neither a variable restriction, parallel composition, nor terminated process,
 % and P's subprocesses are in canonical form under prefixes
 
+%AM: in Vasco's prefixes have no contraints on the continuation, so I do not understand the mutual recursion
 LF can_pref : proc → type =
 | can/wait : can_form P → can_pref (wait _ P)
 | can/close : can_form P → can_pref (close _ P)
@@ -59,3 +85,91 @@ and LF can_form : proc → type =
 | can/null : can_form null
 | can/other : can_par P → can_form P
 | can/res : ({x:obj} {y:obj} can_form (P x y)) → can_form (res P);
+}%
+
+%------------------------------------------------------%
+% Canonical form (following book)
+%------------------------------------------------------%
+
+% P = (P₁ (P₂ | ( ⋯ | Pₘ))) for some m ≥ 1 (right-associative WLOG),
+% where each Pᵢ is a prefixed process
+
+LF can_par : proc → type =
+| bcan/pref : is_pref P → can_par P
+| bcan/can : is_pref P → can_par Q → can_par (par P Q);
+%| bcan/pref : pref (\x.P x) → can_par (P _)        
+%| bcan/can : pref (\x.P x) → can_par Q → can_par (par (P _) Q);
+
+% P = (νx₁y₁)…(νxₙyₙ)(P₁ (P₂ | ( ⋯ | Pₘ))) for some n ≥ 0, m ≥ 1,
+% where no Pᵢ is a variable restriction nor (unless m = 1) a terminated process
+
+LF can_form : proc → type =
+| can/null : can_form null
+| can/par : can_par P → can_form P
+| can/res : ({x:obj} {y:obj} can_form (P x y)) → can_form (res P);
+
+% (νxy)(P | Q) is an (x,y)-redex
+
+LF is_redex : proc → type =
+| red/wait/close1 : is_redex (res \x.\y. par (wait x _) (close y _))
+| red/wait/close2 : is_redex (res \y.\x. par (wait x _) (close y _))
+| red/inp/out1 : is_redex (res \x.\y. par (out x _ (P x)) (inp y (Q y)))
+| red/inp/out2 : is_redex (res \y.\x. par (out x _ (P x)) (inp y (Q y)));
+
+% not_redex P Q ≡ (νxy)(P | Q) is not an (x,y)-redex
+% DZ: can reduce no of rules if considering congruence
+
+LF not_redex : (obj → proc) → (obj → proc) → type =
+| nr/wait1 : not_redex (\x. wait x _) (\y. wait y _)
+| nr/wait2 : not_redex (\x. wait x _) (\y. inp y (Q y))
+| nr/wait3 : not_redex (\x. wait x _) (\y. out y _ (Q y))
+
+| nr/close1 : not_redex (\x. close x _) (\y. close y _)
+| nr/close2 : not_redex (\x. close x _) (\y. inp y (Q y))
+| nr/close3 : not_redex (\x. close x _) (\y. out y _ (Q y))
+
+| nr/inp1 : not_redex (\x. inp x (P x)) (\y. inp y (Q y))
+| nr/inp2 : not_redex (\x. inp x (P x)) (\y. wait y _)
+| nr/inp3 : not_redex (\x. inp x (P x)) (\y. close y _)
+
+| nr/out1 : not_redex (\x. out x _ (P x)) (\y. out y _ (Q y))
+| nr/out2 : not_redex (\x. out x _ (P x)) (\y. wait y _)
+| nr/out3 : not_redex (\x. out x _ (P x)) (\y. close y _);
+
+% P is a run-time error
+% DZ: can probably reduce no of rules
+
+LF brun_err : proc → type =
+| br1 : not_redex P Q → brun_err (res \x.\y.par (P x) (Q y))
+| br2 : not_redex P Q → brun_err (res \y.\x.par (P x) (Q y))
+| br/par1 : not_redex P Q → brun_err (res \x.\y.par (P x) (par (Q y) R))
+| br/par2 : not_redex P Q → brun_err (res \y.\x.par (P x) (par (Q y) R))
+| br/res : ({x:obj} {y:obj} brun_err (P x y)) → brun_err (res P);
+
+%{
+LF not_redex : proc → type =
+| nn : not_redex null
+| np1 : not_redex P → not_redex (par P Q)
+| np2 : not_redex Q → not_redex (par P Q)           
+| nc : not_redex (close _ _)
+| nv : not_redex (wait _ _)
+| ni : not_redex (inp _ _)
+| no : not_redex (out _ _ _)
+| nr : ({x:obj} {y:obj} not_redex (P x y)) → not_redex (res P);
+  % is that enough?
+  % DZ: I don't think so
+
+% base case of run time error. This probably stupid
+LF brun_err : proc → type =
+| br: pref P → pref Q
+  → ({x:obj} {y:obj} not_redex (par (P x) (Q y)))
+  → brun_err (res \x.\y.par (P x) (Q x)) ;             
+}%
+
+% P is congruent to P' in canonical form
+
+LF equiv_can_par : proc → type =
+| equiv-can-par : P ≡ P' → can_par P' → equiv_can_par P;
+
+LF equiv_can_form : proc → type =
+| equiv-can-form : P ≡ P' → can_form P' → equiv_can_form P;

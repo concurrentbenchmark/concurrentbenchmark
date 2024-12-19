@@ -1,0 +1,80 @@
+%======================================================%
+% Properties of process congruence
+%======================================================%
+
+rec cong_refl : (Ψ:ctx) {P:[Ψ ⊢ proc]} [Ψ ⊢ P ≡ P] =
+  / total 1 /
+  mlam P ⇒ case [_ ⊢ P] of
+  | [_ ⊢ null] ⇒ [_ ⊢ ≡c/null]
+  | [_ ⊢ wait _ P'] ⇒
+    let [_ ⊢ C1] = cong_refl [_ ⊢ P'] in
+    [_ ⊢ ≡c/wait C1]
+  | [_ ⊢ close _ P'] ⇒
+    let [_ ⊢ C1] = cong_refl [_ ⊢ P'] in
+    [_ ⊢ ≡c/close C1]
+  | [_ ⊢ inp _ \x.P'] ⇒
+    let [_,x:obj ⊢ C1] = cong_refl [_,x:obj ⊢ P'] in
+    [_ ⊢ ≡c/inp \x.C1]
+  | [_ ⊢ out _ _ P'] ⇒
+    let [_ ⊢ C1] = cong_refl [_ ⊢ P'] in
+    [_ ⊢ ≡c/out C1]
+  | [_ ⊢ par P' P''] ⇒
+    let [_ ⊢ C1] = cong_refl [_ ⊢ P'] in
+    let [_ ⊢ C2] = cong_refl [_ ⊢ P''] in
+    % [_ ⊢ ≡c/par C1 C2]
+    [_ ⊢ ≡trans (≡trans (≡c/par C1) (≡trans ≡par/comm (≡c/par C2))) ≡par/comm]
+  | [_ ⊢ res \x.\y.P'] ⇒
+    let [_,x:obj,y:obj ⊢ C1] = cong_refl [_,x:obj,y:obj ⊢ P'] in
+    [_ ⊢ ≡c/res \x.\y.C1]
+  ;
+
+%------------------------------------------------------%
+% Canonical form lemmas
+%------------------------------------------------------%
+
+rec canonical_form_lemma1 : (Ψ:ctx) [Ψ ⊢ can_par P] → [Ψ ⊢ can_par Q] → [Ψ ⊢ equiv_can_par (par P Q)] =
+  / total 1 /
+  fn c1, c2 ⇒ case c1 of
+  | [_ ⊢ bcan/pref P1]:[_ ⊢ can_par P] ⇒
+    let [_ ⊢ C2] = c2 in
+    let [_ ⊢ C3] = cong_refl [_ ⊢ P] in
+    [_ ⊢ equiv-can-par (≡c/par C3) (bcan/can P1 C2)]
+  | [_ ⊢ bcan/can P1 C1] ⇒
+    let [_ ⊢ equiv-can-par E C3] = canonical_form_lemma1 [_ ⊢ C1] c2 in
+    [_ ⊢ equiv-can-par (≡trans (≡trans ≡par/assoc (≡trans ≡par/comm (≡c/par E))) ≡par/comm) (bcan/can P1 C3)] %(bcan/can P1 C3)
+  ;
+
+rec canonical_form_lemma2 : (Ψ:ctx) [Ψ ⊢ can_par P] → [Ψ ⊢ can_form Q] → [Ψ ⊢ equiv_can_form (par P Q)] =
+  / total p (canonical_form_lemma2 p) /
+  fn c1, c2 ⇒
+  let [_ ⊢ C1] = c1 in
+  case c2 of
+  | [_ ⊢ can/null] ⇒ [_ ⊢ equiv-can-form (≡par/null _) (can/par C1)]
+  | [_ ⊢ can/par C2] ⇒
+    let [_ ⊢ equiv-can-par E C3] = canonical_form_lemma1 c1 [_ ⊢ C2] in
+    [_ ⊢ equiv-can-form E (can/par C3)]
+  | [_ ⊢ can/res \x.\y.C2] ⇒
+    let [_,x:obj,y:obj ⊢ equiv-can-form E C3] = canonical_form_lemma2 [_,x:obj,y:obj ⊢ C1[..]] [_ ⊢ C2] in
+    [_ ⊢ equiv-can-form (≡trans (≡trans ≡par/comm (≡trans ≡res/par (≡c/res \x.\y.≡par/comm))) (≡c/res \x.\y.E)) (can/res \x.\y.C3)]
+  ;
+
+rec canonical_form_lemma3 : (Ψ:ctx) [Ψ ⊢ can_form P] → [Ψ ⊢ can_form Q] → [Ψ ⊢ equiv_can_form (par P Q)] =
+  / total p (canonical_form_lemma3 p) /
+  fn c1, c2 ⇒ case c1 of
+  | [_ ⊢ can/null] ⇒
+    let [_ ⊢ C2] = c2 in
+    [_ ⊢ equiv-can-form (≡trans ≡par/comm (≡par/null _)) C2]
+  | [_ ⊢ can/par C1] ⇒ canonical_form_lemma2 [_ ⊢ C1] c2
+  | [_ ⊢ can/res \x.\y.C1] ⇒
+    case c2 of
+    | [_ ⊢ can/null] ⇒ [_ ⊢ equiv-can-form (≡par/null _) (can/res \x.\y.C1)]
+    | [_ ⊢ can/par C2] ⇒
+      let [_ ⊢ equiv-can-form E C3] = canonical_form_lemma2 [_ ⊢ C2] c1 in
+      [_ ⊢ equiv-can-form (≡trans ≡par/comm E) C3]
+    | [_ ⊢ can/res \x.\y.C2] ⇒
+      let [_,x1:obj,y1:obj,x2:obj,y2:obj ⊢ equiv-can-form E C3] = canonical_form_lemma3
+        [_,x1:obj,y1:obj,x2:obj,y2:obj ⊢ C2[..,x2,y2]] [_,x1:obj,y1:obj,x2:obj,y2:obj ⊢ C1[..,x1,y1]] in
+      [_ ⊢ equiv-can-form
+        (≡trans (≡trans ≡res/par (≡c/res \x.\y.≡trans ≡par/comm ≡res/par)) (≡c/res (\x1.\y1.≡c/res \x2.\y2.E)))
+        (can/res \x1.\y1.can/res \x2.\y2.C3)]
+  ;

@@ -11,11 +11,14 @@ wtp/outn: {X:name} hyp X (sendn T U)
         → ({x':name} hyp x' U → wtp (P x'))
         → wtp (outn X Y P).
 
+[YES, ONGOING]
 -- can we simplify the dB encoding by using well-scoped terms and
    typing ctx as a simple list, where the dB var is the index in the
    list? By using 1 and shift, we exploit the order of the ctx. If we
    instead use a number, it probably has to be typed by Fin n, to
    avoid dangling indexes
+
+[ONGOING, using FIB]
 
 -- in the process, also rethink the delegation issue vs the val
    thing. In the benchmark, we distinguish among x (names) and l
@@ -26,12 +29,14 @@ wtp/outn: {X:name} hyp X (sendn T U)
 | outv : name → base → proc → proc %x!a.P 
 | outn : name → name → name → proc %x!l.P 
 
+[SWTCHED to DELEGATION only]
 =========================================
 
 Tags (Daniel/Beluga)
 
 - Port the existing proof to the current CARVe infrastructore
-
+[DONE]
   -->  consider removing continuations and updating types
 
 - Generalize the statement (and proof) of type safety
+[ONGOING]
