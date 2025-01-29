@@ -33,15 +33,15 @@ rec cong_refl : (Ψ:ctx) {P:[Ψ ⊢ proc]} [Ψ ⊢ P ≡ P] =
 %------------------------------------------------------%
 
 rec canonical_form_lemma1 : (Ψ:ctx) [Ψ ⊢ can_par P] → [Ψ ⊢ can_par Q] → [Ψ ⊢ equiv_can_par (par P Q)] =
-  / total 1 /
-  fn c1, c2 ⇒ case c1 of
-  | [_ ⊢ bcan/pref P1]:[_ ⊢ can_par P] ⇒
-    let [_ ⊢ C2] = c2 in
-    let [_ ⊢ C3] = cong_refl [_ ⊢ P] in
-    [_ ⊢ equiv-can-par (≡c/par C3) (bcan/can P1 C2)]
-  | [_ ⊢ bcan/can P1 C1] ⇒
-    let [_ ⊢ equiv-can-par E C3] = canonical_form_lemma1 [_ ⊢ C1] c2 in
-    [_ ⊢ equiv-can-par (≡trans (≡trans ≡par/assoc (≡trans ≡par/comm (≡c/par E))) ≡par/comm) (bcan/can P1 C3)] %(bcan/can P1 C3)
+  / total 2 /
+  fn c1, c2 ⇒ case c2 of
+  | [_ ⊢ bcan/pref P1]:[_ ⊢ can_par Q] ⇒
+    let [_ ⊢ C1]:[Ψ ⊢ can_par P] = c1 in
+    let [_ ⊢ C3] = cong_refl [_ ⊢ par P Q] in
+    [_ ⊢ equiv-can-par C3 (bcan/can C1 P1)]
+  | [_ ⊢ bcan/can C2 P1] ⇒
+    let [_ ⊢ equiv-can-par E C3] = canonical_form_lemma1 c1 [_ ⊢ C2] in
+    [_ ⊢ equiv-can-par (≡trans (≡sym ≡par/assoc) (≡c/par E)) (bcan/can C3 P1)]
   ;
 
 rec canonical_form_lemma2 : (Ψ:ctx) [Ψ ⊢ can_par P] → [Ψ ⊢ can_form Q] → [Ψ ⊢ equiv_can_form (par P Q)] =
